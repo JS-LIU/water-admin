@@ -1,0 +1,56 @@
+.linear_blue_bg{
+    background-image: linear-gradient(to right,#14c2fc,#399cfe);
+}
+.linear_red_bg{
+    background-image: linear-gradient(to right,#ff680f,#ff2d2d);
+}
+.tile_blue{
+    background:#399cfe;
+}
+.nav_black{
+    background:#222;
+}
+.search_black_bg{
+    background:#333;
+}
+.search_black{
+    color:#333;
+}
+.paragraph_black{
+    color:#666;
+}
+.help_black{
+    color:#999;
+}
+.border_black{
+    background:#D7D7D7;
+}
+.wrap{
+    position: fixed;
+    width:100%;
+    height:100%;
+    background:#F3F5F7;
+}
+.cut_wrap{
+    background:#F8F8F8;
+}
+.f36{
+    font-size:0.36rem;
+}
+.f30{
+    font-size:0.3rem;
+}
+
+.f28{
+    font-size:0.28rem;
+}
+.f26{
+    font-size:0.26rem;
+}
+.f24{
+    font-size:0.24rem;
+}
+.f22{
+    font-size:0.22rem;
+}
+
