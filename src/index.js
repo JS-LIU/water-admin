@@ -24,8 +24,7 @@ const App = ()=>(
     <BrowserRouter>
         <div>
             <Switch>
-                <Route path='/home' component={HomeView} />
-
+                <Route path='/' component={HomeView} />
             </Switch>
         </div>
     </BrowserRouter>
