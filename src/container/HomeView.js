@@ -51,7 +51,6 @@ class HomeView extends Component{
                     </Header>
                     <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
                         <div>
-                            <Redirect to="/order" />
                             <Switch>
                                 <Route path="/order" component={OrderView} />
                                 <Route path="/user" component={UserView} />

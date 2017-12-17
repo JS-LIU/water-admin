@@ -13,10 +13,9 @@ import {
 } from 'react-router-dom'
 import { Provider } from 'mobx-react';
 
-import {observer,inject} from 'mobx-react';
-import _h from '../src/Util/HB';
-
 import HomeView from './container/HomeView';
+import Order from './MobX/Order';
+
 
 
 //  Router
@@ -31,7 +30,9 @@ const App = ()=>(
 
 );
 
-const stores = {};
+const order = new Order();
+
+const stores = {order};
 ReactDom.render(
     <Provider {...stores}>
         <div>

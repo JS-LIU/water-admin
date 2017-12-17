@@ -1,10 +1,15 @@
 /**
  * Created by LDQ on 2017/12/16
  */
-import React, {Component} from 'react';
-class OrderView extends Component{
+import React, {Component} from 'react'
+import { Table } from 'antd';
+import {observer,inject} from 'mobx-react';
+
+
+@inject (['order'])
+@observer class OrderView extends Component{
     componentWillMount(){
-        console.log("i'm order");
+        this.props.order.getOrderInfo();
     }
     render(){
         return (
