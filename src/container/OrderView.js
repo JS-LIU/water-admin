@@ -11,7 +11,8 @@ import {observer,inject} from 'mobx-react';
         this.props.order.getOrderInfo();
     }
     onChange(pageNumber){
-        console.log(pageNumber)
+        // this.props.order.pagination.onChange(pageNumber);
+        this.props.order.getOrderInfo(pageNumber);
     }
 
     render(){
@@ -22,8 +23,13 @@ import {observer,inject} from 'mobx-react';
                     dataSource={this.props.order.dataSource}
                     bordered
                     scroll={{x:"200%"}}
+                    pagination={false}
                 />
-                <Pagination onChange={this.onChange.bind(this)} total={50} />
+                <Pagination
+                    onChange={this.onChange.bind(this)}
+                    total={this.props.order.pagination.total}
+                    defaultCurrent={1}
+                />
             </div>
         )
     }

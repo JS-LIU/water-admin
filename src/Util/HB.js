@@ -118,7 +118,7 @@ HB.ajax = (function(){
             this.ajax = function(type,url,data,bool){
                 return $.ajax({
                     type:type,
-                    url:'huibeiwater'+url,
+                    url:'/huibeiwater'+url,
                     data:data,
                     contentType:'application/json; charset=utf-8',
                     async:bool
