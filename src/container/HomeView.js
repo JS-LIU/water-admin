@@ -49,14 +49,13 @@ class HomeView extends Component{
                             onClick={this.toggle.bind(this)}
                         />
                     </Header>
-                    <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
+                    <Content style={{ margin: '24px 16px', padding: 24, background: '#fff'}}>
                         <div>
                             <Switch>
                                 <Route path="/order" component={OrderView} />
                                 <Route path="/user" component={UserView} />
                             </Switch>
                         </div>
-                        Content
                     </Content>
                 </Layout>
             </Layout>
