@@ -3,6 +3,8 @@
  */
 import React, {Component} from 'react'
 import { Table,Pagination } from 'antd';
+import OrderQueryView from './OrderQueryView';
+
 import {observer,inject} from 'mobx-react';
 
 @inject (['order'])
@@ -18,6 +20,9 @@ import {observer,inject} from 'mobx-react';
     render(){
         return (
             <div>
+                <div>
+                    <OrderQueryView />
+                </div>
                 <Table
                     columns={this.props.order.columns}
                     dataSource={this.props.order.dataSource}
