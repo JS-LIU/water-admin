@@ -15,7 +15,7 @@ import { Provider } from 'mobx-react';
 
 import HomeView from './container/HomeView';
 import Order from './MobX/Order';
-
+import ShopOrderCondition from './MobX/ShopOrderCondition';
 
 
 //  Router
@@ -31,8 +31,10 @@ const App = ()=>(
 );
 
 const order = new Order();
+const shopOrderCondition = new ShopOrderCondition();
 
-const stores = {order};
+
+const stores = {order,shopOrderCondition};
 ReactDom.render(
     <Provider {...stores}>
         <div>

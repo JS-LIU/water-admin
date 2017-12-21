@@ -8,12 +8,13 @@ import OrderQueryView from './OrderQueryView';
 import {observer,inject} from 'mobx-react';
 
 @inject (['order'])
+@inject (['shopOrderCondition'])
 @observer class OrderView extends Component{
     componentWillMount(){
         this.props.order.getOrderInfo();
+        this.props.shopOrderCondition.getShopOrderQueryInfo();
     }
     onChange(pageNumber){
-        // this.props.order.pagination.onChange(pageNumber);
         this.props.order.getOrderInfo(pageNumber);
     }
 
@@ -21,7 +22,7 @@ import {observer,inject} from 'mobx-react';
         return (
             <div>
                 <div>
-                    <OrderQueryView />
+                    <OrderQueryView queryCondition={this.props.shopOrderCondition.queryCondition}/>
                 </div>
                 <Table
                     columns={this.props.order.columns}
