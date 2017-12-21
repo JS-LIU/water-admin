@@ -23,8 +23,6 @@ class Order{
         let postInfo = Object.assign(this.pagination.info,{
             queryInfoMsg:this._queryInfoMsg
         });
-        // let postInfo = queryInfo.setPageInfo(pageNumber);
-
 
         this._getOrderInfo(postInfo).then((info)=>{
             this._orderInfo = info;

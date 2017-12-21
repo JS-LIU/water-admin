@@ -13,7 +13,7 @@ import OrderQueryStyle from './OrderQueryStyle.css';
 const Option = Select.Option;
 const FormItem = Form.Item;
 
-class OrderQueryView extends Component{
+class QueryInfoView extends Component{
     render(){
         return(
             <div>
@@ -26,10 +26,10 @@ class QueryListView extends Component{
     render(){
         let queryCondition = this.props.queryCondition;
         let queryNodes = queryCondition.map((item,index)=>{
-            return (item.selectedValue?<SelectedView name={item.keys} selectedList={item.selectedValue}/>:(item.keys.length>1?<DateView />:<QueryInputView name={item.keys}/>))
+            return (item.selectedValue?<SelectedView key={index} name={item.keys} selectedList={item.selectedValue}/>:(item.keys.length>1?<DateView key={index} />:<QueryInputView key={index} name={item.keys}/>))
         });
         return (
-            <Row gutter={24}>
+            <Row gutter={24} type="flex" justify="space-between">
                 {queryNodes}
             </Row>
         )
@@ -39,7 +39,7 @@ class QueryListView extends Component{
 class QueryInputView extends Component{
     render(){
         return (
-            <Col span={4}>
+            <Col span={6}>
                 <FormItem label={this.props.name[0]}>
                     <Input placeholder={this.props.name[0]} />
                 </FormItem>
@@ -52,9 +52,11 @@ class DateView extends Component{
     render(){
         const dateFormat = 'YYYY/MM/DD';
         return (
-            <RangePicker
-                format={dateFormat}
-            />
+            <Col span={8}>
+                <RangePicker
+                    format={dateFormat}
+                />
+            </Col>
         )
     }
 }
@@ -65,18 +67,17 @@ class SelectedView extends Component{
             return (<Option key={index}>{item}</Option>)
         });
         return (
-            <FormItem label={this.props.name[0]}>
+            <Col span={6}>
                 <Select
                     mode="multiple"
                     style={{ width: '100%' }}
-                    placeholder="Please select"
-                >
+                    placeholder={this.props.name[0]}>
                     {selectedValue}
                 </Select>
-            </FormItem>
+            </Col>
         )
     }
 }
-module.exports = OrderQueryView;
+module.exports = QueryInfoView;
 
 

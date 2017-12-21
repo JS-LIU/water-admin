@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react'
 import { Table,Pagination } from 'antd';
-import OrderQueryView from './OrderQueryView';
+import QueryInfoView from './QueryInfoView';
 
 import {observer,inject} from 'mobx-react';
 
@@ -22,7 +22,7 @@ import {observer,inject} from 'mobx-react';
         return (
             <div>
                 <div>
-                    <OrderQueryView queryCondition={this.props.shopOrderCondition.queryCondition}/>
+                    <QueryInfoView queryCondition={this.props.shopOrderCondition.queryCondition}/>
                 </div>
                 <Table
                     columns={this.props.order.columns}
@@ -35,6 +35,7 @@ import {observer,inject} from 'mobx-react';
                     onChange={this.onChange.bind(this)}
                     total={this.props.order.pagination.total}
                     defaultCurrent={1}
+                    style={{marginTop:"10px",display:"flex",justifyContent:"flex-end"}}
                 />
             </div>
         )
