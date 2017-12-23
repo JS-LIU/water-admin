@@ -16,6 +16,7 @@ import { Provider } from 'mobx-react';
 import HomeView from './container/HomeView';
 import Order from './MobX/Order';
 import ShopOrderCondition from './MobX/ShopOrderCondition';
+import QueryInfoBuilder from './MobX/QueryInfoBuilder';
 
 
 //  Router

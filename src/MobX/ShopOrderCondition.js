@@ -2,6 +2,7 @@
  * Created by LDQ on 2017/12/20
  */
 import {observable, computed,action,autorun} from 'mobx';
+import QueryInfoBuilder from './QueryInfoBuilder';
 import _h from '../Util/HB';
 
 class ShopOrderCondition{
@@ -20,6 +21,12 @@ class ShopOrderCondition{
     @computed get queryCondition(){
         return this._queryCondition;
     }
+    // @computed get postQueryMsg(){
+    //     QueryInfoBuilder.convert(this._queryCondition);
+    //
+    // }
+
+
 
 }
 module.exports = ShopOrderCondition;

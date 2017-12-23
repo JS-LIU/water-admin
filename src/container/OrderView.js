@@ -22,7 +22,10 @@ import {observer,inject} from 'mobx-react';
         return (
             <div>
                 <div>
-                    <QueryInfoView queryCondition={this.props.shopOrderCondition.queryCondition}/>
+                    <QueryInfoView
+                        queryCondition={this.props.shopOrderCondition.queryCondition}
+                        searchAction={this.props.order.getOrderInfo}
+                    />
                 </div>
                 <Table
                     columns={this.props.order.columns}

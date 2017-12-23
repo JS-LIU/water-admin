@@ -72,10 +72,17 @@ HB.obj = (function(){
     let isArray = function isArray(o) {
         return Object.prototype.toString.call(o) === "[object Array]";
     };
+    let createCustomKeyObject = function(key,value){
+        let newObj = function (){};
+        newObj.prototype[key] = value;
+        return new newObj();
+    };
+
     return {
         toEquals:toEquals,
         isEmpty:isEmpty,
-        isArray:isArray
+        isArray:isArray,
+        createCustomKeyObject:createCustomKeyObject
     }
 
 })();
