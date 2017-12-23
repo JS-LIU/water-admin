@@ -24,7 +24,9 @@ import {observer,inject} from 'mobx-react';
                 <div>
                     <QueryInfoView
                         queryCondition={this.props.shopOrderCondition.queryCondition}
-                        searchAction={this.props.order.getOrderInfo}
+                        searchAction={{search:(queryInfoMsg)=>{
+                                return this.props.order.getOrderInfo(1,queryInfoMsg)
+                            }}}
                     />
                 </div>
                 <Table

@@ -11,17 +11,16 @@ class Order{
             return _h.ajax.resource('/admin/order/list')
             .save({}, postInfo)
         };
-        this._pagination = new Pagination(5);
+        this._pagination = new Pagination(10);
 
     }
     @observable _orderInfo = {content:[]};
-    @observable _queryInfoMsg = {};
 
-    @action getOrderInfo(pageNumber = 1){
+    @action getOrderInfo(pageNumber = 1,queryInfoMsg = {}){
         this._pagination.setPage(pageNumber);
 
         let postInfo = Object.assign(this.pagination.info,{
-            queryInfoMsg:this._queryInfoMsg
+            queryInfoMsg:queryInfoMsg
         });
 
         this._getOrderInfo(postInfo).then((info)=>{

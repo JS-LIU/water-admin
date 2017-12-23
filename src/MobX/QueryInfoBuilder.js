@@ -2,19 +2,12 @@
  * Created by LDQ on 2017/12/20
  */
 
-import {observable, computed,action,autorun} from 'mobx';
-import _h from '../Util/HB';
-
 class QueryBuilder{
-    constructor(){}
-    @observable _queryMsg = {};
-    @action addQueryInfo(queryCondition){
-        Object.assign(this._queryMsg,queryCondition);
+    constructor(){
+        this.queryMsg = {};
     }
-    @computed get queryMsg(){
-        return this._queryMsg;
+    addQueryInfo(queryCondition){
+        this.queryMsg = Object.assign(this.queryMsg,queryCondition);
     }
-
-
 }
 module.exports = QueryBuilder;

@@ -18,37 +18,34 @@ const FormItem = Form.Item;
 
 let queryInfoBuilder = new QueryInfoBuilder();
 
-@observer class QueryInfoView extends Component{
+class QueryInfoView extends Component{
+    search(){
+        this.props.searchAction.search(queryInfoBuilder.queryMsg);
+    }
     render(){
         return(
             <div>
                 <QueryListView queryCondition={this.props.queryCondition}/>
-            </div>
-        )
-    }
-}
-class QueryListView extends Component{
-    search(){
-        this.props.searchAction(queryInfoBuiler.queryMsg);
-    }
-    render(){
-        let queryCondition = this.props.queryCondition;
-        let queryNodes = queryCondition.map((item,index)=>{
-            return (item.selectedValue?<SelectedView key={index} name={item.keys} selectedList={item.selectedValue}/>:(item.keys.length>1?<DateView key={index} />:<QueryInputView key={index} name={item.keys}/>))
-        });
-        return (
-            <div>
-                <Row gutter={24} type="flex" justify="space-between">
-                    {queryNodes}
-                </Row>
                 <Row>
                     <Col span={24} style={{ textAlign: 'right' }}>
                         <Button type="primary" htmlType="submit" onClick={this.search.bind(this)}>Search</Button>
                     </Col>
                 </Row>
             </div>
+        )
+    }
+}
+class QueryListView extends Component{
 
-
+    render(){
+        let queryCondition = this.props.queryCondition;
+        let queryNodes = queryCondition.map((item,index)=>{
+            return (item.selectedValue?<SelectedView key={index} name={item.keys} selectedList={item.selectedValue}/>:(item.keys.length>1?<DateView key={index} />:<QueryInputView key={index} name={item.keys}/>))
+        });
+        return (
+            <Row gutter={24} type="flex" justify="space-between">
+                {queryNodes}
+            </Row>
         )
     }
 }
@@ -57,9 +54,9 @@ class QueryInputView extends Component{
     onChange(e){
         let key = this.props.name;
         let value = e.target.value;
-        let info = _h.obj.createCustomKeyObject(key,value);
-        queryInfoBuilder.addQueryInfo(info);
-
+        queryInfoBuilder.addQueryInfo({
+            [key]:value
+        });
     }
     render(){
         return (
@@ -86,6 +83,9 @@ class DateView extends Component{
 }
 
 class SelectedView extends Component{
+    onChange(value){
+        console.log("onC:",value);
+    }
     render(){
         let selectedValue = this.props.selectedList.map((item,index)=>{
             return (<Option key={index}>{item}</Option>)
@@ -95,7 +95,9 @@ class SelectedView extends Component{
                 <Select
                     mode="multiple"
                     style={{ width: '100%' }}
-                    placeholder={this.props.name[0]}>
+                    placeholder={this.props.name[0]}
+                    onChange={this.onChange.bind(this)}
+                >
                     {selectedValue}
                 </Select>
             </Col>
