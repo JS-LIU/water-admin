@@ -15,7 +15,7 @@ import {observer,inject} from 'mobx-react';
         this.props.shopOrderCondition.getShopOrderQueryInfo();
     }
     onChange(pageNumber){
-        this.props.order.getOrderInfo(pageNumber);
+        this.props.order.getOrderInfo(pageNumber,this.props.order.queryInfoMsg);
     }
 
     render(){
@@ -24,9 +24,10 @@ import {observer,inject} from 'mobx-react';
                 <div>
                     <QueryInfoView
                         queryCondition={this.props.shopOrderCondition.queryCondition}
-                        searchAction={{search:(queryInfoMsg)=>{
-                                return this.props.order.getOrderInfo(1,queryInfoMsg)
+                        searchAction={{search:()=>{
+                                this.props.order.getOrderInfo(1)
                             }}}
+                        table={this.props.order}
                     />
                 </div>
                 <Table

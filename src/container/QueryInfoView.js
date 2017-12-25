@@ -20,7 +20,9 @@ let queryInfoBuilder = new QueryInfoBuilder();
 
 class QueryInfoView extends Component{
     search(){
-        this.props.searchAction.search(queryInfoBuilder.queryMsg);
+        this.props.table.queryInfoMsg = queryInfoBuilder.queryMsg;
+        this.props.searchAction.search();
+
     }
     render(){
         return(
@@ -40,7 +42,7 @@ class QueryListView extends Component{
     render(){
         let queryCondition = this.props.queryCondition;
         let queryNodes = queryCondition.map((item,index)=>{
-            return (item.selectedValue?<SelectedView key={index} name={item.keys} selectedList={item.selectedValue}/>:(item.keys.length>1?<DateView key={index} />:<QueryInputView key={index} name={item.keys}/>))
+            return (item.selectedValue?<SelectedView key={index} name={item.keys} selectedList={item.selectedValue}/>:(item.keys.length>1?<DateView name={item.keys} key={index} />:<QueryInputView key={index} name={item.keys}/>))
         });
         return (
             <Row gutter={24} type="flex" justify="space-between">
@@ -54,9 +56,7 @@ class QueryInputView extends Component{
     onChange(e){
         let key = this.props.name;
         let value = e.target.value;
-        queryInfoBuilder.addQueryInfo({
-            [key]:value
-        });
+        queryInfoBuilder.createQueryInfo("eq",key,value);
     }
     render(){
         return (
@@ -70,12 +70,20 @@ class QueryInputView extends Component{
 }
 
 class DateView extends Component{
+    onChange(moment,dateList){
+        let keys = this.props.name;
+        let start = dateList[0] + " 00:00:00";
+        let end = dateList[1] + " 23:59:59";
+        queryInfoBuilder.createQueryInfo("between",keys,[start,end]);
+
+    }
     render(){
-        const dateFormat = 'YYYY/MM/DD';
+        const dateFormat = 'YYYY-MM-DD';
         return (
             <Col span={8}>
                 <RangePicker
                     format={dateFormat}
+                    onChange={this.onChange.bind(this)}
                 />
             </Col>
         )
@@ -84,7 +92,10 @@ class DateView extends Component{
 
 class SelectedView extends Component{
     onChange(value){
-        console.log("onC:",value);
+        let key = this.props.name;
+        let allValues = this.props.selectedList;
+        let indexList = value;
+        queryInfoBuilder.createQueryInfo("eqOr",key,allValues,indexList);
     }
     render(){
         let selectedValue = this.props.selectedList.map((item,index)=>{

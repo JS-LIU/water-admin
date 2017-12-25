@@ -12,15 +12,16 @@ class Order{
             .save({}, postInfo)
         };
         this._pagination = new Pagination(10);
+        this.queryInfoMsg = {};
 
     }
     @observable _orderInfo = {content:[]};
 
-    @action getOrderInfo(pageNumber = 1,queryInfoMsg = {}){
+    @action getOrderInfo(pageNumber = 1){
         this._pagination.setPage(pageNumber);
-
+        let msg = this.queryInfoMsg;
         let postInfo = Object.assign(this.pagination.info,{
-            queryInfoMsg:queryInfoMsg
+            queryInfoMsg:msg
         });
 
         this._getOrderInfo(postInfo).then((info)=>{
