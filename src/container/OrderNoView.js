@@ -59,13 +59,13 @@ class OrderNoView extends Component{
                 </div>
             )
         });
-        let btn_style = (this.props.orderItem.status === "待指派"?{background:"#dd7c1e",color:"#FFF"}:{background:"#1890ff",color:"#FFF"});
+        let btn_style = (this.props.orderItem.status === "待指派"?{color:"#dd7c1e",textDecoration:"underline"}:{color:"#1890ff",textDecoration:"underline"});
         return (
             <div>
-                <div
+                <a
                     onClick={this.showModal.bind(this)}
                     style={btn_style}
-                >{this.props.orderItem.orderNo}</div >
+                >{this.props.orderItem.orderNo}</a >
                 <Modal
                     title={"订单："+this.props.orderItem.orderNo}
                     visible={this.state.visible}
