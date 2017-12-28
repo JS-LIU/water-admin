@@ -4,12 +4,12 @@
 import React, {Component} from 'react';
 class UserView extends Component{
     componentWillMount(){
-        console.log("i'm user");
+        console.log("开发中");
     }
     render(){
         return (
             <div>
-                i'm user;
+                开发中
             </div>
         )
     }

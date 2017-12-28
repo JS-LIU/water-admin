@@ -20,21 +20,21 @@ class HomeMenuView extends Component{
                             <span>订单</span>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="2" disabled={true}>
-                        <Link to="/user">
+                    <Menu.Item key="2">
+                        <Link to="/order">
                             <Icon type="user" />
                             <span>账户</span>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="3" disabled={true}>
-                        <Link to="/user" >
-                            <Icon type="user" />
+                    <Menu.Item key="3">
+                        <Link to="/order" >
+                            <Icon type="shop" />
                             <span>商家</span>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="4" disabled={true}>
-                        <Link to="/user">
-                            <Icon type="user" />
+                    <Menu.Item key="4">
+                        <Link to="/order">
+                            <Icon type="gift" />
                             <span>商品</span>
                         </Link>
                     </Menu.Item>

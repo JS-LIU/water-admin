@@ -11,7 +11,7 @@ var table = {
     WeixinPay:"微信客户端支付",
     AlipayClient:"支付宝",
     phoneNum:"用户电话",
-    orderNo:"订单号码",
+    orderNo:"订单",
     shopName:"商店名称",
     orderStatus:"订单状态",
     payWay:"支付方式",
