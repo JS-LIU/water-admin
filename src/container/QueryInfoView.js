@@ -18,35 +18,24 @@ const FormItem = Form.Item;
 
 let queryInfoBuilder = new QueryInfoBuilder();
 
+import toChinese from './chineseContentTable'
+
 class QueryInfoView extends Component{
     search(){
         this.props.table.queryInfoMsg = queryInfoBuilder.queryMsg;
         this.props.searchAction.search();
-
     }
-    render(){
-        return(
-            <div>
-                <QueryListView queryCondition={this.props.queryCondition}/>
-                <Row>
-                    <Col span={24} style={{ textAlign: 'right' }}>
-                        <Button type="primary" htmlType="submit" onClick={this.search.bind(this)}>Search</Button>
-                    </Col>
-                </Row>
-            </div>
-        )
-    }
-}
-class QueryListView extends Component{
-
     render(){
         let queryCondition = this.props.queryCondition;
         let queryNodes = queryCondition.map((item,index)=>{
             return (item.selectedValue?<SelectedView key={index} name={item.keys} selectedList={item.selectedValue}/>:(item.keys.length>1?<DateView name={item.keys} key={index} />:<QueryInputView key={index} name={item.keys}/>))
         });
         return (
-            <Row gutter={24} type="flex" justify="space-between">
+            <Row>
                 {queryNodes}
+                <Col span={6} style={{width:244}}>
+                    <Button style={{width:244}} type="primary" htmlType="submit" onClick={this.search.bind(this)}>查询</Button>
+                </Col>
             </Row>
         )
     }
@@ -61,8 +50,8 @@ class QueryInputView extends Component{
     render(){
         return (
             <Col span={6}>
-                <FormItem label={this.props.name[0]}>
-                    <Input placeholder={this.props.name[0]} onChange={this.onChange.bind(this)}/>
+                <FormItem label={toChinese(this.props.name[0])}>
+                    <Input placeholder={toChinese(this.props.name[0])} onChange={this.onChange.bind(this)}/>
                 </FormItem>
             </Col>
         )
@@ -71,17 +60,19 @@ class QueryInputView extends Component{
 
 class DateView extends Component{
     onChange(moment,dateList){
+        const dateFormat = 'YYYY-MM-DD';
         let keys = this.props.name;
-        let start = dateList[0] + " 00:00:00";
-        let end = dateList[1] + " 23:59:59";
-        queryInfoBuilder.createQueryInfo("between",keys,[start,end]);
+        let start = _h.valid.addTimeToDay(dateList[0]," 00:00:00",dateFormat);
+        let end = _h.valid.addTimeToDay(dateList[1]," 23:59:59",dateFormat);
 
+        queryInfoBuilder.createQueryInfo("between",keys,[start,end]);
     }
     render(){
         const dateFormat = 'YYYY-MM-DD';
         return (
-            <Col span={8}>
+            <Col span={6}>
                 <RangePicker
+                    style={{width:244}}
                     format={dateFormat}
                     onChange={this.onChange.bind(this)}
                 />
@@ -89,6 +80,7 @@ class DateView extends Component{
         )
     }
 }
+
 
 class SelectedView extends Component{
     onChange(value){
@@ -99,14 +91,14 @@ class SelectedView extends Component{
     }
     render(){
         let selectedValue = this.props.selectedList.map((item,index)=>{
-            return (<Option key={index}>{item}</Option>)
+            return (<Option key={index}>{toChinese(item)}</Option>)
         });
         return (
             <Col span={6}>
                 <Select
                     mode="multiple"
-                    style={{ width: '100%' }}
-                    placeholder={this.props.name[0]}
+                    style={{ width: 244 }}
+                    placeholder={toChinese(this.props.name[0])}
                     onChange={this.onChange.bind(this)}
                 >
                     {selectedValue}

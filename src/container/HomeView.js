@@ -37,7 +37,7 @@ class HomeView extends Component{
                     trigger={null}
                     collapsible
                     collapsed={this.state.collapsed}
-                    style={{background:'#FFF'}}
+                    style={{background:'#001529'}}
                 >
                     <HomeMenuView />
                 </Sider>

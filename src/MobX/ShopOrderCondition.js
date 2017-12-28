@@ -21,12 +21,5 @@ class ShopOrderCondition{
     @computed get queryCondition(){
         return this._queryCondition;
     }
-    // @computed get postQueryMsg(){
-    //     QueryInfoBuilder.convert(this._queryCondition);
-    //
-    // }
-
-
-
 }
 module.exports = ShopOrderCondition;

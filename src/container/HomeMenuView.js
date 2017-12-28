@@ -10,15 +10,33 @@ class HomeMenuView extends Component{
     render(){
         return (
             <div>
-                <div className="title">HuiPay Admin</div>
-                <Menu theme="light" mode="inline" defaultSelectedKeys={['1']}>
+                <div className="title">汇贝BOSS系统</div>
+                <Menu theme="dark"
+                      mode="inline"
+                      defaultSelectedKeys={['1']}>
                     <Menu.Item key="1">
-                        <Icon type="profile" />
-                        <Link to="/order" style={{display:"inline"}}>order</Link>
+                        <Link to="/order">
+                            <Icon type="profile" />
+                            <span>订单</span>
+                        </Link>
                     </Menu.Item>
-                    <Menu.Item key="2">
-                        <Icon type="user" />
-                        <Link to="/user" style={{display:"inline"}}>user</Link>
+                    <Menu.Item key="2" disabled={true}>
+                        <Link to="/user">
+                            <Icon type="user" />
+                            <span>账户</span>
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item key="3" disabled={true}>
+                        <Link to="/user" >
+                            <Icon type="user" />
+                            <span>商家</span>
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item key="4" disabled={true}>
+                        <Link to="/user">
+                            <Icon type="user" />
+                            <span>商品</span>
+                        </Link>
                     </Menu.Item>
                 </Menu>
             </div>

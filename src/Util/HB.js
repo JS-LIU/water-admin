@@ -214,12 +214,23 @@ HB.valid = (function(){
     //  将星期几转换成汉字的
     function parseDay(day){
         let myDay = day;
-        if(day == 0){
+        if(day === 0){
             myDay = 7;
         }
         return parseChinese(myDay);
 
     }
+    function addTimeToDay(day,time,format){
+        if(checkFormatTime(format,day)){
+            return day + time;
+        }
+        return null;
+    }
+    //  todo 临时校验 改为正则校验规则
+    function checkFormatTime(format,day){
+        return day.length === 10;
+    }
+
     return {
         validNum:validNum,
         trimAllBlank:trimAllBlank,
@@ -227,7 +238,8 @@ HB.valid = (function(){
         parseArr:parseArr,
         parseChinese:parseChinese,
         parseDay:parseDay,
-        validPhoneNum:validPhoneNum
+        validPhoneNum:validPhoneNum,
+        addTimeToDay:addTimeToDay
     }
 
 })();

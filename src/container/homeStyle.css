@@ -3,3 +3,16 @@
     width:100vw;
     height:100vh;
 }
+.ant-layout-header .anticon-menu-fold,
+.ant-layout-header .anticon-menu-unfold{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width:56px;
+    height:100%;
+}
+.ant-layout-header .anticon-menu-fold:hover,
+.ant-layout-header .anticon-menu-unfold:hover{
+    background: #96ceff;
+    color: #1890ff;
+}

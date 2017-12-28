@@ -7,15 +7,15 @@ import QueryInfoView from './QueryInfoView';
 
 import {observer,inject} from 'mobx-react';
 
-@inject (['order'])
+@inject (['orderContainer'])
 @inject (['shopOrderCondition'])
 @observer class OrderView extends Component{
     componentWillMount(){
-        this.props.order.getOrderInfo();
+        this.props.orderContainer.getOrderInfo();
         this.props.shopOrderCondition.getShopOrderQueryInfo();
     }
     onChange(pageNumber){
-        this.props.order.getOrderInfo(pageNumber,this.props.order.queryInfoMsg);
+        this.props.orderContainer.getOrderInfo(pageNumber,this.props.orderContainer.queryInfoMsg);
     }
 
     render(){
@@ -25,21 +25,22 @@ import {observer,inject} from 'mobx-react';
                     <QueryInfoView
                         queryCondition={this.props.shopOrderCondition.queryCondition}
                         searchAction={{search:()=>{
-                                this.props.order.getOrderInfo(1)
+                                this.props.orderContainer.getOrderInfo(1)
                             }}}
-                        table={this.props.order}
+                        table={this.props.orderContainer}
                     />
                 </div>
                 <Table
-                    columns={this.props.order.columns}
-                    dataSource={this.props.order.dataSource}
+                    columns={this.props.orderContainer.columns}
+                    dataSource={this.props.orderContainer.dataSource}
                     bordered
-                    scroll={{x:"200%"}}
                     pagination={false}
+                    scroll={{x:true}}
+                    style={{marginTop:30}}
                 />
                 <Pagination
                     onChange={this.onChange.bind(this)}
-                    total={this.props.order.pagination.total}
+                    total={this.props.orderContainer.pagination.total}
                     defaultCurrent={1}
                     style={{marginTop:"10px",display:"flex",justifyContent:"flex-end"}}
                 />

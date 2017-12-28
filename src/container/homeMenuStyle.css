@@ -4,5 +4,6 @@
     font-size:22px;
     line-height: 64px;
     text-align: center;
-    background:#FFF;
+    overflow: hidden;
+    background:#001529;
 }
