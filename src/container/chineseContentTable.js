@@ -5,7 +5,7 @@
 var table = {
     create:"未支付",
     waiting_dispatch:"待指派",
-    delivery:"待收货",
+    delivery:"配送中",
     finish:"未评价",
     finish_comment:"已评价",
     WeixinPay:"微信客户端支付",

@@ -32,14 +32,7 @@ class OrderContainer{
             shopAddress:"商家地址",
             payChannel:"付款方式",
             createTime:"购买时间",
-            ticketUseNum:"水票抵用数量",
-            // productItems:"商品",
-            // onePrice:"价格",
-            // buyAmount:"购买数量",
-            // totalPrice:"共付款",
-            // deliveryAddress:"收货地址",
-            // orderNo: "订单号",
-            // orderStatus: "订单状态",
+            ticketUseNum:"水票抵用数量"
         };
     }
     @observable _orderInfo = {content:[]};

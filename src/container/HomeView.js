@@ -15,6 +15,7 @@ import HomeMenuView from './HomeMenuView';
 
 import UserView from './UserView'
 import OrderView from './OrderView';
+import WithdrawInfoView from './WithdrawInfoView';
 
 import './homeStyle.css';
 
@@ -39,7 +40,7 @@ class HomeView extends Component{
                     collapsed={this.state.collapsed}
                     style={{background:'#001529'}}
                 >
-                    <HomeMenuView />
+                    <HomeMenuView location={this.props.location}/>
                 </Sider>
                 <Layout>
                     <Header style={{ background: '#fff', padding: 0 }}>
@@ -53,7 +54,7 @@ class HomeView extends Component{
                         <div>
                             <Switch>
                                 <Route path="/order" component={OrderView} />
-                                <Route path="/order" component={OrderView} />
+                                <Route path="/withdraw" component={WithdrawInfoView} />
                                 <Route path="/order" component={OrderView} />
                                 <Route path="/order" component={OrderView} />
                             </Switch>

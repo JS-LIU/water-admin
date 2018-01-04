@@ -21,15 +21,13 @@ import {observer,inject} from 'mobx-react';
     render(){
         return (
             <div>
-                <div>
-                    <QueryInfoView
-                        queryCondition={this.props.shopOrderCondition.queryCondition}
-                        searchAction={{search:()=>{
-                                this.props.orderContainer.getOrderInfo(1)
-                            }}}
-                        table={this.props.orderContainer}
-                    />
-                </div>
+                <QueryInfoView
+                    queryCondition={this.props.shopOrderCondition.queryCondition}
+                    searchAction={{search:()=>{
+                            this.props.orderContainer.getOrderInfo(1)
+                        }}}
+                    table={this.props.orderContainer}
+                />
                 <Table
                     columns={this.props.orderContainer.columns}
                     dataSource={this.props.orderContainer.dataSource}

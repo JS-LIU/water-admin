@@ -21,6 +21,9 @@ let queryInfoBuilder = new QueryInfoBuilder();
 import toChinese from './chineseContentTable'
 
 class QueryInfoView extends Component{
+    componentWillUnmount(){
+        this.props.table.queryInfoMsg = {};
+    }
     search(){
         this.props.table.queryInfoMsg = queryInfoBuilder.queryMsg;
         this.props.searchAction.search();
