@@ -10,6 +10,8 @@ import Pagination from './Pagination';
 import DispatchButtonView from '../container/DispatchButtonView';
 import OrderNoView from '../container/OrderNoView';
 
+
+
 class OrderContainer{
     constructor(){
         let orderAjax = _h.ajax.resource('/admin/order/:action');
@@ -36,7 +38,6 @@ class OrderContainer{
         };
     }
     @observable _orderInfo = {content:[]};
-
     @action startDelivery(orderItem){
         this._startDelivery({orderId:orderItem.orderId}).then(()=>{
             let msg = this.queryInfoMsg;
@@ -69,28 +70,25 @@ class OrderContainer{
     @computed get pagination(){
         return this._pagination;
     }
-    @computed get columns (){
-        if(this._orderInfo.content.length > 0){
-            let title = this._orderInfo.content[0];
-            return tableBuilder.convertToColumns(title,this.columnConfig,(list)=>{
-                list.push({
-                    key: 'operation',
-                    title: '状态',
-                    dataIndex: "operation",
-                    width: 100,
-                    fixed:"right"
-                });
-                list.unshift({
-                    key:"orderNo",
-                    title:"订单号码",
-                    dataIndex:"showContent",
-                    width:185,
-                    fixed:"left"
-                })
+    @computed get columns () {
+        return tableBuilder.convertToColumns(this.columnConfig, (list) => {
+            list.push({
+                key: 'operation',
+                title: '状态',
+                dataIndex: "operation",
+                width: 100,
+                fixed: "right"
             });
-        }
-        return [];
+            list.unshift({
+                key: "orderNo",
+                title: "订单号码",
+                dataIndex: "showContent",
+                width: 185,
+                fixed: "left"
+            })
+        });
     }
+
     @computed get dataSource(){
         return tableBuilder.convertToSource(this._orderInfo.content,(item)=>{
             item.operation = (()=>{

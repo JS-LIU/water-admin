@@ -22,35 +22,38 @@ class WithdrawOrderContainer{
 
         this._pagination = new Pagination(10);
         this.queryInfoMsg = {};
-
         this.columnConfig = {
             orderNo:"订单号",
             createTime:"提现时间",
             merchantName: "提现店铺",
             cashMount:"提现金额",
             currentMount:"账户余额",
+            realRmbMount:"实际打款金额"
         };
     }
     @observable _orderInfo = {content:[]};
+    @observable _isAllow;
 
+    @action setIsAllow(action){
+        this._isAllow = action;
+    }
+    @computed get isAllow(){
+        return this._isAllow;
+    }
     @observable _pagination;
     @computed get pagination(){
         return this._pagination;
     }
     @computed get columns (){
-        if(this._orderInfo.content.length > 0){
-            let title = this._orderInfo.content[0];
-            return tableBuilder.convertToColumns(title,this.columnConfig,(list)=>{
-                list.push({
-                    key: 'operation',
-                    title: '状态',
-                    dataIndex: "operation",
-                    width: 150,
-                    fixed:"right"
-                })
-            });
-        }
-        return [];
+        return tableBuilder.convertToColumns(this.columnConfig,(list)=>{
+            list.push({
+                key: 'operation',
+                title: '状态',
+                dataIndex: "operation",
+                width: 150,
+                fixed:"right"
+            })
+        });
     }
     @computed get dataSource(){
         return tableBuilder.convertToSource(this._orderInfo.content,(item)=>{
@@ -67,22 +70,57 @@ class WithdrawOrderContainer{
     @action getOrderInfo(pageNumber = 1){
         this._pagination.setPage(pageNumber);
         let msg = this.queryInfoMsg;
-        let postInfo = Object.assign(this.pagination.info);
+        let postInfo = Object.assign(this.pagination.info,{
+            queryInfoMsg:msg
+        });
 
         this._getOrderInfo(postInfo).then((info)=>{
             this._orderInfo = info;
             this._pagination.setTotal(info.totalElements);
         });
     }
+
+    @observable _remarks;
+    @observable _journalAccountNum;
+    @observable _realRmbMount = 0;
+    @computed get journalAccountNum(){
+        return this._journalAccountNum;
+    }
+    @computed get remarks(){
+        return this._remarks;
+    }
+    @computed get realRmbMount(){
+        return this._realRmbMount;
+    }
+    @action setRemarks(remarks){
+        this._remarks = remarks;
+    }
+    @action setRealRmbMount(realRmbMount){
+        this._realRmbMount = realRmbMount;
+    }
+    @action setJournalAccountNum(journalAccountNum){
+        this._journalAccountNum = journalAccountNum;
+    }
+    @action clearWithdrawOrder(){
+        this._remarks = null;
+        this._journalAccountNum = null;
+    }
     /**
      * 通过提现申请
      * @param orderItem
      */
-    @action operateOrder(action,orderItem){
-        this._operateOrder({orderId:parseInt(orderItem.orderId)},action).then(()=>{
+    @action operateOrder(orderItem){
+        this._operateOrder({
+            orderId:parseInt(orderItem.orderId),
+            remarks:this._remarks,
+            journalAccountNum:this._journalAccountNum,
+            realRmbMount:this._realRmbMount
+        },this._isAllow).then(()=>{
 
             let msg = this.queryInfoMsg;
-            let postInfo = Object.assign(this.pagination.info);
+            let postInfo = Object.assign(this.pagination.info,{
+                    queryInfoMsg:msg
+            });
             this._getOrderInfo(postInfo).then((info)=>{
                 this._orderInfo = info;
                 this._pagination.setTotal(info.totalElements);

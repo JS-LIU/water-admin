@@ -55,8 +55,6 @@ class HomeView extends Component{
                             <Switch>
                                 <Route path="/order" component={OrderView} />
                                 <Route path="/withdraw" component={WithdrawInfoView} />
-                                <Route path="/order" component={OrderView} />
-                                <Route path="/order" component={OrderView} />
                             </Switch>
                         </div>
                     </Content>

@@ -17,7 +17,7 @@ import HomeView from './container/HomeView';
 import OrderContainer from './MobX/OrderContainer';
 import ShopOrderCondition from './MobX/ShopOrderCondition';
 import WithdrawOrderContainer from './MobX/WithdrawOrderContainer';
-
+import WithdrawOrderCondition from './MobX/WithdrawOrderCondition';
 
 //  Router
 const App = ()=>(
@@ -34,8 +34,14 @@ const App = ()=>(
 const orderContainer = new OrderContainer();
 const shopOrderCondition = new ShopOrderCondition();
 const withdrawOrderContainer = new WithdrawOrderContainer();
+const withdrawOrderCondition = new WithdrawOrderCondition();
 
-const stores = {orderContainer,shopOrderCondition,withdrawOrderContainer};
+const stores = {
+    orderContainer,
+    shopOrderCondition,
+    withdrawOrderContainer,
+    withdrawOrderCondition
+};
 ReactDom.render(
     <Provider {...stores}>
         <div>

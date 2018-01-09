@@ -4,18 +4,16 @@
 
 
 const tableBuilder = {
-    convertToColumns:function (obj,columnConfig,func = function(){}){
+    convertToColumns:function (obj,func = function(){}){
         let columns = [];
         for(let prop in obj){
             if (obj.hasOwnProperty(prop)) {
-                if (columnConfig[prop]){
-                    let column = {
-                        key: prop,
-                        title: columnConfig[prop],
-                        dataIndex: prop
-                    };
-                    columns.push(column);
-                }
+                let column = {
+                    key: prop,
+                    title: obj[prop]||prop,
+                    dataIndex: prop
+                };
+                columns.push(column);
             }
         }
         func(columns);
@@ -32,6 +30,6 @@ const tableBuilder = {
         return dataSource;
     }
 };
-
-
 module.exports = tableBuilder;
+
+
