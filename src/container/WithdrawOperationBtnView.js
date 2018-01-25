@@ -45,7 +45,7 @@ import {observer,inject} from 'mobx-react';
     render(){
         return(
             <div>
-                {this.props.orderItem.status === "创建提现申请"?<Popconfirm
+                {this.props.orderItem.status === "已创建提现申请"?<Popconfirm
                     title="是否通过提现?"
                     onConfirm={this.operateOrder('allow').bind(this)}
                     onCancel={this.operateOrder('reject').bind(this)}
