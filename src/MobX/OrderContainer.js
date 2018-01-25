@@ -38,7 +38,11 @@ class OrderContainer{
         };
     }
     @observable _orderInfo = {content:[]};
+    @observable _loading = false;
+    @observable _pagination;
+
     @action startDelivery(orderItem){
+        this._loading = true;
         this._startDelivery({orderId:orderItem.orderId}).then(()=>{
             let msg = this.queryInfoMsg;
             let postInfo = Object.assign(this.pagination.info,{
@@ -47,26 +51,32 @@ class OrderContainer{
             this._getOrderInfo(postInfo).then((info)=>{
                 this._orderInfo = info;
                 this._pagination.setTotal(info.totalElements);
+                this._loading = false;
             });
 
         }).catch(()=>{
+            this._loading = false;
             alert("派送失败");
         })
     }
-
-    @action getOrderInfo(pageNumber = 1){
+    @action getOrderInfo(pageNumber = 1,orderSrc){
         this._pagination.setPage(pageNumber);
         let msg = this.queryInfoMsg;
+        msg.orderSrc = orderSrc;
         let postInfo = Object.assign(this.pagination.info,{
             queryInfoMsg:msg
         });
-
+        this._loading = true;
         this._getOrderInfo(postInfo).then((info)=>{
             this._orderInfo = info;
             this._pagination.setTotal(info.totalElements);
+            this._loading = false;
+        }).catch(()=>{
+            this._loading = false;
+            alert("找强哥解决一下");
         });
     }
-    @observable _pagination;
+
     @computed get pagination(){
         return this._pagination;
     }
@@ -98,6 +108,9 @@ class OrderContainer{
                 return <OrderNoView orderItem={item} />
             })()
         });
+    }
+    @computed get loading(){
+        return this._loading;
     }
 }
 module.exports = OrderContainer;

@@ -41,6 +41,10 @@ class WithdrawOrderContainer{
         return this._isAllow;
     }
     @observable _pagination;
+    @observable _loading = false;
+    @observable _remarks;
+    @observable _journalAccountNum;
+    @observable _realRmbMount = 0;
     @computed get pagination(){
         return this._pagination;
     }
@@ -73,24 +77,42 @@ class WithdrawOrderContainer{
         let postInfo = Object.assign(this.pagination.info,{
             queryInfoMsg:msg
         });
-
+        this._loading = true;
         this._getOrderInfo(postInfo).then((info)=>{
             this._orderInfo = info;
             this._pagination.setTotal(info.totalElements);
+            this._loading = false;
+        }).catch(()=>{
+            this._loading = true;
         });
     }
 
-    @observable _remarks;
-    @observable _journalAccountNum;
-    @observable _realRmbMount = 0;
-    @computed get journalAccountNum(){
-        return this._journalAccountNum;
-    }
-    @computed get remarks(){
-        return this._remarks;
-    }
-    @computed get realRmbMount(){
-        return this._realRmbMount;
+    /**
+     * 通过提现申请
+     * @param orderItem
+     */
+    @action operateOrder(orderItem){
+        this._loading = true;
+        this._operateOrder({
+            orderId:parseInt(orderItem.orderId),
+            remarks:this._remarks,
+            journalAccountNum:this._journalAccountNum,
+            realRmbMount:this._realRmbMount
+        },this._isAllow).then(()=>{
+            let msg = this.queryInfoMsg;
+            let postInfo = Object.assign(this.pagination.info,{
+                queryInfoMsg:msg
+            });
+            this._getOrderInfo(postInfo).then((info)=>{
+                this._orderInfo = info;
+                this._pagination.setTotal(info.totalElements);
+                this._loading = false;
+            });
+
+        }).catch(()=>{
+            this._loading = false;
+            alert("找你强哥解决一下");
+        })
     }
     @action setRemarks(remarks){
         this._remarks = remarks;
@@ -105,30 +127,18 @@ class WithdrawOrderContainer{
         this._remarks = null;
         this._journalAccountNum = null;
     }
-    /**
-     * 通过提现申请
-     * @param orderItem
-     */
-    @action operateOrder(orderItem){
-        this._operateOrder({
-            orderId:parseInt(orderItem.orderId),
-            remarks:this._remarks,
-            journalAccountNum:this._journalAccountNum,
-            realRmbMount:this._realRmbMount
-        },this._isAllow).then(()=>{
-
-            let msg = this.queryInfoMsg;
-            let postInfo = Object.assign(this.pagination.info,{
-                    queryInfoMsg:msg
-            });
-            this._getOrderInfo(postInfo).then((info)=>{
-                this._orderInfo = info;
-                this._pagination.setTotal(info.totalElements);
-            });
-
-        }).catch(()=>{
-            alert("找你强哥解决一下");
-        })
+    @computed get journalAccountNum(){
+        return this._journalAccountNum;
     }
+    @computed get remarks(){
+        return this._remarks;
+    }
+    @computed get realRmbMount(){
+        return this._realRmbMount;
+    }
+    @computed get loading(){
+        return this._loading;
+    }
+
 }
 module.exports = WithdrawOrderContainer;

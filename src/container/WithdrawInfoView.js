@@ -36,6 +36,7 @@ import {observer,inject} from 'mobx-react';
                     pagination={false}
                     scroll={{x:true}}
                     style={{marginTop:30}}
+                    loading={this.props.withdrawOrderContainer.loading}
                 />
                 <Pagination
                     onChange={this.onChange.bind(this)}

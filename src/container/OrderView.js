@@ -11,11 +11,11 @@ import {observer,inject} from 'mobx-react';
 @inject (['shopOrderCondition'])
 @observer class OrderView extends Component{
     componentWillMount(){
-        this.props.orderContainer.getOrderInfo();
+        this.props.orderContainer.getOrderInfo(1,this.props.orderSrc);
         this.props.shopOrderCondition.getShopOrderQueryInfo();
     }
     onChange(pageNumber){
-        this.props.orderContainer.getOrderInfo(pageNumber,this.props.orderContainer.queryInfoMsg);
+        this.props.orderContainer.getOrderInfo(pageNumber,this.props.orderSrc);
     }
 
     render(){
@@ -24,7 +24,7 @@ import {observer,inject} from 'mobx-react';
                 <QueryInfoView
                     queryCondition={this.props.shopOrderCondition.queryCondition}
                     searchAction={{search:()=>{
-                            this.props.orderContainer.getOrderInfo(1)
+                            this.props.orderContainer.getOrderInfo(1,this.props.orderSrc)
                         }}}
                     table={this.props.orderContainer}
                     chineseChart={table}
@@ -34,8 +34,9 @@ import {observer,inject} from 'mobx-react';
                     dataSource={this.props.orderContainer.dataSource}
                     bordered
                     pagination={false}
-                    scroll={{x:true}}
+                    scroll={{x:"120%"}}
                     style={{marginTop:30}}
+                    loading={this.props.orderContainer.loading}
                 />
                 <Pagination
                     onChange={this.onChange.bind(this)}

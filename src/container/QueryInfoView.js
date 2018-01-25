@@ -5,12 +5,10 @@ import React, {Component} from 'react'
 import { Select } from 'antd';
 import { Form, Row, Col, Input, Button, Icon } from 'antd';
 import { DatePicker } from 'antd';
-const { MonthPicker, RangePicker } = DatePicker;
+const { RangePicker } = DatePicker;
 import _h from '../Util/HB';
 import QueryInfoBuilder from '../MobX/QueryInfoBuilder';
 import OrderQueryStyle from './OrderQueryStyle.css';
-
-import {observer} from 'mobx-react';
 
 const Option = Select.Option;
 const FormItem = Form.Item;
@@ -118,8 +116,7 @@ class SelectedView extends Component{
     onChange(value){
         let key = this.props.name;
         let allValues = this.props.selectedList;
-        let indexList = value;
-        queryInfoBuilder.createQueryInfo("eqOr",key,allValues,indexList);
+        queryInfoBuilder.createQueryInfo("eqOr",key,allValues,value);
     }
     render(){
         let selectedValue = this.props.selectedList.map((item,index)=>{

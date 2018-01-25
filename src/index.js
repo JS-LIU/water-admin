@@ -5,7 +5,7 @@
 const React = require('react');
 const ReactDom = require('react-dom');
 import {
-    BrowserRouter,
+    HashRouter,
     Switch,
     Route,
     Redirect,
@@ -18,16 +18,16 @@ import OrderContainer from './MobX/OrderContainer';
 import ShopOrderCondition from './MobX/ShopOrderCondition';
 import WithdrawOrderContainer from './MobX/WithdrawOrderContainer';
 import WithdrawOrderCondition from './MobX/WithdrawOrderCondition';
+import OpenShopContainer from './MobX/OpenShopContainer';
 
-//  Router
 const App = ()=>(
-    <BrowserRouter>
+    <HashRouter>
         <div>
             <Switch>
-                <Route path='/' component={HomeView} />
+                <Route component={HomeView} />
             </Switch>
         </div>
-    </BrowserRouter>
+    </HashRouter>
 
 );
 
@@ -35,12 +35,14 @@ const orderContainer = new OrderContainer();
 const shopOrderCondition = new ShopOrderCondition();
 const withdrawOrderContainer = new WithdrawOrderContainer();
 const withdrawOrderCondition = new WithdrawOrderCondition();
+const openShopContainer = new OpenShopContainer();
 
 const stores = {
     orderContainer,
     shopOrderCondition,
     withdrawOrderContainer,
-    withdrawOrderCondition
+    withdrawOrderCondition,
+    openShopContainer
 };
 ReactDom.render(
     <Provider {...stores}>

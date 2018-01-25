@@ -3,6 +3,8 @@
  */
 import React, {Component} from 'react';
 import { Menu,Icon } from 'antd';
+const SubMenu = Menu.SubMenu;
+
 import {Link} from 'react-router-dom';
 import './homeMenuStyle.css';
 
@@ -15,22 +17,31 @@ class HomeMenuView extends Component{
                 <Menu theme="dark"
                       mode="inline"
                       defaultSelectedKeys={[defaultSelectedKey]}>
-                    <Menu.Item key="/order">
-                        <Link to="/order">
-                            <Icon type="profile" />
-                            <span>订单</span>
-                        </Link>
-                    </Menu.Item>
+                    <SubMenu key="sub1" title={<span><Icon type="profile" /><span>订单</span></span>}>
+                        <Menu.Item key="/clientOrder">
+                            <Link to="/clientOrder">
+                                <Icon type="file" />
+                                <span>用户订单</span>
+                            </Link>
+                        </Menu.Item>
+
+                        <Menu.Item key="/merchantOrder">
+                            <Link to="/merchantOrder">
+                                <Icon type="file-text" />
+                                <span>进货订单</span>
+                            </Link>
+                        </Menu.Item>
+                    </SubMenu>
                     <Menu.Item key="/withdraw">
                         <Link to="/withdraw">
                             <Icon type="pay-circle-o" />
                             <span>提现</span>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="3">
-                        <Link to="/order">
+                    <Menu.Item key="openShop">
+                        <Link to="/openShop">
                             <Icon type="user" />
-                            <span>账户</span>
+                            <span>审核</span>
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="4">
