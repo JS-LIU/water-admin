@@ -32,12 +32,21 @@ class HomeMenuView extends Component{
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-                    <Menu.Item key="/withdraw">
-                        <Link to="/withdraw">
-                            <Icon type="pay-circle-o" />
-                            <span>提现</span>
-                        </Link>
-                    </Menu.Item>
+                    <SubMenu key="sub2" title={<span><Icon type="pay-circle-o" /><span>财务</span></span>}>
+                        <Menu.Item key="/withdraw">
+                            <Link to="/withdraw">
+                                <Icon type="bank" />
+                                <span>提现订单</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/accountList">
+                            <Link to="/accountList">
+                                <Icon type="solution" />
+                                <span>账户列表</span>
+                            </Link>
+                        </Menu.Item>
+                    </SubMenu>
+
                     <Menu.Item key="openShop">
                         <Link to="/openShop">
                             <Icon type="user" />

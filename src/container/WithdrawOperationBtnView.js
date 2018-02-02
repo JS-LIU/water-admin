@@ -61,9 +61,20 @@ import {observer,inject} from 'mobx-react';
                     onCancel={this.handleCancel.bind(this)}
                     onOk={this.handleOk.bind(this)}
                     okText="确定"
-                    cancelText="我要后悔（取消）"
-                >
+                    cancelText="我要后悔（取消）">
                     {this.props.withdrawOrderContainer.isAllow === "allow"?<div>
+                        <div>
+                            <div style={{background:this.props.orderItem.cardInfo.bankKind.bgColor}}>
+                                <div>
+                                    <img src={this.props.orderItem.cardInfo.bankKind.small_icon} alt=""/>
+                                </div>
+                                <div>{this.props.orderItem.cardInfo.bankKind.bankName}</div>
+                            </div>
+                            银行卡信息：
+                            银行卡卡号：{this.props.orderItem.cardInfo.cardNo}
+                            持卡人姓名：{this.props.orderItem.cardInfo.holderName}
+                        </div>
+
                             <FormItem label="转账流水号">
                                 <Input placeholder="转账流水号" onChange={this.inputJournalAccountNum.bind(this)}/>
                             </FormItem>

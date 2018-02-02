@@ -28,7 +28,8 @@ class WithdrawOrderContainer{
             merchantName: "提现店铺",
             cashMount:"提现金额",
             currentMount:"账户余额",
-            realRmbMount:"实际打款金额"
+            realRmbMount:"实际打款金额",
+            accountId:"账户ID"
         };
     }
     @observable _orderInfo = {content:[]};

@@ -41,6 +41,7 @@ module.exports = {
     devServer: {
         host: "0.0.0.0",
         disableHostCheck: true,
+        port:"9999",
         proxy:{
             "**":{
                 target: 'http://127.0.0.1:9931/',
