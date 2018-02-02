@@ -23,7 +23,9 @@ class OrderContainer{
         this._startDelivery = function(postInfo){
             return orderAjax.save({action:"startDelivery"},postInfo)
         };
-
+        this._setToTestOrder = function(postInfo){
+            return orderAjax.save({action:"setToTestOrder"},postInfo)
+        };
         this._pagination = new Pagination(10);
         this.queryInfoMsg = {};
         this.columnConfig = {
@@ -59,6 +61,16 @@ class OrderContainer{
             alert("派送失败");
         })
     }
+
+    @action setToTestOrder(orderItem){
+        console.log(orderItem)
+        this._setToTestOrder({orderId:orderItem.orderId}).then(function () {
+            console.log("ok");
+        }).catch(function () {
+            alert("找强哥解决一下");
+        })
+    }
+
     @action getOrderInfo(pageNumber = 1,orderSrc){
         this._pagination.setPage(pageNumber);
         let msg = this.queryInfoMsg;
