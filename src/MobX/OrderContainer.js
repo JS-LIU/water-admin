@@ -25,7 +25,9 @@ class OrderContainer{
         };
         this._setToTestOrder = function(postInfo){
             return orderAjax.save({action:"setToTestOrder"},postInfo)
-        };
+        }.before((postInfo)=>{
+            postInfo.password = "123";
+        });
         this._pagination = new Pagination(10);
         this.queryInfoMsg = {};
         this.columnConfig = {
@@ -63,11 +65,27 @@ class OrderContainer{
     }
 
     @action setToTestOrder(orderItem){
-        console.log(orderItem)
-        this._setToTestOrder({orderId:orderItem.orderId}).then(function () {
-            console.log("ok");
-        }).catch(function () {
-            alert("找强哥解决一下");
+        this._loading = true;
+
+        this._setToTestOrder({orderId:orderItem.orderId}).then(()=> {
+            let msg = this.queryInfoMsg;
+            let postInfo = Object.assign(this.pagination.info,{
+                queryInfoMsg:msg
+            });
+            this._getOrderInfo(postInfo).then((info)=>{
+                this._orderInfo = info;
+                this._pagination.setTotal(info.totalElements);
+                this._loading = false;
+            })
+
+        }).catch((data)=> {
+            console.log("data:",data);
+            this._loading = false;
+            if(data.responseJSON.message === "没有权限"){
+                alert(data.responseJSON.message);
+            }else{
+                alert("找强哥解决一下");
+            }
         })
     }
 

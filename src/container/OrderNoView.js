@@ -48,6 +48,7 @@ class TextView extends Component{
     setToTestOrder(orderItem){
         return ()=>{
             // console.log(orderItem);
+            this.handleCancel();
             this.props.orderContainer.setToTestOrder(orderItem)
         }
     }
