@@ -2,6 +2,7 @@
  * Created by LDQ on 2017/12/27
  */
 import React, {Component} from 'react'
+import {observer,inject} from 'mobx-react';
 import { Modal, Button,List } from 'antd';
 
 class TextView extends Component{
@@ -19,8 +20,8 @@ class TextView extends Component{
         )
     }
 }
-
-class OrderNoView extends Component{
+@inject(['orderContainer'])
+@observer class OrderNoView extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -33,8 +34,6 @@ class OrderNoView extends Component{
         for(let i = 0;i < productItemList.length;i++){
             this.data.push( productItemList[i].name);
         }
-
-
     }
     handleCancel(e){
         this.setState({
@@ -45,6 +44,13 @@ class OrderNoView extends Component{
         this.setState({
             visible: true,
         });
+    }
+    setToTestOrder(orderItem){
+        return ()=>{
+            // console.log(orderItem);
+            this.handleCancel();
+            this.props.orderContainer.setToTestOrder(orderItem)
+        }
     }
     render(){
         let productNodes = this.props.orderItem.productItems.map((item,index)=>{
@@ -86,6 +92,9 @@ class OrderNoView extends Component{
                             <div>收货地址：{this.props.orderItem.deliveryAddress}</div>
                         </div>
 
+                        <a onClick={this.setToTestOrder(this.props.orderItem)}>
+                            置为测试订单
+                        </a>
                     </div>
 
                 </Modal>
