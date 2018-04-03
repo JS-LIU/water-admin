@@ -15,7 +15,9 @@ class OpenShopContainer{
         this._getAuditList = function (postInfo) {
             return auditAjax.save({action:'getWaitingPermissionList'}, postInfo)
         };
-
+        this._setRemark = function(postInfo){
+            return auditAjax.save({action:"setShopArtificialInfo"},postInfo);
+        };
         this._allowAudit = function(postInfo){
             return auditAjax.save({action:"passStatus"},postInfo)
         };
@@ -35,6 +37,9 @@ class OpenShopContainer{
 
     @observable _pagination;
     @observable _loading = false;
+    @observable _customerName = "";
+    @observable _customerCode = "";
+    @observable _isCooperation = true;
     @computed get pagination(){
         return this._pagination;
     }
@@ -87,6 +92,25 @@ class OpenShopContainer{
         });
     }
 
+    @action setCustomerName(name){
+        this._customerName = name;
+    }
+    @action setCustomerCode(code){
+        this._customerCode = code;
+    }
+    @action setCooperation(isCooperation){
+        this._isCooperation = isCooperation;
+    }
+    @action setRemark(shopId){
+        let postInfo = {
+            shopId:shopId,
+            shopArtificialNum:this._customerName,
+            shopAlias:this._customerCode,
+            collaborate:this._isCooperation
+        };
+        this._setRemark(postInfo)
+    }
+
     /**
      * 通过审核
      * @param merchantId
@@ -112,5 +136,6 @@ class OpenShopContainer{
     @computed get loading(){
         return this._loading;
     }
+
 }
 module.exports = OpenShopContainer;
