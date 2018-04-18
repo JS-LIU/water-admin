@@ -64,15 +64,21 @@ import {observer,inject} from 'mobx-react';
                     cancelText="我要后悔（取消）">
                     {this.props.withdrawOrderContainer.isAllow === "allow"?<div>
                         <div>
-                            <div style={{background:this.props.orderItem.cardInfo.bankKind.bgColor}}>
-                                <div>
+                            <div style={{background:this.props.orderItem.cardInfo.bankKind.bgColor,display: 'flex',width: '20rem',borderRadius: '0.3rem',alignItems: 'center'}}>
+                                <div style={{padding:'0.6rem'}}>
                                     <img src={this.props.orderItem.cardInfo.bankKind.small_icon} alt=""/>
                                 </div>
-                                <div>{this.props.orderItem.cardInfo.bankKind.bankName}</div>
+                                <div style={{display:'flex',flexDirection:"column",justifyContent:"center",color:"#fff",}}>
+                                    <div style={{fontSize:"1.6rem"}}>{this.props.orderItem.cardInfo.bankKind.bankName}</div>
+                                    <div>
+                                        银行卡卡号：{this.props.orderItem.cardInfo.cardNo}
+                                        持卡人姓名：{this.props.orderItem.cardInfo.holderName}
+                                    </div>
+
+                                </div>
+
                             </div>
-                            银行卡信息：
-                            银行卡卡号：{this.props.orderItem.cardInfo.cardNo}
-                            持卡人姓名：{this.props.orderItem.cardInfo.holderName}
+
                         </div>
 
                             <FormItem label="转账流水号">
