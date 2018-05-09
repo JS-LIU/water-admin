@@ -44,8 +44,7 @@ module.exports = {
         port:"9999",
         proxy:{
             "**":{
-                target: 'http://127.0.0.1:9931/',
-                // target: 'localhost:8080',
+                target: 'http://123.57.161.212:9931',
                 secure: false,
                 bypass: function (req, res, proxyOptions) {
                     if (req.headers.accept.indexOf('html') !== -1) {

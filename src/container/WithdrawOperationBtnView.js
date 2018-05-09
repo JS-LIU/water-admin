@@ -70,9 +70,9 @@ import {observer,inject} from 'mobx-react';
                                 </div>
                                 <div style={{display:'flex',flexDirection:"column",justifyContent:"center",color:"#fff",}}>
                                     <div style={{fontSize:"1.6rem"}}>{this.props.orderItem.cardInfo.bankKind.bankName}</div>
-                                    <div>
-                                        银行卡卡号：{this.props.orderItem.cardInfo.cardNo}
-                                        持卡人姓名：{this.props.orderItem.cardInfo.holderName}
+                                    <div style={{display:'flex',flexDirection:"column"}}>
+                                        <div>银行卡卡号：{this.props.orderItem.cardInfo.cardNo}</div>
+                                        <div>持卡人姓名：{this.props.orderItem.cardInfo.holderName}</div>
                                     </div>
 
                                 </div>
@@ -86,7 +86,7 @@ import {observer,inject} from 'mobx-react';
                             </FormItem>
                             <FormItem label="转账金额">
                                 <InputNumber
-                                    defaultValue={this.props.orderItem.cashMount}
+                                    defaultValue={0}
                                     formatter={value => `￥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                                     parser={value => value.replace(/\￥\s?|(,*)/g, '')}
                                     max={this.props.orderItem.cashMount > this.props.orderItem.currentMount?this.props.orderItem.currentMount:this.props.orderItem.cashMount}

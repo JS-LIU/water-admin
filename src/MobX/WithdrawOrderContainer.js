@@ -81,6 +81,8 @@ class WithdrawOrderContainer{
         this._loading = true;
         this._getOrderInfo(postInfo).then((info)=>{
             this._orderInfo = info;
+            //  设置默认提现金额
+            // this.remarks = info.xx
             this._pagination.setTotal(info.totalElements);
             this._loading = false;
         }).catch(()=>{

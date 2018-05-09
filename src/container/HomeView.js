@@ -14,9 +14,11 @@ import {
 import HomeMenuView from './HomeMenuView';
 
 import WithdrawInfoView from './WithdrawInfoView';
-import ClientOrderView from './ClientOrderView';
+// import ClientOrderView from './ClientOrderView';
+import ClientOrderView from './order/ClientOrderView';
 import MerchantOrderView from './MerchantOrderView';
 import OpenShopView from './OpenShopView';
+import ShopListView from './ShopListView';
 
 import './homeStyle.css';
 
@@ -58,6 +60,7 @@ class HomeView extends Component{
                                 <Route path="/withdraw" component={WithdrawInfoView} />
                                 <Route path="/merchantOrder" component={MerchantOrderView} />
                                 <Route path="/openShop" component={OpenShopView} />
+                                <Route path="/shopList" component={ShopListView} />
                             </Switch>
                         </div>
                     </Content>

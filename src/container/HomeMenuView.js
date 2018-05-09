@@ -17,20 +17,32 @@ class HomeMenuView extends Component{
                 <Menu theme="dark"
                       mode="inline"
                       defaultSelectedKeys={[defaultSelectedKey]}>
-                    <SubMenu key="sub1" title={<span><Icon type="profile" /><span>订单</span></span>}>
+                    <SubMenu key="sub1" title={<span><Icon type="profile" /><span>用户订单</span></span>}>
                         <Menu.Item key="/clientOrder">
                             <Link to="/clientOrder">
                                 <Icon type="file" />
-                                <span>用户订单</span>
+                                <span>订单处理</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/orderQuery">
+                            <Link to="/clientOrder">
+                                <Icon type="file" />
+                                <span>订单查询</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/orderForms">
+                            <Link to="/clientOrder">
+                                <Icon type="file" />
+                                <span>订单报表</span>
                             </Link>
                         </Menu.Item>
 
-                        <Menu.Item key="/merchantOrder">
-                            <Link to="/merchantOrder">
-                                <Icon type="file-text" />
-                                <span>进货订单</span>
-                            </Link>
-                        </Menu.Item>
+                        {/*<Menu.Item key="/merchantOrder">*/}
+                            {/*<Link to="/merchantOrder">*/}
+                                {/*<Icon type="file-text" />*/}
+                                {/*<span>进货订单</span>*/}
+                            {/*</Link>*/}
+                        {/*</Menu.Item>*/}
                     </SubMenu>
                     <SubMenu key="sub2" title={<span><Icon type="pay-circle-o" /><span>财务</span></span>}>
                         <Menu.Item key="/withdraw">
@@ -54,7 +66,7 @@ class HomeMenuView extends Component{
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="4">
-                        <Link to="/order" >
+                        <Link to="/shopList" >
                             <Icon type="shop" />
                             <span>商家</span>
                         </Link>
