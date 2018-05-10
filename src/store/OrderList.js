@@ -5,13 +5,13 @@
 import {observable, computed,action,autorun} from "mobx";
 import _h from '../Util/HB';
 import Pagination from './Pagination';
-class Order{
+class OrderList{
     constructor(){
 
-        let orderAjax = _h.ajax.resource('/admin/order/:action');
+        let orderListAjax = _h.ajax.resource('/admin/order/:action');
 
-        this._getOrderInfo = function (postInfo) {
-            return orderAjax.save({action:'list'}, postInfo)
+        this._getOrderListInfo = function (postInfo) {
+            return orderListAjax.save({action:'list'}, postInfo)
         };
         this.queryMsg = {};
         this.pagination = new Pagination(10);
@@ -20,10 +20,10 @@ class Order{
     /**
      * 获取订单信息
      */
-    getOrderData(queryInfoMsg) {
+    getOrderListData(queryInfoMsg) {
         console.log(this.pagination.info);
         let postInfo = Object.assign({queryInfoMsg:queryInfoMsg},this.pagination.info);
-        return this._getOrderInfo(postInfo)
+        return this._getOrderListInfo(postInfo)
     }
 
     /**
@@ -43,4 +43,4 @@ class Order{
         this.queryMsg = queryMsg;
     }
 }
-module.exports = Order;
+module.exports = OrderList;

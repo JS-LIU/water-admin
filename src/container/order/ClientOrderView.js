@@ -7,14 +7,13 @@ import {observer,inject} from 'mobx-react';
 // import OrderView from './OrderView';
 import ClientOrderHeaderStyle from './css/ClientOrderHeaderStyle.css';
 import huipayTableStyle from '../../Util/huipayAdminStyle/huipayTableStyle.css';
-import ClientOrder from '../../store/ClientOrder';
+import ClientOrderList from '../../store/ClientOrderList';
 
 // @inject(['order'])
 class ClientOrderView extends Component{
     componentWillMount(){
-        // this.props.clientOrder.getOrderData()
-        this.clientOrder = new ClientOrder();
-        this.clientOrder.getOrder()
+        this.clientOrderList = new ClientOrderList();
+        this.clientOrderList.getOrderList()
     }
     render(){
 
