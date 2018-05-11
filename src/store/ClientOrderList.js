@@ -28,14 +28,26 @@ class ClientOrderList extends OrderList{
      */
     @action getOrderList(){
         let queryInfoMsg = this._getQueryInfo();
-        this.getOrderListData(queryInfoMsg).then((orderInfo)=>{
-            this._clientOrderList = [];
-            this._clientOrderList.push(new ClientOrder(orderInfo));
+        this.getOrderListData(queryInfoMsg).then((orderContainer)=>{
+            let orderList = orderContainer.content;
+            for(let i = 0;i < orderList.length; i++){
+                this._orderList.push(new ClientOrder(orderList[i]));
+            }
         });
     }
-    @observable _clientOrderList = [];
-    @computed get clientOrderList(){
-        return this._clientOrderList;
+    @action selectedOrder(order){
+        this._setActiveOrder(order)
+    }
+    _setActiveOrder(order){
+        this._activeOrder = order;
+    }
+    @observable _activeOrder;
+    @computed get activeOrder(){
+        return this._activeOrder;
+    }
+    @observable _orderList = [];
+    @computed get orderList(){
+        return this._orderList;
     }
 }
 

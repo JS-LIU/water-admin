@@ -1,3 +1,4 @@
+import {observable, computed,action,autorun} from "mobx";
 class ClientOrder {
     constructor(orderInfo){
         this.orderInfo = orderInfo;

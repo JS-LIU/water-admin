@@ -1,0 +1,7 @@
+.order_item{
+    display:flex;
+}
+.order_product_list{
+    display:flex;
+    flex-direction: column;
+}
