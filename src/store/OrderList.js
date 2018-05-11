@@ -18,7 +18,7 @@ class OrderList{
     }
 
     /**
-     * 获取订单信息
+     * 获取订单列表数据
      */
     getOrderListData(queryInfoMsg) {
         console.log(this.pagination.info);
