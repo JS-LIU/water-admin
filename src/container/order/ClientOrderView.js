@@ -132,14 +132,19 @@ class ClientOrderHeaderView extends Component{
 
 @observer class ClientOrderDetailView extends Component{
     render() {
-        console.log(this.props.clientOrderList.activeOrder);
+        let orderDetail = this.props.clientOrderList.activeOrder.orderDetail;
+
         return (
             <div>
-                详情
+                <div>订单详情</div>
+                <ul>
+                    <li>
+                        <span>订单号：{orderDetail.orderNo}</span>
+                    </li>
+                </ul>
             </div>
         )
     }
-
 }
 
 

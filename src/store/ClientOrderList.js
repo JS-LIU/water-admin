@@ -32,16 +32,32 @@ class ClientOrderList extends OrderList{
             let orderList = orderContainer.content;
             for(let i = 0;i < orderList.length; i++){
                 this._orderList.push(new ClientOrder(orderList[i]));
+                this._setActiveOrder();             //  默认第一条订单被选中
             }
         });
     }
+
+    /**
+     * 选择订单
+     * @param order
+     */
     @action selectedOrder(order){
         this._setActiveOrder(order)
     }
+
+    /**
+     * 选择订单
+     * @param order
+     * @returns {order}
+     * @private
+     */
     _setActiveOrder(order){
-        this._activeOrder = order;
+        if(!order){
+            return this._activeOrder = this._orderList[0];
+        }
+        return this._activeOrder = order;
     }
-    @observable _activeOrder;
+    @observable _activeOrder = new ClientOrder({});
     @computed get activeOrder(){
         return this._activeOrder;
     }

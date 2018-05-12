@@ -1,7 +1,9 @@
+/**
+ * Created by LDQ on 2018/5/12
+ */
 import {observable, computed,action,autorun} from "mobx";
-import OrderDetail from './OrderDetail';
-class ClientOrder {
-    constructor(orderInfo){
+class OrderDetail {
+    constructor(orderInfo) {
         this.orderInfo = orderInfo;
         this.orderId = orderInfo.orderId;
         this.orderNo = orderInfo.orderNo;
@@ -19,21 +21,5 @@ class ClientOrder {
         this.shopAlias = orderInfo.shopAlias;
         this.shopId = orderInfo.shopId;
     }
-    dispatchOrder(){
-
-    }
-
-
-    // @action getOrderDetail(){
-    //     // this._orderDetail = new OrderDetail(this.orderInfo);
-    // }
-    @observable _orderDetail = this.orderInfo;
-    @computed get orderDetail(){
-        return new OrderDetail(this._orderDetail);
-    }
-    getCanDeliveryMerchantList(){
-
-    }
 }
-
-module.exports = ClientOrder;
+module.exports = OrderDetail;
