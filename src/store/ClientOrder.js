@@ -1,4 +1,5 @@
 import {observable, computed, action, autorun} from "mobx";
+import _h from '../Util/HB';
 import OrderDetail from './OrderDetail';
 import MerchantShop from './MerchantShop';
 
@@ -17,7 +18,6 @@ class ClientOrder {
         this.totalPrice = orderInfo.totalPrice;
         this.payChannel = orderInfo.payChannel;
 
-
         this.deliveryShop = new MerchantShop({
             longitude: orderInfo.longitude,
             latitude: orderInfo.latitude,
@@ -30,6 +30,7 @@ class ClientOrder {
             cityName: orderInfo.cityName
         });
 
+
     }
 
     dispatchOrder() {
@@ -39,10 +40,6 @@ class ClientOrder {
     @observable _orderDetail = this.orderInfo;
     @computed get orderDetail() {
         return new OrderDetail(this._orderDetail);
-    }
-
-    getCanDeliveryMerchantList() {
-
     }
 }
 

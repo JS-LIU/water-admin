@@ -5,3 +5,7 @@
     display:flex;
     flex-direction: column;
 }
+.client_order_bottom{
+    display:flex;
+    flex-direction: row;
+}

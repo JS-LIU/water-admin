@@ -20,8 +20,9 @@ import ClientOrderList from '../../store/ClientOrderList';
         return(
             <div>
                 <ClientOrderListContainerView clientOrderList={this.clientOrderList}/>
-                <div>
+                <div className='client_order_bottom'>
                     <ClientOrderDetailView clientOrderList={this.clientOrderList}/>
+                    <DeliveryMerchantListView clientOrderList={this.clientOrderList}/>
                 </div>
             </div>
         )
@@ -91,6 +92,7 @@ class ClientOrderHeaderView extends Component{
     selectedOrder(order){
         return()=>{
             this.props.clientOrderList.selectedOrder(order);
+            // this.props.clientOrderList.
         }
     }
     render(){
@@ -117,7 +119,7 @@ class ClientOrderHeaderView extends Component{
                     <span>{order.deliveryAddress}</span>
                     <span>{order.totalPrice}</span>
                     <span>{order.status}</span>
-                    <span>{order.shopName}</span>
+                    <span>{order.deliveryShop.shopName}</span>
                 </li>
             )
         });
@@ -148,8 +150,11 @@ class ClientOrderHeaderView extends Component{
 }
 
 
-class DeliveryMerchant extends Component{
+@observer class DeliveryMerchantListView extends Component{
+
     render(){
+        // let merchant = this.props.clientOrderList.activeOrder
+
         return (
             <div>
                 haha
