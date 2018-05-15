@@ -14,21 +14,20 @@ class MerchantShop{
         this.shopArtificialNum = info.shopArtificialNum;
         this.shopId = info.shopId;
         this.cityName = info.cityName;
-        let merchantListAjax = _h.ajax.resource('/admin/order/:action');
-        this._getNearMerchantList = function (postInfo) {
-            return merchantListAjax.save({action:'assignShopList'}, postInfo)
-        };
+
     }
 
-    @action getNearMerchantList() {
-        let self = this;
-        this._getNearMerchantList({
+    /**
+     * 获取店铺的定位信息
+     * @returns {{latitude: *, longtitude: *, cityName: *}}
+     */
+    getMerchantAddressInfo(){
+        return {
             latitude:this.latitude,
             longtitude:this.longitude,
             cityName:this.cityName
-        }).then((merchantList)=>{
-            console.log(merchantList);
-        })
+        }
     }
+
 }
 module.exports = MerchantShop;

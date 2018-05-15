@@ -30,7 +30,10 @@ class ClientOrder {
             cityName: orderInfo.cityName
         });
 
-
+        let merchantListAjax = _h.ajax.resource('/admin/order/:action');
+        this._getNearMerchantList = function (postInfo) {
+            return merchantListAjax.save({action:'assignShopList'}, postInfo)
+        };
     }
 
     dispatchOrder() {
@@ -40,6 +43,19 @@ class ClientOrder {
     @observable _orderDetail = this.orderInfo;
     @computed get orderDetail() {
         return new OrderDetail(this._orderDetail);
+    }
+
+
+    /**
+     * 找到附近可以配送的店铺
+     */
+    @action getNearMerchantList() {
+
+        //  根据订单状态判断是否可以重置派送店铺
+        let addressInfo = this.deliveryShop.getMerchantAddressInfo();
+        this._getNearMerchantList(addressInfo).then((merchantList)=>{
+            console.log(merchantList);
+        })
     }
 }
 

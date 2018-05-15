@@ -153,8 +153,9 @@ class ClientOrderHeaderView extends Component{
 @observer class DeliveryMerchantListView extends Component{
 
     render(){
-        // let merchant = this.props.clientOrderList.activeOrder
+        let activeOrder = this.props.clientOrderList.activeOrder;
 
+        activeOrder.getNearMerchantList();
         return (
             <div>
                 haha
