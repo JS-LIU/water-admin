@@ -2,7 +2,6 @@ import {observable, computed, action, autorun} from "mobx";
 import _h from '../Util/HB';
 import OrderDetail from './OrderDetail';
 import MerchantShop from './MerchantShop';
-
 class ClientOrder {
     constructor(orderInfo) {
         this.orderInfo = orderInfo;
@@ -30,10 +29,6 @@ class ClientOrder {
             cityName: orderInfo.cityName
         });
 
-        let merchantListAjax = _h.ajax.resource('/admin/order/:action');
-        this._getNearMerchantList = function (postInfo) {
-            return merchantListAjax.save({action:'assignShopList'}, postInfo)
-        };
     }
 
     dispatchOrder() {
@@ -44,19 +39,11 @@ class ClientOrder {
     @computed get orderDetail() {
         return new OrderDetail(this._orderDetail);
     }
-
-
-    /**
-     * 找到附近可以配送的店铺
-     */
-    @action getNearMerchantList() {
-
-        //  根据订单状态判断是否可以重置派送店铺
-        let addressInfo = this.deliveryShop.getMerchantAddressInfo();
-        this._getNearMerchantList(addressInfo).then((merchantList)=>{
-            console.log(merchantList);
-        })
+    @observable _merchantShop = this.deliveryShop;
+    @computed get merchantShop(){
+        return this._merchantShop;
     }
+
 }
 
 module.exports = ClientOrder;

@@ -25,7 +25,7 @@ class MerchantShop{
         return {
             latitude:this.latitude,
             longtitude:this.longitude,
-            cityName:"北京市"
+            cityName:this.cityName
         }
     }
 

@@ -9,11 +9,12 @@ import ClientOrderHeaderStyle from './css/ClientOrderHeaderStyle.css';
 import clientOrderStyle from './css/orderStyle.css';
 import huipayTableStyle from '../../Util/huipayAdminStyle/huipayTableStyle.css';
 import ClientOrderList from '../../store/ClientOrderList';
-
+import MerchantListContainer from '../../store/MerchantListContainer';
 // @inject(['order'])
 @observer class ClientOrderView extends Component{
     componentWillMount(){
         this.clientOrderList = new ClientOrderList();
+        this.merchantListContainer = new MerchantListContainer();
     }
     render(){
 
@@ -22,7 +23,7 @@ import ClientOrderList from '../../store/ClientOrderList';
                 <ClientOrderListContainerView clientOrderList={this.clientOrderList}/>
                 <div className='client_order_bottom'>
                     <ClientOrderDetailView clientOrderList={this.clientOrderList}/>
-                    <DeliveryMerchantListView clientOrderList={this.clientOrderList}/>
+                    <DeliveryMerchantListView clientOrderList={this.clientOrderList} merchantListContainer={this.merchantListContainer}/>
                 </div>
             </div>
         )
@@ -151,19 +152,33 @@ class ClientOrderHeaderView extends Component{
 
 
 @observer class DeliveryMerchantListView extends Component{
-
     render(){
-        let activeOrder = this.props.clientOrderList.activeOrder;
-
-        activeOrder.getNearMerchantList();
+        let merchantShop = this.props.clientOrderList.activeOrder.merchantShop;
+        this.props.merchantListContainer.getNearMerchantList(merchantShop);
         return (
             <div>
-                haha
+                <MerchantListView merchantListContainer={this.props.merchantListContainer} />
             </div>
         )
     }
 }
 
+@observer class MerchantListView extends Component{
+    render(){
+        let merchantShopNodes = this.props.merchantListContainer.merchantList.map((merchantShop,i)=>{
+            return (
+                <li key={i}>
+                    {merchantShop.shopName}
+                </li>
+            )
+        });
+        return(
+            <ul>
+                {merchantShopNodes}
+            </ul>
+        )
+    }
 
+}
 
 module.exports = ClientOrderView;
