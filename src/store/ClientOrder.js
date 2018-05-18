@@ -29,10 +29,20 @@ class ClientOrder {
             cityName: orderInfo.cityName
         });
 
+        let clientOrderAjax = _h.ajax.resource('/admin/order/:action');
+        this._redirectClientOrder = function(postInfo){
+            return clientOrderAjax.save({action:"redirectShopOrder"},postInfo);
+        }
     }
 
-    dispatchOrder() {
-
+    dispatchOrder(merchantShop) {
+        let postInfo = {
+            shopId: merchantShop.shopId,
+            shopOrderId: this.orderId
+        };
+        this._redirectClientOrder(postInfo).then((data)=>{
+            console.log(data);
+        });
     }
 
     @observable _orderDetail = this.orderInfo;

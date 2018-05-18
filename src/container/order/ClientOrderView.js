@@ -164,11 +164,19 @@ class ClientOrderHeaderView extends Component{
 }
 
 @observer class MerchantListView extends Component{
+    dispatchOrder(merchantShop){
+        return ()=>{
+
+            console.log(merchantShop);
+            this.props.orderList.activeOrder.dispatchOrder(merchantShop);
+        }
+    }
     render(){
         let merchantShopNodes = this.props.merchantListContainer.merchantList.map((merchantShop,i)=>{
             return (
                 <li key={i}>
-                    {merchantShop.shopName}
+                    <span>{merchantShop.shopName}</span>
+                    <span onClick={this.redirectOrder(merchantShop)}>确认派单</span>
                 </li>
             )
         });
