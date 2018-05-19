@@ -157,7 +157,7 @@ class ClientOrderHeaderView extends Component{
         this.props.merchantListContainer.getNearMerchantList(merchantShop);
         return (
             <div>
-                <MerchantListView merchantListContainer={this.props.merchantListContainer} />
+                <MerchantListView merchantListContainer={this.props.merchantListContainer} activeOrder={this.props.clientOrderList.activeOrder}/>
             </div>
         )
     }
@@ -168,7 +168,7 @@ class ClientOrderHeaderView extends Component{
         return ()=>{
 
             console.log(merchantShop);
-            this.props.orderList.activeOrder.dispatchOrder(merchantShop);
+            this.props.activeOrder.dispatchOrder(merchantShop);
         }
     }
     render(){
@@ -176,7 +176,7 @@ class ClientOrderHeaderView extends Component{
             return (
                 <li key={i}>
                     <span>{merchantShop.shopName}</span>
-                    <span onClick={this.redirectOrder(merchantShop)}>确认派单</span>
+                    <span onClick={this.dispatchOrder(merchantShop)}>确认派单</span>
                 </li>
             )
         });
