@@ -2,7 +2,7 @@ import _h from "../Util/HB";
 import Pagination from "./Pagination";
 import {observable, computed,action,autorun} from "mobx";
 import MerchantShop from './MerchantShop';
-
+import clientOrderList from './ClientOrderList';
 /**
  * Created by LDQ on 2018/5/16
  */
@@ -35,12 +35,11 @@ class MerchantListContainer{
 
     /**
      * 找到附近可以配送的店铺(按条件查询数据：接口不同)
-     * @param merchant
      */
-    @action getNearMerchantList(merchant) {
-
+    @action getNearMerchantList() {
+        let activeMerchant = clientOrderList.activeOrder.deliveryShop;
         //  根据订单状态判断是否可以重置派送店铺
-        let addressInfo = merchant.getMerchantAddressInfo();
+        let addressInfo = activeMerchant.getMerchantAddressInfo();
         this._getNearMerchantList(addressInfo).then((merchantList)=>{
             this._merchantList = [];
             if(merchantList.length === 0){
@@ -98,4 +97,4 @@ class MerchantListContainer{
         this.queryMsg = queryMsg;
     }
 }
-module.exports = MerchantListContainer;
+module.exports = new MerchantListContainer();

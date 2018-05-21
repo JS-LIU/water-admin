@@ -6,7 +6,6 @@ import {observable, computed,action,autorun} from "mobx";
 import _h from '../Util/HB';
 import OrderList from './OrderList';
 import ClientOrder from './ClientOrder';
-
 class ClientOrderList extends OrderList{
     constructor(){
         super();
@@ -25,16 +24,23 @@ class ClientOrderList extends OrderList{
 
     /**
      * 获取订单列表
+     * @returns {Promise<any>}
      */
+
     @action getOrderList(){
         let queryInfoMsg = this._getQueryInfo();
-        this.getOrderListData(queryInfoMsg).then((orderContainer)=>{
-            let orderList = orderContainer.content;
-            for(let i = 0;i < orderList.length; i++){
-                this._orderList.push(new ClientOrder(orderList[i]));
-                this._setActiveOrder();             //  默认第一条订单被选中
-            }
-        });
+        return new Promise((resolve,reject)=>{
+            this.getOrderListData(queryInfoMsg).then((orderContainer)=>{
+                let orderList = orderContainer.content;
+                for(let i = 0;i < orderList.length; i++){
+                    this._orderList.push(new ClientOrder(orderList[i]));
+                    resolve(this._orderList);
+                }
+            }).catch((err)=>{
+                reject(err);
+            });
+        })
+
     }
 
     /**
@@ -42,7 +48,7 @@ class ClientOrderList extends OrderList{
      * @param order
      */
     @action selectedOrder(order){
-        this._setActiveOrder(order)
+        this._setActiveOrder(order);
     }
 
     /**
@@ -52,9 +58,7 @@ class ClientOrderList extends OrderList{
      * @private
      */
     _setActiveOrder(order){
-        if(!order){
-            return this._activeOrder = this._orderList[0];
-        }
+
         return this._activeOrder = order;
     }
     @observable _activeOrder = new ClientOrder({});
@@ -67,4 +71,5 @@ class ClientOrderList extends OrderList{
     }
 }
 
-module.exports = ClientOrderList;
+// module.exports = ClientOrderList;
+module.exports = new ClientOrderList();

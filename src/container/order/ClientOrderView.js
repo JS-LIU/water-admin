@@ -8,38 +8,59 @@ import {observer,inject} from 'mobx-react';
 import ClientOrderHeaderStyle from './css/ClientOrderHeaderStyle.css';
 import clientOrderStyle from './css/orderStyle.css';
 import huipayTableStyle from '../../Util/huipayAdminStyle/huipayTableStyle.css';
-import ClientOrderList from '../../store/ClientOrderList';
-import MerchantListContainer from '../../store/MerchantListContainer';
+import clientOrderList from '../../store/ClientOrderList';
+import merchantListContainer from '../../store/MerchantListContainer';
 // @inject(['order'])
 @observer class ClientOrderView extends Component{
-    componentWillMount(){
-        this.clientOrderList = new ClientOrderList();
-        this.merchantListContainer = new MerchantListContainer();
-    }
     render(){
 
         return(
             <div>
-                <ClientOrderListContainerView clientOrderList={this.clientOrderList}/>
+                <ClientOrderListContainerView />
                 <div className='client_order_bottom'>
-                    <ClientOrderDetailView clientOrderList={this.clientOrderList}/>
-                    <DeliveryMerchantListView clientOrderList={this.clientOrderList} merchantListContainer={this.merchantListContainer}/>
+                    <ClientOrderDetailView />
+                    <DeliveryMerchantListView />
                 </div>
             </div>
         )
     }
 }
 
+@observer class ClientOrderQueryInfoView extends Component{
+
+    queryByOrderNo(){
+        return ()=>{
+            let orderNo = this.props.refs.orderNo;
+            // this.clientOrderList.selectQueryMsg({orderNo:orderNo})
+        }
+    }
+    render(){
+        return(
+            <ul>
+                <li>
+                    <span>订单号：</span>
+                    <input type="text" ref="orderNo"/>
+                    <span onClick={this.queryByOrderNo}>查询</span>
+                </li>
+
+            </ul>
+        )
+    }
+}
 
 class ClientOrderListContainerView extends Component{
     componentWillMount(){
-        this.props.clientOrderList.getOrderList();
+        clientOrderList.getOrderList().then(()=>{
+            clientOrderList.selectedOrder(clientOrderList.orderList[0]);
+            merchantListContainer.getNearMerchantList()
+        });
+
     }
     render(){
         return(
             <div>
-                <ClientOrderListQueryView clientOrderList={this.props.clientOrderList}/>
-                <ClientOrderListView clientOrderList={this.props.clientOrderList}/>
+                <ClientOrderListQueryView />
+                <ClientOrderListView />
             </div>
         )
     }
@@ -58,7 +79,7 @@ class ClientOrderListView extends Component{
         return (
             <div className="huipay_table order_table">
                 <ClientOrderHeaderView />
-                <ClientOrderListBodyView clientOrderList={this.props.clientOrderList}/>
+                <ClientOrderListBodyView />
             </div>
         )
     }
@@ -92,12 +113,11 @@ class ClientOrderHeaderView extends Component{
     }
     selectedOrder(order){
         return()=>{
-            this.props.clientOrderList.selectedOrder(order);
-            // this.props.clientOrderList.
+            clientOrderList.selectedOrder(order);
         }
     }
     render(){
-        let orderList = this.props.clientOrderList.orderList;
+        let orderList = clientOrderList.orderList;
         let clientOrderItemNodes = orderList.map((order,i)=>{
             let productItemNodes = order.productItems.map((product,j)=>{
                 return (
@@ -135,7 +155,7 @@ class ClientOrderHeaderView extends Component{
 
 @observer class ClientOrderDetailView extends Component{
     render() {
-        let orderDetail = this.props.clientOrderList.activeOrder.orderDetail;
+        let orderDetail = clientOrderList.activeOrder.orderDetail;
 
         return (
             <div>
@@ -152,27 +172,17 @@ class ClientOrderHeaderView extends Component{
 
 
 @observer class DeliveryMerchantListView extends Component{
-    render(){
-        let merchantShop = this.props.clientOrderList.activeOrder.merchantShop;
-        this.props.merchantListContainer.getNearMerchantList(merchantShop);
-        return (
-            <div>
-                <MerchantListView merchantListContainer={this.props.merchantListContainer} activeOrder={this.props.clientOrderList.activeOrder}/>
-            </div>
-        )
+    constructor(){
+        super();
     }
-}
-
-@observer class MerchantListView extends Component{
     dispatchOrder(merchantShop){
         return ()=>{
-
-            console.log(merchantShop);
-            this.props.activeOrder.dispatchOrder(merchantShop);
+            clientOrderList.activeOrder.dispatchOrder(merchantShop);
         }
     }
     render(){
-        let merchantShopNodes = this.props.merchantListContainer.merchantList.map((merchantShop,i)=>{
+
+        let merchantShopNodes = merchantListContainer.merchantList.map((merchantShop,i)=>{
             return (
                 <li key={i}>
                     <span>{merchantShop.shopName}</span>
@@ -180,13 +190,25 @@ class ClientOrderHeaderView extends Component{
                 </li>
             )
         });
-        return(
+        return (
             <ul>
                 {merchantShopNodes}
             </ul>
         )
     }
-
 }
+//
+// @observer class MerchantListView extends Component{
+//
+//     render(){
+//
+//         return(
+//             <ul>
+//                 {merchantShopNodes}
+//             </ul>
+//         )
+//     }
+//
+// }
 
 module.exports = ClientOrderView;
