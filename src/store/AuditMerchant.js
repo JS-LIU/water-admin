@@ -16,16 +16,26 @@ class AuditMerchant{
         this.managerName = auditMerchantInfo.userName;          //  店长姓名
         this.managerTel = auditMerchantInfo.telePhone;          //  联系人电话
         this.managerImgUrl = auditMerchantInfo.idCardImageUrl;  //  手持身份证照片
-        this.auditStatus = AuditMerchant.convertToAuditStatus(auditMerchantInfo.merchantStatus);    //  审核状态
-        this.operate = this.auditStatus.operate;                //  操作
+
+        this._auditStatus = auditMerchantInfo.merchantStatus;   //  审核状态
+
 
         this.shopId = auditMerchantInfo.shopId;
         let auditAjax = _h.ajax.resource('/admin/merchant/:action');
         this._getDetail = function(){
             auditAjax.query({action:'productList/'+this.shopId});
+        };
+        this._allow = function(postInfo){
+            auditAjax.save({action:'/passStatus'},postInfo);
+        };
+        this._notAllow = function(){
+
         }
     }
-
+    @observable _auditStatus;
+    @computed get auditStatus(){
+        return AuditMerchant.convertToAuditStatus(this._auditStatus);
+    }
     /**
      * 审核状态
      * @param status
@@ -44,19 +54,25 @@ class AuditMerchant{
      */
     getDetail(){
         this._getDetail().then((merchantDetail)=>{
-
+            this._merchantDetail = merchantDetail;
         })
     }
     @observable _merchantDetail;
     @computed get merchantDetail(){
-
+        return this._merchantDetail;
     }
     //
     allow(){
-
+        return this._allow({shopId:this.shopId})
     }
-    notAllow(){
 
+    notAllow(){
+        this._notAllow({shopId:this.shopId}).then(()=>{
+            this._setToNotAllowStatus();
+        })
+    }
+    _setToNotAllowStatus(){
+        this._auditStatus = "未通过";
     }
 }
 module.exports = AuditMerchant;
