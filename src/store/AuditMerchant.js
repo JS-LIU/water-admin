@@ -23,13 +23,13 @@ class AuditMerchant{
         this.shopId = auditMerchantInfo.shopId;
         let auditAjax = _h.ajax.resource('/admin/merchant/:action');
         this._getDetail = function(){
-            auditAjax.query({action:'productList/'+this.shopId});
+            return auditAjax.query({action:'productList/'+this.shopId});
         };
         this._allow = function(postInfo){
-            auditAjax.save({action:'/passStatus'},postInfo);
+            return auditAjax.save({action:'/passStatus'},postInfo);
         };
-        this._notAllow = function(){
-
+        this._notAllow = function(postInfo){
+            return auditAjax.save({action:'/refuseStatus'},postInfo);
         }
     }
     @observable _auditStatus;
@@ -61,13 +61,20 @@ class AuditMerchant{
     @computed get merchantDetail(){
         return this._merchantDetail;
     }
-    //
+
+    /**
+     * 通过审核
+     * @returns {Promise}
+     */
     allow(){
-        return this._allow({shopId:this.shopId})
+        return this._allow({id:this.shopId})
     }
 
+    /**
+     * 拒绝审核
+     */
     notAllow(){
-        this._notAllow({shopId:this.shopId}).then(()=>{
+        this._notAllow({id:this.shopId}).then(()=>{
             this._setToNotAllowStatus();
         })
     }

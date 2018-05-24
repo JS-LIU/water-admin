@@ -77,6 +77,20 @@ class HomeMenuView extends Component{
                             <span>商品</span>
                         </Link>
                     </Menu.Item>
+                    <SubMenu key="sub3" title={<span><Icon type="pay-circle-o" /><span>测试</span></span>}>
+                        <Menu.Item key="/auditMerchantTest">
+                            <Link to="/auditMerchantTest">
+                                <Icon type="bank" />
+                                <span>店铺审核测试</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/accountList">
+                            <Link to="/accountList">
+                                <Icon type="solution" />
+                                <span>账户列表</span>
+                            </Link>
+                        </Menu.Item>
+                    </SubMenu>
                 </Menu>
             </div>
         )

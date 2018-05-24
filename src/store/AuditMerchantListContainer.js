@@ -13,7 +13,23 @@ class AuditMerchantListContainer{
         };
         this.queryMsg = {};
         this.pagination = new Pagination(10);
+        this.shopType = "waittingPermission";
+    }
 
+    /**
+     * 选择审核状态
+     * @param type:String
+     */
+    selectShopType(type){
+        this._setShopType(type);
+    }
+    _setShopType(type){
+        this.shopType = type;
+    }
+    _getQueryInfo(){
+        return Object.assign(this.queryMsg,{
+            queryType:this.shopType
+        });
     }
     selectQueryMsg(queryMsg){
         this._setQueryMsg(queryMsg);
@@ -22,8 +38,15 @@ class AuditMerchantListContainer{
         this.queryMsg = queryMsg;
     }
 
+
+    /**
+     * 获取店铺审核列表
+     * @param queryMsg
+     * @returns {Promise<any>}
+     */
     getAuditMerchantList(queryMsg) {
-        let postInfo = Object.assign(queryMsg,this.pagination.info);
+        let queryInfo = this._getQueryInfo();
+        let postInfo = Object.assign(queryInfo,queryMsg,this.pagination.info);
         return new Promise((resolve,reject)=>{
             this._getAuditMerchantList(postInfo).then((auditMerchantList)=>{
 

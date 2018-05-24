@@ -19,6 +19,7 @@ import ClientOrderView from './order/ClientOrderView';
 import MerchantOrderView from './MerchantOrderView';
 import OpenShopView from './OpenShopView';
 import ShopListView from './ShopListView';
+import AuditMerchantList from './test/AuditMerchantList.test';
 
 import './homeStyle.css';
 
@@ -61,6 +62,7 @@ class HomeView extends Component{
                                 <Route path="/merchantOrder" component={MerchantOrderView} />
                                 <Route path="/openShop" component={OpenShopView} />
                                 <Route path="/shopList" component={ShopListView} />
+                                <Route path="/auditMerchantTest" component={AuditMerchantList}/>
                             </Switch>
                         </div>
                     </Content>

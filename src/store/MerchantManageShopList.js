@@ -10,7 +10,6 @@ class MerchantManageShopList{
         this._getMerchantManageList = function(){
 
         };
-        this.shopType = "waittingPermission";
         this.queryMsg = {}
     }
     selectQueryMsg(){
@@ -19,13 +18,9 @@ class MerchantManageShopList{
     _setQueryMsg(queryMsg){
         this.queryMsg = queryMsg;
     }
-    _getQueryInfo(){
-        return Object.assign(this.queryMsg,{
-            queryType:this.shopType
-        });
-    }
+
     getMerchantManageList(){
-        let postInfo = this._getQueryInfo();
+        let postInfo = Object.assign(this.queryMsg,this.pagination.info);
         return new Promise((resolve,reject)=>{
             this._getMerchantManageList(postInfo).then((merchantManageContent)=>{
                 let merchantDataList = merchantManageContent.content;

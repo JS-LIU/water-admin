@@ -7,6 +7,9 @@ class Pagination{
     setTotal(total){
         this._total = total;
     }
+    nextPage(){
+        this._page+=1;
+    }
     @observable _total = 1;
     @computed get total(){
         return this._total;
