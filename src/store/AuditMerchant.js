@@ -74,12 +74,7 @@ class AuditMerchant{
      * 拒绝审核
      */
     notAllow(){
-        this._notAllow({id:this.shopId}).then(()=>{
-            this._setToNotAllowStatus();
-        })
-    }
-    _setToNotAllowStatus(){
-        this._auditStatus = "未通过";
+        return this._notAllow({id:this.shopId})
     }
 }
 module.exports = AuditMerchant;

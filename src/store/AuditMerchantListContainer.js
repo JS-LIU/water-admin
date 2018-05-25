@@ -75,6 +75,13 @@ class AuditMerchantListContainer{
     @computed get activeAuditMerchant(){
         return this._activeAuditMerchant;
     }
-
+    removeActiveMerchant(){
+        for(let i = 0;i < this._auditMerchantList.length;i++){
+            if(this._auditMerchantList[i].shopId === this._activeAuditMerchant.shopId){
+                this._auditMerchantList.splice(i);
+                return this._auditMerchantList;
+            }
+        }
+    }
 }
 module.exports = new AuditMerchantListContainer();
