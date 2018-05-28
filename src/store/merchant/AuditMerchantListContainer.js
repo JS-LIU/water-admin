@@ -2,8 +2,8 @@
  * Created by LDQ on 2018/5/22
  */
 import {observable, computed, action, autorun} from "mobx";
-import _h from "../Util/HB";
-import Pagination from "./Pagination";
+import _h from "../../Util/HB";
+import Pagination from "../Pagination";
 import AuditMerchant from './AuditMerchant';
 class AuditMerchantListContainer{
     constructor(){
@@ -14,6 +14,9 @@ class AuditMerchantListContainer{
         this.queryMsg = {};
         this.pagination = new Pagination(10);
         this.shopType = "waittingPermission";
+        this._init = function(postInfo){
+            return auditMerchantListAjax.save({action:'initShop'}, postInfo)
+        };
     }
 
     /**
@@ -47,6 +50,7 @@ class AuditMerchantListContainer{
     getAuditMerchantList(queryMsg) {
         let queryInfo = this._getQueryInfo();
         let postInfo = Object.assign(queryInfo,queryMsg,this.pagination.info);
+
         return new Promise((resolve,reject)=>{
             this._getAuditMerchantList(postInfo).then((auditMerchantList)=>{
 
@@ -55,6 +59,7 @@ class AuditMerchantListContainer{
             })
         });
     }
+
     @observable _auditMerchantList = [];
     @computed get auditMerchantList(){
         return this._auditMerchantList;
@@ -84,4 +89,5 @@ class AuditMerchantListContainer{
         }
     }
 }
+
 module.exports = new AuditMerchantListContainer();

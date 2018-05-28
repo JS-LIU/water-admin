@@ -2,8 +2,8 @@
  * Created by LDQ on 2018/5/23
  */
 import {observable, computed, action, autorun} from "mobx";
-import _h from "../Util/HB";
-import Account from './Account';
+import _h from "../../Util/HB";
+import Account from '../Account';
 class MerchantManageShop{
     constructor(merchantManageInfo){
         this.address = merchantManageInfo.address;
