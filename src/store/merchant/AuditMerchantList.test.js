@@ -3,10 +3,8 @@
  */
 import React, {Component} from 'react';
 import {observer,inject} from 'mobx-react';
-import auditMerchantListContainer from '../../store/merchant/AuditMerchantListContainer';
-import waitCreateMerchant from '../../store/WaitCreateMerchant';
-import {autorun} from "mobx/lib/mobx";
-
+import {actions,data} from '../../store/merchant/merchantInterface';
+import test from './test';
 
 
 @observer class AuditMerchantList extends Component{

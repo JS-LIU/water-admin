@@ -19,7 +19,7 @@ import ClientOrderView from './order/ClientOrderView';
 import MerchantOrderView from './MerchantOrderView';
 import OpenShopView from './OpenShopView';
 import ShopListView from './ShopListView';
-import AuditMerchantList from './test/AuditMerchantList.test';
+import AuditMerchantList from '../store/merchant/AuditMerchantList.test';
 
 import './homeStyle.css';
 

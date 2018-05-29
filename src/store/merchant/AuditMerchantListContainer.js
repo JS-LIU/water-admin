@@ -53,9 +53,12 @@ class AuditMerchantListContainer{
 
         return new Promise((resolve,reject)=>{
             this._getAuditMerchantList(postInfo).then((auditMerchantList)=>{
-
+                let list = [];
                 let auditMerchantContent = auditMerchantList.content;
-                AuditMerchantListContainer.createAuditMerchantList(this._auditMerchantList,auditMerchantContent);
+                AuditMerchantListContainer.createAuditMerchantList(list,auditMerchantContent);
+                resolve();
+            }).catch(()=>{
+                reject();
             })
         });
     }
@@ -68,6 +71,7 @@ class AuditMerchantListContainer{
         for(let i = 0;i < auditMerchantListData.length;i++){
             auditMerchantList.push(new AuditMerchant(auditMerchantListData[i]));
         }
+        return auditMerchantList;
     }
     selectMerchant(merchant){
         this._setActiveAuditMerchant(merchant)

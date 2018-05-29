@@ -19,11 +19,10 @@ class AuditMerchant{
 
         this._auditStatus = auditMerchantInfo.merchantStatus;   //  审核状态
 
-
         this.shopId = auditMerchantInfo.shopId;
         let auditAjax = _h.ajax.resource('/admin/merchant/:action');
         this._getDetail = function(){
-            return auditAjax.query({action:'productList/'+this.shopId});
+            return auditAjax.query({action:'getShopCheckInfo/'+this.shopId});
         };
         this._allow = function(postInfo){
             return auditAjax.save({action:'/passStatus'},postInfo);
@@ -53,13 +52,12 @@ class AuditMerchant{
      * 获取详细信息
      */
     getDetail(){
-        this._getDetail().then((merchantDetail)=>{
-            this._merchantDetail = merchantDetail;
-        })
-    }
-    @observable _merchantDetail;
-    @computed get merchantDetail(){
-        return this._merchantDetail;
+        return new Promise((resolve,reject)=>{
+            this._getDetail().then((merchantDetail)=>{
+                resolve(merchantDetail)
+            })
+        });
+
     }
 
     /**
