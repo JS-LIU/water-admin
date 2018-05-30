@@ -9,7 +9,7 @@ class MerchantManageShop{
         this.address = merchantManageInfo.address;
         this.deliveryTime = merchantManageInfo.deliveryTime;
         this.shopId = merchantManageInfo.shopId;
-        this.account = new Account();
+        // this.account = new Account();
 
         let merchantManageAjax = _h.ajax.resource('/admin/merchant/:action');
 
@@ -28,6 +28,12 @@ class MerchantManageShop{
         })
     }
     getSaleProductDetail(){
+
+    }
+    close(){
+
+    }
+    toTop(){
 
     }
     getWaterTicketSalePromotionList(){

@@ -3,8 +3,7 @@
  */
 class Account{
     constructor(){
-        this.;
 
     }
 }
-module.exports = Account();
+module.exports = Account;

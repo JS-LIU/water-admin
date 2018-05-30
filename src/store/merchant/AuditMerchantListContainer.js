@@ -17,6 +17,8 @@ class AuditMerchantListContainer{
         this._init = function(postInfo){
             return auditMerchantListAjax.save({action:'initShop'}, postInfo)
         };
+        this.auditMerchantList = [];
+        this.activeAuditMerchant = new AuditMerchant({});
     }
 
     /**
@@ -53,23 +55,21 @@ class AuditMerchantListContainer{
 
         return new Promise((resolve,reject)=>{
             this._getAuditMerchantList(postInfo).then((auditMerchantList)=>{
-                let list = [];
                 let auditMerchantContent = auditMerchantList.content;
-                AuditMerchantListContainer.createAuditMerchantList(list,auditMerchantContent);
-                resolve();
-            }).catch(()=>{
-                reject();
+                this.auditMerchantList = AuditMerchantListContainer.createAuditMerchantList(this.auditMerchantList,auditMerchantContent);
+                resolve(this.auditMerchantList);
+            }).catch((err)=>{
+                reject(err);
             })
         });
     }
 
-    @observable _auditMerchantList = [];
-    @computed get auditMerchantList(){
-        return this._auditMerchantList;
-    }
     static createAuditMerchantList(auditMerchantList,auditMerchantListData){
         for(let i = 0;i < auditMerchantListData.length;i++){
             auditMerchantList.push(new AuditMerchant(auditMerchantListData[i]));
+        }
+        if(auditMerchantList.length === 0){
+            auditMerchantList.push(new AuditMerchant({}));
         }
         return auditMerchantList;
     }
@@ -77,18 +77,14 @@ class AuditMerchantListContainer{
         this._setActiveAuditMerchant(merchant)
     }
     _setActiveAuditMerchant(merchant){
-        this._activeAuditMerchant = merchant;
+        this.activeAuditMerchant = merchant;
     }
 
-    @observable _activeAuditMerchant = new AuditMerchant({});
-    @computed get activeAuditMerchant(){
-        return this._activeAuditMerchant;
-    }
     removeActiveMerchant(){
-        for(let i = 0;i < this._auditMerchantList.length;i++){
-            if(this._auditMerchantList[i].shopId === this._activeAuditMerchant.shopId){
-                this._auditMerchantList.splice(i);
-                return this._auditMerchantList;
+        for(let i = 0;i < this.auditMerchantList.length; i++){
+            if(this.auditMerchantList[i].shopId === this.activeAuditMerchant.shopId){
+                this.auditMerchantList.splice(i);
+                return this.auditMerchantList;
             }
         }
     }

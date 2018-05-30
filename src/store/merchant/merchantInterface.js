@@ -13,10 +13,9 @@ let auditMerchantData = {
 function auditMerchantListAction(){
     let load = function(){
         auditMerchantListContainer.pagination.setPage(1);
-        auditMerchantListContainer.getAuditMerchantList().then(()=>{
-            auditMerchantData.list = auditMerchantListContainer.auditMerchantList;
-
-            auditMerchantListContainer.selectMerchant(auditMerchantListContainer.auditMerchantList[0]);
+        auditMerchantListContainer.getAuditMerchantList().then((list)=>{
+            auditMerchantData.list = list;
+            auditMerchantListContainer.selectMerchant(auditMerchantData.list[0]);
             auditMerchantData.activeMerchant = auditMerchantListContainer.activeAuditMerchant;
             auditMerchantListContainer.activeAuditMerchant.getDetail().then((merchantDetail)=>{
                 auditMerchantData.detail = merchantDetail;
@@ -35,8 +34,8 @@ function auditMerchantListAction(){
     };
     let loadMore = function(){
         auditMerchantListContainer.pagination.nextPage();
-        auditMerchantListContainer.getAuditMerchantList().then(()=>{
-            auditMerchantData.list = auditMerchantListContainer.auditMerchantList;
+        auditMerchantListContainer.getAuditMerchantList().then((list)=>{
+            auditMerchantData.list.concat(list);
         });
     };
     let setQueryInfo = function(queryInfo){

@@ -3,14 +3,17 @@
  */
 import {observable, computed, action, autorun} from "mobx";
 import _h from "../../Util/HB";
+import Pagination from '../Pagination';
 import MerchantManageShop from "./MerchantManageShop";
 class MerchantManageShopList{
     constructor(){
         let merchantManageAjax = _h.ajax.resource('/admin/merchant/:action');
-        this._getMerchantManageList = function(){
-
+        this._getMerchantManageList = function(postInfo){
+            return merchantManageAjax.save({action:'shopList'}, postInfo)
         };
-        this.queryMsg = {}
+        this.merchantManageList = [];
+        this.queryMsg = {};
+        this.pagination = new Pagination(10);
     }
     selectQueryMsg(){
         this._setQueryMsg();
@@ -24,22 +27,25 @@ class MerchantManageShopList{
         return new Promise((resolve,reject)=>{
             this._getMerchantManageList(postInfo).then((merchantManageContent)=>{
                 let merchantDataList = merchantManageContent.content;
-                MerchantManageShopList.createMerchantManageList(this._merchantManageList,merchantDataList);
+                this.merchantManageList = MerchantManageShopList.createMerchantManageList(this.merchantManageList,merchantDataList);
+                resolve(this.merchantManageList);
+            }).catch((err)=>{
+                reject(err);
             })
         })
     }
+
     static createMerchantManageList(merchantList,merchantDataList){
         for(let i = 0;i < merchantDataList.length;i++){
             merchantList.push(new MerchantManageShop(merchantDataList[i]));
         }
-    }
-    @observable _merchantManageList = [];
-    @computed get merchantManageList(){
-        return this._merchantManageList;
+        return merchantList;
     }
 
+    findMerchantById(merchantId){
+        for(let i = 0;i < this.this.merchantManageList.length;i++){
 
-
-
+        }
+    }
 }
 module.exports = new MerchantManageShopList();
