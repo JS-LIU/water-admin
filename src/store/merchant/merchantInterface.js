@@ -3,7 +3,7 @@
  */
 
 import {observable, computed, action, autorun} from "mobx";
-import auditMerchantListContainer from './AuditMerchantListContainer';
+import merchantListContainer from './MerchantListContainer';
 
 let auditMerchantData = {
     @observable list:[],
@@ -12,59 +12,56 @@ let auditMerchantData = {
 };
 function auditMerchantListAction(){
     let load = function(){
-        auditMerchantListContainer.pagination.setPage(1);
-        auditMerchantListContainer.getAuditMerchantList().then((list)=>{
+        merchantListContainer.pagination.setPage(1);
+        merchantListContainer.getMerchantList().then((list)=>{
             auditMerchantData.list = list;
-            auditMerchantListContainer.selectMerchant(auditMerchantData.list[0]);
-            auditMerchantData.activeMerchant = auditMerchantListContainer.activeAuditMerchant;
-            auditMerchantListContainer.activeAuditMerchant.getDetail().then((merchantDetail)=>{
+            merchantListContainer.selectMerchant(auditMerchantData.list[0]);
+            auditMerchantData.activeMerchant = merchantListContainer.activeMerchant;
+            merchantListContainer.activeMerchant.getDetail().then((merchantDetail)=>{
                 auditMerchantData.detail = merchantDetail;
             });
         })
     };
 
     let selectRejectList = function(){
-        auditMerchantListContainer.selectShopType('rejectForPermission');
+        merchantListContainer.selectShopType('rejectForPermission');
         load();
     };
 
     let selectAllowList = function(){
-        auditMerchantListContainer.selectShopType('waittingPermission');
+        merchantListContainer.selectShopType('waittingPermission');
         load();
     };
     let loadMore = function(){
-        auditMerchantListContainer.pagination.nextPage();
-        auditMerchantListContainer.getAuditMerchantList().then((list)=>{
+        merchantListContainer.pagination.nextPage();
+        merchantListContainer.getMerchantList().then((list)=>{
             auditMerchantData.list.concat(list);
         });
     };
     let setQueryInfo = function(queryInfo){
-        auditMerchantListContainer.selectQueryMsg(queryInfo);
+        merchantListContainer.selectQueryMsg(queryInfo);
     };
     let queryByQueryInfo = function(){
-        auditMerchantListContainer.pagination.setPage(1);
-        auditMerchantListContainer.getAuditMerchantList().then(()=>{
-            auditMerchantListContainer.selectMerchant(auditMerchantListContainer.auditMerchantList[0]);
-            auditMerchantListContainer.activeAuditMerchant.getDetail();
-        })
+        load();
     };
     let allow = function(){
-        auditMerchantListContainer.activeAuditMerchant.allow().then(()=>{
-            auditMerchantListContainer.removeActiveMerchant();
-            auditMerchantData.list = auditMerchantListContainer.auditMerchantList;
+        merchantListContainer.activeMerchant.allow().then(()=>{
+            merchantListContainer.removeMerchant(merchantListContainer.activeMerchant);
+            auditMerchantData.list = merchantListContainer.merchantList;
         });
     };
     let notAllow = function(){
-        auditMerchantListContainer.activeAuditMerchant.notAllow().then(()=>{
-            auditMerchantListContainer.removeActiveMerchant();
-            auditMerchantData.list = auditMerchantListContainer.auditMerchantList;
+        merchantListContainer.activeMerchant.notAllow().then(()=>{
+            merchantListContainer.removeMerchant(merchantListContainer.activeMerchant);
+            auditMerchantData.list = merchantListContainer.merchantList;
         });
     };
     let selectMerchant = function(merchant){
-        auditMerchantListContainer.selectMerchant(merchant);
-        auditMerchantData.activeMerchant = auditMerchantListContainer.activeAuditMerchant;
-        auditMerchantListContainer.activeAuditMerchant.getDetail();
-        auditMerchantData.detail = auditMerchantListContainer.activeAuditMerchant.merchantDetail;
+        merchantListContainer.selectMerchant(merchant);
+        auditMerchantData.activeMerchant = merchantListContainer.activeMerchant;
+        merchantListContainer.activeMerchant.getDetail().then((merchantDetail)=>{
+            auditMerchantData.detail = merchantDetail;
+        });
     };
     return {
         //  初始化页面

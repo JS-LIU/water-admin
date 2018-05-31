@@ -3,7 +3,7 @@
  */
 
 import {observable, computed, action, autorun} from "mobx";
-import merchantManageShopList from './MerchantManageShopList';
+import merchantListContainer from './MerchantListContainer';
 let merchantSearchData = {
     @observable list:[],
 
@@ -12,27 +12,27 @@ let merchantSearchData = {
 
 function merchantSearchAction(){
     let load = function(){
-        merchantManageShopList.getMerchantManageList().then((list)=>{
+        merchantListContainer.selectShopType("passStatus");
+        merchantListContainer.pagination.setPage(1);
+        merchantListContainer.getMerchantList().then((list)=>{
             merchantSearchData.list = list;
-
-
         });
     };
     let closeMerchant = function(merchant){
         merchant.close().then(()=>{
-            merchantManageShopList.removeMerchant(merchant);
-            merchantSearchData.list = merchantManageShopList.merchantManageList;
+            merchantListContainer.removeMerchant(merchant);
+            merchantSearchData.list = merchantListContainer.merchantList;
         })
 
     };
     let toTop = function(merchant){
         merchant.toTop().then(()=>{
-            merchantManageShopList.reSort(merchant,'toTop');
-            merchantSearchData.list = merchantManageShopList.merchantManageList;
+            merchantListContainer.reSort(merchant,'toTop');
+            merchantSearchData.list = merchantListContainer.merchantList;
         })
     };
     let loadMore = function(){
-        merchantManageShopList.getMerchantManageList().then((list)=>{
+        merchantListContainer.getMerchantList().then((list)=>{
             merchantSearchData.list.concat(list);
         })
     };
