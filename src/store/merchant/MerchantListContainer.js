@@ -19,6 +19,15 @@ class MerchantListContainer{
         };
         this.merchantList = [];
         this.activeMerchant = new Merchant({});
+        let self = this;
+        this.sortStategy = {
+            'toTop':(merchant)=>{
+                let i = self.findMerchantIndexById(merchant.shopId);
+                self.merchantList.splice(i,1);
+                self.merchantList.unshift(merchant);
+                return self.merchantList;
+            }
+        }
     }
 
     /**
@@ -52,7 +61,7 @@ class MerchantListContainer{
     getMerchantList(queryMsg) {
         let queryInfo = this._getQueryInfo();
         let postInfo = Object.assign(queryInfo,queryMsg,this.pagination.info);
-
+        this.merchantList = [];
         return new Promise((resolve,reject)=>{
             this._getMerchantList(postInfo).then((merchantList)=>{
                 let merchantListContent = merchantList.content;
@@ -89,9 +98,17 @@ class MerchantListContainer{
         }
     }
     findMerchantById(merchantId){
-        this.merchantList.find((merchant)=>{
+        return this.merchantList.find((merchant)=>{
             return merchant.shopId === merchantId;
         })
+    }
+    findMerchantIndexById(merchantId){
+        return this.merchantList.findIndex((merchant)=>{
+            return merchant.shopId === merchantId;
+        })
+    }
+    reSort(merchant,sortType){
+        return this.sortStategy[sortType](merchant);
     }
 }
 

@@ -1,12 +1,12 @@
-import _h from "../Util/HB";
-import Pagination from "./Pagination";
+import _h from "../../Util/HB";
+import Pagination from "../Pagination";
 import {observable, computed,action,autorun} from "mobx";
-import MerchantShop from './MerchantShop';
+import MerchantShop from '../MerchantShop';
 import clientOrderList from './ClientOrderList';
 /**
  * Created by LDQ on 2018/5/16
  */
-class MerchantListContainer{
+class NearShopListContainer{
     constructor(){
         let merchantListAjax = _h.ajax.resource('/admin/order/:action');
 
@@ -29,7 +29,7 @@ class MerchantListContainer{
         this._getMerchantListInfo(postInfo).then((merchantListContent)=>{
 
             let merchantList = merchantListContent.content;
-            MerchantListContainer.createMerchantList(this._merchantList,merchantList);
+            NearShopListContainer.createMerchantList(this._merchantList,merchantList);
         })
     }
 
@@ -45,7 +45,7 @@ class MerchantListContainer{
             if(merchantList.length === 0){
                 this.getMerchantListData({});
             }else{
-                MerchantListContainer.createMerchantList(this._merchantList,merchantList);
+                NearShopListContainer.createMerchantList(this._merchantList,merchantList);
             }
         })
     }
@@ -57,7 +57,7 @@ class MerchantListContainer{
      */
     static createMerchantList(merchantList,merchantDataList){
         for(let i = 0;i < merchantDataList.length;i++){
-            let merchantShopData = MerchantListContainer.convertToMerchantShopData(merchantDataList[i]);
+            let merchantShopData = NearShopListContainer.convertToMerchantShopData(merchantDataList[i]);
             merchantList.push(new MerchantShop(merchantShopData));
         }
     }
@@ -97,4 +97,4 @@ class MerchantListContainer{
         this.queryMsg = queryMsg;
     }
 }
-module.exports = new MerchantListContainer();
+module.exports = new NearShopListContainer();

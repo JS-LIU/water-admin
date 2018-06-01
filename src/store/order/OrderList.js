@@ -3,8 +3,8 @@
  */
 
 import {observable, computed,action,autorun} from "mobx";
-import _h from '../Util/HB';
-import Pagination from './Pagination';
+import _h from '../../Util/HB';
+import Pagination from '../Pagination';
 class OrderList{
     constructor(){
 

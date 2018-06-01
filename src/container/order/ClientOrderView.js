@@ -8,8 +8,8 @@ import {observer,inject} from 'mobx-react';
 import ClientOrderHeaderStyle from './css/ClientOrderHeaderStyle.css';
 import clientOrderStyle from './css/orderStyle.css';
 import huipayTableStyle from '../../Util/huipayAdminStyle/huipayTableStyle.css';
-import clientOrderList from '../../store/ClientOrderList';
-import merchantListContainer from '../../store/MerchantListContainer';
+import clientOrderList from '../../store/order/ClientOrderList';
+import nearShopListContainer from '../../store/order/NearShopListContainer';
 // @inject(['order'])
 @observer class ClientOrderView extends Component{
     render(){
@@ -52,7 +52,7 @@ class ClientOrderListContainerView extends Component{
     componentWillMount(){
         clientOrderList.getOrderList().then(()=>{
             clientOrderList.selectedOrder(clientOrderList.orderList[0]);
-            merchantListContainer.getNearMerchantList()
+            nearShopListContainer.getNearMerchantList()
         });
 
     }

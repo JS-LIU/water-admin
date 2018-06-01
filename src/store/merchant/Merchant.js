@@ -23,29 +23,41 @@ class Merchant{
         //  商家编号
         this.shopAlians = merchantInfo.shopAlians;
         //  店铺头像
-
+        this.shopHeaderImg = merchantInfo.imgUrl;
         //  配送时间
-
+        this.deliveryTime = merchantInfo.deliverTimeStr;
         //  配送范围
-
+        this.deliveryRange = merchantInfo.distanceScope;
         //  快递费用
-
+        this.deliveryMoney = merchantInfo.freight;
         //  店铺图片
+        this.shopImg = merchantInfo.shopDetailImage;
+        //  店铺类型
+        this.merChantType = merchantInfo.merchantType;
 
         this.introduce = merchantInfo.presentation;        //  商家介绍
         this.auditor = merchantInfo.auditor;               //  审核人
 
 
-        this.shopId = auditMerchantInfo.shopId;
-        let auditAjax = _h.ajax.resource('/admin/merchant/:action');
+        this.shopId = merchantInfo.shopId;
+        let merchantListAjax = _h.ajax.resource('/admin/merchant/:action');
         this._getDetail = function(){
-            return auditAjax.query({action:'getShopCheckInfo/'+this.shopId});
+            return merchantListAjax.query({action:'getShopCheckInfo/'+this.shopId});
         };
         this._allow = function(postInfo){
-            return auditAjax.save({action:'/passStatus'},postInfo);
+            return merchantListAjax.save({action:'/passStatus'},postInfo);
         };
         this._notAllow = function(postInfo){
-            return auditAjax.save({action:'/refuseStatus'},postInfo);
+            return merchantListAjax.save({action:'/refuseStatus'},postInfo);
+        };
+        this._close = function(postInfo){
+            return merchantListAjax.save({action:'/closeShop'},postInfo);
+        };
+        this._toTop = function(){
+            return merchantListAjax.save({action:'/updateShopTop/'+this.shopId});
+        };
+        this._setArtificialInfo = function(postInfo){
+            return merchantListAjax.save({action:'/setShopArtificialInfo'},postInfo);
         }
     }
     /**
@@ -87,21 +99,27 @@ class Merchant{
     notAllow(){
         return this._notAllow({id:this.shopId})
     }
+    //  关闭店铺
+    close(){
+        return this._close({shopId:this.shopId});
+    }
+    toTop(){
+        return this._toTop();
+    }
+    /**
+     * 添加/修改 商家编号
+     */
+    updateMerchantNum(shopArtificialNum){
+        return this._setArtificialInfo({shopId:this.shopId,shopArtificialNum:shopArtificialNum});
+    }
 
     getSaleProductDetail(){
 
     }
-    close(){
 
-    }
-    toTop(){
-
-    }
     getWaterTicketSalePromotionList(){
 
     }
-    updateMerchantShopArtificialNum(){
 
-    }
 }
 module.exports = Merchant;

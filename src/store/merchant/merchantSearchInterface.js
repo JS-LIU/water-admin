@@ -36,6 +36,9 @@ function merchantSearchAction(){
             merchantSearchData.list.concat(list);
         })
     };
+    let updateMerchantNum = function(merchantNum){
+        merchantListContainer.updateMerchantNum(merchantNum);
+    };
 
     return {
         //  加在列表
@@ -45,7 +48,9 @@ function merchantSearchAction(){
         //  置顶店铺
         toTop:toTop,
         //  加载更多
-        loadMore:loadMore
+        loadMore:loadMore,
+        //  修改商户号
+        updateMerchantNum:updateMerchantNum
     }
 }
 module.exports = {data:merchantSearchData,actions:merchantSearchAction()};

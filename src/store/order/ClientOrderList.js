@@ -3,14 +3,12 @@
  */
 
 import {observable, computed,action,autorun} from "mobx";
-import _h from '../Util/HB';
 import OrderList from './OrderList';
 import ClientOrder from './ClientOrder';
 class ClientOrderList extends OrderList{
     constructor(){
         super();
-        this.orderType = "client";
-
+        this.orderType = "client_src";
     }
 
     /**
@@ -40,7 +38,6 @@ class ClientOrderList extends OrderList{
                 reject(err);
             });
         })
-
     }
 
     /**
@@ -71,5 +68,4 @@ class ClientOrderList extends OrderList{
     }
 }
 
-// module.exports = ClientOrderList;
 module.exports = new ClientOrderList();

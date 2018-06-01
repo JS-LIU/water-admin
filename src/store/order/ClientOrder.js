@@ -1,7 +1,7 @@
 import {observable, computed, action, autorun} from "mobx";
-import _h from '../Util/HB';
-import OrderDetail from './OrderDetail';
-import MerchantShop from './MerchantShop';
+import _h from '../../Util/HB';
+import OrderDetail from '../OrderDetail';
+import MerchantShop from '../MerchantShop';
 class ClientOrder {
     constructor(orderInfo) {
         this.orderInfo = orderInfo;
