@@ -30,6 +30,15 @@ function merchantOrderListActions(){
 
         })
     };
+    let selectMerchantOrder = function(merchantOrder){
+        merchantOrderList.selectActiveOrder(merchantOrder);
+        merchantOrderList.activeOrder.getDetail().then((detail)=>{
+            merchantOrderListData.detail = detail;
+        });
+        merchantOrderListData.activeOrder.getNearStore().then((storeList)=>{
+            merchantOrderListData.nearStore = storeList;
+        });
+    };
     let dispatchOrder = function(merchant){
         merchantOrderList.dispatchOrder(merchant).then(()=>{
             merchantOrderList.removeOrder(merchantOrderListData.list,merchant);
@@ -50,6 +59,7 @@ function merchantOrderListActions(){
 
     return {
         onLoad:load,
+        selectMerchantOrder:selectMerchantOrder,
         dispatchOrder:dispatchOrder,
         queryByQueryInfo:queryByQueryInfo,
         setQueryInfo:setQueryInfo,

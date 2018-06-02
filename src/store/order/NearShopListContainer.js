@@ -1,11 +1,9 @@
-import _h from "../../Util/HB";
-import Pagination from "../Pagination";
-import {observable, computed,action,autorun} from "mobx";
-import MerchantShop from './DeliveryMerchant';
-import clientOrderList from './ClientOrderList';
 /**
  * Created by LDQ on 2018/5/16
  */
+import _h from "../../Util/HB";
+import Pagination from "../Pagination";
+import MerchantShop from './DeliveryMerchant';
 class NearShopListContainer{
     constructor(){
         let merchantListAjax = _h.ajax.resource('/admin/order/:action');
@@ -18,20 +16,22 @@ class NearShopListContainer{
         };
         this.queryMsg = {};
         this.pagination = new Pagination(10);
+        this.nearShopList = [];
     }
 
     /**
      * 获取店铺列表数据(按条件查询数据)
      * @param queryInfoMsg
      */
-    getMerchantListData(queryInfoMsg) {
+    getMerchantListByQueryInfo(queryInfoMsg) {
         let postInfo = Object.assign({reqAdminShopQueryInfoMsg:queryInfoMsg},this.pagination.info);
+        this.nearShopList = [];
         return new Promise((resolve,reject)=>{
             this._getMerchantListInfo(postInfo).then((merchantListContent)=>{
 
                 let merchantListData = merchantListContent.content;
-                let merchantList = NearShopListContainer.createMerchantList(this._merchantList,merchantListData);
-                resolve(merchantList);
+                this.nearShopList = NearShopListContainer.createMerchantList(this.nearShopList,merchantListData);
+                resolve(this.nearShopList);
             }).catch((err)=>{
                 reject(err);
             })
@@ -42,18 +42,16 @@ class NearShopListContainer{
     /**
      * 找到附近可以配送的店铺(按条件查询数据：接口不同)
      */
-    @action getNearMerchantList() {
-        let activeMerchant = clientOrderList.activeOrder.deliveryShop;
-        //  根据订单状态判断是否可以重置派送店铺
-        let addressInfo = activeMerchant.getMerchantAddressInfo();
-        this._getNearMerchantList(addressInfo).then((merchantList)=>{
-            this._merchantList = [];
-            if(merchantList.length === 0){
-                this.getMerchantListData({});
-            }else{
-                NearShopListContainer.createMerchantList(this._merchantList,merchantList);
-            }
-        })
+    getNearMerchantList(locationInfo) {
+        this.nearShopList = [];
+        return new Promise((resolve, reject)=>{
+            this._getNearMerchantList().then((merchantList)=>{
+                this.nearShopList = NearShopListContainer.createMerchantList(this.nearShopList,merchantList);
+                resolve(this.nearShopList);
+            }).catch((err)=>{
+                reject(err);
+            })
+        });
     }
 
     /**
@@ -66,6 +64,7 @@ class NearShopListContainer{
             let merchantShopData = NearShopListContainer.convertToMerchantShopData(merchantDataList[i]);
             merchantList.push(new MerchantShop(merchantShopData));
         }
+        return merchantList;
     }
 
     static convertToMerchantShopData(merchantShopInfo) {
@@ -81,25 +80,12 @@ class NearShopListContainer{
             cityName: merchantShopInfo.cityName
         }
     }
-    @observable _merchantList = [];
-    @computed get merchantList(){
-        return this._merchantList;
-    }
 
     /**
      * 选择查询店铺的信息
      * @param queryMsg
      */
     selectQueryMsg(queryMsg){
-        this._setQueryMsg(queryMsg);
-    }
-
-    /**
-     * 内部调用 设置查询条件
-     * @param queryMsg
-     * @private
-     */
-    _setQueryMsg(queryMsg){
         this.queryMsg = queryMsg;
     }
 }

@@ -24,9 +24,23 @@ class NearStoreList{
     }
     static createStoreList(storeList,storeDataList){
         for(let i = 0;i < storeDataList.length;i++){
-            storeList.push(new DeliveryMerchant(storeDataList[0]));
+            let storeData = NearStoreList.convertToStoreData(storeDataList[i]);
+            storeList.push(new DeliveryMerchant(storeData));
         }
         return storeList;
+    }
+    static convertToStoreData(storeData) {
+        return {
+            longitude: storeData.longitude,
+            latitude: storeData.latitude,
+            shopName: storeData.name,
+            shopAddress: storeData.address,
+            shopTelephone: storeData.shopMobile,
+            shopAlias: storeData.shopAlias,
+            shopArtificialNum: storeData.shopArtificialNum,
+            shopId: storeData.shopId,
+            cityName: storeData.cityName
+        }
     }
 }
 module.exports = NearStoreList;

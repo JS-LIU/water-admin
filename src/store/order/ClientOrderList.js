@@ -2,13 +2,14 @@
  * Created by LDQ on 2018/4/28
  */
 
-import {observable, computed,action,autorun} from "mobx";
 import OrderList from './OrderList';
 import ClientOrder from './ClientOrder';
 class ClientOrderList extends OrderList{
     constructor(){
         super();
         this.orderType = "client_src";
+        this.orderList = [];
+        this.activeOrder = new ClientOrder({});
     }
 
     /**
@@ -25,46 +26,40 @@ class ClientOrderList extends OrderList{
      * @returns {Promise<any>}
      */
 
-    @action getOrderList(){
+    getOrderList(){
         let queryInfoMsg = this._getQueryInfo();
+        this.orderList = [];
         return new Promise((resolve,reject)=>{
             this.getOrderListData(queryInfoMsg).then((orderContainer)=>{
-                let orderList = orderContainer.content;
-                for(let i = 0;i < orderList.length; i++){
-                    this._orderList.push(new ClientOrder(orderList[i]));
-                    resolve(this._orderList);
-                }
+                let orderListData = orderContainer.content;
+                this.orderList = ClientOrderList.createOrderList(this.orderList,orderListData);
+                resolve(this.orderList);
             }).catch((err)=>{
                 reject(err);
             });
         })
     }
 
-    /**
-     * 选择订单
-     * @param order
-     */
-    @action selectedOrder(order){
-        this._setActiveOrder(order);
+    static createOrderList(orderList,orderListData){
+        for(let i = 0;i < orderListData.length;i++){
+            orderList.push(new ClientOrder(orderListData[i]));
+        }
+        return orderList;
     }
 
-    /**
-     * 选择订单
-     * @param order
-     * @returns {order}
-     * @private
-     */
-    _setActiveOrder(order){
+    selectedOrder(order){
+        this.activeOrder = order;
+    }
 
-        return this._activeOrder = order;
-    }
-    @observable _activeOrder = new ClientOrder({});
-    @computed get activeOrder(){
-        return this._activeOrder;
-    }
-    @observable _orderList = [];
-    @computed get orderList(){
-        return this._orderList;
+    findClientOrderIndexById(list,orderId){
+        return list.findIndex((order)=>{
+            return order.orderId === orderId;
+        })
+    };
+    removeClientOrder(list,order){
+        let index = this.findClientOrderIndexById(list,order.orderId);
+        list.splice(index,1);
+        return list;
     }
 }
 

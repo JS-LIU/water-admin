@@ -5,7 +5,7 @@ import {observable, computed, action, autorun} from "mobx";
 import {actions,data} from './merchantSearchInterface';
 
 autorun(()=>{
-    console.log("list:",data.list);
+    // console.log("list:",data.list);
     // console.log('detail:',data.detail);
     // console.log('active:',data.activeMerchant);
 });

@@ -1,4 +1,3 @@
-import {observable, computed, action, autorun} from "mobx";
 import _h from '../../Util/HB';
 import OrderDetail from '../OrderDetail';
 import DeliveryMerchant from './DeliveryMerchant';
@@ -40,20 +39,15 @@ class ClientOrder {
             shopId: merchantShop.shopId,
             shopOrderId: this.orderId
         };
-        this._redirectClientOrder(postInfo).then((data)=>{
-            console.log(data);
-        });
+        return this._redirectClientOrder(postInfo)
     }
-
-    @observable _orderDetail = this.orderInfo;
-    @computed get orderDetail() {
-        return new OrderDetail(this._orderDetail);
+    getDetail(){
+        return new Promise((resolve, reject)=>{
+            resolve(this.orderInfo);
+        }).catch((err)=>{
+            reject(err);
+        })
     }
-    @observable _merchantShop = this.deliveryShop;
-    @computed get merchantShop(){
-        return this._merchantShop;
-    }
-
 }
 
 module.exports = ClientOrder;

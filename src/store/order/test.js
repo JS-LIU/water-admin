@@ -9,5 +9,5 @@ autorun(()=>{
     // console.log('detail:',data.detail);
     // console.log('active:',data.activeMerchant);
 });
-actions.onLoad();
+// actions.onLoad();
 // actions.selectRejectList();

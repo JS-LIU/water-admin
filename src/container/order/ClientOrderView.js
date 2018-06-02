@@ -5,18 +5,19 @@
 import React, {Component} from 'react';
 import {observer,inject} from 'mobx-react';
 // import OrderView from './OrderView';
-import ClientOrderHeaderStyle from './css/ClientOrderHeaderStyle.css';
+import clientOrderHeaderStyle from './css/ClientOrderHeaderStyle.css';
 import clientOrderStyle from './css/orderStyle.css';
 import huipayTableStyle from '../../Util/huipayAdminStyle/huipayTableStyle.css';
-import clientOrderList from '../../store/order/ClientOrderList';
-import nearShopListContainer from '../../store/order/NearShopListContainer';
-// @inject(['order'])
-@observer class ClientOrderView extends Component{
-    render(){
+import {data,actions} from '../../store/order/clientOrderListInterface';
 
+@observer class ClientOrderView extends Component{
+    componentWillMount(){
+        actions.onLoad();
+    }
+    render(){
         return(
             <div>
-                <ClientOrderListContainerView />
+                <ClientOrderListContainerView/>
                 <div className='client_order_bottom'>
                     <ClientOrderDetailView />
                     <DeliveryMerchantListView />
@@ -26,35 +27,8 @@ import nearShopListContainer from '../../store/order/NearShopListContainer';
     }
 }
 
-@observer class ClientOrderQueryInfoView extends Component{
-
-    queryByOrderNo(){
-        return ()=>{
-            let orderNo = this.props.refs.orderNo;
-            // this.clientOrderList.selectQueryMsg({orderNo:orderNo})
-        }
-    }
-    render(){
-        return(
-            <ul>
-                <li>
-                    <span>订单号：</span>
-                    <input type="text" ref="orderNo"/>
-                    <span onClick={this.queryByOrderNo}>查询</span>
-                </li>
-
-            </ul>
-        )
-    }
-}
-
 class ClientOrderListContainerView extends Component{
     componentWillMount(){
-        clientOrderList.getOrderList().then(()=>{
-            clientOrderList.selectedOrder(clientOrderList.orderList[0]);
-            nearShopListContainer.getNearMerchantList()
-        });
-
     }
     render(){
         return(
@@ -65,15 +39,18 @@ class ClientOrderListContainerView extends Component{
         )
     }
 }
+
+
+//  搜索
 class ClientOrderListQueryView extends Component{
     render(){
         return (
-            <div>
-                搜索内容
-            </div>
+            <OrderView />
         )
     }
 }
+
+
 class ClientOrderListView extends Component{
     render(){
         return (
@@ -85,9 +62,8 @@ class ClientOrderListView extends Component{
     }
 }
 
-/**
- * 用户订单头部
- */
+
+//  所有订单
 class ClientOrderHeaderView extends Component{
     render(){
         return (
@@ -113,17 +89,16 @@ class ClientOrderHeaderView extends Component{
     }
     selectedOrder(order){
         return()=>{
-            clientOrderList.selectedOrder(order);
+            this.props.clientOrderList.selectedOrder(order);
         }
     }
     render(){
-        let orderList = clientOrderList.orderList;
+        let orderList = this.props.clientOrderList.orderList;
         let clientOrderItemNodes = orderList.map((order,i)=>{
             let productItemNodes = order.productItems.map((product,j)=>{
                 return (
                     <li key={j}>
-                        <span>{product.name}</span>
-                        <span>{product.volume}</span>
+                        <span className='mr30'>{product.name}{product.volume}</span>
                         <span>{product.count}</span>
                     </li>
                 )
@@ -137,9 +112,9 @@ class ClientOrderHeaderView extends Component{
                     </ul>
                     <span>{order.receiver}</span>
                     <span>{order.userInfo}</span>
-                    <span>{order.deliveryAddress}</span>
+                    <span className='mr30'>{order.deliveryAddress}</span>
                     <span>{order.totalPrice}</span>
-                    <span>{order.status}</span>
+                    <span>{order.orderInfo.status}</span>
                     <span>{order.deliveryShop.shopName}</span>
                 </li>
             )
@@ -153,16 +128,72 @@ class ClientOrderHeaderView extends Component{
 }
 
 
+//  订单详情
 @observer class ClientOrderDetailView extends Component{
     render() {
-        let orderDetail = clientOrderList.activeOrder.orderDetail;
-
+        let orderDetail = this.props.clientOrderList.activeOrder.orderDetail;
         return (
-            <div>
-                <div>订单详情</div>
-                <ul>
+            <div className='order_detail'>
+                <div className='order_detail_header'>订单详情</div>
+                <ul className='order_detail_left'>
                     <li>
                         <span>订单号：{orderDetail.orderNo}</span>
+                        <span className="send_orders">订单时间：{orderDetail.createTime}</span>
+                    </li>
+                    <li>
+                        <div> 收货人：{orderDetail.receiver} </div>
+                        <div> 收货地址：{orderDetail.shopAddress}  </div>
+                    </li>
+                    <li>
+                        <div className='order_detail_shop'>
+                            <span>商品名称</span>
+                            <span>规格</span>
+                            <span>单价</span>
+                            <span>数量</span>
+                        </div>
+                        <div className='order_detail_shop'>
+                            {/*<span>{orderDetail.productItems.name}</span>*/}
+                            {/*<span>{orderDetail.productItems.colume}</span>*/}
+                            {/*<span>{orderDetail.productItems.price}</span>*/}
+                            {/*<span>{orderDetail.productItems.count}</span>*/}
+                        </div>
+                    </li>
+                    <li className='shop_price_container'>
+                        <div className='shop_price'>
+                            <span>商品金额：</span>
+                            <span>￥{orderDetail.orderInfo.buyAmount}</span>
+                        </div>
+                        <div className='shop_price'>
+                            <span>水票（使用0张）：</span>
+                            <span>-0.0</span>
+                        </div>
+                        <div className='shop_price'>
+                            <span>优惠券（未使用）：</span>
+                            <span>-0.0</span>
+                        </div>
+                        <div className='shop_price'>
+                            <span>立减：</span>
+                            <span>-0.0</span>
+                        </div>
+                        <div className='shop_price'>
+                            <span>运费：</span>
+                            <span>-0.0</span>
+                        </div>
+                        <div className='shop_price'>
+                            <span>实付金额：</span>
+                            <span>-0.0</span>
+                        </div>
+                        <div className='shop_price'>
+                            <span>付款方式：</span>
+                            <span>{orderDetail.orderInfo.payChannel}</span>
+                        </div>
+                        <div>
+                            <span>备注：</span>
+                            <textarea name="" id="" cols="40" rows="3"></textarea>
+                            <div className='print_order'>
+                                <button>打印订单</button>
+                            </div>
+                            ·                        </div>
                     </li>
                 </ul>
             </div>
@@ -170,45 +201,49 @@ class ClientOrderHeaderView extends Component{
     }
 }
 
-
 @observer class DeliveryMerchantListView extends Component{
-    constructor(){
-        super();
-    }
-    dispatchOrder(merchantShop){
-        return ()=>{
-            clientOrderList.activeOrder.dispatchOrder(merchantShop);
-        }
-    }
     render(){
+        let merchantShop = this.props.clientOrderList.activeOrder.merchantShop;
+        this.props.merchantListContainer.getNearMerchantList(merchantShop);
+        return (
+            <div className='order_detail_r ml30'>
+                <div className='order_detail_header'>派单</div>
+                <MerchantListView  merchantListContainer={this.props.merchantListContainer} />
+            </div>
+        )
+    }
+}
 
-        let merchantShopNodes = nearShopListContainer.merchantList.map((merchantShop,i)=>{
+@observer class MerchantListView extends Component{
+    render(){
+        let merchantShopNodes = this.props.merchantListContainer.merchantList.map((merchantShop,i)=>{
             return (
-                <li key={i}>
+                <li className='water_site mt20' key={i}>
+                    {/*<span>选择我吧</span>*/}
                     <span>{merchantShop.shopName}</span>
-                    <span onClick={this.dispatchOrder(merchantShop)}>确认派单</span>
+                    <span>{merchantShop.shopAddress}</span>
+                    <span>{merchantShop.shopName}</span>
+                    <span>{merchantShop.shopTelephone}</span>
+                    <span><Button type="primary" >确认订单</Button></span>
                 </li>
             )
         });
-        return (
-            <ul>
+        return(
+            <ul className='delivery_order_fee'>
+                <li className='water_site mt20'>
+                    <span>选择</span>
+                    <span>配送仓库</span>
+                    <span>仓库地址</span>
+                    <span>配送员</span>
+                    <span>配送电话</span>
+                    <span>操作</span>
+                </li>
                 {merchantShopNodes}
             </ul>
         )
     }
 }
-//
-// @observer class MerchantListView extends Component{
-//
-//     render(){
-//
-//         return(
-//             <ul>
-//                 {merchantShopNodes}
-//             </ul>
-//         )
-//     }
-//
-// }
+
+module.exports = ClientOrderView;
 
 module.exports = ClientOrderView;

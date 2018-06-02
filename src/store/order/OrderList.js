@@ -9,7 +9,6 @@ class OrderList{
     constructor(){
 
         let orderListAjax = _h.ajax.resource('/admin/order/:action');
-
         this._getOrderListInfo = function (postInfo) {
             return orderListAjax.save({action:'list'}, postInfo)
         };
