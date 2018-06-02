@@ -46,14 +46,12 @@ function auditMerchantListAction(){
     };
     let allow = function(){
         merchantListContainer.activeMerchant.allow().then(()=>{
-            merchantListContainer.removeMerchant(merchantListContainer.activeMerchant);
-            auditMerchantData.list = merchantListContainer.merchantList;
+            merchantListContainer.removeMerchant(auditMerchantData.list,merchantListContainer.activeMerchant);
         });
     };
     let notAllow = function(){
         merchantListContainer.activeMerchant.notAllow().then(()=>{
-            merchantListContainer.removeMerchant(merchantListContainer.activeMerchant);
-            auditMerchantData.list = merchantListContainer.merchantList;
+            merchantListContainer.removeMerchant(auditMerchantData.list,merchantListContainer.activeMerchant);
         });
     };
     let selectMerchant = function(merchant){

@@ -182,7 +182,7 @@ class ClientOrderHeaderView extends Component{
     }
     render(){
 
-        let merchantShopNodes = merchantListContainer.merchantList.map((merchantShop,i)=>{
+        let merchantShopNodes = nearShopListContainer.merchantList.map((merchantShop,i)=>{
             return (
                 <li key={i}>
                     <span>{merchantShop.shopName}</span>

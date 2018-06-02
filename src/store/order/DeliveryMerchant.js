@@ -12,6 +12,7 @@ class DeliveryMerchant{
         this.shopArtificialNum = info.shopArtificialNum;
         this.shopId = info.shopId;
         this.cityName = info.cityName;
+
     }
 
     /**
@@ -25,6 +26,5 @@ class DeliveryMerchant{
             cityName:this.cityName
         }
     }
-
 }
 module.exports = DeliveryMerchant;

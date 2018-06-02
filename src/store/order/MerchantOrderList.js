@@ -43,6 +43,16 @@ class MerchantOrderList extends OrderList{
     selectActiveOrder(order){
         this.activeOrder = order;
     }
+    removeOrder(list,order){
+        let index = this.findIndexOrderByOrderId(list,order.orderId);
+        list.splice(index,1);
+        return list;
+    }
+    findIndexOrderByOrderId(list,orderId){
+        return list.findIndex((order)=>{
+            return order.orderId === orderId;
+        })
+    }
 
 }
 module.exports = new MerchantOrderList();

@@ -26,11 +26,17 @@ class NearShopListContainer{
      */
     getMerchantListData(queryInfoMsg) {
         let postInfo = Object.assign({reqAdminShopQueryInfoMsg:queryInfoMsg},this.pagination.info);
-        this._getMerchantListInfo(postInfo).then((merchantListContent)=>{
+        return new Promise((resolve,reject)=>{
+            this._getMerchantListInfo(postInfo).then((merchantListContent)=>{
 
-            let merchantList = merchantListContent.content;
-            NearShopListContainer.createMerchantList(this._merchantList,merchantList);
+                let merchantListData = merchantListContent.content;
+                let merchantList = NearShopListContainer.createMerchantList(this._merchantList,merchantListData);
+                resolve(merchantList);
+            }).catch((err)=>{
+                reject(err);
+            })
         })
+
     }
 
     /**

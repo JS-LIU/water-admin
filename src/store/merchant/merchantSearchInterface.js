@@ -20,15 +20,13 @@ function merchantSearchAction(){
     };
     let closeMerchant = function(merchant){
         merchant.close().then(()=>{
-            merchantListContainer.removeMerchant(merchant);
-            merchantSearchData.list = merchantListContainer.merchantList;
+            merchantListContainer.removeMerchant(merchantSearchData.list,merchant);
         })
 
     };
     let toTop = function(merchant){
         merchant.toTop().then(()=>{
-            merchantListContainer.reSort(merchant,'toTop');
-            merchantSearchData.list = merchantListContainer.merchantList;
+            merchantListContainer.reSort(merchantSearchData.list,merchant,'toTop');
         })
     };
     let loadMore = function(){

@@ -21,11 +21,11 @@ class MerchantListContainer{
         this.activeMerchant = new Merchant({});
         let self = this;
         this.sortStategy = {
-            'toTop':(merchant)=>{
-                let i = self.findMerchantIndexById(merchant.shopId);
-                self.merchantList.splice(i,1);
-                self.merchantList.unshift(merchant);
-                return self.merchantList;
+            'toTop':(list,merchant)=>{
+                let i = self.findMerchantIndexById(list,merchant.shopId);
+                list.splice(i,1);
+                list.unshift(merchant);
+                return list;
             }
         }
     }
@@ -89,26 +89,23 @@ class MerchantListContainer{
         this.activeMerchant = merchant;
     }
 
-    removeMerchant(merchant){
-        for(let i = 0;i < this.merchantList.length; i++){
-            if(this.merchantList[i].shopId === merchant.shopId){
-                this.merchantList.splice(i);
-                return this.merchantList;
-            }
-        }
+    removeMerchant(list,merchant){
+        let index = this.findMerchantIndexById(list,merchant.shopId);
+        list.splice(index,1);
+        return list;
     }
-    findMerchantById(merchantId){
-        return this.merchantList.find((merchant)=>{
+    findMerchantById(list,merchantId){
+        return list.find((merchant)=>{
             return merchant.shopId === merchantId;
         })
     }
-    findMerchantIndexById(merchantId){
-        return this.merchantList.findIndex((merchant)=>{
+    findMerchantIndexById(list,merchantId){
+        return list.findIndex((merchant)=>{
             return merchant.shopId === merchantId;
         })
     }
-    reSort(merchant,sortType){
-        return this.sortStategy[sortType](merchant);
+    reSort(list,merchant,sortType){
+        return this.sortStategy[sortType](list,merchant);
     }
 }
 
