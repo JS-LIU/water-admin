@@ -1,7 +1,7 @@
 import _h from "../../Util/HB";
 import Pagination from "../Pagination";
 import {observable, computed,action,autorun} from "mobx";
-import MerchantShop from '../MerchantShop';
+import MerchantShop from './DeliveryMerchant';
 import clientOrderList from './ClientOrderList';
 /**
  * Created by LDQ on 2018/5/16

@@ -35,4 +35,4 @@ function merchantOrderListActions(){
 
     }
 }
-module.exports = {data:merchantOrderListData,actions:merchantOrderListActions};
+module.exports = {data:merchantOrderListData,actions:merchantOrderListActions()};

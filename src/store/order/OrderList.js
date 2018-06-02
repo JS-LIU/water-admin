@@ -21,7 +21,6 @@ class OrderList{
      * 获取订单列表数据
      */
     getOrderListData(queryInfoMsg) {
-        console.log(this.pagination.info);
         let postInfo = Object.assign({queryInfoMsg:queryInfoMsg},this.pagination.info);
         return this._getOrderListInfo(postInfo)
     }

@@ -3,6 +3,7 @@
  */
 
 import NearStoreList from "./NearStoreList";
+import DeliveryMerchant from './DeliveryMerchant';
 class MerchantOrder{
     constructor(orderInfo){
         this.orderId = orderInfo.orderId;
@@ -16,11 +17,22 @@ class MerchantOrder{
         this.deliveryAddress = orderInfo.deliveryAddress;
         this.totalPrice = orderInfo.totalPrice;
         this.payChannel = orderInfo.payChannel;
+        this.deliveryMerchant = new DeliveryMerchant({
+            longitude:orderInfo.longitude,
+            latitude:orderInfo.latitude,
+            shopName:orderInfo.shopName,
+            shopAddress:orderInfo.shopAddress,
+            shopTelephone:orderInfo.shopTelephone,
+            shopAlias:orderInfo.shopAlias,
+            shopArtificialNum:orderInfo.shopArtificialNum,
+            shopId:orderInfo.shopId,
+            cityName:orderInfo.cityName
+        });
         this.nearStoreList = new NearStoreList();
     }
 
     getNearStore(){
-        let locationInfo = {};
+        let locationInfo = this.deliveryMerchant.getMerchantAddressInfo();
         return this.nearStoreList.getNearStoreList(locationInfo);
     }
 }

@@ -1,7 +1,7 @@
 import {observable, computed, action, autorun} from "mobx";
 import _h from '../../Util/HB';
 import OrderDetail from '../OrderDetail';
-import MerchantShop from '../MerchantShop';
+import DeliveryMerchant from './DeliveryMerchant';
 class ClientOrder {
     constructor(orderInfo) {
         this.orderInfo = orderInfo;
@@ -17,7 +17,7 @@ class ClientOrder {
         this.totalPrice = orderInfo.totalPrice;
         this.payChannel = orderInfo.payChannel;
 
-        this.deliveryShop = new MerchantShop({
+        this.deliveryShop = new DeliveryMerchant({
             longitude: orderInfo.longitude,
             latitude: orderInfo.latitude,
             shopName: orderInfo.shopName,

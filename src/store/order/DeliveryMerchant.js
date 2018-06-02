@@ -1,9 +1,7 @@
-import _h from "../Util/HB";
-
 /**
  * Created by LDQ on 2018/5/14
  */
-class MerchantShop{
+class DeliveryMerchant{
     constructor(info){
         this.longitude = info.longitude;
         this.latitude = info.latitude;
@@ -14,7 +12,6 @@ class MerchantShop{
         this.shopArtificialNum = info.shopArtificialNum;
         this.shopId = info.shopId;
         this.cityName = info.cityName;
-
     }
 
     /**
@@ -30,4 +27,4 @@ class MerchantShop{
     }
 
 }
-module.exports = MerchantShop;
+module.exports = DeliveryMerchant;

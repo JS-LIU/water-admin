@@ -10,8 +10,9 @@ class MerchantOrderList extends OrderList{
         this.orderType = "merchant_src";
         this.merchantOrderList = [];
         this.activeOrder = new MerchantOrder({});
+        this.queryMsg = {};
     }
-    getQueryInfo(){
+    _getQueryInfo(){
         return Object.assign(this.queryMsg,{orderSrc: this.orderType});
     }
     getOrderList(){
@@ -44,4 +45,4 @@ class MerchantOrderList extends OrderList{
     }
 
 }
-module.exports = new MerchantOrder();
+module.exports = new MerchantOrderList();
