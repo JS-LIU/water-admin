@@ -3,6 +3,7 @@
  */
 
 import React, {Component} from 'react';
+import { Table, Badge, Menu, Dropdown, Icon } from 'antd';
 import {observer,inject} from 'mobx-react';
 // import OrderView from './OrderView';
 import clientOrderHeaderStyle from './css/ClientOrderHeaderStyle.css';
@@ -19,21 +20,21 @@ import {data,actions} from '../../store/order/clientOrderListInterface';
             <div>
                 <ClientOrderListContainerView/>
                 <div className='client_order_bottom'>
-                    <ClientOrderDetailView />
-                    <DeliveryMerchantListView />
+                    {/*<ClientOrderDetailView />*/}
+                    {/*<DeliveryMerchantListView />*/}
                 </div>
             </div>
         )
     }
 }
 
-class ClientOrderListContainerView extends Component{
+@observer class ClientOrderListContainerView extends Component{
     componentWillMount(){
     }
     render(){
         return(
             <div>
-                <ClientOrderListQueryView />
+                {/*<ClientOrderListQueryView />*/}
                 <ClientOrderListView />
             </div>
         )
@@ -51,12 +52,100 @@ class ClientOrderListQueryView extends Component{
 }
 
 
-class ClientOrderListView extends Component{
+@observer class ClientOrderListView extends Component{
     render(){
+        this.columns = [{
+            title:'订单时间',
+            dataIndex:"createTime",
+            key:"createTime"
+        },{
+            title:'订单号',
+            dataIndex:"orderNo",
+            key:"orderNo"
+        },{
+            title:'用户账号',
+            dataIndex:"userInfo",
+            key:"userInfo"
+        },{
+            title:'收货人-收货电话',
+            dataIndex:"receiver",
+            key:"receiver"
+        },{
+            title:'收货地址',
+            dataIndex:"deliveryAddress",
+            key:"deliveryAddress"
+        },{
+            title:'实付金额',
+            dataIndex:"totalPrice",
+            key:"totalPrice"
+        },{
+            title:'订单状态',
+            dataIndex:"orderStatus",
+            key:"orderStatus"
+        },{
+            title: '配送商家',
+            key: 'operation',
+            fixed: 'right',
+            width: 100,
+            render: () => <a href="javascript:;">action</a>,
+        },];
+        this.dataSource = [];
+        for(let i = 0;i < data.list.length;i++){
+            let item = data.list[i];
+            this.dataSource.push({
+                key:i,
+                createTime:item.createTime,
+                orderNo:item.orderNo,
+                userInfo:item.userInfo,
+                receiver:item.receiver,
+                deliveryAddress:item.deliveryAddress,
+                totalPrice:item.totalPrice,
+                orderStatus:item.orderStatus,
+                productItems:item.productItems
+            })
+        }
+        const expandedRowRender = record => {
+            const columns = [
+                { title: "商品类型", dataIndex: "type" , key: 'type'},
+                { title: '商品品牌', dataIndex: "name", key: 'name' },
+                { title: "商品种类", dataIndex: "volume" , key: 'volume'},
+                { title: '商品数量', dataIndex: 'count', key: 'count' },
+                { title: '商品单价', dataIndex: 'price', key:'price'}
+
+            ];
+            const dataSource = [];
+            for(let i = 0;i < record.productItems.length;i++){
+                let item = record.productItems[i];
+                dataSource.push({
+                    key:i,
+                    type:item.type,
+                    name:item.name,
+                    volume:item.volume,
+                    count:item.count,
+                    price:item.price/100
+                })
+            }
+            return (
+                <Table
+                    columns={columns}
+                    dataSource={dataSource}
+                    pagination={false}
+                />
+            );
+        };
+
+
+
+
         return (
             <div className="huipay_table order_table">
-                <ClientOrderHeaderView />
-                <ClientOrderListBodyView />
+                <Table
+                    className="components-table-demo-nested"
+                    columns={this.columns}
+                    expandedRowRender={expandedRowRender}
+                    dataSource={this.dataSource}
+                />
+
             </div>
         )
     }
@@ -243,7 +332,5 @@ class ClientOrderHeaderView extends Component{
         )
     }
 }
-
-module.exports = ClientOrderView;
 
 module.exports = ClientOrderView;

@@ -1,8 +1,6 @@
 /**
  * Created by LDQ on 2018/4/28
  */
-
-import {observable, computed,action,autorun} from "mobx";
 import _h from '../../Util/HB';
 import Pagination from '../Pagination';
 class OrderList{

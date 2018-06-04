@@ -45,7 +45,7 @@ class NearShopListContainer{
     getNearMerchantList(locationInfo) {
         this.nearShopList = [];
         return new Promise((resolve, reject)=>{
-            this._getNearMerchantList().then((merchantList)=>{
+            this._getNearMerchantList(locationInfo).then((merchantList)=>{
                 this.nearShopList = NearShopListContainer.createMerchantList(this.nearShopList,merchantList);
                 resolve(this.nearShopList);
             }).catch((err)=>{

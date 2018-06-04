@@ -47,7 +47,7 @@ class ClientOrderList extends OrderList{
         return orderList;
     }
 
-    selectedOrder(order){
+    selectActiveOrder(order){
         this.activeOrder = order;
     }
 

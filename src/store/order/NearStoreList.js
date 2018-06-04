@@ -43,4 +43,4 @@ class NearStoreList{
         }
     }
 }
-module.exports = NearStoreList;
+module.exports = new NearStoreList();

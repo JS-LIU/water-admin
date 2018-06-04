@@ -15,6 +15,7 @@ function clientOrderListActions(){
     let load = function(){
         clientOrderList.pagination.setPage(1);
         clientOrderList.getOrderList().then((list)=>{
+            console.log(list);
             clientOrderListData.list = list;
 
             clientOrderList.selectActiveOrder(list[0]);
@@ -23,7 +24,7 @@ function clientOrderListActions(){
                 clientOrderListData.detail = detail;
             });
 
-            clientOrderListData.activeOrder.getNearStore().then((storeList)=>{
+            clientOrderListData.activeOrder.getNearMerchantList().then((storeList)=>{
                 clientOrderListData.nearStore = storeList;
             })
 
@@ -35,7 +36,7 @@ function clientOrderListActions(){
         clientOrderList.activeOrder.getDetail().then((detail)=>{
             clientOrderListData.detail = detail;
         });
-        clientOrderListData.activeOrder.getNearStore().then((storeList)=>{
+        clientOrderListData.activeOrder.getNearMerchantList().then((storeList)=>{
             clientOrderListData.nearStore = storeList;
         })
     };

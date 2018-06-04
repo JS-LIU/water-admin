@@ -2,7 +2,7 @@
  * Created by LDQ on 2018/6/1
  */
 import _h from '../../Util/HB';
-import NearStoreList from "./NearStoreList";
+import nearStoreList from "./NearStoreList";
 import DeliveryMerchant from './DeliveryMerchant';
 class MerchantOrder{
     constructor(orderInfo){
@@ -29,7 +29,6 @@ class MerchantOrder{
             shopId:orderInfo.shopId,
             cityName:orderInfo.cityName
         });
-        this.nearStoreList = new NearStoreList();
 
         let merchantOrderAjax = _h.ajax.resource('/admin/order/:action');
         this._redirectOrder = function(postInfo){
@@ -39,7 +38,7 @@ class MerchantOrder{
 
     getNearStore(){
         let locationInfo = this.deliveryMerchant.getMerchantAddressInfo();
-        return this.nearStoreList.getNearStoreList(locationInfo);
+        return nearStoreList.getNearStoreList(locationInfo);
     }
     dispatchOrder(deliveryMerchant) {
         let postInfo = {

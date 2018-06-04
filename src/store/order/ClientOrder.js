@@ -1,6 +1,6 @@
 import _h from '../../Util/HB';
-import OrderDetail from '../OrderDetail';
 import DeliveryMerchant from './DeliveryMerchant';
+import nearShopListContainer from './NearShopListContainer';
 class ClientOrder {
     constructor(orderInfo) {
         this.orderInfo = orderInfo;
@@ -15,6 +15,7 @@ class ClientOrder {
         this.deliveryAddress = orderInfo.deliveryAddress;
         this.totalPrice = orderInfo.totalPrice;
         this.payChannel = orderInfo.payChannel;
+        this.orderStatus = orderInfo.status;
 
         this.deliveryShop = new DeliveryMerchant({
             longitude: orderInfo.longitude,
@@ -31,7 +32,7 @@ class ClientOrder {
         let clientOrderAjax = _h.ajax.resource('/admin/order/:action');
         this._redirectClientOrder = function(postInfo){
             return clientOrderAjax.save({action:"redirectShopOrder"},postInfo);
-        }
+        };
     }
 
     dispatchOrder(merchantShop) {
@@ -47,6 +48,10 @@ class ClientOrder {
         }).catch((err)=>{
             reject(err);
         })
+    }
+    getNearMerchantList(){
+        let locationInfo = this.deliveryShop.getMerchantAddressInfo();
+        return nearShopListContainer.getNearMerchantList(locationInfo);
     }
 }
 
