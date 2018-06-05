@@ -66,7 +66,7 @@ class ClientOrderListQueryView extends Component{
                     />
                 </div>
                 <Radio.Group value={queryType} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
-                    <Radio.Button value={0}>全部待处理</Radio.Button>
+                    <Radio.Button value={0}>全部</Radio.Button>
                     <Radio.Button value={1}>待派单</Radio.Button>
                     <Radio.Button value={2}>待配送</Radio.Button>
                 </Radio.Group>
