@@ -32,3 +32,9 @@
 .components-table-demo-nested .ant-table-expanded-row:hover > td {
     background: #fbfbfb;
 }
+
+.overflow_to_ellipsis{
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}

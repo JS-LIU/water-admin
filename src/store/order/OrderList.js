@@ -8,9 +8,11 @@ class OrderList{
 
         let orderListAjax = _h.ajax.resource('/admin/order/:action');
         this._getOrderListInfo = function (postInfo) {
-            return orderListAjax.save({action:'list'}, postInfo)
+            return orderListAjax.save({action:'waitingdispathlist'}, postInfo)
         };
-        this.queryMsg = {};
+        this.queryMsg = {
+            queryType:0
+        };
         this.pagination = new Pagination(10);
     }
 
@@ -18,7 +20,7 @@ class OrderList{
      * 获取订单列表数据
      */
     getOrderListData(queryInfoMsg) {
-        let postInfo = Object.assign({queryInfoMsg:queryInfoMsg},this.pagination.info);
+        let postInfo = Object.assign({queryInfoMsg:queryInfoMsg},this.pagination.getInfo());
         return this._getOrderListInfo(postInfo)
     }
 
@@ -36,7 +38,10 @@ class OrderList{
      * @private
      */
     _setQueryMsg(queryMsg){
-        this.queryMsg = queryMsg;
+        Object.assign(this.queryMsg,queryMsg);
+    }
+    selectQueryType(type){
+        this.queryMsg = {queryType:type};
     }
 }
 module.exports = OrderList;

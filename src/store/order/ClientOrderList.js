@@ -32,6 +32,7 @@ class ClientOrderList extends OrderList{
         return new Promise((resolve,reject)=>{
             this.getOrderListData(queryInfoMsg).then((orderContainer)=>{
                 let orderListData = orderContainer.content;
+                this.pagination.setTotal(orderContainer.totalElements);
                 this.orderList = ClientOrderList.createOrderList(this.orderList,orderListData);
                 resolve(this.orderList);
             }).catch((err)=>{
@@ -60,6 +61,11 @@ class ClientOrderList extends OrderList{
         let index = this.findClientOrderIndexById(list,order.orderId);
         list.splice(index,1);
         return list;
+    }
+    findClientOrderById(list,orderId){
+        return list.find((order)=>{
+            return order.orderId === orderId;
+        })
     }
 }
 

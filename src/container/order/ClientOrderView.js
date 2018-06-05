@@ -3,7 +3,8 @@
  */
 
 import React, {Component} from 'react';
-import { Table, Badge, Menu, Dropdown, Icon } from 'antd';
+import { Table, Tooltip , Button , Radio , Input , Pagination , Badge, Menu, Dropdown, Icon } from 'antd';
+const Search = Input.Search;
 import {observer,inject} from 'mobx-react';
 // import OrderView from './OrderView';
 import clientOrderHeaderStyle from './css/ClientOrderHeaderStyle.css';
@@ -20,8 +21,8 @@ import {data,actions} from '../../store/order/clientOrderListInterface';
             <div>
                 <ClientOrderListContainerView/>
                 <div className='client_order_bottom'>
-                    {/*<ClientOrderDetailView />*/}
-                    {/*<DeliveryMerchantListView />*/}
+                    <ClientOrderDetailView />
+                    <DeliveryMerchantListView />
                 </div>
             </div>
         )
@@ -34,7 +35,7 @@ import {data,actions} from '../../store/order/clientOrderListInterface';
     render(){
         return(
             <div>
-                {/*<ClientOrderListQueryView />*/}
+                <ClientOrderListQueryView />
                 <ClientOrderListView />
             </div>
         )
@@ -44,51 +45,88 @@ import {data,actions} from '../../store/order/clientOrderListInterface';
 
 //  搜索
 class ClientOrderListQueryView extends Component{
+    state = { queryType: 0 };
+    onChange(e){
+        this.setState({ queryType: e.target.value });
+        actions.selectQueryType(e.target.value);
+    }
     render(){
+        const { queryType } = this.state;
         return (
-            <OrderView />
+            <div>
+                <div>
+                    <Search
+                        placeholder="input search text"
+                        onSearch={value => {
+                            actions.setQueryInfo({orderNo:value});
+                            actions.queryByQueryInfo();
+                        }}
+                        enterButton
+                        style={{ marginBottom: 16 }}
+                    />
+                </div>
+                <Radio.Group value={queryType} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
+                    <Radio.Button value={0}>全部待处理</Radio.Button>
+                    <Radio.Button value={1}>待派单</Radio.Button>
+                    <Radio.Button value={2}>待配送</Radio.Button>
+                </Radio.Group>
+            </div>
+
         )
     }
 }
 
 
 @observer class ClientOrderListView extends Component{
+    changePage(pageNumber){
+        actions.changePagination(pageNumber);
+    }
     render(){
         this.columns = [{
             title:'订单时间',
             dataIndex:"createTime",
-            key:"createTime"
+            key:"createTime",
+            width:200
         },{
             title:'订单号',
             dataIndex:"orderNo",
-            key:"orderNo"
+            key:"orderNo",
+            width:200
         },{
             title:'用户账号',
             dataIndex:"userInfo",
-            key:"userInfo"
+            key:"userInfo",
+            width:200
         },{
             title:'收货人-收货电话',
             dataIndex:"receiver",
-            key:"receiver"
+            key:"receiver",
+            width:200,
+            render: (text,record) =>{return (<Tooltip placement="topLeft" title={record.receiver}>
+                <div className="overflow_to_ellipsis">{record.receiver}</div>
+            </Tooltip>)}
         },{
             title:'收货地址',
             dataIndex:"deliveryAddress",
-            key:"deliveryAddress"
+            key:"deliveryAddress",
+            width:500
         },{
             title:'实付金额',
             dataIndex:"totalPrice",
-            key:"totalPrice"
+            key:"totalPrice",
+            width:100
         },{
             title:'订单状态',
             dataIndex:"orderStatus",
-            key:"orderStatus"
+            key:"orderStatus",
+            width:100
         },{
             title: '配送商家',
-            key: 'operation',
-            fixed: 'right',
-            width: 100,
-            render: () => <a href="javascript:;">action</a>,
-        },];
+            key: 'operator',
+            width: 200,
+            dataIndex:"deliveryShop",
+            render: (text,record) =>{return ( <a href="javascript:;">{record.deliveryShop.shopName}</a>)}
+        }];
         this.dataSource = [];
         for(let i = 0;i < data.list.length;i++){
             let item = data.list[i];
@@ -101,7 +139,9 @@ class ClientOrderListQueryView extends Component{
                 deliveryAddress:item.deliveryAddress,
                 totalPrice:item.totalPrice,
                 orderStatus:item.orderStatus,
-                productItems:item.productItems
+                productItems:item.productItems,
+                orderId:item.orderId,
+                deliveryShop:item.deliveryShop,
             })
         }
         const expandedRowRender = record => {
@@ -122,116 +162,58 @@ class ClientOrderListQueryView extends Component{
                     name:item.name,
                     volume:item.volume,
                     count:item.count,
-                    price:item.price/100
+                    price:item.price / 100
                 })
             }
+
             return (
                 <Table
                     columns={columns}
                     dataSource={dataSource}
                     pagination={false}
                 />
+
+
+
             );
         };
-
-
-
-
         return (
-            <div className="huipay_table order_table">
-                <Table
-                    className="components-table-demo-nested"
-                    columns={this.columns}
-                    expandedRowRender={expandedRowRender}
-                    dataSource={this.dataSource}
-                />
-
-            </div>
+            <Table
+                className="components-table-demo-nested"
+                columns={this.columns}
+                expandedRowRender={expandedRowRender}
+                dataSource={this.dataSource}
+                scroll={{x: 1650,y:300}}
+                onRow={(record) => {
+                    return {
+                        onClick: () => {
+                            actions.selectOrder(record.orderId);
+                        },
+                    };
+                }}
+                pagination={{total:20,defaultCurrent:1,onChange:this.changePage.bind(this)}}
+            />
         )
     }
 }
 
 
-//  所有订单
-class ClientOrderHeaderView extends Component{
-    render(){
-        return (
-            <ul className="huipay_table_header order_table_header">
-                <li>订单时间</li>
-                <li>订单号</li>
-                <li>商品名称</li>
-                <li>数量</li>
-                <li>收货人</li>
-                <li>电话</li>
-                <li>收货地址</li>
-                <li>商品金额</li>
-                <li>订单状态</li>
-                <li>配送仓库</li>
-            </ul>
-        )
-    }
-}
-
-@observer class ClientOrderListBodyView extends Component{
-    componentWillMount(){
-
-    }
-    selectedOrder(order){
-        return()=>{
-            this.props.clientOrderList.selectedOrder(order);
-        }
-    }
-    render(){
-        let orderList = this.props.clientOrderList.orderList;
-        let clientOrderItemNodes = orderList.map((order,i)=>{
-            let productItemNodes = order.productItems.map((product,j)=>{
-                return (
-                    <li key={j}>
-                        <span className='mr30'>{product.name}{product.volume}</span>
-                        <span>{product.count}</span>
-                    </li>
-                )
-            });
-            return (
-                <li key={i} className="order_item" onClick={this.selectedOrder(order)}>
-                    <span>{order.createTime}</span>
-                    <span>{order.orderNo}</span>
-                    <ul className="order_product_list">
-                        {productItemNodes}
-                    </ul>
-                    <span>{order.receiver}</span>
-                    <span>{order.userInfo}</span>
-                    <span className='mr30'>{order.deliveryAddress}</span>
-                    <span>{order.totalPrice}</span>
-                    <span>{order.orderInfo.status}</span>
-                    <span>{order.deliveryShop.shopName}</span>
-                </li>
-            )
-        });
-        return (
-            <ul>
-                {clientOrderItemNodes}
-            </ul>
-        )
-    }
-}
 
 
 //  订单详情
 @observer class ClientOrderDetailView extends Component{
     render() {
-        let orderDetail = this.props.clientOrderList.activeOrder.orderDetail;
         return (
             <div className='order_detail'>
                 <div className='order_detail_header'>订单详情</div>
                 <ul className='order_detail_left'>
                     <li>
-                        <span>订单号：{orderDetail.orderNo}</span>
-                        <span className="send_orders">订单时间：{orderDetail.createTime}</span>
+                        <span>订单号：{data.activeOrder.orderNo}</span>
+                        <span className="send_orders">订单时间：{data.activeOrder.createTime}</span>
                     </li>
                     <li>
-                        <div> 收货人：{orderDetail.receiver} </div>
-                        <div> 收货地址：{orderDetail.shopAddress}  </div>
+                        <div> 收货人：{data.activeOrder.receiver} </div>
+                        <div> 收货地址：{data.activeOrder.shopAddress}  </div>
                     </li>
                     <li>
                         <div className='order_detail_shop'>
@@ -250,7 +232,7 @@ class ClientOrderHeaderView extends Component{
                     <li className='shop_price_container'>
                         <div className='shop_price'>
                             <span>商品金额：</span>
-                            <span>￥{orderDetail.orderInfo.buyAmount}</span>
+                            <span>￥{data.activeOrder.buyAmount}</span>
                         </div>
                         <div className='shop_price'>
                             <span>水票（使用0张）：</span>
@@ -274,7 +256,7 @@ class ClientOrderHeaderView extends Component{
                         </div>
                         <div className='shop_price'>
                             <span>付款方式：</span>
-                            <span>{orderDetail.orderInfo.payChannel}</span>
+                            <span>{data.activeOrder.payChannel}</span>
                         </div>
                         <div>
                             <span>备注：</span>
@@ -292,12 +274,10 @@ class ClientOrderHeaderView extends Component{
 
 @observer class DeliveryMerchantListView extends Component{
     render(){
-        let merchantShop = this.props.clientOrderList.activeOrder.merchantShop;
-        this.props.merchantListContainer.getNearMerchantList(merchantShop);
         return (
             <div className='order_detail_r ml30'>
                 <div className='order_detail_header'>派单</div>
-                <MerchantListView  merchantListContainer={this.props.merchantListContainer} />
+                <MerchantListView />
             </div>
         )
     }
@@ -305,10 +285,9 @@ class ClientOrderHeaderView extends Component{
 
 @observer class MerchantListView extends Component{
     render(){
-        let merchantShopNodes = this.props.merchantListContainer.merchantList.map((merchantShop,i)=>{
+        let merchantShopNodes = data.nearStore.map((merchantShop,i)=>{
             return (
                 <li className='water_site mt20' key={i}>
-                    {/*<span>选择我吧</span>*/}
                     <span>{merchantShop.shopName}</span>
                     <span>{merchantShop.shopAddress}</span>
                     <span>{merchantShop.shopName}</span>

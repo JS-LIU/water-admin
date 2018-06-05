@@ -3,7 +3,6 @@ import DeliveryMerchant from './DeliveryMerchant';
 import nearShopListContainer from './NearShopListContainer';
 class ClientOrder {
     constructor(orderInfo) {
-        this.orderInfo = orderInfo;
         this.orderId = orderInfo.orderId;
         this.orderNo = orderInfo.orderNo;
         this.orderSrc = orderInfo.orderSrc;
@@ -16,7 +15,7 @@ class ClientOrder {
         this.totalPrice = orderInfo.totalPrice;
         this.payChannel = orderInfo.payChannel;
         this.orderStatus = orderInfo.status;
-
+        this.shopName = orderInfo.shopName;
         this.deliveryShop = new DeliveryMerchant({
             longitude: orderInfo.longitude,
             latitude: orderInfo.latitude,
@@ -28,11 +27,24 @@ class ClientOrder {
             shopId: orderInfo.shopId,
             cityName: orderInfo.cityName
         });
-
+        this.orderDetail = {};
         let clientOrderAjax = _h.ajax.resource('/admin/order/:action');
         this._redirectClientOrder = function(postInfo){
             return clientOrderAjax.save({action:"redirectShopOrder"},postInfo);
         };
+        this._getOrderDetail = function(postInfo){
+            return clientOrderAjax.save({action:'shopOrderDetail'},postInfo)
+        };
+    }
+
+    getPositionInfo(){
+        let position = this.orderDetail.deliveryAddressModel.position;
+        let cityName = this.orderDetail.deliveryAddressModel.address.cityName;
+        return {
+            latitude:position.latitude,
+            longtitude:position.longitude,
+            cityName:cityName
+        }
     }
 
     dispatchOrder(merchantShop) {
@@ -44,13 +56,17 @@ class ClientOrder {
     }
     getDetail(){
         return new Promise((resolve, reject)=>{
-            resolve(this.orderInfo);
-        }).catch((err)=>{
-            reject(err);
+            this._getOrderDetail({shopOrderId:this.orderNo}).then((detail)=>{
+                this.orderDetail = detail;
+                resolve(this.orderDetail);
+            }).catch((err)=>{
+                reject(err);
+            });
         })
+
     }
     getNearMerchantList(){
-        let locationInfo = this.deliveryShop.getMerchantAddressInfo();
+        let locationInfo = this.getPositionInfo();
         return nearShopListContainer.getNearMerchantList(locationInfo);
     }
 }

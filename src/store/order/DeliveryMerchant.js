@@ -13,6 +13,9 @@ class DeliveryMerchant{
         this.shopId = info.shopId;
         this.cityName = info.cityName;
 
+        if(info.shopId === 1){
+            this.shopName = "立即派单";
+        }
     }
 
     /**

@@ -1,26 +1,22 @@
-import {observable, computed,action,autorun} from "mobx";
 
 class Pagination{
     constructor(size){
         this.size = size;
+        this.total = 0;
+        this.page = 0;
     }
     setTotal(total){
-        this._total = total;
+        this.total = total;
     }
     nextPage(){
-        this._page+=1;
-    }
-    @observable _total = 1;
-    @computed get total(){
-        return this._total;
+        this.page += 1;
     }
     setPage(page){
-        this._page = page - 1;
+        this.page = page - 1;
     }
-    @observable _page = 1;
-    @computed get info(){
+    getInfo(){
         return {
-            page:this._page,
+            page:this.page,
             size:this.size
         }
     }
