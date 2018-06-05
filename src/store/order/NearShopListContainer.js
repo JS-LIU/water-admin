@@ -3,7 +3,7 @@
  */
 import _h from "../../Util/HB";
 import Pagination from "../Pagination";
-import MerchantShop from './DeliveryMerchant';
+import DeliveryMerchant from './DeliveryMerchant';
 class NearShopListContainer{
     constructor(){
         let merchantListAjax = _h.ajax.resource('/admin/order/:action');
@@ -62,7 +62,7 @@ class NearShopListContainer{
     static createMerchantList(merchantList,merchantDataList){
         for(let i = 0;i < merchantDataList.length;i++){
             let merchantShopData = NearShopListContainer.convertToMerchantShopData(merchantDataList[i]);
-            merchantList.push(new MerchantShop(merchantShopData));
+            merchantList.push(new DeliveryMerchant(merchantShopData));
         }
         return merchantList;
     }
@@ -77,7 +77,9 @@ class NearShopListContainer{
             shopAlias: merchantShopInfo.shopAlias,
             shopArtificialNum: merchantShopInfo.shopArtificialNum,
             shopId: merchantShopInfo.shopId,
-            cityName: merchantShopInfo.cityName
+            cityName: merchantShopInfo.cityName,
+            distance: merchantShopInfo.distance,
+            certification: merchantShopInfo.certification
         }
     }
 

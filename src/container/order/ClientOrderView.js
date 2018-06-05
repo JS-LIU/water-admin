@@ -66,7 +66,7 @@ class ClientOrderListQueryView extends Component{
                     />
                 </div>
                 <Radio.Group value={queryType} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
-                    <Radio.Button value={0}>全部待处理</Radio.Button>
+                    <Radio.Button value={0}>全部</Radio.Button>
                     <Radio.Button value={1}>待派单</Radio.Button>
                     <Radio.Button value={2}>待配送</Radio.Button>
                 </Radio.Group>
@@ -82,7 +82,7 @@ class ClientOrderListQueryView extends Component{
         actions.changePagination(pageNumber);
     }
     render(){
-        this.columns = [{
+        const columns = [{
             title:'订单时间',
             dataIndex:"createTime",
             key:"createTime",
@@ -127,10 +127,10 @@ class ClientOrderListQueryView extends Component{
             dataIndex:"deliveryShop",
             render: (text,record) =>{return ( <a href="javascript:;">{record.deliveryShop.shopName}</a>)}
         }];
-        this.dataSource = [];
+        const dataSource = [];
         for(let i = 0;i < data.list.length;i++){
             let item = data.list[i];
-            this.dataSource.push({
+            dataSource.push({
                 key:i,
                 createTime:item.createTime,
                 orderNo:item.orderNo,
@@ -180,9 +180,9 @@ class ClientOrderListQueryView extends Component{
         return (
             <Table
                 className="components-table-demo-nested"
-                columns={this.columns}
+                columns={columns}
                 expandedRowRender={expandedRowRender}
-                dataSource={this.dataSource}
+                dataSource={dataSource}
                 scroll={{x: 1650,y:300}}
                 onRow={(record) => {
                     return {
@@ -285,29 +285,50 @@ class ClientOrderListQueryView extends Component{
 
 @observer class MerchantListView extends Component{
     render(){
-        let merchantShopNodes = data.nearStore.map((merchantShop,i)=>{
-            return (
-                <li className='water_site mt20' key={i}>
-                    <span>{merchantShop.shopName}</span>
-                    <span>{merchantShop.shopAddress}</span>
-                    <span>{merchantShop.shopName}</span>
-                    <span>{merchantShop.shopTelephone}</span>
-                    <span><Button type="primary" >确认订单</Button></span>
-                </li>
-            )
-        });
+        const columns = [
+            {
+                title:"配送商家",
+                dataIndex:"shopName",
+                key:"shopName"
+            },{
+                title:"电话",
+                dataIndex:"shopTelephone",
+                key:"shopTelephone"
+            },{
+                title:"地址",
+                dataIndex:"shopAddress",
+                key:"shopAddress"
+            },{
+                title:"距离",
+                dataIndex:"distance",
+                key:"distance"
+            },{
+                title:"商家类型",
+                dataIndex:"type",
+                key:"type"
+            },{
+                title:"操作",
+                dataIndex:"operator",
+                key:"operator",
+                render: () => <a href="javascript:;">确认派单</a>,
+            }
+        ];
+
+        const dataSource = [];
+        for(let i = 0;i < data.nearStore.length;i++){
+            let item = data.nearStore[i];
+            dataSource.push({
+                key:i,
+                shopName:item.shopName,
+                shopTelephone:item.shopTelephone,
+                shopAddress:item.shopAddress,
+                distance:item.distance,
+                type:item.type
+            })
+        }
+
         return(
-            <ul className='delivery_order_fee'>
-                <li className='water_site mt20'>
-                    <span>选择</span>
-                    <span>配送仓库</span>
-                    <span>仓库地址</span>
-                    <span>配送员</span>
-                    <span>配送电话</span>
-                    <span>操作</span>
-                </li>
-                {merchantShopNodes}
-            </ul>
+            <Table columns={columns} dataSource={dataSource}></Table>
         )
     }
 }
