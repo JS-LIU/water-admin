@@ -3,8 +3,8 @@
  */
 
 import {observable, computed, action, autorun} from "mobx";
-import merchantOrderList from './merchantOrderList';
-
+import merchantOrderList from './MerchantOrderList';
+import nearStoreList from './NearStoreList';
 let merchantOrderListData = {
     @observable list:[],
     @observable detail:{},
@@ -27,11 +27,11 @@ function merchantOrderListActions(){
             merchantOrderListData.activeOrder.getNearStore().then((storeList)=>{
                 merchantOrderListData.nearStore = storeList;
             })
-
         })
     };
-    let selectMerchantOrder = function(merchantOrder){
-        merchantOrderList.selectActiveOrder(merchantOrder);
+    let selectMerchantOrder = function(orderId){
+        let order = merchantOrderList.findOrderByOrderId(merchantOrderListData.list,orderId);
+        merchantOrderList.selectActiveOrder(order);
         merchantOrderList.activeOrder.getDetail().then((detail)=>{
             merchantOrderListData.detail = detail;
         });
@@ -39,7 +39,8 @@ function merchantOrderListActions(){
             merchantOrderListData.nearStore = storeList;
         });
     };
-    let dispatchOrder = function(merchant){
+    let dispatchOrder = function(merchantId){
+        let merchant = nearStoreList.findMerchantById(merchantId);
         merchantOrderList.dispatchOrder(merchant).then(()=>{
             merchantOrderList.removeOrder(merchantOrderListData.list,merchant);
         });
@@ -49,6 +50,22 @@ function merchantOrderListActions(){
     };
     let setQueryInfo = function(queryInfo){
         merchantOrderList.selectQueryMsg(queryInfo);
+    };
+
+    let changePagination = function(page){
+        merchantOrderList.pagination.setPage(page);
+        merchantOrderList.getOrderList().then((list)=>{
+            merchantOrderListData.list = list;
+            merchantOrderList.selectActiveOrder(list[0]);
+            merchantOrderListData.activeOrder = merchantOrderList.activeOrder;
+            merchantOrderList.activeOrder.getDetail().then((detail)=>{
+                merchantOrderListData.detail = detail;
+            });
+
+            merchantOrderListData.activeOrder.getNearStore().then((storeList)=>{
+                merchantOrderListData.nearStore = storeList;
+            })
+        })
     };
     let loadMore = function(){
         merchantOrderList.pagination.nextPage();
@@ -63,7 +80,8 @@ function merchantOrderListActions(){
         dispatchOrder:dispatchOrder,
         queryByQueryInfo:queryByQueryInfo,
         setQueryInfo:setQueryInfo,
-        loadMore:loadMore
+        loadMore:loadMore,
+        changePagination:changePagination
     }
 }
 module.exports = {data:merchantOrderListData,actions:merchantOrderListActions()};

@@ -54,6 +54,11 @@ class MerchantOrderList extends OrderList{
             return order.orderId === orderId;
         })
     }
+    findOrderByOrderId(list,orderId){
+        return list.find((order)=>{
+            return order.orderId === order;
+        })
+    }
 
 }
 module.exports = new MerchantOrderList();

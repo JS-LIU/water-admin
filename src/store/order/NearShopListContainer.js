@@ -90,5 +90,11 @@ class NearShopListContainer{
     selectQueryMsg(queryMsg){
         this.queryMsg = queryMsg;
     }
+
+    findMerchantById(list,merchantId){
+        return list.find((merchant)=>{
+            return merchant.shopId === merchantId;
+        })
+    }
 }
 module.exports = new NearShopListContainer();

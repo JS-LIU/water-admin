@@ -41,7 +41,8 @@ function clientOrderListActions(){
             clientOrderListData.nearStore = storeList;
         });
     };
-    let dispatchOrder = function(merchant){
+    let dispatchOrder = function(merchantId){
+        let merchant = nearShopListContainer.findMerchantById(merchantId);
         clientOrderList.dispatchOrder(merchant).then(()=>{
             clientOrderList.removeOrder(clientOrderListData.list,merchant);
         });

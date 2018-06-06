@@ -42,5 +42,10 @@ class NearStoreList{
             cityName: storeData.cityName
         }
     }
+    findMerchantById(list,merchantId){
+        return list.find((merchant)=>{
+            return merchant.shopId === merchantId;
+        })
+    }
 }
 module.exports = new NearStoreList();

@@ -172,9 +172,6 @@ class ClientOrderListQueryView extends Component{
                     dataSource={dataSource}
                     pagination={false}
                 />
-
-
-
             );
         };
         return (
