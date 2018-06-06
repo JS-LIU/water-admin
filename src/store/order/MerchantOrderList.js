@@ -22,6 +22,7 @@ class MerchantOrderList extends OrderList{
         return new Promise((resolve,reject)=>{
             this.getOrderListData(queryInfoMsg).then((orderContainer)=>{
                 let orderList = orderContainer.content;
+                this.pagination.setTotal(orderContainer.totalElements);
                 this.merchantOrderList = MerchantOrderList.createMerchantList(this.merchantOrderList,orderList);
                 resolve(this.merchantOrderList);
             }).catch((err)=>{

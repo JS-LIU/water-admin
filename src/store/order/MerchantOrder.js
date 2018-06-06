@@ -18,6 +18,9 @@ class MerchantOrder{
         this.deliveryAddress = orderInfo.deliveryAddress;
         this.totalPrice = orderInfo.totalPrice;
         this.payChannel = orderInfo.payChannel;
+        this.receiverShopName = orderInfo.merchantName;
+        this.shopArtificialNum = orderInfo.shopArtificialNum;
+        this.shopAlias = orderInfo.shopAlias;
         this.deliveryMerchant = new DeliveryMerchant({
             longitude:orderInfo.longitude,
             latitude:orderInfo.latitude,
@@ -29,7 +32,7 @@ class MerchantOrder{
             shopId:orderInfo.shopId,
             cityName:orderInfo.cityName
         });
-
+        this.status = orderInfo.status;
         let merchantOrderAjax = _h.ajax.resource('/admin/order/:action');
         this._redirectOrder = function(postInfo){
             return merchantOrderAjax.save({action:"redirectShopOrder"},postInfo);

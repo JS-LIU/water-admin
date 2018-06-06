@@ -36,15 +36,28 @@ class HomeMenuView extends Component{
                                 <span>订单报表</span>
                             </Link>
                         </Menu.Item>
-
-                        {/*<Menu.Item key="/merchantOrder">*/}
-                            {/*<Link to="/merchantOrder">*/}
-                                {/*<Icon type="file-text" />*/}
-                                {/*<span>进货订单</span>*/}
-                            {/*</Link>*/}
-                        {/*</Menu.Item>*/}
                     </SubMenu>
-                    <SubMenu key="sub2" title={<span><Icon type="pay-circle-o" /><span>财务</span></span>}>
+                    <SubMenu key="sub2" title={<span><Icon type="profile" /><span>商家订单</span></span>}>
+                        <Menu.Item key="/merchantOrder">
+                            <Link to="/merchantOrder">
+                                <Icon type="file" />
+                                <span>订单处理</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/orderQuery">
+                            <Link to="/clientOrder">
+                                <Icon type="file" />
+                                <span>订单查询</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/orderForms">
+                            <Link to="/clientOrder">
+                                <Icon type="file" />
+                                <span>订单报表</span>
+                            </Link>
+                        </Menu.Item>
+                    </SubMenu>
+                    <SubMenu key="sub3" title={<span><Icon type="pay-circle-o" /><span>财务</span></span>}>
                         <Menu.Item key="/withdraw">
                             <Link to="/withdraw">
                                 <Icon type="bank" />
@@ -77,7 +90,7 @@ class HomeMenuView extends Component{
                             <span>商品</span>
                         </Link>
                     </Menu.Item>
-                    <SubMenu key="sub3" title={<span><Icon type="pay-circle-o" /><span>测试</span></span>}>
+                    <SubMenu key="sub6" title={<span><Icon type="pay-circle-o" /><span>测试</span></span>}>
                         <Menu.Item key="/auditMerchantTest">
                             <Link to="/auditMerchantTest">
                                 <Icon type="bank" />

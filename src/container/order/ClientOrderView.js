@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import { Table, Tooltip , Button , Radio , Input , Pagination , Badge, Menu, Dropdown, Icon } from 'antd';
+import { Table, Tooltip , Button , Radio , Input } from 'antd';
 const Search = Input.Search;
 import {observer,inject} from 'mobx-react';
 // import OrderView from './OrderView';
