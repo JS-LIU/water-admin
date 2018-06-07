@@ -1,7 +1,6 @@
 /**
  * Created by LDQ on 2018/5/22
  */
-import {observable, computed,action,autorun} from "mobx";
 import _h from '../../Util/HB';
 
 class Merchant{

@@ -17,7 +17,7 @@ module.exports = {
 
             loader: 'babel-loader',
             query: {
-                presets: ['es2015', 'react'],
+                presets: ['es2015', 'react','flow'],
                 plugins: ['transform-runtime','transform-decorators-legacy','transform-class-properties',["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]]
             },
 
