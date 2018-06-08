@@ -4,7 +4,6 @@
 import _h from "../../Util/HB";
 import Pagination from "../Pagination";
 import RebateItem from './RebateItem';
-import ClientOrder from "../order/ClientOrder";
 class RebateList{
     constructor(){
         // /admin/financial/getMonthRebateList
@@ -17,10 +16,14 @@ class RebateList{
         this.queryMsg = {};
         this.rebateStatus = "create";
         this.rebateList = [];
+        this.activeRebateItem = new RebateItem({});
     }
 
     selectQueryInfo(queryMsg){
         this.queryMsg = queryMsg;
+    }
+    setActiveRebateItem(rebateItem){
+        this.activeRebateItem = rebateItem;
     }
 
     getQueryInfo(){
@@ -43,9 +46,14 @@ class RebateList{
     static createRebateList(rebateList,rebateListData){
         rebateList = [];
         for(let i = 0;i < rebateListData.length;i++){
-            rebateList.push(new ClientOrder(rebateListData[i]));
+            rebateList.push(new RebateItem(rebateListData[i]));
         }
         return rebateList;
+    }
+    findIndexByRebateId(list,rebateId){
+        return list.find((rebateItem)=>{
+            return rebateItem.rebateId === rebateId;
+        })
     }
 }
 module.exports = new RebateList();
