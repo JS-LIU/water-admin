@@ -38,7 +38,10 @@ class RebateList{
             this._getRebateList(queryInfoMsg).then((rebateListContainer)=>{
                 let rebateListData = rebateListContainer.content;
                 this.pagination.setTotal(rebateListContainer.totalElements);
-                RebateList.createRebateList(this.rebateList,rebateListData);
+                this.rebateList = RebateList.createRebateList(this.rebateList,rebateListData);
+                resolve(this.rebateList);
+            }).catch((err)=>{
+                reject(err);
             });
 
         })
@@ -50,10 +53,20 @@ class RebateList{
         }
         return rebateList;
     }
-    findIndexByRebateId(list,rebateId){
+    findRebateItemByRebateId(list,rebateId){
         return list.find((rebateItem)=>{
             return rebateItem.rebateId === rebateId;
         })
     }
+    removeRebateItem(list,rebateItem){
+        let index = this.findRebateItemIndexById(list,rebateItem.rebateOrderId);
+        list.splice(index,1);
+        return list;
+    }
+    findRebateItemIndexById(list,rebateOrderId){
+        return list.findIndex((item)=>{
+            return item.rebateId === rebateOrderId;
+        })
+    }
 }
-module.exports = new RebateList();
+module.exports = RebateList;
