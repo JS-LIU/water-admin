@@ -7,8 +7,8 @@ import { Table, Tooltip , Button , Radio , Input } from 'antd';
 const Search = Input.Search;
 import {observer,inject} from 'mobx-react';
 // import OrderView from './OrderView';
-import clientOrderHeaderStyle from './css/ClientOrderHeaderStyle.css';
 import clientOrderStyle from './css/orderStyle.css';
+import orderDetail from './css/orderDetail.css';
 import huipayTableStyle from '../../Util/huipayAdminStyle/huipayTableStyle.css';
 import {data,actions} from '../../store/order/clientOrderListInterface';
 
@@ -75,7 +75,6 @@ class ClientOrderListQueryView extends Component{
         )
     }
 }
-
 
 @observer class ClientOrderListView extends Component{
     changePage(pageNumber){
@@ -195,8 +194,6 @@ class ClientOrderListQueryView extends Component{
 }
 
 
-
-
 //  订单详情
 @observer class ClientOrderDetailView extends Component{
     render() {
@@ -204,7 +201,7 @@ class ClientOrderListQueryView extends Component{
             <div className='order_detail'>
                 <div className='order_detail_header'>订单详情</div>
                 <ul className='order_detail_left'>
-                    <li>
+                    <li className='mt20'>
                         <span>订单号：{data.activeOrder.orderNo}</span>
                         <span className="send_orders">订单时间：{data.activeOrder.createTime}</span>
                     </li>
@@ -261,7 +258,7 @@ class ClientOrderListQueryView extends Component{
                             <div className='print_order'>
                                 <button>打印订单</button>
                             </div>
-                            ·                        </div>
+                         </div>
                     </li>
                 </ul>
             </div>

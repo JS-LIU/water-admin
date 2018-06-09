@@ -1,9 +1,7 @@
-/**
- * Created by LDQ on 2018/6/1
- */
 
 import OrderList from './OrderList';
 import MerchantOrder from "./MerchantOrder";
+
 class MerchantOrderList extends OrderList{
     constructor(){
         super();
@@ -56,7 +54,7 @@ class MerchantOrderList extends OrderList{
     }
     findOrderByOrderId(list,orderId){
         return list.find((order)=>{
-            return order.orderId === order;
+            return order.orderId === orderId;
         })
     }
 

@@ -6,7 +6,6 @@ import nearStoreList from "./NearStoreList";
 import DeliveryMerchant from './DeliveryMerchant';
 class MerchantOrder{
     constructor(orderInfo){
-        this.detail = orderInfo;
         this.orderId = orderInfo.orderId;
         this.orderNo = orderInfo.orderNo;
         this.orderSrc = orderInfo.orderSrc;
@@ -33,10 +32,14 @@ class MerchantOrder{
             cityName:orderInfo.cityName
         });
         this.status = orderInfo.status;
+        this.detail = {};
         let merchantOrderAjax = _h.ajax.resource('/admin/order/:action');
         this._redirectOrder = function(postInfo){
             return merchantOrderAjax.save({action:"redirectShopOrder"},postInfo);
-        }
+        };
+        this._getOrderDetail = function(postInfo){
+            return merchantOrderAjax.save({action:'shopOrderDetail'},postInfo)
+        };
     }
 
     getNearStore(){
@@ -53,9 +56,12 @@ class MerchantOrder{
     }
     getDetail(){
         return new Promise((resolve, reject)=>{
-            resolve(this.detail);
-        }).catch((err)=>{
-            reject(err);
+            this._getOrderDetail({shopOrderId:this.orderNo}).then((detail)=>{
+                this.orderDetail = detail;
+                resolve(this.orderDetail);
+            }).catch((err)=>{
+                reject(err);
+            });
         })
     }
 

@@ -5,10 +5,12 @@
 import {observable, computed, action, autorun} from "mobx";
 import merchantOrderList from './MerchantOrderList';
 import nearStoreList from './NearStoreList';
+
 let merchantOrderListData = {
     @observable list:[],
-    @observable detail:{},
-    @observable nearStore:{},
+    @observable detail:{deliveryAddressModel:{address:{},position:{}},
+        productItemModels:[]},
+    @observable nearStore:[],
     @observable activeOrder:{},
 };
 

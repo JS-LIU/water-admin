@@ -1,0 +1,74 @@
+.order_detail_header{
+    font-size:16px;
+    height:40px;
+    line-height:40px;
+    padding-left:10px;
+    background:dodgerblue;
+    color:white;
+}
+.order_detail{
+    width:36%;
+    padding-bottom:70px;
+    margin-top:20px;
+    position: relative;
+}
+.order_detail_r{
+    width:63%;
+    margin-top:20px;
+    position: relative;
+}
+.send_orders{
+    width:64%;
+    margin-left:25px;
+}
+.order_detail .order_detail_left{
+    width:90%;
+    margin-top:5px;
+    padding-left:10px;
+    padding-right:10px;
+}
+.order_detail>.order_detail_left>li{
+    line-height: 1.5;
+    border-bottom:1px solid #ccc;
+    padding-top:5px;
+    padding-bottom:5px;
+}
+.order_detail>.order_detail_left>li>div{
+    height:30px;
+}
+
+.order_detail>.order_detail_left>li:last-child{
+    border:none;
+}
+#textm{
+    border:1px solid dodgerblue ;
+}
+.shop_price{
+    display: flex;
+    justify-content: space-between;
+}
+.print_order{
+    position: absolute;
+    right:60px;
+    bottom:30px;
+}
+textarea{
+    padding-left:5px;
+    outline: none;
+    border:1px solid #ccc;
+}
+.order_detail_shop{
+    display: flex;
+}
+.order_detail_shop span{
+    flex:1
+}
+.shop_price_container{
+    width:40%;
+}
+.showPage{
+    display: block;
+}
+.hiddenPage{
+    display: none;
+}

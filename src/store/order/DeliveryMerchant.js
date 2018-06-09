@@ -12,6 +12,7 @@ class DeliveryMerchant{
         this.shopAlias = info.shopAlias;
         this.shopArtificialNum = info.shopArtificialNum;
         this.shopId = info.shopId;
+        this.deliveryor = "刘梦珍";
         this.cityName = info.cityName;
         this.type = DeliveryMerchant.convertToType(info.certification);
         if(info.shopId === 1){

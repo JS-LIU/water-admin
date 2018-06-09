@@ -7,7 +7,10 @@ import nearShopListContainer from './NearShopListContainer';
 
 let clientOrderListData = {
     @observable list:[],
-    @observable detail:{},
+    @observable detail:{
+        deliveryAddressModel:{address:{},position:{}},
+        productItemModels:[]
+    },
     @observable nearStore:[],
     @observable activeOrder:{},
 };
