@@ -28,7 +28,7 @@ class AdminList {
                 this.list = AdminList.createList(this.list,list);
                 resolve(this.list);
             }).catch((err)=>{
-                console.log(err);
+                reject(err);
             })
         })
     }
