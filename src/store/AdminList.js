@@ -12,8 +12,8 @@ class AdminList {
     selectQueryInfo(queryMsg){
         this.queryMsg = queryMsg;
     }
-    setActiveItem(rebateItem){
-        this.activeRebateItem = rebateItem;
+    setActiveItem(item){
+        this.activeItem = item;
     }
     selectQueryMsg(queryMsg){
         this.queryMsg = queryMsg;
