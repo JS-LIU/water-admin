@@ -57,6 +57,9 @@ class Merchant{
         };
         this._setArtificialInfo = function(postInfo){
             return merchantListAjax.save({action:'/setShopArtificialInfo'},postInfo);
+        };
+        this._getDetail = function(postInfo){
+            return merchantListAjax.save({action:'/merchantShopDetail'+this.shopId},postInfo);
         }
     }
     /**
