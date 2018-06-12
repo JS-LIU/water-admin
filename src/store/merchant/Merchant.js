@@ -40,9 +40,7 @@ class Merchant{
 
         this.shopId = merchantInfo.shopId;
         let merchantListAjax = _h.ajax.resource('/admin/merchant/:action');
-        this._getDetail = function(){
-            return merchantListAjax.query({action:'getShopCheckInfo/'+this.shopId});
-        };
+
         this._allow = function(postInfo){
             return merchantListAjax.save({action:'/passStatus'},postInfo);
         };
@@ -58,8 +56,24 @@ class Merchant{
         this._setArtificialInfo = function(postInfo){
             return merchantListAjax.save({action:'/setShopArtificialInfo'},postInfo);
         };
-        this._getDetail = function(postInfo){
-            return merchantListAjax.save({action:'/merchantShopDetail'+this.shopId},postInfo);
+        //  审核通过的店铺详情（如果该店铺通过审核）
+        this._getAllowMerchantDetail = function(){
+            return merchantListAjax.save({action:'/merchantShopDetail'+this.shopId});
+        };
+        //  审核通过的店铺详情（如果该店铺尚未通过审核）
+        this._getWaitAllowMerchantDetail = function(){
+            return merchantListAjax.query({action:'getShopCheckInfo/'+this.shopId});
+        };
+        let self = this;
+        let detailStrategy = function(){
+            return {
+                "allowMerchant":self._getAllowMerchantDetail(),
+                "waitAllowMerchant":self._getWaitAllowMerchantDetail()
+            }
+        };
+
+        this._getDetail = function(status){
+            return detailStrategy()[status];
         }
     }
     /**
@@ -70,8 +84,10 @@ class Merchant{
     static convertToAuditStatus(status){
         if(status === "待审核"){
             return {status:0,title:"待审核",operate:"去审核"}
+        }else if(status === "已通过"){
+            return {status:1,title:"已通过",operate:""}
         }else{
-            return {status:1,title:"未通过",operate:"信息待修改"}
+            return {status:2,title:"未通过",operate:"修改信息"}
         }
     }
 
@@ -82,9 +98,10 @@ class Merchant{
         return new Promise((resolve,reject)=>{
             this._getDetail().then((merchantDetail)=>{
                 resolve(merchantDetail)
+            }).catch((err)=>{
+                reject(err);
             })
         });
-
     }
 
     /**
