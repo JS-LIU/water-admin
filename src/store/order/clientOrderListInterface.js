@@ -6,13 +6,13 @@ import clientOrderList from './ClientOrderList';
 import nearShopListContainer from './NearShopListContainer';
 
 let clientOrderListData = {
-    @observable list:[],
+    @observable list:[],        //  列表
     @observable detail:{
         deliveryAddressModel:{address:{},position:{}},
         productItemModels:[]
-    },
-    @observable nearStore:[],
-    @observable activeOrder:{},
+    },      //  详情
+    @observable nearStore:[],   //  附近店铺
+    @observable activeOrder:{}
 };
 function clientOrderListActions(){
     let load = function(){
@@ -45,8 +45,8 @@ function clientOrderListActions(){
         });
     };
     let dispatchOrder = function(merchantId){
-        let merchant = nearShopListContainer.findMerchantById(merchantId);
-        clientOrderList.dispatchOrder(merchant).then(()=>{
+        let merchant = nearShopListContainer.findMerchantById(clientOrderListData.nearStore,merchantId);
+        clientOrderList.activeOrder.dispatchOrder(merchant).then(()=>{
             clientOrderList.removeOrder(clientOrderListData.list,merchant);
         });
     };

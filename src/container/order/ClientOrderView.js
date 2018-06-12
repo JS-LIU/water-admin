@@ -3,14 +3,15 @@
  */
 
 import React, {Component} from 'react';
-import { Table, Tooltip , Button , Radio , Input } from 'antd';
+import { Table, Tooltip , Button , Radio , Input , Cascader  } from 'antd';
 const Search = Input.Search;
 import {observer,inject} from 'mobx-react';
 // import OrderView from './OrderView';
+import clientOrderHeaderStyle from './css/clientOrderHeaderStyle.css';
 import clientOrderStyle from './css/orderStyle.css';
-import orderDetail from './css/orderDetail.css';
 import huipayTableStyle from '../../Util/huipayAdminStyle/huipayTableStyle.css';
 import {data,actions} from '../../store/order/clientOrderListInterface';
+
 
 @observer class ClientOrderView extends Component{
     componentWillMount(){
@@ -54,9 +55,9 @@ class ClientOrderListQueryView extends Component{
         const { queryType } = this.state;
         return (
             <div>
-                <div>
+                <div className="search_box">
                     <Search
-                        placeholder="input search text"
+                        placeholder="输入订单号"
                         onSearch={value => {
                             actions.setQueryInfo({orderNo:value});
                             actions.queryByQueryInfo();
@@ -75,6 +76,7 @@ class ClientOrderListQueryView extends Component{
         )
     }
 }
+
 
 @observer class ClientOrderListView extends Component{
     changePage(pageNumber){
@@ -150,7 +152,6 @@ class ClientOrderListQueryView extends Component{
                 { title: "商品种类", dataIndex: "volume" , key: 'volume'},
                 { title: '商品数量', dataIndex: 'count', key: 'count' },
                 { title: '商品单价', dataIndex: 'price', key:'price'}
-
             ];
             const dataSource = [];
             for(let i = 0;i < record.productItems.length;i++){
@@ -193,29 +194,61 @@ class ClientOrderListQueryView extends Component{
     }
 }
 
-
 //  订单详情
 @observer class ClientOrderDetailView extends Component{
     render() {
+        let productItemNodes = data.detail.productItemModels.map((productItem,i)=>{
+            return (
+                <li key={i} className='list_border name'>
+                    <dl>
+                        <dd>商品名称</dd>
+                        <dd>{productItem.name}</dd>
+                        <dd>{productItem.productType }</dd>
+                    </dl>
+                    <dl>
+                        <dd>规格</dd>
+                        <dd>{productItem.volume}</dd>
+                    </dl>
+                    <dl>
+                        <dd>单价</dd>
+                        <dd>{productItem.currentPrice /100}</dd>
+                    </dl>
+                    {/*<div>*/}
+                        {/*<dd>立减</dd>*/}
+                        {/*<dd>{productItem.payRelatedRmb||0 }</dd>*/}
+                    {/*</div>*/}
+                    <dl>
+                        <dd>数量</dd>
+                        <dd>{productItem.selectCount }</dd>
+                    </dl>
+                </li>
+            )
+        });
         return (
             <div className='order_detail'>
-                <div className='order_detail_header'>订单详情</div>
+                <div className='order_detail_header'>
+                    <span className="pai">订单详情</span>
+                </div>
                 <ul className='order_detail_left'>
-                    <li className='mt20'>
-                        <span>订单号：{data.activeOrder.orderNo}</span>
-                        <span className="send_orders">订单时间：{data.activeOrder.createTime}</span>
+                    <li className='list_border'>
+                        <span>订单号：{data.detail.orderNo}</span>
+                        <span className="send_orders">订单时间：{data.detail.createTime}</span>
+                    </li>
+                    <li className='list_border'>
+                        <div> 收货人：{data.detail.deliveryAddressModel.name} </div>
+                        <div>收获地址：{data.detail.deliveryAddressModel.address.fullAddress}</div>
                     </li>
                     <li>
-                        <div> 收货人：{data.activeOrder.receiver} </div>
-                        <div> 收货地址：{data.activeOrder.shopAddress}  </div>
-                    </li>
-                    <li>
-                        <div className='order_detail_shop'>
-                            <span>商品名称</span>
-                            <span>规格</span>
-                            <span>单价</span>
-                            <span>数量</span>
-                        </div>
+                        <ul>
+                            {productItemNodes}
+                        </ul>
+
+                        {/*<div className='order_detail_shop'>*/}
+                            {/*<span>商品名称:{data.detail.name}</span>*/}
+                            {/*<span>规格</span>*/}
+                            {/*<span>单价</span>*/}
+                            {/*<span>数量</span>*/}
+                        {/*</div>*/}
                         <div className='order_detail_shop'>
                             {/*<span>{orderDetail.productItems.name}</span>*/}
                             {/*<span>{orderDetail.productItems.colume}</span>*/}
@@ -224,41 +257,45 @@ class ClientOrderListQueryView extends Component{
                         </div>
                     </li>
                     <li className='shop_price_container'>
+                        <ul>
+                            {/*{productItemNodes}*/}
+                        </ul>
+
                         <div className='shop_price'>
                             <span>商品金额：</span>
-                            <span>￥{data.activeOrder.buyAmount}</span>
+                            <span className='money '>￥{data.detail.totalPayRmb/100}</span>
                         </div>
                         <div className='shop_price'>
-                            <span>水票（使用0张）：</span>
-                            <span>-0.0</span>
+                            <span>水票（使用{data.detail.useWaterTicket}张）</span>
+                            <span>-{data.detail.useWaterTicketRmb/100}</span>
                         </div>
                         <div className='shop_price'>
                             <span>优惠券（未使用）：</span>
-                            <span>-0.0</span>
+                            <span>-0.00</span>
                         </div>
                         <div className='shop_price'>
                             <span>立减：</span>
-                            <span>-0.0</span>
+                            <span>-0.00</span>
                         </div>
                         <div className='shop_price'>
                             <span>运费：</span>
-                            <span>-0.0</span>
+                            <span>-0.00</span>
                         </div>
                         <div className='shop_price'>
                             <span>实付金额：</span>
-                            <span>-0.0</span>
+                            <span className='money '>￥{data.detail.totalPayRmb/100}</span>
                         </div>
                         <div className='shop_price'>
                             <span>付款方式：</span>
-                            <span>{data.activeOrder.payChannel}</span>
+                            <span>{data.detail.payChannel }</span>
                         </div>
-                        <div>
+                        <div className='remark'>
                             <span>备注：</span>
-                            <textarea name="" id="" cols="40" rows="3"></textarea>
-                            <div className='print_order'>
-                                <button>打印订单</button>
-                            </div>
-                         </div>
+                            <textarea name="" id="" cols="40" rows="3" placeholder="填写"></textarea>
+                            {/*<div className='print_order'>*/}
+                                {/*<button>打印订单</button>*/}
+                            {/*</div>*/}
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -270,8 +307,16 @@ class ClientOrderListQueryView extends Component{
     render(){
         return (
             <div className='order_detail_r ml30'>
-                <div className='order_detail_header'>派单</div>
-                <MerchantListView />
+                <div className='order_detail_header send'>
+                    <span className="pai">派单</span>
+                    <span className="search_site">
+                       <Input placeholder="输入水站名称" />
+                        <Button className="search_site_btn">搜索水站</Button>
+                    </span>
+                </div>
+                <div className="order_detail_right">
+                    <MerchantListView/>
+                </div>
             </div>
         )
     }
@@ -317,12 +362,23 @@ class ClientOrderListQueryView extends Component{
                 shopTelephone:item.shopTelephone,
                 shopAddress:item.shopAddress,
                 distance:item.distance,
-                type:item.type
+                type:item.type,
+                merchantId:item.shopId
             })
         }
 
         return(
-            <Table columns={columns} dataSource={dataSource}></Table>
+            <Table
+                columns={columns}
+                dataSource={dataSource}
+                onRow={(record) => {
+                    return {
+                        onClick: () => {
+                            actions.dispatchOrder(record.merchantId);
+                        },
+                    };
+                }}
+            />
         )
     }
 }
