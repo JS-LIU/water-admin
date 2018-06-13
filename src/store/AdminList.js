@@ -19,13 +19,13 @@ class AdminList {
         this.queryMsg = queryMsg;
     }
 
-    getList(reqMsg,ajax){
+    getList(reqMsg,ajax,listItem){
         let postInfo = Object.assign(reqMsg,this.pagination.getInfo());
         return new Promise((resolve, reject)=>{
             ajax(postInfo).then((listContainer)=>{
                 let list = listContainer.content;
                 this.pagination.setTotal(listContainer.totalElements);
-                this.list = AdminList.createList(this.list,list);
+                this.list = AdminList.createList(this.list,list,listItem);
                 resolve(this.list);
             }).catch((err)=>{
                 reject(err);

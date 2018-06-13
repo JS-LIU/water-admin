@@ -2,7 +2,7 @@
  * Created by LDQ on 2018/5/22
  */
 import _h from '../../Util/HB';
-
+import ProductList from '../product/ProductList';
 class Merchant{
     constructor(merchantInfo){
         this.applyTime = merchantInfo.applyTime;           //  申请时间
@@ -75,13 +75,14 @@ class Merchant{
         this._getDetail = function(status){
             return detailStrategy()[status];
         };
-        this._getShopProductList = function(postInfo){
-            return merchantListAjax.save({action:'/closeShop'},postInfo);
-        };
-        this._getShopPurchaseOrder = function(postInfo){
-            return merchantListAjax.save({action:'/closeShop'},postInfo);
-        };
+
+        this.shopProductList = new ProductList(this.shopId);
+        this.shopOrderList = new ShopOrderList(this.shopId);
+        // this._getShopPurchaseOrder = function(postInfo){
+        //     return merchantListAjax.save({action:'/closeShop'},postInfo);
+        // };
         this._getSaleOrder = function(postInfo){
+
             return merchantListAjax.save({action:'/closeShop'},postInfo);
         };
         this._getAccount = function(postInfo){
@@ -102,9 +103,6 @@ class Merchant{
         }else{
             return {status:"notAllow",title:"未通过",operate:"修改信息"}
         }
-    }
-    getShopProductList(){
-
     }
 
     /**
@@ -147,7 +145,12 @@ class Merchant{
     updateMerchantNum(shopArtificialNum){
         return this._setArtificialInfo({shopId:this.shopId,shopArtificialNum:shopArtificialNum});
     }
-
+    getShopProductList(){
+        return this.shopProductList.getProductList();
+    }
+    getShopOrderList(){
+        return this.ShopOrderList.getShopOrderList();
+    }
     getSaleProductDetail(){
 
     }
@@ -155,6 +158,7 @@ class Merchant{
     getWaterTicketSalePromotionList(){
 
     }
+
 
 }
 module.exports = Merchant;
