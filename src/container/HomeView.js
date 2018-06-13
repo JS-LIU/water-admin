@@ -17,6 +17,9 @@ import WithdrawInfoView from './WithdrawInfoView';
 // import ClientOrderView from './ClientOrderView';
 import ClientOrderView from './order/ClientOrderView';
 import MerchantOrderView from './order/MerchantOrderView';
+import MerchantAuditView from './merchantManage/MerchantAuditView';
+import MerchantAuditQuery from './merchantManage/MerchantAuditQueryView';
+
 import OpenShopView from './OpenShopView';
 import ShopListView from './ShopListView';
 import AuditMerchantList from '../store/merchant/AuditMerchantList.test';
@@ -60,6 +63,8 @@ class HomeView extends Component{
                                 <Route path="/clientOrder" component={ClientOrderView} />
                                 <Route path="/merchantOrder" component={MerchantOrderView} />
                                 <Route path="/withdraw" component={WithdrawInfoView} />
+                                <Route path='/merchantAudit' component={MerchantAuditView} ></Route>
+                                <Route path='/merchantAuditQuery' component={MerchantAuditQuery} ></Route>
                                 {/*<Route path="/merchantOrder" component={OrderListTest} />*/}
                                 <Route path="/openShop" component={OpenShopView} />
                                 <Route path="/shopList" component={ShopListView} />

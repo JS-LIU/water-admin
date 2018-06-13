@@ -71,21 +71,29 @@ class HomeMenuView extends Component{
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-
+                    <SubMenu key="sub4" title={<span><Icon type="profile" /><span>商家管理</span></span>}>
+                        <Menu.Item key="/merchantAudit">
+                            <Link to="/merchantAudit">
+                                <Icon type="shop" />
+                                <span>商家入驻</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/merchantAuditQuery">
+                            <Link to="/merchantAuditQuery">
+                                <Icon type="shop" />
+                                <span>商家查询</span>
+                            </Link>
+                        </Menu.Item>
+                    </SubMenu>
                     <Menu.Item key="openShop">
                         <Link to="/openShop">
                             <Icon type="user" />
                             <span>审核</span>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="4">
-                        <Link to="/shopList" >
-                            <Icon type="shop" />
-                            <span>商家</span>
-                        </Link>
-                    </Menu.Item>
+
                     <Menu.Item key="5">
-                        <Link to="/order">
+                        <Link to='/shopList'>
                             <Icon type="gift" />
                             <span>商品</span>
                         </Link>
