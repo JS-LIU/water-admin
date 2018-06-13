@@ -1,0 +1,39 @@
+.merchant_audit_data{
+    width:100%;
+    margin-top:20px;
+    background: #eeeeee;
+}
+.audit_material_container{
+    line-height: 2;
+    padding:0 20px 100px;
+    background:#fff;
+}
+.audit_material_header{
+    border-top:1px solid #ccc;
+}
+.audit_material_container h5{
+    padding:10px 0 0;
+}
+.audit_material_container ul{
+    display: flex;
+    flex-wrap:wrap;
+}
+.audit_material_container ul li{
+    margin-right:100px;
+}
+.provider_introduce{
+    display: flex;
+    justify-content: space-between;
+    padding-right:20%;
+}
+#add_detail_section_left{
+    width:100%;
+}
+#add_detail_section_left ul li{
+    flex-basis: 25%;
+}
+.add_detail_section_bottom{
+    display: flex;
+    justify-content: space-between;
+    padding:0 15px 30px;
+}

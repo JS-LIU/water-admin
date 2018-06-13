@@ -1,0 +1,16 @@
+ .ant-table-tbody > tr > td > img{
+     width:100px;
+     height:100px;
+ }
+ .ant-input-search{
+     width:220px;
+     margin-left: 10px;
+ }
+ .all_search_box{
+     width:80%;
+     display: flex;
+     flex-wrap: wrap;
+ }
+ .all_search_box div{
+     flex-basis: 30%;
+ }
