@@ -37,9 +37,14 @@ function merchantSearchAction(){
     let updateMerchantNum = function(merchantNum){
         merchantListContainer.updateMerchantNum(merchantNum);
     };
-
+    let changePage = function(pageNum){
+        merchantListContainer.pagination.setPage(pageNum);
+        merchantListContainer.getMerchantList().then((list)=>{
+            merchantSearchData.list = list;
+        });
+    };
     return {
-        //  加在列表
+        //  加载列表
         onLoad:load,
         //  关闭店铺
         closeMerchant:closeMerchant,

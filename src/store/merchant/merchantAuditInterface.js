@@ -61,6 +61,17 @@ function auditMerchantListAction(){
             auditMerchantData.detail = merchantDetail;
         });
     };
+    let changePage = function(pageNum){
+        merchantListContainer.pagination.setPage(pageNum);
+        merchantListContainer.getMerchantList().then((list)=>{
+            auditMerchantData.list = list;
+            merchantListContainer.selectMerchant(auditMerchantData.list[0]);
+            auditMerchantData.activeMerchant = merchantListContainer.activeMerchant;
+            merchantListContainer.activeMerchant.getDetail().then((merchantDetail)=>{
+                auditMerchantData.detail = merchantDetail;
+            });
+        })
+    };
     return {
         //  初始化页面
         onLoad:load,
@@ -79,7 +90,8 @@ function auditMerchantListAction(){
         //  拒绝审核
         notAllow:notAllow,
         //  选择店铺
-        selectMerchant:selectMerchant
+        selectMerchant:selectMerchant,
+        changePage:changePage
     }
 }
 module.exports = {actions:auditMerchantListAction(),data:auditMerchantData};

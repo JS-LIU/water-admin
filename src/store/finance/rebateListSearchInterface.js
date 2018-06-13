@@ -3,8 +3,8 @@
  */
 
 import {observable, computed, action, autorun} from "mobx";
-import rebateList from './RebateList';
-
+import RebateList from './RebateList';
+let rebateList = new RebateList();
 
 let rebateListSearchInterface = {
     @observable list:[]
