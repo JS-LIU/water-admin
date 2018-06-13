@@ -59,7 +59,7 @@ class MerchantListContainer{
      */
     getMerchantList(queryMsg) {
         let queryInfo = this._getQueryInfo();
-        let postInfo = Object.assign(queryInfo,queryMsg,this.pagination.info);
+        let postInfo = Object.assign(queryInfo,queryMsg,this.pagination.getInfo());
         this.merchantList = [];
         return new Promise((resolve,reject)=>{
             this._getMerchantList(postInfo).then((merchantList)=>{
