@@ -76,9 +76,6 @@ class MerchantListContainer{
         for(let i = 0;i < merchantListData.length;i++){
             merchantList.push(new Merchant(merchantListData[i]));
         }
-        if(merchantList.length === 0){
-            merchantList.push(new Merchant({}));
-        }
         return merchantList;
     }
     selectMerchant(merchant){

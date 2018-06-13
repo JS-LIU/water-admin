@@ -32,12 +32,6 @@ function auditMerchantListAction(){
         merchantListContainer.selectShopType('waittingPermission');
         load();
     };
-    let loadMore = function(){
-        merchantListContainer.pagination.nextPage();
-        merchantListContainer.getMerchantList().then((list)=>{
-            auditMerchantData.list.concat(list);
-        });
-    };
     let setQueryInfo = function(queryInfo){
         merchantListContainer.selectQueryMsg(queryInfo);
     };
@@ -79,8 +73,6 @@ function auditMerchantListAction(){
         selectRejectList:selectRejectList,
         //  待审核店铺列表
         selectAllowList:selectAllowList,
-        //  加载更多
-        loadMore:loadMore,
         //  设置查询条件
         setQueryInfo:setQueryInfo,
         //  根据设置的查询条件查询

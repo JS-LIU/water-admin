@@ -42,23 +42,23 @@ class Merchant{
         let merchantListAjax = _h.ajax.resource('/admin/merchant/:action');
 
         this._allow = function(postInfo){
-            return merchantListAjax.save({action:'/passStatus'},postInfo);
+            return merchantListAjax.save({action:'passStatus'},postInfo);
         };
         this._notAllow = function(postInfo){
-            return merchantListAjax.save({action:'/refuseStatus'},postInfo);
+            return merchantListAjax.save({action:'refuseStatus'},postInfo);
         };
         this._close = function(postInfo){
-            return merchantListAjax.save({action:'/closeShop'},postInfo);
+            return merchantListAjax.save({action:'closeShop'},postInfo);
         };
         this._toTop = function(){
-            return merchantListAjax.save({action:'/updateShopTop/'+this.shopId});
+            return merchantListAjax.save({action:'updateShopTop/'+this.shopId});
         };
         this._setArtificialInfo = function(postInfo){
-            return merchantListAjax.save({action:'/setShopArtificialInfo'},postInfo);
+            return merchantListAjax.save({action:'setShopArtificialInfo'},postInfo);
         };
         //  审核通过的店铺详情（如果该店铺通过审核）
         this._getAllowMerchantDetail = function(){
-            return merchantListAjax.save({action:'/merchantShopDetail'+this.shopId});
+            return merchantListAjax.save({action:'merchantShopDetail/'+this.shopId});
         };
         //  审核通过的店铺详情（如果该店铺尚未通过审核）
         this._getWaitAllowMerchantDetail = function(){
@@ -72,12 +72,14 @@ class Merchant{
             }
         };
 
-        this._getDetail = function(status){
+        this._getDetail = function(){
+            let status = this.auditStatus.status;
+            console.log(status);
             return detailStrategy()[status];
         };
 
         this.shopProductList = new ProductList(this.shopId);
-        this.shopOrderList = new ShopOrderList(this.shopId);
+        // this.shopOrderList = new ShopOrderList(this.shopId);
         // this._getShopPurchaseOrder = function(postInfo){
         //     return merchantListAjax.save({action:'/closeShop'},postInfo);
         // };
