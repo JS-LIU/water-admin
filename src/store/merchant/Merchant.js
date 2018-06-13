@@ -67,14 +67,27 @@ class Merchant{
         let self = this;
         let detailStrategy = function(){
             return {
-                "allowMerchant":self._getAllowMerchantDetail(),
-                "waitAllowMerchant":self._getWaitAllowMerchantDetail()
+                "allow":self._getAllowMerchantDetail(),
+                "waitAllow":self._getWaitAllowMerchantDetail()
             }
         };
 
         this._getDetail = function(status){
             return detailStrategy()[status];
+        };
+        this._getShopProductList = function(postInfo){
+            return merchantListAjax.save({action:'/closeShop'},postInfo);
+        };
+        this._getShopPurchaseOrder = function(postInfo){
+            return merchantListAjax.save({action:'/closeShop'},postInfo);
+        };
+        this._getSaleOrder = function(postInfo){
+            return merchantListAjax.save({action:'/closeShop'},postInfo);
+        };
+        this._getAccount = function(postInfo){
+            return merchantListAjax.save({action:'/closeShop'},postInfo);
         }
+
     }
     /**
      * 审核状态
@@ -83,12 +96,15 @@ class Merchant{
      */
     static convertToAuditStatus(status){
         if(status === "待审核"){
-            return {status:0,title:"待审核",operate:"去审核"}
+            return {status:"waitAllow",title:"待审核",operate:"去审核"}
         }else if(status === "已通过"){
-            return {status:1,title:"已通过",operate:""}
+            return {status:"allow",title:"已通过",operate:[{title:"",key:""},{title:"",key:""}]}
         }else{
-            return {status:2,title:"未通过",operate:"修改信息"}
+            return {status:"notAllow",title:"未通过",operate:"修改信息"}
         }
+    }
+    getShopProductList(){
+
     }
 
     /**
