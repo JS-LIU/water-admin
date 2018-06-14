@@ -3,6 +3,8 @@
  */
 import _h from '../../Util/HB';
 import ProductList from '../product/ProductList';
+import ShopOrderList from '../order/ShopOrderList';
+import ShopAccount from '../account/ShopAccount';
 class Merchant{
     constructor(merchantInfo){
         this.applyTime = merchantInfo.applyTime;           //  申请时间
@@ -78,18 +80,17 @@ class Merchant{
             return detailStrategy()[status];
         };
 
-        this.shopProductList = new ProductList(this.shopId);
-        // this.shopOrderList = new ShopOrderList(this.shopId);
+
         // this._getShopPurchaseOrder = function(postInfo){
         //     return merchantListAjax.save({action:'/closeShop'},postInfo);
         // };
-        this._getSaleOrder = function(postInfo){
-
-            return merchantListAjax.save({action:'/closeShop'},postInfo);
-        };
-        this._getAccount = function(postInfo){
-            return merchantListAjax.save({action:'/closeShop'},postInfo);
-        }
+        // this._getSaleOrder = function(postInfo){
+        //
+        //     return merchantListAjax.save({action:'/closeShop'},postInfo);
+        // };
+        // this._getAccount = function(postInfo){
+        //     return merchantListAjax.save({action:'/closeShop'},postInfo);
+        // }
 
     }
     /**
@@ -113,7 +114,11 @@ class Merchant{
     getDetail(){
         return new Promise((resolve,reject)=>{
             this._getDetail().then((merchantDetail)=>{
-                resolve(merchantDetail)
+                resolve(merchantDetail);
+                this.shopProductList = new ProductList(merchantDetail.shopId);
+                this.shopOrderList = new ShopOrderList(merchantDetail.shopId);
+                this.account = new ShopAccount(merchantDetail.shopId);
+                // this.promoto = new ShopPromoto(merchantDetail.shopId);
             }).catch((err)=>{
                 reject(err);
             })
@@ -147,20 +152,6 @@ class Merchant{
     updateMerchantNum(shopArtificialNum){
         return this._setArtificialInfo({shopId:this.shopId,shopArtificialNum:shopArtificialNum});
     }
-    getShopProductList(){
-        return this.shopProductList.getProductList();
-    }
-    getShopOrderList(){
-        return this.ShopOrderList.getShopOrderList();
-    }
-    getSaleProductDetail(){
-
-    }
-
-    getWaterTicketSalePromotionList(){
-
-    }
-
 
 }
 module.exports = Merchant;
