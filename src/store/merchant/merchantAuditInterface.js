@@ -48,7 +48,8 @@ function auditMerchantListAction(){
             merchantListContainer.removeMerchant(auditMerchantData.list,merchantListContainer.activeMerchant);
         });
     };
-    let selectMerchant = function(merchant){
+    let selectMerchant = function(merchantId){
+        let merchant = merchantListContainer.findMerchantById(auditMerchantData.list,merchantId);
         merchantListContainer.selectMerchant(merchant);
         auditMerchantData.activeMerchant = merchantListContainer.activeMerchant;
         merchantListContainer.activeMerchant.getDetail().then((merchantDetail)=>{
