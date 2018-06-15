@@ -40,7 +40,7 @@ class Merchant{
         this.introduce = merchantInfo.presentation;        //  商家介绍
         this.auditor = merchantInfo.auditor;               //  审核人
 
-
+        this.merchantId = merchantInfo.merchantId;
         this.shopId = merchantInfo.shopId;
         let merchantListAjax = _h.ajax.resource('/admin/merchant/:action');
 
@@ -60,25 +60,23 @@ class Merchant{
             return merchantListAjax.save({action:'setShopArtificialInfo'},postInfo);
         };
         //  审核通过的店铺详情（如果该店铺通过审核）
-        this._getAllowMerchantDetail = function(){
-            return merchantListAjax.save({action:'merchantShopDetail/'+this.shopId});
+        this._getAllowMerchantDetail = function(shopId){
+            return merchantListAjax.save({action:'merchantShopDetail/'+shopId});
         };
         //  审核通过的店铺详情（如果该店铺尚未通过审核）
-        this._getWaitAllowMerchantDetail = function(){
-            return merchantListAjax.query({action:'getShopCheckInfo/'+this.shopId});
+        this._getWaitAllowMerchantDetail = function(shopId){
+            return merchantListAjax.query({action:'getShopCheckInfo/'+shopId});
         };
         let self = this;
-        let detailStrategy = function(){
-            return {
-                "allow":self._getAllowMerchantDetail(),
-                "waitAllow":self._getWaitAllowMerchantDetail()
-            }
+        let detailStrategy ={
+            "allow":self._getAllowMerchantDetail,
+            "waitAllow":self._getWaitAllowMerchantDetail
         };
 
-        this._getDetail = function(){
+
+        this._getDetail = function(shopId){
             let status = this.auditStatus.status;
-            console.log(status);
-            return detailStrategy()[status];
+            return detailStrategy[status](shopId);
         };
         this.shopProductList = new ProductList(this.shopId);
         this.shopOrderList = new ShopOrderList(this.shopId);
@@ -117,7 +115,7 @@ class Merchant{
      */
     getDetail(){
         return new Promise((resolve,reject)=>{
-            this._getDetail().then((merchantDetail)=>{
+            this._getDetail(this.shopId).then((merchantDetail)=>{
                 resolve(merchantDetail);
 
 
@@ -132,14 +130,14 @@ class Merchant{
      * @returns {Promise}
      */
     allow(){
-        return this._allow({id:this.shopId})
+        return this._allow({id:this.merchantId})
     }
 
     /**
      * 拒绝审核
      */
     notAllow(){
-        return this._notAllow({id:this.shopId})
+        return this._notAllow({id:this.merchantId})
     }
     //  关闭店铺
     close(){

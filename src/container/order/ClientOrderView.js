@@ -7,8 +7,8 @@ import { Table, Tooltip , Button , Radio , Input , Cascader  } from 'antd';
 const Search = Input.Search;
 import {observer,inject} from 'mobx-react';
 // import OrderView from './OrderView';
-import clientOrderHeaderStyle from './css/clientOrderHeaderStyle.css';
-import clientOrderStyle from './css/orderStyle.css';
+// import clientOrderHeaderStyle from './css/clientOrderHeaderStyle.css';
+// import clientOrderStyle from './css/orderStyle.css';
 import huipayTableStyle from '../../Util/huipayAdminStyle/huipayTableStyle.css';
 import {data,actions} from '../../store/order/clientOrderListInterface';
 
@@ -188,7 +188,7 @@ class ClientOrderListQueryView extends Component{
                         },
                     };
                 }}
-                pagination={{total:20,defaultCurrent:1,onChange:this.changePage.bind(this)}}
+                pagination={{defaultCurrent:1,onChange:this.changePage.bind(this)}}
             />
         )
     }

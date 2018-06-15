@@ -15,11 +15,17 @@
     padding:10px 0 0;
 }
 .audit_material_container ul{
+    width:80%;
     display: flex;
     flex-wrap:wrap;
 }
 .audit_material_container ul li{
-    margin-right:100px;
+    flex-basis: 20%;
+    line-height: 100px;
+}
+.audit_material_container ul li img{
+    width:100px;
+    height:100px;
 }
 .provider_introduce{
     display: flex;

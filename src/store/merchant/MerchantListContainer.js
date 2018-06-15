@@ -13,9 +13,7 @@ class MerchantListContainer{
         this.queryMsg = {};
         this.pagination = new Pagination(10);
         this.shopType = "waittingPermission";
-        this._init = function(postInfo){
-            return merchantListAjax.save({action:'initShop'}, postInfo)
-        };
+        this.merchantType = "personal";
         this.merchantList = [];
         this.activeMerchant = new Merchant({});
         let self = this;
@@ -36,12 +34,17 @@ class MerchantListContainer{
     selectShopType(type){
         this._setShopType(type);
     }
+
+    changeMerchantType(merchantType){
+        this.merchantType = merchantType;
+    }
     _setShopType(type){
         this.shopType = type;
     }
     _getQueryInfo(){
         return Object.assign(this.queryMsg,{
-            queryType:this.shopType
+            queryType:this.shopType,
+            merchantType:this.merchantType
         });
     }
     selectQueryMsg(queryMsg){
@@ -54,15 +57,15 @@ class MerchantListContainer{
 
     /**
      * 获取店铺审核列表
-     * @param queryMsg
      * @returns {Promise<any>}
      */
-    getMerchantList(queryMsg) {
+    getMerchantList() {
         let queryInfo = this._getQueryInfo();
-        let postInfo = Object.assign(queryInfo,queryMsg,this.pagination.getInfo());
+        let postInfo = Object.assign(queryInfo,this.queryMsg,this.pagination.getInfo());
         this.merchantList = [];
         return new Promise((resolve,reject)=>{
             this._getMerchantList(postInfo).then((merchantList)=>{
+                this.pagination.setTotal(merchantList.totalElements);
                 let merchantListContent = merchantList.content;
                 this.merchantList = MerchantListContainer.createMerchantList(this.merchantList,merchantListContent);
                 resolve(this.merchantList);

@@ -7,14 +7,17 @@ import merchantListContainer from './MerchantListContainer';
 
 let auditMerchantData = {
     @observable list:[],
-    @observable detail:{},
+    @observable detail:{serviceTel:[],shopDetailImg:[]},
     @observable activeMerchant:{},
+    @observable total:0
 };
 function auditMerchantListAction(){
+
     let load = function(){
         merchantListContainer.pagination.setPage(1);
         merchantListContainer.getMerchantList().then((list)=>{
             auditMerchantData.list = list;
+            auditMerchantData.total = merchantListContainer.pagination.total;
             merchantListContainer.selectMerchant(auditMerchantData.list[0]);
             auditMerchantData.activeMerchant = merchantListContainer.activeMerchant;
             merchantListContainer.activeMerchant.getDetail().then((merchantDetail)=>{
@@ -22,7 +25,9 @@ function auditMerchantListAction(){
             });
         })
     };
-
+    let changeMerchantType = function(merchantType){
+        merchantListContainer.changeMerchantType(merchantType);
+    };
     let selectRejectList = function(){
         merchantListContainer.selectShopType('rejectForPermission');
         load();
@@ -40,12 +45,22 @@ function auditMerchantListAction(){
     };
     let allow = function(){
         merchantListContainer.activeMerchant.allow().then(()=>{
-            merchantListContainer.removeMerchant(auditMerchantData.list,merchantListContainer.activeMerchant);
+            auditMerchantData.list = merchantListContainer.removeMerchant(auditMerchantData.list,merchantListContainer.activeMerchant);
+            merchantListContainer.selectMerchant(auditMerchantData.list[0]);
+            auditMerchantData.activeMerchant = merchantListContainer.activeMerchant;
+            merchantListContainer.activeMerchant.getDetail().then((merchantDetail)=>{
+                auditMerchantData.detail = merchantDetail;
+            });
         });
     };
     let notAllow = function(){
         merchantListContainer.activeMerchant.notAllow().then(()=>{
-            merchantListContainer.removeMerchant(auditMerchantData.list,merchantListContainer.activeMerchant);
+            auditMerchantData.list = merchantListContainer.removeMerchant(auditMerchantData.list,merchantListContainer.activeMerchant);
+            merchantListContainer.selectMerchant(auditMerchantData.list[0]);
+            auditMerchantData.activeMerchant = merchantListContainer.activeMerchant;
+            merchantListContainer.activeMerchant.getDetail().then((merchantDetail)=>{
+                auditMerchantData.detail = merchantDetail;
+            });
         });
     };
     let selectMerchant = function(merchantId){
@@ -84,7 +99,8 @@ function auditMerchantListAction(){
         notAllow:notAllow,
         //  选择店铺
         selectMerchant:selectMerchant,
-        changePage:changePage
+        changePage:changePage,
+        changeMerchantType:changeMerchantType
     }
 }
 module.exports = {actions:auditMerchantListAction(),data:auditMerchantData};
