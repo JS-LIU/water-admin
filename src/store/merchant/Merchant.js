@@ -5,6 +5,7 @@ import _h from '../../Util/HB';
 import ProductList from '../product/ProductList';
 import ShopOrderList from '../order/ShopOrderList';
 import ShopAccount from '../account/ShopAccount';
+import ShopActivityList from './ShopActivityList';
 class Merchant{
     constructor(merchantInfo){
         this.applyTime = merchantInfo.applyTime;           //  申请时间
@@ -79,7 +80,10 @@ class Merchant{
             console.log(status);
             return detailStrategy()[status];
         };
-
+        this.shopProductList = new ProductList(this.shopId);
+        this.shopOrderList = new ShopOrderList(this.shopId);
+        this.account = new ShopAccount(this.shopId);
+        this.shopActivityList = new ShopActivityList(this.shopId);
 
         // this._getShopPurchaseOrder = function(postInfo){
         //     return merchantListAjax.save({action:'/closeShop'},postInfo);
@@ -115,10 +119,8 @@ class Merchant{
         return new Promise((resolve,reject)=>{
             this._getDetail().then((merchantDetail)=>{
                 resolve(merchantDetail);
-                this.shopProductList = new ProductList(merchantDetail.shopId);
-                this.shopOrderList = new ShopOrderList(merchantDetail.shopId);
-                this.account = new ShopAccount(merchantDetail.shopId);
-                // this.promoto = new ShopPromoto(merchantDetail.shopId);
+
+
             }).catch((err)=>{
                 reject(err);
             })
