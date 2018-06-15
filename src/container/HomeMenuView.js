@@ -84,6 +84,12 @@ class HomeMenuView extends Component{
                                 <span>商家查询</span>
                             </Link>
                         </Menu.Item>
+                        <Menu.Item key="/merchantDetail">
+                            <Link to="/merchantDetail">
+                                <Icon type="shop" />
+                                <span>商家信息</span>
+                            </Link>
+                        </Menu.Item>
                     </SubMenu>
                     <Menu.Item key="openShop">
                         <Link to="/openShop">

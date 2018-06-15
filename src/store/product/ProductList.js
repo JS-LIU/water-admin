@@ -9,13 +9,20 @@ class ProductList extends AdminList{
         super();
         this.shopId = shopId;
         let productListAjax = _h.ajax.resource('/admin/merchant/:action');
+        let self = this;
         this._getProductList = function(){
-            return productListAjax.save({action:"/shopProductList/"+this.shopId});
+            return productListAjax.save({action:"/shopProductList/"+shopId});
         };
     }
     getProductList(){
-        let queryInfo = this.getQueryMsg();
-        return this.getList(queryInfo,this._getProductList,Product);
+        return new Promise((resolve,reject)=>{
+            this._getProductList().then((productList)=>{
+                this.list = ProductList.createList(this.list,productList,Product);
+                resolve(this.list);
+            }).catch((err)=>{
+                reject(err);
+            })
+        });
     }
 }
 module.exports = ProductList;

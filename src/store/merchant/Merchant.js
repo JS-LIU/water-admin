@@ -78,10 +78,10 @@ class Merchant{
             let status = this.auditStatus.status;
             return detailStrategy[status](shopId);
         };
-        this.shopProductList = new ProductList(this.shopId);
-        this.shopOrderList = new ShopOrderList(this.shopId);
-        this.account = new ShopAccount(this.shopId);
-        this.shopActivityList = new ShopActivityList(this.shopId);
+        this.shopProductList = new ProductList(merchantInfo.shopId);
+        this.shopOrderList = new ShopOrderList(merchantInfo.shopId);
+        this.account = new ShopAccount(merchantInfo.shopId);
+        this.shopActivityList = new ShopActivityList(merchantInfo.shopId);
 
         // this._getShopPurchaseOrder = function(postInfo){
         //     return merchantListAjax.save({action:'/closeShop'},postInfo);

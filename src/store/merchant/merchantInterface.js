@@ -6,17 +6,19 @@ import merchantListContainer from './MerchantListContainer';
 import Merchant from './Merchant';
 
 let merchantData = {
-    @observable merchant:{},                //  店铺信息
-    @observable productList:[],             //  店铺商品
-    @observable buyOrderList:[],            //  进货订单
-    @observable saleOrderList:[],           //  销售订单
-    @observable waterTicketOrderList:[], //  水票款
-    @observable withdrawList:[]          //  提现
+    @observable merchant:{shopImg:[],serviceTel:[]},    //  店铺信息
+    @observable detail:{},
+    @observable productList:[],                         //  店铺商品
+    @observable buyOrderList:[],                        //  进货订单
+    @observable saleOrderList:[],                       //  销售订单
+    @observable waterTicketOrderList:[],                //  水票款
+    @observable withdrawList:[]                         //  提现
 };
 
 function merchantActions(){
-    merchantListContainer.selectShopType("passStatus");
     let queryMerchant = function(queryInfo){
+        merchantListContainer.selectShopType("passStatus");
+        merchantListContainer.changeMerchantType(null);
         merchantListContainer.pagination.setPage(1);
         merchantListContainer.selectQueryMsg(queryInfo);
 

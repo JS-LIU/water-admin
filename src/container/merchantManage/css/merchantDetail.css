@@ -1,0 +1,43 @@
+.merchant_shop_message{
+    /*background:pink;*/
+    padding:20px 15px;
+    margin-bottom:20px;
+    border:1px solid #eee;
+}
+.merchant_shop_message>h5{
+    font-size:20px;
+}
+.merchant_shop_message>ul{
+    display: flex;
+    flex-wrap: wrap;
+}
+.merchant_shop_message_list{
+    width:80%;
+}
+.merchant_shop_message_list>li{
+    flex-basis:25%;
+}
+.merchant_shop_message>ul>li{
+    padding:15px 0;
+}
+
+#merchant_card_icon{
+    font-size:25px;
+    padding-right:10px;
+}
+.merchant_shop_message_list li img{
+    width:100px;
+    height:100px;
+}
+
+.ant-tabs-nav{
+    display:flex;
+
+}
+.merchant_shop_message .ant-tabs-tab{
+    display:flex;
+    align-items: center;
+    background:#e2e2e2;
+    width:150px;
+    height:100px;
+}

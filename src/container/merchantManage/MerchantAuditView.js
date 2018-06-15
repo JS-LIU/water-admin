@@ -1,5 +1,3 @@
-
-
 import React, {Component} from 'react'
 import { Table, Pagination , Button , Radio , Input , Select } from 'antd';
 const Search = Input.Search;

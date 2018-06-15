@@ -7,7 +7,7 @@ class WaterTicketOrderList{
         this.shopId = shopId;
         let waterTicketAjax = _h.ajax.resource('/admin/account/:action');
         this._getWaterTicketList = function(){
-            return waterTicketAjax.save({action:this.shopId})
+            return waterTicketAjax.save({action:shopId})
         }
     }
     getWaterTicketList(){

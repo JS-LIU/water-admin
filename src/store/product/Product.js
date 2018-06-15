@@ -3,8 +3,24 @@
  */
 class Product{
     constructor(productInfo){
-        this.productId = productInfo.productId;
-        this.productStatus = Product.convertProductStatus(productInfo.productStatus);
+        this.productId = productInfo.id;
+        this.productStatus = Product.convertProductStatus(productInfo.shopProductStatus);
+        this.shopId = productInfo.shopId;
+        this.shopName = productInfo.shopName;
+        this.shopAlians = productInfo.shopAlians;
+        this.productName = productInfo.productName;
+        this.volume = productInfo.volume;
+        this.productImg = productInfo.imageUrl;
+        this.productTag = productInfo.productTag;
+        this.price = productInfo.price;
+        this.originalPrice = productInfo.originalPrice;
+        this.salePrice = productInfo.costPrice;
+        this.distributionMoney = parseInt(productInfo.commissionRatio);
+        this.saleMount = productInfo.saleMount;
+        this.stockStatus = productInfo.stock;
+        this.productActivity = productInfo.promotionActivity;
+        this.storeProductId = productInfo.storeProductId;
+        this.serve = productInfo.serve;
         this.operateStrategy = {
             'soldOut':function(){
                 console.log('下架了')
@@ -22,7 +38,7 @@ class Product{
 
     }
     static convertProductStatus(status){
-        if(status === "up"){
+        if(status === "在售"){
             return {status:"up",actions:[{operate:"soldOut",title:"下架"},{operate:"toTop",title:"置顶"}]}
         }else{
             return {status:"down",actions:[{operate:"added",title:"上架"},{operate:"removeItem",title:"删除"}]}
