@@ -6,15 +6,14 @@ import React, {Component} from 'react';
 import { Table, Tooltip , Button , Radio , Input , Cascader  } from 'antd';
 const Search = Input.Search;
 import {observer,inject} from 'mobx-react';
-// import OrderView from './OrderView';
-// import clientOrderHeaderStyle from './css/clientOrderHeaderStyle.css';
-// import clientOrderStyle from './css/orderStyle.css';
+import orderStyle from './css/orderStyle.css';
 import huipayTableStyle from '../../Util/huipayAdminStyle/huipayTableStyle.css';
 import {data,actions} from '../../store/order/clientOrderListInterface';
 
 
 @observer class ClientOrderView extends Component{
     componentWillMount(){
+        actions.resetInitQueryInfo();
         actions.onLoad();
     }
     render(){
@@ -188,7 +187,7 @@ class ClientOrderListQueryView extends Component{
                         },
                     };
                 }}
-                pagination={{defaultCurrent:1,onChange:this.changePage.bind(this)}}
+                pagination={{defaultCurrent:data.pagination.page+1,onChange:this.changePage.bind(this),total:data.pagination.total}}
             />
         )
     }
@@ -242,19 +241,6 @@ class ClientOrderListQueryView extends Component{
                         <ul>
                             {productItemNodes}
                         </ul>
-
-                        {/*<div className='order_detail_shop'>*/}
-                            {/*<span>商品名称:{data.detail.name}</span>*/}
-                            {/*<span>规格</span>*/}
-                            {/*<span>单价</span>*/}
-                            {/*<span>数量</span>*/}
-                        {/*</div>*/}
-                        <div className='order_detail_shop'>
-                            {/*<span>{orderDetail.productItems.name}</span>*/}
-                            {/*<span>{orderDetail.productItems.colume}</span>*/}
-                            {/*<span>{orderDetail.productItems.price}</span>*/}
-                            {/*<span>{orderDetail.productItems.count}</span>*/}
-                        </div>
                     </li>
                     <li className='shop_price_container'>
                         <ul>
@@ -292,9 +278,6 @@ class ClientOrderListQueryView extends Component{
                         <div className='remark'>
                             <span>备注：</span>
                             <textarea name="" id="" cols="40" rows="3" placeholder="填写"></textarea>
-                            {/*<div className='print_order'>*/}
-                                {/*<button>打印订单</button>*/}
-                            {/*</div>*/}
                         </div>
                     </li>
                 </ul>
@@ -371,6 +354,7 @@ class ClientOrderListQueryView extends Component{
             <Table
                 columns={columns}
                 dataSource={dataSource}
+                pagination={false}
                 onRow={(record) => {
                     return {
                         onClick: () => {

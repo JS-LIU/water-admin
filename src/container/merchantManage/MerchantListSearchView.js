@@ -9,6 +9,7 @@ import merchantAuditStyle from './css/merchantAudit.css';
 
 @observer class MerchantListSearchView extends Component {
     componentWillMount() {
+        actions.resetInitQueryInfo();
         actions.onLoad();
     }
 
@@ -151,7 +152,7 @@ import merchantAuditStyle from './css/merchantAudit.css';
         }
     }
     changePage(pageNumber){
-        actions.changePagination(pageNumber);
+        actions.changePage(pageNumber);
     }
     render() {
         const columns = [
@@ -324,7 +325,7 @@ import merchantAuditStyle from './css/merchantAudit.css';
                 columns={columns}
                 dataSource={dataSource}
                 scroll={{x: 4000}}
-                pagination={{total:data.totalPage,defaultCurrent:1,onChange:this.changePage.bind(this)}}
+                pagination={{total:data.pagination.total,defaultCurrent:1,onChange:this.changePage.bind(this),current:data.pagination.page+1}}
             />
         )
     }

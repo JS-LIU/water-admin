@@ -21,6 +21,15 @@ class Product{
         this.productActivity = productInfo.promotionActivity;
         this.storeProductId = productInfo.storeProductId;
         this.serve = productInfo.serve;
+
+        //  商品品类
+        this.productCategory = "----";
+
+        //  商品品牌
+        this.productBrand = "----";
+        //  所属区域
+        this.areaBelong= "----";
+
         this.operateStrategy = {
             'soldOut':function(){
                 console.log('下架了')
@@ -39,9 +48,9 @@ class Product{
     }
     static convertProductStatus(status){
         if(status === "在售"){
-            return {status:"up",actions:[{operate:"soldOut",title:"下架"},{operate:"toTop",title:"置顶"}]}
+            return {status:"up",title:'在售中',actions:[{operate:"soldOut",title:"下架"},{operate:"toTop",title:"置顶"}]}
         }else{
-            return {status:"down",actions:[{operate:"added",title:"上架"},{operate:"removeItem",title:"删除"}]}
+            return {status:"down",title:'待上架',actions:[{operate:"added",title:"上架"},{operate:"removeItem",title:"删除"}]}
         }
     }
     operate(action){

@@ -6,13 +6,14 @@ import clientOrderList from './ClientOrderList';
 import nearShopListContainer from './NearShopListContainer';
 
 let clientOrderListData = {
-    @observable list:[],        //  列表
+    @observable list:[],
     @observable detail:{
         deliveryAddressModel:{address:{},position:{}},
         productItemModels:[]
-    },      //  详情
-    @observable nearStore:[],   //  附近店铺
-    @observable activeOrder:{}
+    },
+    @observable nearStore:[],
+    @observable activeOrder:{},
+    @observable pagination:{}
 };
 function clientOrderListActions(){
     let load = function(){
@@ -20,14 +21,15 @@ function clientOrderListActions(){
         clientOrderList.getOrderList().then((list)=>{
             clientOrderListData.list = list;
             clientOrderList.selectActiveOrder(list[0]);
+            clientOrderListData.pagination = clientOrderList.pagination;
             clientOrderListData.activeOrder = clientOrderList.activeOrder;
-            clientOrderList.activeOrder.getDetail().then((detail)=>{
-                clientOrderListData.detail = detail;
-                return clientOrderListData.activeOrder.getNearMerchantList();
-            }).then((storeList)=>{
-                clientOrderListData.nearStore = storeList;
-            });
-        })
+            return clientOrderList.activeOrder.getDetail()
+        }).then((detail)=>{
+            clientOrderListData.detail = detail;
+            return clientOrderListData.activeOrder.getNearMerchantList();
+        }).then((storeList)=>{
+            clientOrderListData.nearStore = storeList;
+        });
     };
     let selectQueryType = function(queryType){
         clientOrderList.selectQueryType(queryType);
@@ -47,7 +49,18 @@ function clientOrderListActions(){
     let dispatchOrder = function(merchantId){
         let merchant = nearShopListContainer.findMerchantById(clientOrderListData.nearStore,merchantId);
         clientOrderList.activeOrder.dispatchOrder(merchant).then(()=>{
-            clientOrderList.removeOrder(clientOrderListData.list,merchant);
+            return clientOrderList.getOrderList()
+        }).then((list)=>{
+            clientOrderListData.list = list;
+            clientOrderList.selectActiveOrder(list[0]);
+            clientOrderListData.pagination = clientOrderList.pagination;
+            clientOrderListData.activeOrder = clientOrderList.activeOrder;
+            return clientOrderList.activeOrder.getDetail()
+        }).then((detail)=>{
+            clientOrderListData.detail = detail;
+            return clientOrderListData.activeOrder.getNearMerchantList();
+        }).then((storeList)=>{
+            clientOrderListData.nearStore = storeList;
         });
     };
     let queryByQueryInfo = function(){
@@ -84,16 +97,21 @@ function clientOrderListActions(){
             clientOrderListData.list = list;
             clientOrderList.selectActiveOrder(list[0]);
             clientOrderListData.activeOrder = clientOrderList.activeOrder;
-            clientOrderList.activeOrder.getDetail().then((detail)=>{
-                clientOrderListData.detail = detail;
-                return clientOrderListData.activeOrder.getNearMerchantList();
-            }).then((storeList)=>{
-                clientOrderListData.nearStore = storeList;
-            });
-        })
+            return clientOrderList.activeOrder.getDetail()
+        }).then((detail)=>{
+            clientOrderListData.detail = detail;
+            return clientOrderListData.activeOrder.getNearMerchantList();
+        }).then((storeList)=>{
+            clientOrderListData.nearStore = storeList;
+        });
+    };
+    let resetInitQueryInfo = function(){
+        clientOrderList.selectQueryType(0);
+
     };
     return {
         onLoad:load,
+        resetInitQueryInfo:resetInitQueryInfo,
         selectOrder:selectOrder,
         dispatchOrder:dispatchOrder,
         queryByQueryInfo:queryByQueryInfo,

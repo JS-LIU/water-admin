@@ -6,18 +6,18 @@ import {observable, computed, action, autorun} from "mobx";
 import merchantListContainer from './MerchantListContainer';
 let merchantSearchData = {
     @observable list:[],
-    @observable totalPage:0
+    @observable pagination:{}
 
 };
 
 function merchantSearchAction(){
-    merchantListContainer.changeMerchantType('personal');
+
     let load = function(){
         merchantListContainer.selectShopType("passStatus");
         merchantListContainer.pagination.setPage(1);
         merchantListContainer.getMerchantList().then((list)=>{
             merchantSearchData.list = list;
-            merchantSearchData.totalPage = merchantListContainer.pagination.total;
+            merchantSearchData.pagination = merchantListContainer.pagination;
         });
     };
     let closeMerchant = function(merchantId){
@@ -62,7 +62,14 @@ function merchantSearchAction(){
     let queryByQueryInfo = function(){
         load();
     };
+    let resetInitQueryInfo = function(){
+        merchantListContainer.selectQueryMsg({});
+        merchantListContainer.selectShopType("passStatus");
+        merchantListContainer.changeMerchantType('personal');
+    };
     return {
+        //  重置查询条件
+        resetInitQueryInfo:resetInitQueryInfo,
         //  加载列表
         onLoad:load,
         //  关闭店铺

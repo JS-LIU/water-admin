@@ -102,14 +102,27 @@ import merchantDetail from './css/merchantDetail.css';
 }
 
 @observer class MerchantDetail extends Component{
+    changePane(key){
+        if(key === '1'){
+            actions.getMerchantProduct();
+        }else if(key === '2'){
+            actions.getBuyOrder();
+        }else if(key === '3'){
+            actions.getSaleOrder();
+        }else if(key === '4'){
+            actions.getWaterTicketOrderList();
+        }else if(key === '5'){
+
+        }
+    }
     render(){
         return(
                 <div className='merchant_shop_message'>
                     <h5>店铺数据</h5>
-                    <Tabs>
+                    <Tabs onChange={this.changePane}>
                         <TabPane tab={<div><div><Icon type="shop" />店铺商品</div>
                             <div>在售商品：<b>{data.detail.productCount}</b>(件)</div></div>} key="1">
-
+                            <ProductListView />
                         </TabPane >
                         <TabPane tab={<div><div><Icon type='shopping-cart' />进货</div>
                             <div>进货金额：<b>￥{data.detail.merchantShopOrderRmb}</b>(元)</div></div>} key="2">
@@ -130,6 +143,211 @@ import merchantDetail from './css/merchantDetail.css';
                         </TabPane >
                     </Tabs>
                 </div>
+        )
+    }
+}
+
+@observer class ProductListView extends Component{
+    render(){
+        // const columns = [
+        //     {
+        //         title:"商品名称",
+        //         dataIndex:"productName",
+        //         key:"productName"
+        //     },{
+        //         title:"规格",
+        //         dataIndex:"volume",
+        //         key:"volume"
+        //     },{
+        //         title:"商品属性",
+        //         dataIndex:"serve",
+        //         key:"serve"
+        //     },{
+        //         title:"商品品类",
+        //         dataIndex:"productCategory",
+        //         key:"productCategory"
+        //     },{
+        //         title:"商品品牌",
+        //         dataIndex:"productBrand",
+        //         key:"productBrand"
+        //     },{
+        //         title:"所属区域",
+        //         dataIndex:"areaBelong",
+        //         key:"areaBelong",
+        //     },{
+        //         title:"销售价",
+        //         dataIndex:"salePrice",
+        //         key:"salePrice",
+        //     },{
+        //         title:"分销佣金",
+        //         dataIndex:"distributionMoney",
+        //         key:"distributionMoney",
+        //     },{
+        //         title:"已售",
+        //         dataIndex:"saleMount",
+        //         key:"saleMount",
+        //     },{
+        //         title:"库存",
+        //         dataIndex:"stockStatus",
+        //         key:"stockStatus",
+        //     },{
+        //         title:"促销",
+        //         dataIndex:"productActivity",
+        //         key:"productActivity",
+        //     },{
+        //         title:"状态",
+        //         dataIndex:"productStatus",
+        //         key:"productStatus",
+        //     },{
+        //         title:"操作",
+        //         dataIndex:"operate",
+        //         key:"operate",
+        //         render:(text,record)=>{
+        //             let operate = record.operate.map((item,index)=>{
+        //                return (
+        //                    <li key={index}>{item.title}</li>
+        //                )
+        //             });
+        //             return(
+        //                 <ul>
+        //                     {operate}
+        //                 </ul>
+        //             )
+        //         }
+        //     }
+        // ];
+        //
+        // const dataSource = [];
+        // for(let i = 0;i < data.productList.length;i++){
+        //     let item = data.productList[i];
+        //     dataSource.push({
+        //         key:i,
+        //         shopId:item.shopId,
+        //         productId:item.productId,
+        //         productName:item.productName,
+        //         volume:item.volume,
+        //         serve:item.serve,
+        //         productCategory:item.productCategory,
+        //         productBrand:item.productBrand,
+        //         areaBelong:item.areaBelong,
+        //         salePrice:item.salePrice/100,
+        //         distributionMoney:item.distributionMoney/100,
+        //         saleMount:item.saleMount,
+        //         stockStatus:item.stockStatus,
+        //         productActivity:item.productActivity,
+        //         productStatus:item.productStatus.title,
+        //         operate:item.productStatus.actions
+        //     })
+        // }
+
+        return (
+            <div>
+                {/*<Table columns={columns}*/}
+                       {/*dataSource={dataSource}*/}
+                       {/*pagination={false}/>*/}
+            </div>
+        )
+    }
+}
+@observer class BuyOrderView extends Component{
+
+    render(){
+        const columns = [
+            {
+                title:"商品名称",
+                dataIndex:"productName",
+                key:"productName"
+            },{
+                title:"规格",
+                dataIndex:"volume",
+                key:"volume"
+            },{
+                title:"商品属性",
+                dataIndex:"serve",
+                key:"serve"
+            },{
+                title:"商品品类",
+                dataIndex:"productCategory",
+                key:"productCategory"
+            },{
+                title:"商品品牌",
+                dataIndex:"productBrand",
+                key:"productBrand"
+            },{
+                title:"所属区域",
+                dataIndex:"areaBelong",
+                key:"areaBelong",
+            },{
+                title:"销售价",
+                dataIndex:"salePrice",
+                key:"salePrice",
+            },{
+                title:"分销佣金",
+                dataIndex:"distributionMoney",
+                key:"distributionMoney",
+            },{
+                title:"已售",
+                dataIndex:"saleMount",
+                key:"saleMount",
+            },{
+                title:"库存",
+                dataIndex:"stockStatus",
+                key:"stockStatus",
+            },{
+                title:"促销",
+                dataIndex:"productActivity",
+                key:"productActivity",
+            },{
+                title:"状态",
+                dataIndex:"productStatus",
+                key:"productStatus",
+            },{
+                title:"操作",
+                dataIndex:"operate",
+                key:"operate",
+                render:(text,record)=>{
+                    let operate = record.operate.map((item,index)=>{
+                        return (
+                            <li key={index}>{item.title}</li>
+                        )
+                    });
+                    return(
+                        <ul>
+                            {operate}
+                        </ul>
+                    )
+                }
+            }
+        ];
+
+        const dataSource = [];
+        for(let i = 0;i < data.productList.length;i++){
+            let item = data.productList[i];
+            dataSource.push({
+                key:i,
+                shopId:item.shopId,
+                productId:item.productId,
+                productName:item.productName,
+                volume:item.volume,
+                serve:item.serve,
+                productCategory:item.productCategory,
+                productBrand:item.productBrand,
+                areaBelong:item.areaBelong,
+                salePrice:item.salePrice/100,
+                distributionMoney:item.distributionMoney/100,
+                saleMount:item.saleMount,
+                stockStatus:item.stockStatus,
+                productActivity:item.productActivity,
+                productStatus:item.productStatus.title,
+                operate:item.productStatus.actions
+            })
+        }
+        return (
+            <div>
+                <Table columns={columns}
+                       dataSource={dataSource}
+                       pagination={false}/>
+            </div>
         )
     }
 }

@@ -61,7 +61,6 @@ function merchantActions(){
         });
     };
 
-
     return {
         queryMerchant:queryMerchant,                    //  获取店铺
         getMerchantProduct:getMerchantProduct,          //  获取店铺商品
