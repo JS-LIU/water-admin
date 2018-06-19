@@ -18,12 +18,12 @@ let clientOrderListData = {
 function clientOrderListActions(){
     let load = function(){
         clientOrderList.pagination.setPage(1);
-        clientOrderList.getOrderList().then((list)=>{
+        clientOrderList.getWaitingDispatchOrderList().then((list)=>{
             clientOrderListData.list = list;
-            clientOrderList.selectActiveOrder(list[0]);
+            clientOrderList.setActiveItem(list[0]);
             clientOrderListData.pagination = clientOrderList.pagination;
-            clientOrderListData.activeOrder = clientOrderList.activeOrder;
-            return clientOrderList.activeOrder.getDetail()
+            clientOrderListData.activeOrder = clientOrderList.activeItem;
+            return clientOrderList.activeItem.getDetail()
         }).then((detail)=>{
             clientOrderListData.detail = detail;
             return clientOrderListData.activeOrder.getNearMerchantList();
@@ -36,10 +36,10 @@ function clientOrderListActions(){
         load();
     };
     let selectOrder = function(orderId){
-        let order = clientOrderList.findClientOrderById(clientOrderListData.list,orderId);
-        clientOrderList.selectActiveOrder(order);
-        clientOrderListData.activeOrder = clientOrderList.activeOrder;
-        clientOrderList.activeOrder.getDetail().then((detail)=>{
+        let order = clientOrderList.findItemByItemId(clientOrderListData.list,orderId,"orderId");
+        clientOrderList.setActiveItem(order);
+        clientOrderListData.activeOrder = clientOrderList.activeItem;
+        clientOrderList.activeItem.getDetail().then((detail)=>{
             clientOrderListData.detail = detail;
             return clientOrderListData.activeOrder.getNearMerchantList();
         }).then((storeList)=>{
@@ -48,14 +48,14 @@ function clientOrderListActions(){
     };
     let dispatchOrder = function(merchantId){
         let merchant = nearShopListContainer.findMerchantById(clientOrderListData.nearStore,merchantId);
-        clientOrderList.activeOrder.dispatchOrder(merchant).then(()=>{
-            return clientOrderList.getOrderList()
+        clientOrderList.activeItem.dispatchOrder(merchant).then(()=>{
+            return clientOrderList.getWaitingDispatchOrderList()
         }).then((list)=>{
             clientOrderListData.list = list;
-            clientOrderList.selectActiveOrder(list[0]);
+            clientOrderList.setActiveItem(list[0]);
             clientOrderListData.pagination = clientOrderList.pagination;
-            clientOrderListData.activeOrder = clientOrderList.activeOrder;
-            return clientOrderList.activeOrder.getDetail()
+            clientOrderListData.activeOrder = clientOrderList.activeItem;
+            return clientOrderList.activeItem.getDetail()
         }).then((detail)=>{
             clientOrderListData.detail = detail;
             return clientOrderListData.activeOrder.getNearMerchantList();
@@ -68,12 +68,6 @@ function clientOrderListActions(){
     };
     let setQueryInfo = function(queryInfo){
         clientOrderList.selectQueryMsg(queryInfo);
-    };
-    let loadMore = function(){
-        clientOrderList.pagination.nextPage();
-        clientOrderList.getOrderList().then((list)=>{
-            clientOrderListData.list.concat(list);
-        })
     };
     let setNearShopQueryInfo = function(queryInfo){
         nearShopListContainer.selectQueryMsg(queryInfo);
@@ -93,11 +87,11 @@ function clientOrderListActions(){
     };
     let changePagination = function(page){
         clientOrderList.pagination.setPage(page);
-        clientOrderList.getOrderList().then((list)=>{
+        clientOrderList.getWaitingDispatchOrderList().then((list)=>{
             clientOrderListData.list = list;
-            clientOrderList.selectActiveOrder(list[0]);
-            clientOrderListData.activeOrder = clientOrderList.activeOrder;
-            return clientOrderList.activeOrder.getDetail()
+            clientOrderList.setActiveItem(list[0]);
+            clientOrderListData.activeOrder = clientOrderList.activeItem;
+            return clientOrderList.activeItem.getDetail()
         }).then((detail)=>{
             clientOrderListData.detail = detail;
             return clientOrderListData.activeOrder.getNearMerchantList();
@@ -107,7 +101,6 @@ function clientOrderListActions(){
     };
     let resetInitQueryInfo = function(){
         clientOrderList.selectQueryType(0);
-
     };
     return {
         onLoad:load,
@@ -116,7 +109,6 @@ function clientOrderListActions(){
         dispatchOrder:dispatchOrder,
         queryByQueryInfo:queryByQueryInfo,
         setQueryInfo:setQueryInfo,
-        loadMore:loadMore,
         queryNearShop:queryNearShop,
         setNearShopQueryInfo:setNearShopQueryInfo,
         loadMoreNearShop:loadMoreNearShop,

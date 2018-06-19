@@ -9,9 +9,6 @@ class AdminList {
         this.pagination = new Pagination(10);
         this.list = [];
     }
-    selectQueryInfo(queryMsg){
-        this.queryMsg = queryMsg;
-    }
     setActiveItem(item){
         this.activeItem = item;
     }
