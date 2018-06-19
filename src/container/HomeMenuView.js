@@ -25,7 +25,7 @@ class HomeMenuView extends Component{
                             </Link>
                         </Menu.Item>
                         <Menu.Item key="/orderQuery">
-                            <Link to="/clientOrder">
+                            <Link to="/clientOrderSearch">
                                 <Icon type="file" />
                                 <span>订单查询</span>
                             </Link>

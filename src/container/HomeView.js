@@ -15,6 +15,7 @@ import HomeMenuView from './HomeMenuView';
 
 import WithdrawInfoView from './WithdrawInfoView';
 import ClientOrderView from './order/ClientOrderView';
+import ClientOrderSearchView from './order/ClientOrderSearchView'
 import MerchantOrderView from './order/MerchantOrderView';
 import MerchantAuditView from './merchantManage/MerchantAuditView';
 import MerchantAuditQueryView from './merchantManage/MerchantListSearchView';
@@ -62,14 +63,15 @@ class HomeView extends Component{
                         <div>
                             <Switch>
                                 <Route path="/clientOrder" component={ClientOrderView} />
+                                <Route path="/clientOrderSearch" component={ClientOrderSearchView}/>
                                 <Route path="/merchantOrder" component={MerchantOrderView} />
                                 <Route path="/withdraw" component={WithdrawInfoView} />
                                 <Route path='/merchantAudit' component={MerchantAuditView} />
                                 <Route path='/merchantAuditQuery' component={MerchantAuditQueryView} />
                                 <Route path='/merchantDetail' component={MerchantDetailView} />
-                                <Route path='/wholesaleGoods' component={WholesaleGoodsView} ></Route>
-                                <Route path='/editCommodity' component={EditCommodityView} ></Route>
-                                <Route path='/merchandiseQuery' component={MerchandiseQueryView} ></Route>
+                                {/*<Route path='/wholesaleGoods' component={WholesaleGoodsView} ></Route>*/}
+                                {/*<Route path='/editCommodity' component={EditCommodityView} ></Route>*/}
+                                {/*<Route path='/merchandiseQuery' component={MerchandiseQueryView} ></Route>*/}
 
                                 {/*<Route path="/merchantOrder" component={OrderListTest} />*/}
                                 <Route path="/openShop" component={OpenShopView} />
