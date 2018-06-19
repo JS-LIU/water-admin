@@ -91,6 +91,26 @@ class HomeMenuView extends Component{
                             </Link>
                         </Menu.Item>
                     </SubMenu>
+                    <SubMenu key='sub5' title={<span><Icon type='profile'/><span></span>批发商品</span>} >
+                        <Menu.Item key="/wholesaleGoods">
+                            <Link to="/wholesaleGoods">
+                                <Icon type="shop" />
+                                <span>分类管理</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/editCommodity">
+                            <Link to="/editCommodity">
+                                <Icon type="shop" />
+                                <span>编辑商品</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/merchandiseQuery">
+                            <Link to="/merchandiseQuery">
+                                <Icon type="shop" />
+                                <span>商品查询</span>
+                            </Link>
+                        </Menu.Item>
+                    </SubMenu>
                     <Menu.Item key="openShop">
                         <Link to="/openShop">
                             <Icon type="user" />
@@ -98,13 +118,13 @@ class HomeMenuView extends Component{
                         </Link>
                     </Menu.Item>
 
-                    <Menu.Item key="5">
+                    <Menu.Item key="sub6">
                         <Link to='/shopList'>
                             <Icon type="gift" />
                             <span>商品</span>
                         </Link>
                     </Menu.Item>
-                    <SubMenu key="sub6" title={<span><Icon type="pay-circle-o" /><span>测试</span></span>}>
+                    <SubMenu key="sub7" title={<span><Icon type="pay-circle-o" /><span>测试</span></span>}>
                         <Menu.Item key="/auditMerchantTest">
                             <Link to="/auditMerchantTest">
                                 <Icon type="bank" />

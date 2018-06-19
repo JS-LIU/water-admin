@@ -82,7 +82,12 @@ function auditMerchantListAction(){
             });
         })
     };
+    let resetInitShopType = function(){
+        changeMerchantType(null);
+        merchantListContainer.selectShopType('waittingPermission');
+    };
     return {
+        resetInitShopType:resetInitShopType,
         //  初始化页面
         onLoad:load,
         //  拒绝开店列表

@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import { Table, Pagination , Button , Radio , Input , Select } from 'antd';
-const Search = Input.Search;
 import {observer,inject} from 'mobx-react';
+import { Table, Pagination , Button , Radio , Input , Select , DatePicker } from 'antd';
+const { RangePicker } = DatePicker;
+const Search = Input.Search;
 const Option = Select.Option;
 
 import {data,actions} from '../../store/merchant/merchantAuditInterface';
@@ -10,16 +11,28 @@ import merchantAuditDataStyle from './css/merchantAuditData.css';
 
 @inject (['shopListContainer'])
 @observer class MerchantAuditView extends Component{
+    state = {
+        isShow:true
+    }
     componentWillMount(){
-        actions.changeMerchantType(null);
+        actions.resetInitShopType();
         actions.onLoad();
     }
+    getNewShow(newState){
+        console.log('newState:',newState)
+        this.setState({
+            isShow:newState.isShow
+        })
+    }
     render(){
+        console.log(this.state.isShow)
         return (
             <div>
-                <MerchantAuditListQueryView />
-                <MerchantAuditListView />
-                <MerchantAuditDataView />
+                <MerchantAuditListQueryView isShow={this.state.isShow} onChange={this.getNewShow.bind(this)} />
+                <MerchantAuditListView isShow={this.state.isShow} onChange={this.getNewShow.bind(this)} />
+                {
+                    this.state.isShow?(<MerchantAuditDatailView />):(<AddMerchantAuditView />)
+                }
             </div>
         )
     }
@@ -36,8 +49,10 @@ class MerchantAuditListQueryView extends Component{
             actions.selectRejectList();
         }
     }
-    handleChange(){
-
+    addMerchant(){
+        this.props.onChange({
+            isShow:false
+        })
     }
     render(){
         const { queryType } = this.state;
@@ -81,7 +96,7 @@ class MerchantAuditListQueryView extends Component{
                         />
                     </div>
                     <div>
-                        <Button type="primary">+添加订单</Button>
+                        <Button type="primary" onClick={this.addMerchant.bind(this)} >+添加店铺</Button>
                     </div>
             </div>
                 <Radio.Group value={queryType} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
@@ -199,6 +214,9 @@ class MerchantAuditListQueryView extends Component{
                     return {
                         onClick:()=>{
                             actions.selectMerchant(record.shopId)
+                            this.props.onChange({
+                                isShow:true
+                            })
                         }
                     }
                 }}
@@ -209,7 +227,7 @@ class MerchantAuditListQueryView extends Component{
 }
 
 // 详情
-@observer class MerchantAuditDataView extends Component{
+@observer class MerchantAuditDatailView extends Component{
     agree(){
         actions.allow()
     }
@@ -217,9 +235,9 @@ class MerchantAuditListQueryView extends Component{
         actions.notAllow()
     }
     render(){
-        let merchantPicNodes = data.detail.shopDetailImg.map((picItem)=>{
+        let merchantPicNodes = data.detail.shopDetailImg.map((picItem,index)=>{
             return (
-                <img src={picItem} alt=""/>
+                <img key={index} src={picItem} alt=""/>
             )
         });
         return (
@@ -259,5 +277,57 @@ class MerchantAuditListQueryView extends Component{
     }
 }
 
+// 添加店铺
+@observer class AddMerchantAuditView extends Component{
+    render(){
+        return (
+            <div className='add_order'>
+                <div className='order_detail_header'>添加店铺</div>
+                <div className="add_detail_section_left" id='add_detail_section_left'>
+                    <ul>
+                        <li>店铺名称：<Input placeholder="请填写店铺名称" /></li>
+                        <li>商家编号：<Input placeholder='请输入商家编号'/></li>
+                        <li>店铺头像： </li>
+                        <li>店铺图片： </li>
+                        <li>店铺属性：
+                            <Select defaultValue="lucy" style={{ width: 200 }} >
+                                <Option value="lucy">选择店铺属性</Option>
+                                <Option value="jack">Jack</Option>
+                            </Select>
+                        </li>
+                        <li>联系电话：<Input placeholder='请输入联系电话'/></li>
+                        <li>所在地区：
+                            <Select defaultValue="lucy" style={{ width: 200 }} >
+                                <Option value="lucy">请选择所在区域</Option>
+                                <Option value="jack">Jack</Option>
+                            </Select>
+                        </li>
+                        <li>详细地址：<Input placeholder='请输入详细地址'/></li>
+                        <li>配送时间：<RangePicker /></li>
+                        <li>配送范围：
+                            <Select defaultValue="lucy" style={{ width: 200 }} >
+                                <Option value="lucy">请选择配送范围</Option>
+                                <Option value="jack">Jack</Option>
+                            </Select>
+                        </li>
+                        <li>快递费用：<Input placeholder='请输入快递费用'/></li>
+                        <li>商家介绍：<Input placeholder='请填写商家介绍，有助于提高销售业绩'/></li>
+                        <li>分配账号：<Input placeholder='申请人手机号'/></li>
+                        <li>默认密码：123456</li>
+                    </ul>
+                    <div className='add_detail_section_bottom'>
+                        <span>
+                            <Button type="primary" className='mr10' >确认添加</Button>
+                            <Button type="primary" >取消</Button>
+                        </span>
+                        <span>
+                            操作人：你爸爸
+                        </span>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
 
 module.exports = MerchantAuditView;

@@ -82,18 +82,6 @@ class Merchant{
         this.shopOrderList = new ShopOrderList(merchantInfo.shopId);
         this.account = new ShopAccount(merchantInfo.shopId);
         this.shopActivityList = new ShopActivityList(merchantInfo.shopId);
-
-        // this._getShopPurchaseOrder = function(postInfo){
-        //     return merchantListAjax.save({action:'/closeShop'},postInfo);
-        // };
-        // this._getSaleOrder = function(postInfo){
-        //
-        //     return merchantListAjax.save({action:'/closeShop'},postInfo);
-        // };
-        // this._getAccount = function(postInfo){
-        //     return merchantListAjax.save({action:'/closeShop'},postInfo);
-        // }
-
     }
     /**
      * 审核状态
@@ -104,7 +92,7 @@ class Merchant{
         if(status === "待审核"){
             return {status:"waitAllow",title:"待审核",operate:"去审核"}
         }else if(status === "已通过"){
-            return {status:"allow",title:"已通过",operate:[{title:"",key:""},{title:"",key:""}]}
+            return {status:"allow",title:"已通过",operate:"已通过"}
         }else{
             return {status:"notAllow",title:"未通过",operate:"修改信息"}
         }
