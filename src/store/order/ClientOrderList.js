@@ -2,7 +2,6 @@
  * Created by LDQ on 2018/4/28
  */
 
-import OrderList from './OrderList';
 import ClientOrder from './ClientOrder';
 import AdminList from '../AdminList';
 import _h from "../../Util/HB";
