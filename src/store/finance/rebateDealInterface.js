@@ -31,9 +31,10 @@ function rebateDealListActions(){
         rebateList.getRebateList().then((rebateList)=>{
             rebateDealListData.list = rebateList;
             rebateList.setActiveRebateItem(rebateList[0]);
-            rebateList.activeRebateItem.getDetail().then((detail)=>{
-                rebateDealListData.detail = detail;
-            })
+
+            return rebateList.activeRebateItem.getDetail()
+        }).then((detail)=>{
+            rebateDealListData.detail = detail;
         })
     };
 
@@ -52,7 +53,13 @@ function rebateDealListActions(){
     actions.confirmRebate = function(remark){
         rebateList.activeRebateItem.setRemark(remark);
         rebateList.activeRebateItem.toRebate().then(()=>{
-            rebateList.removeRebateItem(rebateDealListData.list,rebateList.activeRebateItem);
+            return rebateList.getRebateList()
+        }).then((rebateList)=>{
+            rebateDealListData.list = rebateList;
+            rebateList.setActiveRebateItem(rebateList[0]);
+            rebateList.activeRebateItem.getDetail().then((detail)=>{
+                rebateDealListData.detail = detail;
+            })
         })
     };
     actions.setQueryInfo = function(queryMsg){

@@ -12,17 +12,44 @@ class AutoMap{
         let mapObj = Object.assign(baseInfo,mapInfo);
         this.map = new AMap.Map('container', mapObj);
     }
-    @observable showLocationInfo = {
-        longitude : "",
-        latitude : "",
-        pcode: "",
-        province:"",
-        citycode:"",
-        city:"",
-        adcode:"",
-        fullAddress:"正在获取当前位置...",
-        receiveAddress : "",
-    };
+
+
+    autoComplete(str){
+        let auto = new AMap.Autocomplete();
+        return new Promise((resolve, reject)=>{
+            auto.search(str, function(status, result){
+                if (status === 'complete' && result.info === 'OK') {
+                    let list = [];
+                    let tips = result.tips;
+                    for(let i = 0;i <  tips.length;i++){
+                        list.push({
+                            longitude : tips[i].location.lng,
+                            latitude : tips[i].location.lat,
+                            adcode: tips[i].adcode,
+                            receiveAddress : tips[i].name,
+                            district: tips[i].district,
+                            fullAddress: tips[i].district +  tips[i].name
+                        })
+                    }
+                    resolve(list)
+                }else{
+                    reject(result);
+                }
+            });
+        });
+
+    }
+    // @observable showLocationInfo = {
+    //     longitude : "",
+    //     latitude : "",
+    //     pcode: "",
+    //     province:"",
+    //     citycode:"",
+    //     city:"",
+    //     adcode:"",
+    //     fullAddress:"正在获取当前位置...",
+    //     receiveAddress : "",
+    // };
     //
     // @observable _addressList = [];
     // @computed get addressList(){
@@ -64,27 +91,7 @@ class AutoMap{
     //         self.showLocationInfo.receiveAddress = '定位失败';
     //     }
     // }
-    @action autoComplete(str){
-        let self = this;
-        let auto = new AMap.Autocomplete();
-        auto.search(str, function(status, result){
-            if (status === 'complete' && result.info === 'OK') {
-                let list = [];
-                let tips = result.tips;
-                for(let i = 0;i <  tips.length;i++){
-                    list.push({
-                        longitude : tips[i].location.lng,
-                        latitude : tips[i].location.lat,
-                        adcode: tips[i].adcode,
-                        receiveAddress : tips[i].name,
-                        district: tips[i].district,
-                        fullAddress: tips[i].district +  tips[i].name
-                    })
-                }
-                self._addressList = list;
-            }
-        });
-    }
+
     // @action searchNearAddress(lnglat){
     //     let self = this;
     //     let placeSearch = new AMap.PlaceSearch({

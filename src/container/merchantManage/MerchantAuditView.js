@@ -211,14 +211,14 @@ class MerchantAuditListQueryView extends Component{
                 onRow={(record)=>{
                     return {
                         onClick:()=>{
-                            actions.selectMerchant(record.shopId)
+                            actions.selectMerchant(record.shopId);
                             this.props.onChange({
                                 isShow:true
                             })
                         }
                     }
                 }}
-                pagination={{total:data.total,defaultCurrent:1,onChange:this.changePage.bind(this)}}
+                pagination={{total:data.pagination.total,defaultCurrent:1,onChange:this.changePage.bind(this)}}
             />
         )
     }
