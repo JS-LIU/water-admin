@@ -19,13 +19,11 @@ import merchantAuditDataStyle from './css/merchantAuditData.css';
         actions.onLoad();
     }
     getNewShow(newState){
-        console.log('newState:',newState)
         this.setState({
             isShow:newState.isShow
         })
     }
     render(){
-        console.log(this.state.isShow)
         return (
             <div>
                 <MerchantAuditListQueryView isShow={this.state.isShow} onChange={this.getNewShow.bind(this)} />
@@ -43,7 +41,7 @@ class MerchantAuditListQueryView extends Component{
     state = { queryType: 0 };
     onChange(e){
         this.setState({ queryType: e.target.value });
-        if(e.target.value==0){
+        if(e.target.value === 0){
             actions.selectAllowList();
         }else{
             actions.selectRejectList();
