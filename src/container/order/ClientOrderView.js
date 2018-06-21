@@ -243,10 +243,6 @@ class ClientOrderListQueryView extends Component{
                         </ul>
                     </li>
                     <li className='shop_price_container'>
-                        <ul>
-                            {/*{productItemNodes}*/}
-                        </ul>
-
                         <div className='shop_price'>
                             <span>商品金额：</span>
                             <span className='money '>￥{data.detail.totalPayRmb/100}</span>
@@ -292,10 +288,10 @@ class ClientOrderListQueryView extends Component{
             <div className='order_detail_r ml30'>
                 <div className='order_detail_header send'>
                     <span className="pai">派单</span>
-                    <span className="search_site">
-                       <Input placeholder="输入水站名称" />
-                        <Button className="search_site_btn">搜索水站</Button>
-                    </span>
+                    {/*<span className="search_site">*/}
+                       {/*<Input placeholder="输入水站名称" />*/}
+                        {/*<Button className="search_site_btn">搜索水站</Button>*/}
+                    {/*</span>*/}
                 </div>
                 <div className="order_detail_right">
                     <MerchantListView/>
@@ -311,27 +307,33 @@ class ClientOrderListQueryView extends Component{
             {
                 title:"配送商家",
                 dataIndex:"shopName",
-                key:"shopName"
+                key:"shopName",
+                width:130
             },{
                 title:"电话",
                 dataIndex:"shopTelephone",
-                key:"shopTelephone"
+                key:"shopTelephone",
+                width:100
             },{
                 title:"地址",
                 dataIndex:"shopAddress",
-                key:"shopAddress"
+                key:"shopAddress",
+                width:250
             },{
                 title:"距离",
                 dataIndex:"distance",
-                key:"distance"
+                key:"distance",
+                width:100
             },{
                 title:"商家类型",
                 dataIndex:"type",
-                key:"type"
+                key:"type",
+                width:100
             },{
                 title:"操作",
                 dataIndex:"operator",
                 key:"operator",
+                width:100,
                 render: () => <a href="javascript:;">确认派单</a>,
             }
         ];
@@ -355,6 +357,7 @@ class ClientOrderListQueryView extends Component{
                 columns={columns}
                 dataSource={dataSource}
                 pagination={false}
+                scroll={{y:400,x:780}}
                 onRow={(record) => {
                     return {
                         onClick: () => {
