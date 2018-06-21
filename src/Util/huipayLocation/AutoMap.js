@@ -2,7 +2,7 @@
  * Created by LDQ on 2017/6/20.
  */
 
-
+import Location from './Location';
 class AutoMap{
     constructor(mapInfo){
         let baseInfo = {
@@ -22,14 +22,7 @@ class AutoMap{
                     let list = [];
                     let tips = result.tips;
                     for(let i = 0;i <  tips.length;i++){
-                        list.push({
-                            longitude : tips[i].location.lng,
-                            latitude : tips[i].location.lat,
-                            adcode: tips[i].adcode,
-                            receiveAddress : tips[i].name,
-                            district: tips[i].district,
-                            fullAddress: tips[i].district +  tips[i].name
-                        })
+                        list.push(new Location(tips[i].location.lng,tips[i].location.lat,tips[i].adcode,tips[i].name,tips[i].district));
                     }
                     resolve(list)
                 }else{
