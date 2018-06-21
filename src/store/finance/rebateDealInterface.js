@@ -15,11 +15,13 @@ let rebateDealListData = {
 
 let actions = {
     onLoad:{},
-    selectRebateItem:{},
-    setRealTotalMount:{},
-    confirmRebate:{},
-    setQueryInfo:{},
-    queryByQueryInfo:{}
+    total:0,
+    selectRebateItem:{},   //选择返利
+    setRealTotalMount:{},  //设置实际全部数量
+    confirmRebate:{},      //确认返利
+    setQueryInfo:{},       //设置查询信息
+    queryByQueryInfo:{},
+    changePage:{}
 };
 
 
@@ -28,13 +30,14 @@ function rebateDealListActions(){
     rebateList.changeStatus('create');
     actions.onLoad = function(){
         rebateList.pagination.setPage(1);
-        rebateList.getRebateList().then((rebateList)=>{
-            rebateDealListData.list = rebateList;
-            rebateList.setActiveRebateItem(rebateList[0]);
+        rebateList.getRebateList().then((list)=>{
+            rebateDealListData.list = list;
+            rebateDealListData.total = rebateList.pagination.total;
+            rebateList.setActiveRebateItem(list[0]);
+            rebateList.activeRebateItem.getDetail().then((detail)=>{
+                rebateDealListData.detail = detail;
 
-            return rebateList.activeRebateItem.getDetail()
-        }).then((detail)=>{
-            rebateDealListData.detail = detail;
+            })
         })
     };
 
@@ -53,13 +56,7 @@ function rebateDealListActions(){
     actions.confirmRebate = function(remark){
         rebateList.activeRebateItem.setRemark(remark);
         rebateList.activeRebateItem.toRebate().then(()=>{
-            return rebateList.getRebateList()
-        }).then((rebateList)=>{
-            rebateDealListData.list = rebateList;
-            rebateList.setActiveRebateItem(rebateList[0]);
-            rebateList.activeRebateItem.getDetail().then((detail)=>{
-                rebateDealListData.detail = detail;
-            })
+            rebateList.removeRebateItem(rebateDealListData.list,rebateList.activeRebateItem);
         })
     };
     actions.setQueryInfo = function(queryMsg){
@@ -80,3 +77,4 @@ function rebateDealListActions(){
     };
     return actions;
 }
+module.exports = {data:rebateDealListData,actions:rebateDealListActions()};

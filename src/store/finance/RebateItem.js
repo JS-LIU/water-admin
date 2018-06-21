@@ -4,23 +4,31 @@
 import _h from "../../Util/HB";
 class RebateItem{
     constructor(rebateInfo){
-        this.time = rebateInfo.month;
-        this.shopAlians = rebateInfo.shopAlians;
-        this.shopName = rebateInfo.shopName;
-        this.phoneNum = rebateInfo.phoneNum;
-        this.address = rebateInfo.appendingAddress;
-        this.distance = rebateInfo.area;
-        this.productItemList = rebateInfo.stockProductItemInfoList;
-        this.totalMount = rebateInfo.totalMount;
-        this.realTotalMount = rebateInfo.realTotalMount;
-        this.rebatePerPrice = rebateInfo.rebatePrice;
-        this.totalPrice = rebateInfo.rebateResult;
-        this.status = rebateInfo.rebateStatus;
-        this.rebateId = rebateInfo.rebateOrderId;
-        this.remark = rebateInfo.remark||"----";
+        this.month = rebateInfo.month;                              //  时间
+        this.shopAlians = rebateInfo.shopAlians;                    //  店铺编号
+        this.shopName = rebateInfo.shopName;                        //  店铺名称
+        this.phoneNum = rebateInfo.phoneNum;                        //  联系电话
+        this.address = rebateInfo.appendingAddress;                 //  地址
+        this.distance = rebateInfo.area;                            //  距离
+        this.productItemList = rebateInfo.stockProductItemInfoList; //  产品项目表
+        this.totalMount = rebateInfo.totalMount;                    //  总数
+        this.realTotalMount = rebateInfo.realTotalMount;            //  实际总数
+        this.rebatePerPrice = rebateInfo.rebatePrice;               //  每一个的返利价格
+        this.totalPrice = rebateInfo.rebateResult;                  //  总价格
+        this.status = rebateInfo.rebateStatus;                      //  状态
+        this.rebateId = rebateInfo.rebateOrderId;                   //  折扣id
+        this.remark = rebateInfo.remark||"----";                    //  评论
+        this.city = rebateInfo.city;                                //  区域
+        this.productName = rebateInfo.productName;                  //  商品名称
+        this.productMount = rebateInfo.productMount;                //  数量
+        this.rebateOrderId = rebateInfo.rebateOrderId;              //  返利标准
+        this.rebatePrice = rebateInfo.rebatePrice;                  //  返利金额
+        this.rebateResult = rebateInfo.rebateResult;                //  实际返利金额
+
+
         let rebateAjax = _h.ajax.resource('/admin/financial/:action');
         this._getDetail = function(postInfo){
-            return rebateAjax.save({action:"/getRebateOrder/"+postInfo.rebateId},postInfo);
+            return rebateAjax.save({action:"/getRebateOrder/"+rebateInfo.rebateId},postInfo);
         };
         this._toRebate = function(postInfo){
             return rebateAjax.save({action:"/doRebate"},postInfo);

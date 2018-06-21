@@ -20,6 +20,9 @@ import MerchantOrderView from './order/MerchantOrderView';
 import MerchantAuditView from './merchantManage/MerchantAuditView';
 import MerchantAuditQueryView from './merchantManage/MerchantListSearchView';
 import MerchantDetailView from './merchantManage/MerchantDetailView';
+
+import RebateSearchView from './rebate/RebateSearchView';
+import RebateDealView from './rebate/RebateDealView';
 import WholesaleGoodsView from './WholesaleGoods/SortManagementView'
 import EditCommodityView from './WholesaleGoods/EditCommodityView'
 import MerchandiseQueryView from './WholesaleGoods/MerchandiseQueryView'
@@ -72,7 +75,8 @@ class HomeView extends Component{
                                 {/*<Route path='/wholesaleGoods' component={WholesaleGoodsView} ></Route>*/}
                                 {/*<Route path='/editCommodity' component={EditCommodityView} ></Route>*/}
                                 {/*<Route path='/merchandiseQuery' component={MerchandiseQueryView} ></Route>*/}
-
+                                <Route path="/rebateDeal" component={RebateDealView} />
+                                <Route path="/rebateSearch" component={RebateSearchView} />
                                 {/*<Route path="/merchantOrder" component={OrderListTest} />*/}
                                 <Route path="/openShop" component={OpenShopView} />
                                 <Route path="/shopList" component={ShopListView} />

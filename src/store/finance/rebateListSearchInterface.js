@@ -6,7 +6,7 @@ import {observable, computed, action, autorun} from "mobx";
 import RebateList from './RebateList';
 let rebateList = new RebateList();
 
-let rebateListSearchInterface = {
+let rebateListSearchData = {
     @observable list:[]
 };
 
@@ -15,13 +15,13 @@ function rebateListSearchActions(){
     let load = function(){
         rebateList.pagination.setPage(1);
         rebateList.getRebateList().then((rebateList)=>{
-            rebateListSearchInterface.list = rebateList;
+            rebateListSearchData.list = rebateList;
         });
     };
     let changePage = function(pageNum){
         rebateList.pagination.setPage(pageNum);
         rebateList.getRebateList().then((rebateList)=>{
-            rebateListSearchInterface.list = rebateList;
+            rebateListSearchData.list = rebateList;
         });
     };
     let changeType = function(type){
@@ -43,3 +43,4 @@ function rebateListSearchActions(){
         queryByQueryInfo:queryByQueryInfo
     }
 }
+module.exports = {data:rebateListSearchData,actions:rebateListSearchActions()};
