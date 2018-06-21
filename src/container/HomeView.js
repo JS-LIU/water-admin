@@ -20,9 +20,9 @@ import MerchantOrderView from './order/MerchantOrderView';
 import MerchantAuditView from './merchantManage/MerchantAuditView';
 import MerchantAuditQueryView from './merchantManage/MerchantListSearchView';
 import MerchantDetailView from './merchantManage/MerchantDetailView';
-import WholesaleGoodsView from './WholesaleGoods/SortManagementView'
-import EditCommodityView from './WholesaleGoods/EditCommodityView'
-import MerchandiseQueryView from './WholesaleGoods/MerchandiseQueryView'
+import WholesaleGoodsView from './merchantProductManage/SortManagementView'
+import EditCommodityView from './merchantProductManage/EditCommodityView'
+import MerchandiseQueryView from './merchantProductManage/MerchandiseQueryView'
 
 import OpenShopView from './OpenShopView';
 import ShopListView from './ShopListView';
