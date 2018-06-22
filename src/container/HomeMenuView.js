@@ -24,7 +24,7 @@ class HomeMenuView extends Component{
                                 <span>订单处理</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="/orderQuery">
+                        <Menu.Item key="/clientOrderSearch">
                             <Link to="/clientOrderSearch">
                                 <Icon type="file" />
                                 <span>订单查询</span>
@@ -44,18 +44,18 @@ class HomeMenuView extends Component{
                                 <span>订单处理</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="/orderQuery">
-                            <Link to="/clientOrder">
+                        <Menu.Item key="/merchantOrderSearch">
+                            <Link to="/merchantOrderSearch">
                                 <Icon type="file" />
                                 <span>订单查询</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="/orderForms">
-                            <Link to="/clientOrder">
-                                <Icon type="file" />
-                                <span>订单报表</span>
-                            </Link>
-                        </Menu.Item>
+                        {/*<Menu.Item key="/orderForms">*/}
+                        {/*<Link to="/clientOrder">*/}
+                        {/*<Icon type="file" />*/}
+                        {/*<span>订单报表</span>*/}
+                        {/*</Link>*/}
+                        {/*</Menu.Item>*/}
                     </SubMenu>
                     <SubMenu key="sub3" title={<span><Icon type="pay-circle-o" /><span>财务</span></span>}>
                         <Menu.Item key="/withdraw">

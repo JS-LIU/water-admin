@@ -4,26 +4,30 @@ import nearShopListContainer from './NearShopListContainer';
 class ClientOrder {
     constructor(orderInfo) {
         this.orderId = orderInfo.orderId;
-        this.orderNo = orderInfo.orderNo;
+        this.orderNo = orderInfo.orderNo;// 订单号
         this.orderSrc = orderInfo.orderSrc;
-        this.orderSource = orderInfo.orderSource;
-        this.createTime = orderInfo.createTime;
-        this.productItems = orderInfo.productItems;
-        this.receiver = orderInfo.receiver;
-        this.userInfo = orderInfo.userInfo;
-        this.deliveryAddress = orderInfo.deliveryAddress;
-        this.totalPrice = orderInfo.totalPrice;
-        this.payChannel = orderInfo.payChannel;
-        this.orderStatus = orderInfo.status;
+        this.orderSource = orderInfo.orderSource;// 订单来源
+        this.createTime = orderInfo.createTime;// 订单时间
+        this.productItems = orderInfo.productItems;// 商品名称
+        this.receiver = orderInfo.receiver;// 收货人
+        this.userInfo = orderInfo.userInfo;// 用户账号
+        this.deliveryAddress = orderInfo.deliveryAddress;// 收获地址
+        this.totalPrice = orderInfo.totalPrice;// 实付金额
+        this.payChannel = orderInfo.payChannel;// 支付方式
+        this.orderStatus = orderInfo.status;// 订单状态
+        this.promotionActivity = orderInfo.promotionActivity;// 促销
+        this.ticketUseNum = orderInfo.ticketUseNum;// 水票
+        this.minusMount = orderInfo.minusMount;// 立减
+        this.freight = orderInfo.freight;// 运费
         this.shopName = orderInfo.shopName;
         this.deliveryShop = new DeliveryMerchant({
             longitude: orderInfo.longitude,
             latitude: orderInfo.latitude,
             shopName: orderInfo.shopName,
-            shopAddress: orderInfo.shopAddress,
-            shopTelephone: orderInfo.shopTelephone,
+            shopAddress: orderInfo.shopAddress,// 配送商家
+            shopTelephone: orderInfo.shopTelephone,// 商家电话
             shopAlias: orderInfo.shopAlias,
-            shopArtificialNum: orderInfo.shopArtificialNum,
+            shopArtificialNum: orderInfo.shopArtificialNum,// 商家编号
             shopId: orderInfo.shopId,
             cityName: orderInfo.cityName
         });
