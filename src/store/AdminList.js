@@ -32,7 +32,7 @@ class AdminList {
     getQueryMsg(...queryBaseInfo){
         let queryMsg = this.queryMsg;
         queryBaseInfo.map((item)=>{
-            queryMsg = Object.assign(queryMsg,item);
+            queryMsg = Object.assign({},queryMsg,item);
         });
         return queryMsg
     }

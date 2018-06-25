@@ -25,8 +25,7 @@ class PromotionList extends AdminList{
         this.selectQueryMsg({});
     }
     getPromotionList(){
-        let postInfo = this.getQueryMsg(this.queryMsg,
-            {promotionStatus:this.promotionStatus},
+        let postInfo = this.getQueryMsg({promotionStatus:this.promotionStatus},
             {promotionSrc:this.promotionSrc});
         return new Promise((resolve, reject)=>{
             this._getPromotionList(postInfo).then((list)=>{
