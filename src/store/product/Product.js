@@ -67,7 +67,8 @@ class Product {
             });
 
             // return productAjax.save({action:""})
-        }
+        };
+
     }
 
     static convertProductStatus(status) {

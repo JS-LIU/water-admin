@@ -12,6 +12,7 @@ let merchantOrderListData = {
         productItemModels:[]},
     @observable nearStore:[],
     @observable activeOrder:{},
+    @observable pagination:{}
 };
 
 function merchantOrderListActions(){
@@ -19,7 +20,7 @@ function merchantOrderListActions(){
         merchantOrderList.pagination.setPage(1);
         merchantOrderList.getOrderList().then((list)=>{
             merchantOrderListData.list = list;
-
+            merchantOrderListData.pagination = merchantOrderList.pagination;
             merchantOrderList.setActiveItem(list[0]);
             merchantOrderListData.activeOrder = merchantOrderList.activeItem;
             return merchantOrderList.activeItem.getDetail()
@@ -48,7 +49,7 @@ function merchantOrderListActions(){
             return merchantOrderList.getOrderList()
         }).then((list)=>{
             merchantOrderListData.list = list;
-
+            merchantOrderListData.pagination = merchantOrderList.pagination;
             merchantOrderList.setActiveItem(list[0]);
             merchantOrderListData.activeOrder = merchantOrderList.activeItem;
             return merchantOrderList.activeItem.getDetail()
@@ -70,6 +71,7 @@ function merchantOrderListActions(){
         merchantOrderList.pagination.setPage(page);
         merchantOrderList.getOrderList().then((list)=>{
             merchantOrderListData.list = list;
+            merchantOrderListData.pagination = merchantOrderList.pagination;
             merchantOrderList.setActiveItem(list[0]);
             merchantOrderListData.activeOrder = merchantOrderList.activeItem;
             return merchantOrderList.activeItem.getDetail()

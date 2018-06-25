@@ -126,6 +126,7 @@ function auditMerchantListAction(){
         changePage:changePage,
         changeMerchantType:changeMerchantType,
         autoComplete:autoComplete,
+        //  创建店铺
         createMerchant:createMerchant
     }
 }
