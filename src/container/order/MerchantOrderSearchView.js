@@ -255,7 +255,6 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                     count:item.count / 100
                 })
             }
-
             return (
                 <Table
                     columns={columns}
