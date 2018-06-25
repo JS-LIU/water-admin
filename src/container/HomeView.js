@@ -19,11 +19,13 @@ import ClientOrderView from './order/ClientOrderView';
 import ClientOrderSearchView from './order/ClientOrderSearchView'
 import MerchantOrderView from './order/MerchantOrderView';
 import MerchantOrderSearch from './order/MerchantOrderSearchView';
-
 import MerchantAuditView from './merchantManage/MerchantAuditView';
 import MerchantAuditQueryView from './merchantManage/MerchantListSearchView';
 import MerchantDetailView from './merchantManage/MerchantDetailView';
-import WholesaleGoodsView from './merchantProductManage/SortManagementView'
+import ProductManageView from './productManage/ProductManageView';
+import ProductManageEditView from './productManage/ProductManageEditView';
+import ProductManageQueryView from './productManage/ProductManageQueryView';
+import SortManagementView from './merchantProductManage/SortManagementView'
 import EditCommodityView from './merchantProductManage/EditCommodityView'
 import MerchandiseQueryView from './merchantProductManage/MerchandiseQueryView'
 
@@ -74,9 +76,14 @@ class HomeView extends Component{
                                 <Route path='/merchantAudit' component={MerchantAuditView} />
                                 <Route path='/merchantAuditQuery' component={MerchantAuditQueryView} />
                                 <Route path='/merchantDetail' component={MerchantDetailView} />
-                                {/*<Route path='/wholesaleGoods' component={WholesaleGoodsView} ></Route>*/}
-                                {/*<Route path='/editCommodity' component={EditCommodityView} ></Route>*/}
-                                {/*<Route path='/merchandiseQuery' component={MerchandiseQueryView} ></Route>*/}
+
+                                <Route path='/productManage' component={ProductManageView} />
+                                <Route path='/productManageEdit' component={ProductManageEditView} />
+                                <Route path='/productManageQuery' component={ProductManageQueryView} />
+
+                                <Route path='/sortManagement' component={SortManagementView} />
+                                <Route path='/editCommodity' component={EditCommodityView} />
+                                <Route path='/merchandiseQuery' component={MerchandiseQueryView}/>
 
                                 {/*<Route path="/merchantOrder" component={OrderListTest} />*/}
                                 <Route path="/openShop" component={OpenShopView} />

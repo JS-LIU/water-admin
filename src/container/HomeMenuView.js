@@ -91,9 +91,29 @@ class HomeMenuView extends Component{
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-                    <SubMenu key='sub5' title={<span><Icon type='profile'/><span></span>批发商品</span>} >
-                        <Menu.Item key="/wholesaleGoods">
-                            <Link to="/wholesaleGoods">
+                    <SubMenu key="sub8" title={<span><Icon type="profile" /><span>自营商品</span></span>}>
+                        <Menu.Item key="/productManage">
+                            <Link to="/productManage">
+                                <Icon type="shop" />
+                                <span>分类管理</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/productManageEdit">
+                            <Link to="/productManageEdit">
+                                <Icon type="shop" />
+                                <span>编辑商品</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/productManageQuery">
+                            <Link to="/productManageQuery">
+                                <Icon type="shop" />
+                                <span>商品查询</span>
+                            </Link>
+                        </Menu.Item>
+                    </SubMenu>
+                    <SubMenu key='sub5' title={<span><Icon type='profile'/><span>批发商品</span></span>} >
+                        <Menu.Item key="/sortManagement">
+                            <Link to="/sortManagement">
                                 <Icon type="shop" />
                                 <span>分类管理</span>
                             </Link>

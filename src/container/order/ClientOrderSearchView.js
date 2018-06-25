@@ -33,7 +33,6 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                     <Radio.Button value={"waitReceive"}>待收货</Radio.Button>
                     <Radio.Button value={"finish"}>已完成</Radio.Button>
                 </Radio.Group>
-                {/*<Table />*/}
                 <ClientOrderListView />
             </div>
 
@@ -116,12 +115,6 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 key:"orderNo",
                 width:300
             },
-            // {
-            //     title:"商品金额",
-            //     dataIndex:"",
-            //     key:"",
-            //     width:200
-            // },
             {
                 title:"促销",
                 dataIndex:"promotionActivity",
@@ -134,12 +127,6 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 key:"ticketUseNum",
                 width:200
             },
-            // {
-            //     title:"优惠券",
-            //     dataIndex:"",
-            //     key:"",
-            //     width:200
-            // },
             {
                 title:"立减（每桶）",
                 dataIndex:"minusMount",
@@ -176,12 +163,6 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 key:"receiver",
                 width:200
             },
-            // {
-            //     title:"电话",
-            //     dataIndex:"",
-            //     key:"",
-            //     width:200
-            // },
             {
                 title:"收获地址",
                 dataIndex:"deliveryAddress",
@@ -190,8 +171,8 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
             },
             {
                 title:"配送商家",
-                dataIndex:"shopAddress",
-                key:"shopAddress",
+                dataIndex:"shopName",
+                key:"shopName",
                 width:200
             },
             {
@@ -206,18 +187,6 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 key:"shopTelephone",
                 width:200
             },
-            // {
-            //     title:"配送时间",
-            //     dataIndex:"",
-            //     key:"",
-            //     width:200
-            // },
-            // {
-            //     title:"备注内容",
-            //     dataIndex:"",
-            //     key:"",
-            //     width:200
-            // },
             {
                 title:"订单状态",
                 dataIndex:"orderStatus",
@@ -225,10 +194,10 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 width:200
             }
 
-        ]
+        ];
         const dataSource = [];
-        for(var i=0;i<data.list.length;i++){
-            var item = data.list[i];
+        for(let i=0;i<data.list.length;i++){
+            let item = data.list[i];
             dataSource.push({
                 key:i,
                 createTime:item.createTime,
@@ -243,9 +212,9 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 userInfo:item.userInfo,
                 receiver:item.receiver,
                 deliveryAddress:item.deliveryAddress,
-                shopAddress:item.shopAddress,
-                shopArtificialNum:item.shopArtificialNum,
-                shopTelephone:item.shopTelephone,
+                shopName:item.shopName,
+                shopArtificialNum:item.deliveryShop.shopArtificialNum,
+                shopTelephone:item.deliveryShop.shopTelephone,
                 orderStatus:item.orderStatus
             })
         }

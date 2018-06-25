@@ -7,31 +7,35 @@ import DeliveryMerchant from './DeliveryMerchant';
 class MerchantOrder{
     constructor(orderInfo){
         this.orderId = orderInfo.orderId;
-        this.orderNo = orderInfo.orderNo;
+        this.orderNo = orderInfo.orderNo;// 订单号
         this.orderSrc = orderInfo.orderSrc;
-        this.orderSource = orderInfo.orderSource;
-        this.createTime = orderInfo.createTime;
-        this.productItems = orderInfo.productItems;
-        this.receiver = orderInfo.receiver;
-        this.userInfo = orderInfo.userInfo;
-        this.deliveryAddress = orderInfo.deliveryAddress;
-        this.totalPrice = orderInfo.totalPrice;
-        this.payChannel = orderInfo.payChannel;
+        this.orderSource = orderInfo.orderSource;// 订单来源
+        this.createTime = orderInfo.createTime;// 订单时间
+        this.productItems = orderInfo.productItems;// 商品数量规格单价
+        this.receiver = orderInfo.receiver;// 收货人
+        this.userInfo = orderInfo.userInfo;// 用户账号
+        this.deliveryAddress = orderInfo.deliveryAddress;// 收货地址
+        this.totalPrice = orderInfo.totalPrice;// 实付金额
+        this.payChannel = orderInfo.payChannel;// 支付方式
         this.receiverShopName = orderInfo.merchantName;
         this.shopArtificialNum = orderInfo.shopArtificialNum;
         this.shopAlias = orderInfo.shopAlias;
+        this.promotionActivity = orderInfo.promotionActivity;// 促销
+        this.ticketUseNum = orderInfo.ticketUseNum;// 水票
+        this.minusMount = orderInfo.minusMount;// 立减
+        this.freight = orderInfo.freight;// 运费
         this.deliveryMerchant = new DeliveryMerchant({
             longitude:orderInfo.longitude,
-            latitude:orderInfo.latitude,
-            shopName:orderInfo.shopName,
-            shopAddress:orderInfo.shopAddress,
-            shopTelephone:orderInfo.shopTelephone,
             shopAlias:orderInfo.shopAlias,
-            shopArtificialNum:orderInfo.shopArtificialNum,
+            shopArtificialNum:orderInfo.shopArtificialNum,// 商家编号
+            latitude:orderInfo.latitude,
+            shopName:orderInfo.shopName,// 配送商家
+            shopAddress:orderInfo.shopAddress,
+            shopTelephone:orderInfo.shopTelephone,// 商家电话
             shopId:orderInfo.shopId,
             cityName:orderInfo.cityName
         });
-        this.status = orderInfo.status;
+        this.orderStatus = orderInfo.status;// 订单状态
         this.detail = {};
         let merchantOrderAjax = _h.ajax.resource('/admin/order/:action');
         this._redirectOrder = function(postInfo){

@@ -23,8 +23,8 @@ class ClientOrder {
         this.deliveryShop = new DeliveryMerchant({
             longitude: orderInfo.longitude,
             latitude: orderInfo.latitude,
-            shopName: orderInfo.shopName,
-            shopAddress: orderInfo.shopAddress,// 配送商家
+            shopName: orderInfo.shopName,// 配送商家
+            shopAddress: orderInfo.shopAddress,
             shopTelephone: orderInfo.shopTelephone,// 商家电话
             shopAlias: orderInfo.shopAlias,
             shopArtificialNum: orderInfo.shopArtificialNum,// 商家编号
