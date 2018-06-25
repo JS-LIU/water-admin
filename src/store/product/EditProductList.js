@@ -8,13 +8,35 @@ class EditProductList extends AdminList{
     constructor(){
         super();
         let productListAjax = _h.ajax.resource('/admin/product/:action');
-        this._getStockList = function(){
-            return productListAjax.save({action:"getStockList"});
+        //  批发
+        this._getStockList = function(postInfo){
+            return productListAjax.save({action:"getStockList"},postInfo);
         };
+        //  自营
+        this._getSelfSaleProductList = function(postInfo){
+            return productListAjax.save({action:"selfSaleShopProductList"},postInfo);
+        };
+        //  分销
+        this._getDistributeProductList = function(){
+            return productListAjax.save({actions:'getDistributionProductListInfo'});
+        }
     }
     getStockList(){
         return new Promise((resolve, reject)=>{
-            this._getStockList().then((list)=>{
+            this._getStockList({}).then((list)=>{
+                this.list = EditProductList.createList(this.list,list,Product);
+                resolve(this.list);
+            }).catch((err)=>{
+                reject(err);
+            })
+        })
+    }
+    getSelfSaleProductList(){
+        return this.getList({},this._getSelfSaleProductList,Product);
+    }
+    getDistributeProductList(){
+        return new Promise((resolve, reject)=>{
+            this._getDistributeProductList({}).then((list)=>{
                 this.list = EditProductList.createList(this.list,list,Product);
                 resolve(this.list);
             }).catch((err)=>{

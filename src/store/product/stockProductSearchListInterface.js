@@ -4,7 +4,7 @@
 import {observable, computed, action, autorun} from "mobx";
 import productSearchList from './ProductSearchList';
 let productSearchListData = {
-    list:[],
+    @observable list:[],
 };
 function getProductSearchListActions(){
     let load = function(){
