@@ -3,14 +3,14 @@
  */
 import AdminList from '../AdminList';
 import _h from '../../Util/HB';
-import PromotionActivity from './PromotionActivity';
+import ProductPromotionActivity from './ProductPromotionActivity';
 
 class PromotionList extends AdminList{
     constructor(promotionSrc){
         super();
         let promotionAjax = _h.ajax.resource('/admin/promotion/:action');
         this._getPromotionList = function(postInfo){
-            return promotionAjax.save({action:"getShopEntityProductPromotionList"},postInfo);
+                return promotionAjax.save({action:"getShopEntityProductPromotionList"},postInfo);
         };
         //  活动状态
         this.promotionStatus = "use";
@@ -29,7 +29,7 @@ class PromotionList extends AdminList{
             {promotionSrc:this.promotionSrc});
         return new Promise((resolve, reject)=>{
             this._getPromotionList(postInfo).then((list)=>{
-                PromotionList.createList(this.list,list,PromotionActivity);
+                PromotionList.createList(this.list,list,ProductPromotionActivity);
                 resolve(list);
             }).catch((err)=>{
                 reject(err);
