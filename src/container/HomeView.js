@@ -27,6 +27,7 @@ import WholesaleGoodsView from './WholesaleGoods/SortManagementView'
 import EditCommodityView from './WholesaleGoods/EditCommodityView'
 import MerchandiseQueryView from './WholesaleGoods/MerchandiseQueryView'
 
+import WaterTicketMarketingView from './promotionManage/userSide/WaterTicketMarkingView';
 import OpenShopView from './OpenShopView';
 import ShopListView from './ShopListView';
 import './homeStyle.css';
@@ -80,6 +81,7 @@ class HomeView extends Component{
                                 {/*<Route path="/merchantOrder" component={OrderListTest} />*/}
                                 <Route path="/openShop" component={OpenShopView} />
                                 <Route path="/shopList" component={ShopListView} />
+                                {/*<Route path="/waterTicketMarketing" component={WaterTicketMarketingView}/>*/}
                                 {/*<Route path="/auditMerchantList" component={AuditMerchantList}/>*/}
                             </Switch>
                         </div>
