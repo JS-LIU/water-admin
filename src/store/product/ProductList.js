@@ -10,7 +10,6 @@ class ProductList extends AdminList {
         super();
         this.shopId = shopId;
         let productListAjax = _h.ajax.resource('/admin/merchant/:action');
-        let self = this;
         this._getProductList = function () {
             return productListAjax.save({action: "/shopProductList/" + shopId});
         };

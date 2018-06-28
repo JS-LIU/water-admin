@@ -16,7 +16,7 @@ function editProductActions(){
     let operate = function(productId,operate){
         let product = editProductList.findItemByItemId(editProductData.list,productId,"productId");
         editProductList.setActiveItem(product);
-        editProductList.operate(operate)
+        product.operate(operate)
     };
 
     return {

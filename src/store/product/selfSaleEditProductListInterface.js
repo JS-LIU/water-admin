@@ -16,7 +16,7 @@ function editProductActions(){
     let operate = function(productId,operate){
         let product = editProductList.findItemByItemId(editProductData.list,productId,"productId");
         editProductList.setActiveItem(product);
-        editProductList.operate(operate)
+        product.operate(operate)
     };
     //  todo 有查询条件后再加onLoad 在onLoad 传入参数重置查询信息
     return {

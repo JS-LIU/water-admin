@@ -10,9 +10,6 @@ class ProductPromotionActivity extends PromotionActivity{
         this._edit = function(postInfo){
             return promotionAjax.save({action:"updateEntityProductPromotion"},postInfo);
         };
-        this._createProductPromotion = function(postInfo){
-            return promotionAjax.save({action:"addEntityProductPromotion"},postInfo);
-        }
     }
 
 }
