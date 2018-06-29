@@ -5,7 +5,7 @@ const Search = Input.Search;
 import {observer,inject} from 'mobx-react';
 const Option = Select.Option;
 
-import {data,actions} from '../../store/merchant/merchantAuditInterface';
+// import {data,actions} from '../../store/merchant/merchantAuditInterface';
 
 @observer class EditCommodityView extends Component{
     componentWillMount(){
@@ -15,9 +15,9 @@ import {data,actions} from '../../store/merchant/merchantAuditInterface';
         return (
             <div>
                 编辑商品hhhhhhhhhhh
-                <EditCommodityListQueryView/>
-                <EditCommodityListView/>
-                <EditCommodityDetailView/>
+                {/*<EditCommodityListQueryView/>*/}
+                {/*<EditCommodityListView/>*/}
+                {/*<EditCommodityDetailView/>*/}
             </div>
         )
     }

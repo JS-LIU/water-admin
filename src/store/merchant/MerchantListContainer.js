@@ -24,6 +24,9 @@ class MerchantListContainer{
                 list.unshift(merchant);
                 return list;
             }
+        };
+        this._createShop = function(postInfo){
+            return merchantListAjax.save({action:'createShop'}, postInfo)
         }
     }
 
@@ -105,6 +108,10 @@ class MerchantListContainer{
     }
     reSort(list,merchant,sortType){
         return this.sortStategy[sortType](list,merchant);
+    }
+
+    createMerchant(postInfo){
+        return this._createShop(postInfo);
     }
 }
 

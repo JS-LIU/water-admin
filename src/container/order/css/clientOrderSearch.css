@@ -1,0 +1,8 @@
+.all_search_box{
+    width:100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.all_search_box > Search{
+    flex-basis: 25%;
+}

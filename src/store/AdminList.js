@@ -29,8 +29,12 @@ class AdminList {
             })
         })
     }
-    getQueryMsg(queryBaseInfo){
-        return Object.assign(this.queryMsg,queryBaseInfo);
+    getQueryMsg(...queryBaseInfo){
+        let queryMsg = this.queryMsg;
+        queryBaseInfo.map((item)=>{
+            queryMsg = Object.assign({},queryMsg,item);
+        });
+        return queryMsg
     }
     static createList(targetList,listData,Item){
         targetList = [];

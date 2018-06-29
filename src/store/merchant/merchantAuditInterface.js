@@ -99,6 +99,12 @@ function auditMerchantListAction(){
             auditMerchantData.districtList = locationList
         })
     };
+    let createMerchant = function(merchantInfo){
+        merchantListContainer.createMerchant(merchantInfo).then(()=>{
+            resetInitShopType();
+            load()
+        })
+    };
     return {
         resetInitShopType:resetInitShopType,
         //  初始化页面
@@ -119,7 +125,9 @@ function auditMerchantListAction(){
         selectMerchant:selectMerchant,
         changePage:changePage,
         changeMerchantType:changeMerchantType,
-        autoComplete:autoComplete
+        autoComplete:autoComplete,
+        //  创建店铺
+        createMerchant:createMerchant
     }
 }
 module.exports = {actions:auditMerchantListAction(),data:auditMerchantData};

@@ -104,7 +104,7 @@ class HomeMenuView extends Component{
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-                    <SubMenu key='sub5' title={<span><Icon type='profile'/><span>批发商品</span></span>} >
+                    <SubMenu key='sub5' title={<span><Icon type='profile'/><span></span>批发商品</span>} >
                         <Menu.Item key="/wholesaleGoods">
                             <Link to="/wholesaleGoods">
                                 <Icon type="shop" />
@@ -123,36 +123,6 @@ class HomeMenuView extends Component{
                                 <span>商品查询</span>
                             </Link>
                         </Menu.Item>
-                    </SubMenu>
-                    <SubMenu key='sub8' title={<span><Icon type='profile'/><span>促销管理</span></span>}>
-                        <SubMenu key='sub8-1' title={<span><Icon type='profile'/><span>客户端</span></span>}>
-                            <Menu.Item key="/waterTicketMarketing">
-                                <Link to="/waterTicketMarketing">
-                                    <Icon type="shop" />
-                                    <span>1.水票营销</span>
-                                </Link>
-                            </Menu.Item>
-                            <Menu.Item key="/commodityMarketing">
-                                <Link to="/commodityMarketing">
-                                    <Icon type="shop" />
-                                    <span>2.商品营销</span>
-                                </Link>
-                            </Menu.Item>
-                        </SubMenu>
-                        <SubMenu key='sub8-2' title={<span><Icon type='profile'/><span>商家端</span></span>}>
-                            <Menu.Item key="/waterTicketMarketing">
-                                <Link to="/waterTicketMarketing">
-                                    <Icon type="shop" />
-                                    <span>1.水票营销</span>
-                                </Link>
-                            </Menu.Item>
-                            <Menu.Item key="/commodityMarketing">
-                                <Link to="/commodityMarketing">
-                                    <Icon type="shop" />
-                                    <span>2.商品营销</span>
-                                </Link>
-                            </Menu.Item>
-                        </SubMenu>
                     </SubMenu>
                     <Menu.Item key="openShop">
                         <Link to="/openShop">
