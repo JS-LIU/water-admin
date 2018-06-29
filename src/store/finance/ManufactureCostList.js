@@ -3,6 +3,7 @@
  */
 import AdminList from '../AdminList';
 import ManufactureCost from './ManufactureCost';
+import merchantListContainer from '../merchant/MerchantListContainer';
 class ManufactureCostList extends AdminList{
     constructor(){
         super();
@@ -10,7 +11,8 @@ class ManufactureCostList extends AdminList{
         this._getWaterTicketList = function(postInfo){
             return manufactureCostList.save({action:'findStockWaterPayList'},postInfo);
         };
-        this.merchantList = merchantList;
+        //  水厂
+        this.waterStoreList = merchantListContainer;
     }
 
     getWaterTicketList(){

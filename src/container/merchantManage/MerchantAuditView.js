@@ -15,7 +15,6 @@ import merchantAuditDataStyle from './css/merchantAuditData.css';
         isShow:true
     }
     componentWillMount(){
-        actions.resetInitShopType();
         actions.onLoad();
     }
     getNewShow(newState){

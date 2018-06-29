@@ -10,23 +10,31 @@ let autoMap = new AutoMap();
 let auditMerchantData = {
     @observable list:[],
     @observable detail:{serviceTel:[],shopDetailImg:[]},
-    @observable activeMerchant:{},
     @observable pagination:{},
     @observable districtList:[]
 };
 function auditMerchantListAction(){
-    let load = function(){
-        merchantListContainer.pagination.setPage(1);
+    let resetInitShopType = function(){
+        changeMerchantType(null);
+        merchantListContainer.selectShopType('waittingPermission');
+    };
+    let refresh = function(){
         merchantListContainer.getMerchantList().then((list)=>{
             auditMerchantData.list = list;
             auditMerchantData.pagination = merchantListContainer.pagination;
-            merchantListContainer.selectMerchant(auditMerchantData.list[0]);
-            auditMerchantData.activeMerchant = merchantListContainer.activeMerchant;
-            return merchantListContainer.activeMerchant.getDetail()
+            merchantListContainer.setActiveItem(auditMerchantData.list[0]);
+            return merchantListContainer.activeItem.getDetail()
         }).then((merchantDetail)=>{
             auditMerchantData.detail = merchantDetail;
+        }).catch((errInfo)=>{
+            console.log(errInfo);
         });
     };
+    let load = function(){
+        merchantListContainer.pagination.setPage(1);
+        refresh();
+    };
+
     let changeMerchantType = function(merchantType){
         merchantListContainer.changeMerchantType(merchantType);
     };
@@ -46,54 +54,27 @@ function auditMerchantListAction(){
         load();
     };
     let allow = function(){
-        merchantListContainer.activeMerchant.allow().then(()=>{
-            return merchantListContainer.getMerchantList().then((list)=>{
-                auditMerchantData.list = list;
-                auditMerchantData.pagination = merchantListContainer.pagination;
-                merchantListContainer.selectMerchant(auditMerchantData.list[0]);
-                auditMerchantData.activeMerchant = merchantListContainer.activeMerchant;
-                return merchantListContainer.activeMerchant.getDetail()
-            }).then((merchantDetail)=>{
-                auditMerchantData.detail = merchantDetail;
-            });
+        merchantListContainer.activeItem.allow().then(()=>{
+            refresh();
         });
     };
     let notAllow = function(){
-        merchantListContainer.activeMerchant.notAllow().then(()=>{
-            return merchantListContainer.getMerchantList().then((list)=>{
-                auditMerchantData.list = list;
-                auditMerchantData.pagination = merchantListContainer.pagination;
-                merchantListContainer.selectMerchant(auditMerchantData.list[0]);
-                auditMerchantData.activeMerchant = merchantListContainer.activeMerchant;
-                return merchantListContainer.activeMerchant.getDetail()
-            }).then((merchantDetail)=>{
-                auditMerchantData.detail = merchantDetail;
-            });
+        merchantListContainer.activeItem.notAllow().then(()=>{
+            refresh();
         });
     };
     let selectMerchant = function(merchantId){
-        let merchant = merchantListContainer.findMerchantById(auditMerchantData.list,merchantId);
-        merchantListContainer.selectMerchant(merchant);
-        auditMerchantData.activeMerchant = merchantListContainer.activeMerchant;
-        merchantListContainer.activeMerchant.getDetail().then((merchantDetail)=>{
+        let merchant = merchantListContainer.findItemByItemId(auditMerchantData.list,merchantId,"merchantId");
+        merchantListContainer.setActiveItem(merchant);
+        merchantListContainer.activeItem.getDetail().then((merchantDetail)=>{
             auditMerchantData.detail = merchantDetail;
         });
     };
     let changePage = function(pageNum){
         merchantListContainer.pagination.setPage(pageNum);
-        merchantListContainer.getMerchantList().then((list)=>{
-            auditMerchantData.list = list;
-            merchantListContainer.selectMerchant(auditMerchantData.list[0]);
-            auditMerchantData.activeMerchant = merchantListContainer.activeMerchant;
-            merchantListContainer.activeMerchant.getDetail().then((merchantDetail)=>{
-                auditMerchantData.detail = merchantDetail;
-            });
-        })
+        refresh();
     };
-    let resetInitShopType = function(){
-        changeMerchantType(null);
-        merchantListContainer.selectShopType('waittingPermission');
-    };
+
     let autoComplete = function(str){
         autoMap.autoComplete(str).then((locationList)=>{
             auditMerchantData.districtList = locationList
@@ -108,7 +89,7 @@ function auditMerchantListAction(){
     return {
         resetInitShopType:resetInitShopType,
         //  初始化页面
-        onLoad:load,
+        onLoad:load.before(resetInitShopType),
         //  拒绝开店列表
         selectRejectList:selectRejectList,
         //  待审核店铺列表
