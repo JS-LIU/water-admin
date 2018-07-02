@@ -7,18 +7,18 @@ import Product from "./Product";
 class ProductSearchList extends AdminList{
     constructor(){
         super();
-        let productSearchListAjax = _h.ajax.resource('/admin/product/:action');
+        let productSearchListAjax = _h.ajax.resource('/admin/:entity/:action');
         //  批发
         this._getProductSearchList = function(){
-            return productSearchListAjax.save({action:"getStockList"});
+            return productSearchListAjax.save({entity:"product",action:"getStockList"});
         };
         //  自营
         this._getSelfSaleProductList = function(postInfo){
-            return productSearchListAjax.save({action:"selfSaleShopProductList"},postInfo);
+            return productSearchListAjax.save({entity:"merchant",action:"selfSaleShopProductList"},postInfo);
         };
         //  分销
         this._getDistributeProductList = function(){
-            return productSearchListAjax.save({actions:'getDistributionProductListInfo'});
+            return productSearchListAjax.save({entity:"product",actions:'getDistributionProductListInfo'});
         }
     }
     getProductSearchList(){

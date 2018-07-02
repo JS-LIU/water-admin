@@ -6,23 +6,23 @@ import _h from '../../Util/HB';
 class Product {
     constructor(productInfo) {
         this.productId = productInfo.id;
-        this.productStatus = Product.convertProductStatus(productInfo.shopProductStatus);
+        this.productStatus = Product.convertProductStatus(productInfo.shopProductStatus);// 状态
         this.shopId = productInfo.shopId;
         this.shopName = productInfo.shopName;
         this.shopAlians = productInfo.shopAlians;
-        this.productName = productInfo.productName;
-        this.volume = productInfo.volume;
-        this.productImg = productInfo.imageUrl;
-        this.productTag = productInfo.productTag;
-        this.price = productInfo.price;
-        this.originalPrice = productInfo.originalPrice;
-        this.salePrice = productInfo.costPrice;
+        this.productName = productInfo.productName;// 商品名称
+        this.volume = productInfo.volume;// 规格
+        this.productImg = productInfo.imageUrl;// 商品图片
+        this.productTag = productInfo.productTag;// 标签
+        this.price = productInfo.price;// 成本价
+        this.originalPrice = productInfo.originalPrice;// 原价
+        this.salePrice = productInfo.costPrice;// 销售价
         this.distributionMoney = parseInt(productInfo.commissionRatio);
         this.saleMount = productInfo.saleMount;
-        this.stockStatus = productInfo.stock;
-        this.productActivity = productInfo.promotionActivity;
+        this.stockStatus = productInfo.stock;// 库存
+        this.productActivity = productInfo.promotionActivity;// 促销
         this.storeProductId = productInfo.storeProductId;
-        this.serve = productInfo.serve;
+        this.serve = productInfo.serve;// 服务
 
         //  商品品类
         this.productCategory = "----";
@@ -67,8 +67,7 @@ class Product {
             });
 
             // return productAjax.save({action:""})
-        };
-
+        }
     }
 
     static convertProductStatus(status) {

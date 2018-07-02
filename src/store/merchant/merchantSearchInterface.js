@@ -11,42 +11,37 @@ let merchantSearchData = {
 };
 
 function merchantSearchAction(){
-
-    let load = function(){
-        merchantListContainer.selectShopType("passStatus");
-        merchantListContainer.pagination.setPage(1);
+    let _getList = function(){
         merchantListContainer.getMerchantList().then((list)=>{
             merchantSearchData.list = list;
             merchantSearchData.pagination = merchantListContainer.pagination;
-        });
+        })
+    };
+    let load = function(){
+        merchantListContainer.selectShopType("passStatus");
+        merchantListContainer.pagination.setPage(1);
+        _getList()
     };
     let closeMerchant = function(merchantId){
-        let merchant = merchantListContainer.findMerchantById(merchantSearchData.list,merchantId);
+        let merchant = merchantListContainer.findItemByItemId(merchantSearchData.list,merchantId,"merchantId");
         merchant.close().then(()=>{
-            merchantSearchData.list = merchantListContainer.removeMerchant(merchantSearchData.list,merchant);
+            _getList();
         })
 
     };
     let toTop = function(merchantId){
-        let merchant = merchantListContainer.findMerchantById(merchantSearchData.list,merchantId);
+        let merchant = merchantListContainer.findItemByItemId(merchantSearchData.list,merchantId,"merchantId");
         merchant.toTop().then(()=>{
-            merchantSearchData.list = merchantListContainer.reSort(merchantSearchData.list,merchant,'toTop');
-        })
-    };
-    let loadMore = function(){
-        merchantListContainer.getMerchantList().then((list)=>{
-            merchantSearchData.list.concat(list);
+            _getList();
         })
     };
     let updateMerchantNum = function(merchantId,merchantNum){
-        let merchant = merchantListContainer.findMerchantById(merchantSearchData.list,merchantId);
+        let merchant = merchantListContainer.findItemByItemId(merchantSearchData.list,merchantId,"merchantId");
         merchant.updateMerchantNum(merchantNum);
     };
     let changePage = function(pageNum){
         merchantListContainer.pagination.setPage(pageNum);
-        merchantListContainer.getMerchantList().then((list)=>{
-            merchantSearchData.list = list;
-        });
+        _getList();
     };
     let getPersonalList = function(){
         merchantListContainer.changeMerchantType('personal');
@@ -71,7 +66,7 @@ function merchantSearchAction(){
         //  重置查询条件
         resetInitQueryInfo:resetInitQueryInfo,
         //  加载列表
-        onLoad:load,
+        onLoad:load.before(resetInitQueryInfo),
         //  关闭店铺
         closeMerchant:closeMerchant,
         //  置顶店铺

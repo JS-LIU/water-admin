@@ -22,12 +22,12 @@ import MerchantOrderSearch from './order/MerchantOrderSearchView';
 import MerchantAuditView from './merchantManage/MerchantAuditView';
 import MerchantAuditQueryView from './merchantManage/MerchantListSearchView';
 import MerchantDetailView from './merchantManage/MerchantDetailView';
-import ProductManageView from './productManage/ProductManageView';
-import ProductManageEditView from './productManage/ProductManageEditView';
-import ProductManageQueryView from './productManage/ProductManageQueryView';
-import SortManagementView from './merchantProductManage/SortManagementView'
-import EditCommodityView from './merchantProductManage/EditCommodityView'
-import MerchandiseQueryView from './merchantProductManage/MerchandiseQueryView'
+import StockProductView from './stockProduct/StockProductView';
+import StockProductEditView from './stockProduct/StockProductEditView';
+import StockProductSearchView from './stockProduct/StockProductSearchView';
+import SelfSaleCategoryView from './selfSaleCategory/selfSaleCategoryView'
+import SelfSaleEditProductView from './selfSaleCategory/selfSaleEditProductView'
+import SelfSaleProductSearchView from './selfSaleCategory/selfSaleProductSearchView'
 
 import WaterTicketMarketingView from './promotionManage/userSide/WaterTicketMarkingView';
 import OpenShopView from './OpenShopView';
@@ -78,13 +78,13 @@ class HomeView extends Component{
                                 <Route path='/merchantAuditQuery' component={MerchantAuditQueryView} />
                                 <Route path='/merchantDetail' component={MerchantDetailView} />
 
-                                <Route path='/productManage' component={ProductManageView} />
-                                <Route path='/productManageEdit' component={ProductManageEditView} />
-                                <Route path='/productManageQuery' component={ProductManageQueryView} />
+                                <Route path='/stockProductView' component={StockProductView} />
+                                <Route path='/stockProductEditView' component={StockProductEditView} />
+                                <Route path='/stockProductSearchView' component={StockProductSearchView} />
 
-                                <Route path='/sortManagement' component={SortManagementView} />
-                                <Route path='/editCommodity' component={EditCommodityView} />
-                                <Route path='/merchandiseQuery' component={MerchandiseQueryView}/>
+                                <Route path='/selfSaleCategory' component={SelfSaleCategoryView} />
+                                <Route path='/selfSaleEditProduct' component={SelfSaleEditProductView} />
+                                <Route path='/selfSaleProductSearch' component={SelfSaleProductSearchView}/>
 
                                 {/*<Route path="/merchantOrder" component={OrderListTest} />*/}
                                 <Route path="/openShop" component={OpenShopView} />

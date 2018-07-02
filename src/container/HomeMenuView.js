@@ -24,7 +24,7 @@ class HomeMenuView extends Component{
                                 <span>订单处理</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="/orderQuery">
+                        <Menu.Item key="/clientOrderSearch">
                             <Link to="/clientOrderSearch">
                                 <Icon type="file" />
                                 <span>订单查询</span>
@@ -44,18 +44,18 @@ class HomeMenuView extends Component{
                                 <span>订单处理</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="/orderQuery">
-                            <Link to="/clientOrder">
+                        <Menu.Item key="/merchantOrderSearch">
+                            <Link to="/merchantOrderSearch">
                                 <Icon type="file" />
                                 <span>订单查询</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="/orderForms">
-                            <Link to="/clientOrder">
-                                <Icon type="file" />
-                                <span>订单报表</span>
-                            </Link>
-                        </Menu.Item>
+                        {/*<Menu.Item key="/orderForms">*/}
+                        {/*<Link to="/clientOrder">*/}
+                        {/*<Icon type="file" />*/}
+                        {/*<span>订单报表</span>*/}
+                        {/*</Link>*/}
+                        {/*</Menu.Item>*/}
                     </SubMenu>
                     <SubMenu key="sub3" title={<span><Icon type="pay-circle-o" /><span>财务</span></span>}>
                         <Menu.Item key="/withdraw">
@@ -70,19 +70,6 @@ class HomeMenuView extends Component{
                                 <span>账户列表</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="/rebateDeal">
-                            <Link to="/rebateDeal">
-                                <Icon type="solution" />
-                                <span>返利处理</span>
-                            </Link>
-                        </Menu.Item>
-                        <Menu.Item key="/rebateSearch">
-                            <Link to="/rebateSearch">
-                                <Icon type="solution" />
-                                <span>返利查询</span>
-                            </Link>
-                        </Menu.Item>
-
                     </SubMenu>
                     <SubMenu key="sub4" title={<span><Icon type="profile" /><span>商家管理</span></span>}>
                         <Menu.Item key="/merchantAudit">
@@ -104,9 +91,29 @@ class HomeMenuView extends Component{
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-                    <SubMenu key='sub5' title={<span><Icon type='profile'/><span></span>批发商品</span>} >
-                        <Menu.Item key="/wholesaleGoods">
-                            <Link to="/wholesaleGoods">
+                    <SubMenu key="sub8" title={<span><Icon type="profile" /><span>自营商品</span></span>}>
+                        <Menu.Item key="/productManage">
+                            <Link to="/productManage">
+                                <Icon type="shop" />
+                                <span>分类管理</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/productManageEdit">
+                            <Link to="/productManageEdit">
+                                <Icon type="shop" />
+                                <span>编辑商品</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/productManageQuery">
+                            <Link to="/productManageQuery">
+                                <Icon type="shop" />
+                                <span>商品查询</span>
+                            </Link>
+                        </Menu.Item>
+                    </SubMenu>
+                    <SubMenu key='sub5' title={<span><Icon type='profile'/><span>批发商品</span></span>} >
+                        <Menu.Item key="/sortManagement">
+                            <Link to="/sortManagement">
                                 <Icon type="shop" />
                                 <span>分类管理</span>
                             </Link>
