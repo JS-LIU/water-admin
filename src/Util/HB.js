@@ -111,8 +111,6 @@ HB.ajax = (function(){
                 for(let prop in entity_obj){
                     if(prop === item.slice(1)){
                         url[index] = entity_obj[prop];
-                    }else{
-                        entity_obj = "";
                     }
                 }
             };

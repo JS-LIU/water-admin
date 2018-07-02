@@ -1,15 +1,17 @@
 import React,{Component} from 'react';
 import {observer,inject} from 'mobx-react';
 
-@observer class ProductManageQueryView extends Component{
+
+@observer class StockProductView extends Component{
     render(){
         return (
             <div>
-                商品查询
+                分类管理
             </div>
         )
     }
 }
 
 
-module.exports = ProductManageQueryView;
+
+module.exports = StockProductView;
