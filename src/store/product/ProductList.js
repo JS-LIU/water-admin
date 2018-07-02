@@ -4,15 +4,18 @@
 import AdminList from '../AdminList';
 import _h from '../../Util/HB';
 import Product from './Product';
-
+import SimpleProduct from './SimpleProduct';
 class ProductList extends AdminList {
     constructor(shopId) {
         super();
         this.shopId = shopId;
-        let productListAjax = _h.ajax.resource('/admin/merchant/:action');
+        let productListAjax = _h.ajax.resource('/admin/:entity/:action');
         this._getProductList = function () {
-            return productListAjax.save({action: "/shopProductList/" + shopId});
+            return productListAjax.save({entity:"merchant",action: "shopProductList/" + shopId});
         };
+        this._getSimpleProductList = function(){
+            return productListAjax.save({entity:"stock/",action: "findSimpleShopProductList"});
+        }
     }
 
     getProductList() {
@@ -24,6 +27,14 @@ class ProductList extends AdminList {
                 reject(err);
             })
         });
+    }
+    getSimpleProductList(){
+        return new Promise((resolve, reject)=>{
+            this._getSimpleProductList((productList)=>{
+                this.list = ProductList.createList(this.list,productList,SimpleProduct);
+                resolve(this.list);
+            })
+        })
     }
 }
 

@@ -14,6 +14,41 @@ class ManufactureCost {
         this.shopName  = info.shopName;        // 水厂
         this.ticketUrl  = info.ticketUrl;      // 收据
         this.unitPrice  = info.unitPrice;      // 成本
+        this.remark = info.remark;
     }
+    //  设置水厂
+    setWaterStore(waterStore){
+        this.waterStore = waterStore;
+    }
+    //  设置商品
+    setProduct(product){
+        this.product = product;
+    }
+    //  设置商品原价
+    setPerProductPrice(price){
+        this.unitPrice = price;
+    }
+    //  设置数量
+    setTotalCount(count){
+        this.count = count;
+    }
+    //  设置备注
+    setMark(remark){
+        this.remark = remark;
+    }
+    //  上传图片
+    upLoadPic(){
+    //  todo 上传图片
+    }
+    //  支付金额
+    setPayRmb(price){
+        this.payRmb = price;
+    }
+    //  计算金额
+    getTotalPayRmb(){
+        return this.unitPrice * this.count;
+    }
+
+
 }
 module.exports = ManufactureCost;
