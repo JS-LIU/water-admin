@@ -7,3 +7,6 @@
     overflow: hidden;
     background:#001529;
 }
+a{
+    display: inline;
+}

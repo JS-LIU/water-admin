@@ -5,8 +5,9 @@ const Search = Input.Search;
 import {observer,inject} from 'mobx-react';
 const Option = Select.Option;
 
+import {data,actions} from '../../store/product/selfSaleCategoryListInterface';
 
-@observer class SortManagementView extends Component{
+@observer class SelfSaleCategoryView extends Component{
     componentWillMount(){
         // actions.onLoad();
     }
@@ -19,4 +20,4 @@ const Option = Select.Option;
     }
 }
 
-module.exports = SortManagementView;
+module.exports = SelfSaleCategoryView;

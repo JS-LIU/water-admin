@@ -91,41 +91,41 @@ class HomeMenuView extends Component{
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-                    <SubMenu key="sub8" title={<span><Icon type="profile" /><span>自营商品</span></span>}>
-                        <Menu.Item key="/productManage">
-                            <Link to="/productManage">
+                    <SubMenu key="sub8" title={<span><Icon type="profile"/><span>批发商品</span></span>}>
+                        <Menu.Item key="/stockProductView">
+                            <Link to="/stockProductView">
                                 <Icon type="shop" />
                                 <span>分类管理</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="/productManageEdit">
-                            <Link to="/productManageEdit">
+                        <Menu.Item key="/stockProductEditView">
+                            <Link to="/stockProductEditView">
                                 <Icon type="shop" />
                                 <span>编辑商品</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="/productManageQuery">
-                            <Link to="/productManageQuery">
+                        <Menu.Item key="/stockProductSearchView">
+                            <Link to="/stockProductSearchView">
                                 <Icon type="shop" />
                                 <span>商品查询</span>
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-                    <SubMenu key='sub5' title={<span><Icon type='profile'/><span>批发商品</span></span>} >
-                        <Menu.Item key="/sortManagement">
-                            <Link to="/sortManagement">
+                    <SubMenu key='sub5' title={<span><Icon type='profile'/><span>自营商品</span></span>} >
+                        <Menu.Item key="/selfSaleCategory">
+                            <Link to="/selfSaleCategory">
                                 <Icon type="shop" />
                                 <span>分类管理</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="/editCommodity">
-                            <Link to="/editCommodity">
+                        <Menu.Item key="/selfSaleEditProduct">
+                            <Link to="/selfSaleEditProduct">
                                 <Icon type="shop" />
                                 <span>编辑商品</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="/merchandiseQuery">
-                            <Link to="/merchandiseQuery">
+                        <Menu.Item key="/selfSaleProductSearch">
+                            <Link to="/selfSaleProductSearch">
                                 <Icon type="shop" />
                                 <span>商品查询</span>
                             </Link>
