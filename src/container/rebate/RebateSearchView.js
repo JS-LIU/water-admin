@@ -66,7 +66,7 @@ const Search = Input.Search;
                     </span>
                 </div>
 
-                <Radio.Group value={queryInfo} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 ,marginLeft:10}} >
+                <Radio.Group value={queryInfo} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
                     <Radio.Button value={0}>待返利</Radio.Button>
                     <Radio.Button value={1}>已返利</Radio.Button>
                 </Radio.Group>

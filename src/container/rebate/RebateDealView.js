@@ -84,7 +84,7 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
             title: '店铺名称',
             dataIndex: 'shopName',
             key: 'shopName',
-            width:230
+            width:250
         }, {
             title: '联系电话',
             dataIndex: 'phoneNum',
@@ -124,18 +124,12 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
             title:"评论",
             dataIndex:'remark',
             key:"remark",
-            width:150
+            width:180
         },{
             title: '状态',
             dataIndex: 'status',
             key: 'status',
             width:100
-        },{
-            title:"操作",
-            dataIndex:"operator",
-            key:"operator",
-            width:150,
-            render: () => <a href="javascript:;">确认派单</a>
         }];
         const dataSource = [];
         for(let i = 0;i < data.list.length;i++){
@@ -162,15 +156,8 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
             <Table
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{y:300,x:1630}}
+                scroll={{y:300,x:1680}}
                 pagination={{total:data.total,defaultCurrent:1,onChange:this.changePage.bind(this)}}
-                onRow={(record) => {
-                    return {
-                        onClick: () => {
-                            actions.selectRebateItem(record.rebateId);
-                        },
-                    };
-                }}
             />
         )
     }

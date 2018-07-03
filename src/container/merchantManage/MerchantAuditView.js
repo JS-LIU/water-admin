@@ -275,7 +275,7 @@ class MerchantAuditListQueryView extends Component{
 }
 
 // 添加店铺
-@observer class  AuditView extends Component{
+@observer class AddMerchantAuditView extends Component{
     render(){
         return (
             <div className='add_order'>
