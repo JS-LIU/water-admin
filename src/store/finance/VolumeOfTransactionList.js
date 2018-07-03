@@ -7,11 +7,17 @@ import VolumeOfTransaction from './VolumeOfTransaction';
 class VolumeOfTransactionList extends AdminList{
     constructor(){
         super();
-        // /admin/financial/turnoverOrderList
+        //  /admin/financial/turnoverOrderList
         let volumeOfTransactionListAjax = _h.ajax.resource('/admin/financial/:action');
         this._getVolumeOfTransactionList = function(postInfo){
             return volumeOfTransactionListAjax.save({action:"turnoverOrderList"},postInfo)
         };
+
+        //  /admin/financial/getTurnoverData
+        this._getVolumeOfTransactionData = function(){
+            return volumeOfTransactionListAjax.save({action:"getTurnoverData"});
+        };
+        // this._getT
         //  merchant_src self_src client_src
         this.orderSrc = "merchant_src";
     }
@@ -26,5 +32,9 @@ class VolumeOfTransactionList extends AdminList{
         let reqMsg = this.getQueryMsg({orderSrc: this.orderType});
         return this.getList(reqMsg,this._getVolumeOfTransactionList,VolumeOfTransaction);
     }
+    getVolumeOfTransactionData(){
+        let postInfo = {};
+        return this._getVolumeOfTransactionData(postInfo);
+    }
 }
-module.exports = VolumeOfTransactionList;
+module.exports = new VolumeOfTransactionList();

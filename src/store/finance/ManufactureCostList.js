@@ -21,14 +21,21 @@ class ManufactureCostList extends AdminList{
         //  创建进货单
         this._createManufactureCost = function(postInfo){
             return manufactureCostListAjax.save({action:'createStockWaterPay'},postInfo)
-        }
+        };
+        //  统计数据
+        this._getManufactureCostData = function(postInfo){
+            return manufactureCostListAjax.save({action:'getStockWaterPayCount'},postInfo)
+        };
     }
 
     getManufactureCostList(){
         let postInfo = this.getQueryMsg();
         return this.getList(postInfo,this._getManufactureCostList,ManufactureCost);
     }
-
+    getManufactureCostData(){
+        let postInfo = {};
+        return this._getManufactureCostData(postInfo);
+    }
     newManufactureCost(){
         this.setActiveItem(new ManufactureCost({}));
     }

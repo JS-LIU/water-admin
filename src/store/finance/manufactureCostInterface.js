@@ -65,6 +65,15 @@ function manufactureCostListActions(){
         let manufactureCost = manufactureCostList.findItemByItemId(manufactureCostListData.list,manufactureCostId,"id");
         manufactureCostList.setActiveItem(manufactureCost);
     };
+    let updateRemark = function(remark){
+        manufactureCostList.activeItem.updateRemark(remark).then(()=>{
+            _getList();
+        });
+    };
+    let changePage = function(pageNum){
+        manufactureCostList.pagination.setPage(pageNum);
+        _getList();
+    };
     return {
         onLoad:load,
         addManufacture:addManufacture,          //  点击添加进水按钮
@@ -77,6 +86,8 @@ function manufactureCostListActions(){
         calcPayRmb:calcPayRmb,                  //  自动计算金额
         createManufactureCost:createManufactureCost,    //  点击确定创建
         selectManufactureCost:selectManufactureCost,
+        updateRemark:updateRemark,
+        changePage:changePage
     }
 }
 module.exports = {data:manufactureCostListData,actions:manufactureCostListActions()};

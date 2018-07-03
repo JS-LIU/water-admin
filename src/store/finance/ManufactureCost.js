@@ -1,6 +1,7 @@
 /**
  * Created by LDQ on 2018/6/28
  */
+import _h from '../../Util/HB';
 class ManufactureCost {
     constructor(info){
         this.id = info.stockWaterPayId;
@@ -15,6 +16,14 @@ class ManufactureCost {
         this.ticketUrl  = info.ticketUrl;      // 收据
         this.unitPrice  = info.unitPrice;      // 成本
         this.remark = info.remark;
+        let manufactureCostAjax = _h.ajax.resource('/admin/order/:action');
+
+        this._updateRemark = function(postInfo){
+            return manufactureCostAjax.save({actions:"updateStockWaterPayRemake"},postInfo);
+        };
+        this._updatePic = function(postInfo){
+            return manufactureCostAjax.save({actions:"updateStockWaterPayTicketUrl"},postInfo);
+        }
     }
     //  设置水厂
     setWaterStore(waterStore){
@@ -48,7 +57,16 @@ class ManufactureCost {
     getTotalPayRmb(){
         return this.unitPrice * this.count;
     }
-
-
+    updateRemark(remark){
+        let self = this;
+        let postInfo = {
+            id:self.id,
+            remark:remark
+        };
+        return this._updateRemark(postInfo);
+    }
+    updatePic(picUrl){
+        
+    }
 }
 module.exports = ManufactureCost;
