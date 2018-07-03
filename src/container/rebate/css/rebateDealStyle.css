@@ -1,10 +1,9 @@
 .inquire_view{
-    width: 1250px;
+    width: 1000px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-bottom: 15px;
-    padding-left: 50px;
     box-sizing: border-box;
 }
 .order_detail_list{

@@ -1,0 +1,92 @@
+.search_view{
+    width: 800px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.compile{
+    background-color: #1890FF;
+    color: #fff;
+    font-size: 18px;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 15px;
+    margin-top: 10px;
+}
+.left_area{
+    width: 53%;
+    border-right: 8px solid #EFF0F3;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 30px 30px 0 10px;
+    height: 200px;
+    float: left;
+}
+.left_area li{
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.left_area input{
+    width: 200px;
+}
+.right_area{
+    display: flex;
+    flex-direction: column;
+    width: 47%;
+    height: 200px;
+    line-height: 55px;
+    padding: 20px 35px;
+}
+.count{
+    width: 100px;
+}
+.add_activity{
+    border: 1px solid #1890FF;
+    color: #1890FF;
+    font-size:16px ;
+}
+.unlimited_btn{
+    width: 73px;
+    height: 22px;
+    color: #fff;
+    font-size: 12px;
+    margin-left: 10px;
+}
+.cancel{
+    width: 95px;
+    height: 33px;
+}
+.btn_group{
+    width: 265px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+.details_list{
+    width: 85%;
+    display: inline-block;
+}
+.operation_column{
+    width: 15%;
+    display: inline-block;
+    float: right;
+    display: flex;
+    top: 0;
+    right: 0;
+}
+.operation_column .ant-pagination ,.operation.ant-table-pagination{
+    display: none;
+}
+
+.operate_btn a{
+    padding: 0 10px;
+    display: inline-block;
+}
+.operate_btn a:nth-child(1){
+    border-right: 1px solid #999999;
+}
