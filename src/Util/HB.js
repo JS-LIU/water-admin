@@ -123,9 +123,22 @@ HB.ajax = (function(){
                     async:bool
                 })
             };
-            this.jsonPAjax = function(){
-                return $.ajax()
-            }
+            // this.upLoadPic = function(formData){
+            //     return $.ajax({
+            //         url:"http://123.57.161.212:9936/imageserver/uploads",
+            //         dataType:'jsonp',
+            //         type:"POST",
+            //         jsonp: "aa",
+            //         data:formData,
+            //         success:function(c){
+            //             console.log(c);
+            //         }
+            //     })
+            // }
+            // function aa(data) {
+            //     //处理data
+            //     alert(data);
+            // }
         }
 
         query(entity_obj,bool=true){

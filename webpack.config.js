@@ -43,7 +43,7 @@ module.exports = {
         disableHostCheck: true,
         port:"9999",
         proxy:{
-            "**":{
+            "/huibeiwater":{
                 target: 'http://123.57.161.212:9931',
                 secure: false,
                 bypass: function (req, res, proxyOptions) {
@@ -57,7 +57,23 @@ module.exports = {
                         return req.url;
                     }
                 }
+            },
+            "/imageserver":{
+                target: 'http://123.57.161.212:9936',
+                secure: false,
+                bypass: function (req, res, proxyOptions) {
+                    if (req.headers.accept.indexOf('html') !== -1) {
+                        return '/index.html';
+                    }
+                    if (req.headers.accept.indexOf('css') !== -1) {
+                        return '/src/Util/base.css';
+                    }
+                    if (req.headers.accept.indexOf('images') !== -1) {
+                        return req.url;
+                    }
+                }
             }
+
         }
     }
 };
