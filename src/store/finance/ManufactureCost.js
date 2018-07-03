@@ -1,6 +1,7 @@
 /**
  * Created by LDQ on 2018/6/28
  */
+import _h from '../../Util/HB';
 class ManufactureCost {
     constructor(info){
         this.id = info.stockWaterPayId;
@@ -14,6 +15,58 @@ class ManufactureCost {
         this.shopName  = info.shopName;        // 水厂
         this.ticketUrl  = info.ticketUrl;      // 收据
         this.unitPrice  = info.unitPrice;      // 成本
+        this.remark = info.remark;
+        let manufactureCostAjax = _h.ajax.resource('/admin/order/:action');
+
+        this._updateRemark = function(postInfo){
+            return manufactureCostAjax.save({actions:"updateStockWaterPayRemake"},postInfo);
+        };
+        this._updatePic = function(postInfo){
+            return manufactureCostAjax.save({actions:"updateStockWaterPayTicketUrl"},postInfo);
+        }
+    }
+    //  设置水厂
+    setWaterStore(waterStore){
+        this.waterStore = waterStore;
+    }
+    //  设置商品
+    setProduct(product){
+        this.product = product;
+    }
+    //  设置商品原价
+    setPerProductPrice(price){
+        this.unitPrice = price;
+    }
+    //  设置数量
+    setTotalCount(count){
+        this.count = count;
+    }
+    //  设置备注
+    setMark(remark){
+        this.remark = remark;
+    }
+    //  上传图片
+    upLoadPic(){
+    //  todo 上传图片
+    }
+    //  支付金额
+    setPayRmb(price){
+        this.payRmb = price;
+    }
+    //  计算金额
+    getTotalPayRmb(){
+        return this.unitPrice * this.count;
+    }
+    updateRemark(remark){
+        let self = this;
+        let postInfo = {
+            id:self.id,
+            remark:remark
+        };
+        return this._updateRemark(postInfo);
+    }
+    updatePic(picUrl){
+        
     }
 }
 module.exports = ManufactureCost;
