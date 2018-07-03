@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {observer,inject} from 'mobx-react';
-import { Table, Pagination , Button , Radio , Input , Select , Icon , Tabs } from 'antd';
+import { Table, Pagination , Button , Radio , Input , Select , Icon , Tabs , Upload} from 'antd';
 const Search = Input.Search;
 const Option = Select.Option;
 const TabPane = Tabs.TabPane;

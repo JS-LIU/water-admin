@@ -22,21 +22,21 @@ function merchantSearchAction(){
         merchantListContainer.pagination.setPage(1);
         _getList()
     };
-    let closeMerchant = function(merchantId){
-        let merchant = merchantListContainer.findItemByItemId(merchantSearchData.list,merchantId,"merchantId");
+    let closeMerchant = function(shopId){
+        let merchant = merchantListContainer.findItemByItemId(merchantSearchData.list,shopId,"shopId");
         merchant.close().then(()=>{
             _getList();
         })
 
     };
-    let toTop = function(merchantId){
-        let merchant = merchantListContainer.findItemByItemId(merchantSearchData.list,merchantId,"merchantId");
+    let toTop = function(shopId){
+        let merchant = merchantListContainer.findItemByItemId(merchantSearchData.list,shopId,"shopId");
         merchant.toTop().then(()=>{
             _getList();
         })
     };
-    let updateMerchantNum = function(merchantId,merchantNum){
-        let merchant = merchantListContainer.findItemByItemId(merchantSearchData.list,merchantId,"merchantId");
+    let updateMerchantNum = function(shopId,merchantNum){
+        let merchant = merchantListContainer.findItemByItemId(merchantSearchData.list,shopId,"shopId");
         merchant.updateMerchantNum(merchantNum);
     };
     let changePage = function(pageNum){

@@ -122,7 +122,9 @@ HB.ajax = (function(){
                     contentType:'application/json; charset=utf-8',
                     async:bool
                 })
-
+            };
+            this.jsonPAjax = function(){
+                return $.ajax()
             }
         }
 
@@ -145,7 +147,6 @@ HB.ajax = (function(){
                     this.ajax(type,url,JSON.stringify(data),bool).done(resolve).fail(reject);
                 })
             }
-
         }
     }
 

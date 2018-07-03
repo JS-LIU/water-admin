@@ -9,7 +9,6 @@ import merchantAuditStyle from './css/merchantAudit.css';
 
 @observer class MerchantListSearchView extends Component {
     componentWillMount() {
-        actions.resetInitQueryInfo();
         actions.onLoad();
     }
 

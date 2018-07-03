@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import {observer,inject} from 'mobx-react';
-import { Table, Pagination , Button , Radio , Input , Select , DatePicker } from 'antd';
+import { Table, Pagination , Button , Radio , Input , Select , DatePicker , Upload} from 'antd';
 const { RangePicker } = DatePicker;
 const Search = Input.Search;
 const Option = Select.Option;
+import Avatar from '../Avatar';
 
 import {data,actions} from '../../store/merchant/merchantAuditInterface';
 import merchantAuditStyle from './css/merchantAudit.css';
@@ -284,7 +285,7 @@ class MerchantAuditListQueryView extends Component{
                     <ul>
                         <li>店铺名称：<Input placeholder="请填写店铺名称" /></li>
                         <li>商家编号：<Input placeholder='请输入商家编号'/></li>
-                        <li>店铺头像： </li>
+                        <li>店铺头像： <Avatar name={"123"}/></li>
                         <li>店铺图片： </li>
                         <li>店铺属性：
                             <Select defaultValue="lucy" style={{ width: 200 }} >

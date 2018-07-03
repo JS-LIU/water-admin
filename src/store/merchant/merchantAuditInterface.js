@@ -22,11 +22,12 @@ function auditMerchantListAction(){
         merchantListContainer.getMerchantList().then((list)=>{
             auditMerchantData.list = list;
             auditMerchantData.pagination = merchantListContainer.pagination;
-            merchantListContainer.setActiveItem(auditMerchantData.list[0]);
+            merchantListContainer.setActiveItem(list[0]);
             return merchantListContainer.activeItem.getDetail()
         }).then((merchantDetail)=>{
             auditMerchantData.detail = merchantDetail;
         }).catch((errInfo)=>{
+            auditMerchantData.detail = {serviceTel:[],shopDetailImg:[]};
             console.log(errInfo);
         });
     };
@@ -63,8 +64,8 @@ function auditMerchantListAction(){
             refresh();
         });
     };
-    let selectMerchant = function(merchantId){
-        let merchant = merchantListContainer.findItemByItemId(auditMerchantData.list,merchantId,"merchantId");
+    let selectMerchant = function(shopId){
+        let merchant = merchantListContainer.findItemByItemId(auditMerchantData.list,shopId,"shopId");
         merchantListContainer.setActiveItem(merchant);
         merchantListContainer.activeItem.getDetail().then((merchantDetail)=>{
             auditMerchantData.detail = merchantDetail;
