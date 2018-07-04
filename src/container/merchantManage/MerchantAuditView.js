@@ -47,6 +47,7 @@ class MerchantAuditListQueryView extends Component{
         }
     }
     addMerchant(){
+        actions.addMerchant();
         this.props.onChange({
             isShow:false
         })
@@ -276,6 +277,9 @@ class MerchantAuditListQueryView extends Component{
 
 // 添加店铺
 @observer class AddMerchantAuditView extends Component{
+    inputAddress(e){
+        actions.inputMappingAddress(e.target.value);
+    }
     render(){
         return (
             <div className='add_order'>
@@ -298,12 +302,9 @@ class MerchantAuditListQueryView extends Component{
                         </li>
                         <li>联系电话：<Input placeholder='请输入联系电话'/></li>
                         <li>所在地区：
-                            <Select defaultValue="lucy" style={{ width: 200 }} >
-                                <Option value="lucy">请选择所在区域</Option>
-                                <Option value="jack">Jack</Option>
-                            </Select>
+                            <Input onKeyUp={this.inputAddress} placeholder='请输入详细地址'/>
                         </li>
-                        <li>详细地址：<Input placeholder='请输入详细地址'/></li>
+                        <li>详细地址：<Input onBlur={e => console.log(e.target.value)} placeholder='请输入详细地址'/></li>
                         <li>配送时间：<RangePicker /></li>
                         <li>配送范围：
                             <Select defaultValue="lucy" style={{ width: 200 }} >
@@ -311,10 +312,10 @@ class MerchantAuditListQueryView extends Component{
                                 <Option value="jack">Jack</Option>
                             </Select>
                         </li>
-                        <li>快递费用：<Input placeholder='请输入快递费用'/></li>
-                        <li>商家介绍：<Input placeholder='请填写商家介绍，有助于提高销售业绩'/></li>
-                        <li>分配账号：<Input placeholder='申请人手机号'/></li>
-                        <li>默认密码：123456</li>
+                        <li>快递费用：<Input onBlur={value => actions.setDeliveryMoney(value)} placeholder='请输入快递费用'/></li>
+                        <li>商家介绍：<Input onBlur={value => actions.setIntroduce(value)} placeholder='请填写商家介绍，有助于提高销售业绩'/></li>
+                        <li>分配账号：<Input onBlur={value => actions.setManagerTel(value)} placeholder='申请人手机号'/></li>
+                        <li>默认密码：666666</li>
                     </ul>
                     <div className='add_detail_section_bottom'>
                         <span>

@@ -74,17 +74,65 @@ function auditMerchantListAction(){
         refresh();
     };
 
-    let createMerchant = function(merchantInfo){
-        merchantListContainer.createMerchant(merchantInfo).then(()=>{
+    let addMerchantShop = function(){
+        merchantListContainer.newMerchant();
+    };
+    let setShopDetailImage = function(url){
+        merchantListContainer.activeItem.setShopDetailImage([url]);
+    };
+    let setShopHeaderImg = function(url){
+        merchantListContainer.activeItem.setShopHeaderImg(url);
+    };
+    let setDeliveryTime = function(time){
+        merchantListContainer.activeItem.setDeliveryTime(time);
+    };
+    let setDeliveryRange = function(range){
+        merchantListContainer.activeItem.setDeliveryTime(range);
+    };
+    let setAppendingAddress = function(appendingAddress){
+        merchantListContainer.activeItem.setAppendingAddress(appendingAddress);
+    };
+    let setDeliveryMoney = function(money){
+        merchantListContainer.activeItem.setDeliveryMoney(money);
+    };
+    let setIntroduce = function(introduce){
+        merchantListContainer.activeItem.setIntroduce(introduce);
+    };
+    let setShopType = function(type){
+        merchantListContainer.activeItem.setShopType(type);
+    };
+    let setManagerTel = function(tel){
+        merchantListContainer.activeItem.managerTel(tel);
+    };
+    let setServiceTel = function(telList){
+        merchantListContainer.activeItem.setServiceTel(telList);
+    };
+    let inputMappingAddress = function(address){
+        merchantListContainer.activeItem.inputMappingAddress(address).then((list)=>{
+            auditMerchantData.districtList = list;
+            console.log(list);
+        });
+    };
+    let selectAddress = function(location){
+        _setLatitude(location.lat);
+        _setLongitude(location.lng);
+        _setMappingAddress(location.district);
+        setAppendingAddress(location.name);
+    };
+    let _setLatitude = function(latitude){
+        return merchantListContainer.activeItem.setLatitude(latitude);
+    };
+    let _setLongitude = function(longitude){
+        return merchantListContainer.activeItem.setLongitude(longitude);
+    };
+    let _setMappingAddress = function(address){
+        return merchantListContainer.activeItem.setMappingAddress(address);
+    };
+    let createMerchant = function(){
+        merchantListContainer.createMerchant().then(()=>{
             resetInitShopType();
             load()
         })
-    };
-    let setShopPic = function(url){
-        // merchantListContainer.activeItem.
-    };
-    let addMerchantShop = function(){
-        merchantListContainer.newMerchant();
     };
 
     return {
@@ -107,11 +155,20 @@ function auditMerchantListAction(){
         selectMerchant:selectMerchant,
         changePage:changePage,
         changeMerchantType:changeMerchantType,
-        autoComplete:autoComplete,
         //  创建店铺
         createMerchant:createMerchant,
         //  设置店铺图片
-        setShopPic:setShopPic,
+        setShopDetailImage:setShopDetailImage,
+        setShopHeaderImg:setShopHeaderImg,
+        setDeliveryTime:setDeliveryTime,
+        setDeliveryRange:setDeliveryRange,
+        setAppendingAddress:setAppendingAddress,
+        setDeliveryMoney:setDeliveryMoney,
+        setIntroduce:setIntroduce,
+        setShopType:setShopType,
+        setManagerTel:setManagerTel,
+        setServiceTel:setServiceTel,
+        inputMappingAddress:inputMappingAddress,
         addMerchantShop:addMerchantShop,
     }
 }
