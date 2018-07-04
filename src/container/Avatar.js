@@ -3,6 +3,8 @@
  */
 import React, {Component} from 'react';
 import { Upload, Icon, message } from 'antd';
+import avatarPicUrl from '../Util/AvatarPicUrl';
+
 function getBase64(img, callback) {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
@@ -27,6 +29,8 @@ class Avatar extends React.Component {
                 loading: false,
             }));
         }
+        let url = avatarPicUrl.getUrlFromAvatar(info);
+        this.props.afterAction(url);
     }
 
     render() {
@@ -44,7 +48,7 @@ class Avatar extends React.Component {
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
-                action='http://123.57.161.212:9936/imageserver/uploads'
+                action='/imageserver/uploads'
                 onChange={this.handleChange}
             >
                 {imageUrl ? <img src={imageUrl} alt="avatar" /> : uploadButton}

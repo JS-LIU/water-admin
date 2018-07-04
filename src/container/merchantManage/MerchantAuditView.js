@@ -5,15 +5,11 @@ const { RangePicker } = DatePicker;
 const Search = Input.Search;
 const Option = Select.Option;
 import Avatar from '../Avatar';
-import _h from '../../Util/HB';
-import $ from 'jquery';
-
 
 import {data,actions} from '../../store/merchant/merchantAuditInterface';
 import merchantAuditStyle from './css/merchantAudit.css';
 import merchantAuditDataStyle from './css/merchantAuditData.css';
 
-@inject (['shopListContainer'])
 @observer class MerchantAuditView extends Component{
     state = {
         isShow:true
@@ -280,29 +276,6 @@ class MerchantAuditListQueryView extends Component{
 
 // 添加店铺
 @observer class AddMerchantAuditView extends Component{
-    uploadPic(){
-        let input = this.refs.myInput;
-        let formData = new FormData();
-        let pathFile = input.files[0];
-        console.log(pathFile)
-        formData.set("t1",pathFile);
-        console.log(formData.get("t1"));
-        // _h.ajax.resource('/').upLoadPic(formData)()
-        $.ajax({
-            url:"/imageserver/uploads",
-            type:"POST",
-            data:formData,
-            contentType: false,
-            processData: false,
-            success:function(c){
-                console.log(c);
-            }
-        })
-        function aa(data) {
-            //处理data
-            alert(data);
-        }
-    }
     render(){
         return (
             <div className='add_order'>
@@ -312,9 +285,11 @@ class MerchantAuditListQueryView extends Component{
                         <li>店铺名称：<Input placeholder="请填写店铺名称" /></li>
                         <li>商家编号：<Input placeholder='请输入商家编号'/></li>
                         <li>店铺头像：
-                            <input type="file" ref="myInput" id="aaa" onChange={this.uploadPic.bind(this)}/>
+                            {/*<input type="file" ref="myInput" id="aaa" onChange={this.uploadPic.bind(this)}/>*/}
                         </li>
-                        <li>店铺图片： </li>
+                        <li>店铺图片：
+                            <Avatar name={"file"} afterAction={actions.setShopPic}/>
+                        </li>
                         <li>店铺属性：
                             <Select defaultValue="lucy" style={{ width: 200 }} >
                                 <Option value="lucy">选择店铺属性</Option>

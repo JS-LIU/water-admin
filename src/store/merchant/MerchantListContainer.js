@@ -61,6 +61,9 @@ class MerchantListContainer extends AdminList{
 
         })
     }
+    newMerchant(){
+        this.setActiveItem(new Merchant({merchantStatus:"待审核"}));
+    }
 }
 
 module.exports = new MerchantListContainer();

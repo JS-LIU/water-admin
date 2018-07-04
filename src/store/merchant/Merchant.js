@@ -6,6 +6,7 @@ import ProductList from '../product/ProductList';
 import ShopOrderList from '../order/ShopOrderList';
 import ShopAccount from '../account/ShopAccount';
 import ShopActivityList from './ShopActivityList';
+import AutoMap from '../../Util/huipayLocation/AutoMap';
 class Merchant{
     constructor(merchantInfo){
         this.applyTime = merchantInfo.applyTime;           //  申请时间
@@ -82,6 +83,8 @@ class Merchant{
         this.shopOrderList = new ShopOrderList(merchantInfo.shopId);
         this.account = new ShopAccount(merchantInfo.shopId);
         this.shopActivityList = new ShopActivityList(merchantInfo.shopId);
+
+        this.location = new AutoMap();
     }
     /**
      * 审核状态
@@ -140,6 +143,58 @@ class Merchant{
     updateMerchantNum(shopArtificialNum){
         return this._setArtificialInfo({shopId:this.shopId,shopArtificialNum:shopArtificialNum});
     }
-
+    //  设置店铺详情图片
+    setShopDetailImage(picUrlList){
+        this.shopImg = picUrlList;
+    }
+    //  设置店铺头像
+    setShopHeaderImg(picUrl){
+        this.shopHeaderImg = picUrl;
+    }
+    //  设置店铺名称
+    setShopName(name){
+        this.shopName = name;
+    }
+    //  设置配送时间
+    setDeliveryTime(time){
+        this.deliveryTime = time;
+    }
+    //  设置配送范围
+    setDeliveryRange(range){
+        this.deliveryRange = range;
+    }
+    //  设置详细地址
+    setAppendingAddress(address){
+        this.appendingAddress = address;
+    }
+    setDeliveryMoney(money){
+        this.deliveryMoney = money;
+    }
+    setLatitude(latitude){
+        this.latitude = latitude;
+    }
+    setLongitude(longitude){
+        this.longitude = longitude;
+    }
+    setMappingAddress(mappingAddress){
+        this.mappingAddress = mappingAddress;
+    }
+    setIntroduce(discribe){
+        this.introduce = discribe;
+    }
+    //  personal(0, "个人店铺"),corporate(1, "公司店铺");
+    setShopType(type){
+        this.shopType = type;
+    }
+    //  用户电话
+    setManagerTel(tel){
+        this.managerTel = tel;
+    }
+    setServiceTel(telList){
+        this.serviceTel = telList;
+    }
+    inputMappingAddress(str){
+        return this.location.autoComplete(str);
+    }
 }
 module.exports = Merchant;

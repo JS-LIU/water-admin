@@ -4,8 +4,6 @@
 
 import {observable, computed, action, autorun} from "mobx";
 import merchantListContainer from './MerchantListContainer';
-import AutoMap from '../../Util/huipayLocation/AutoMap';
-let autoMap = new AutoMap();
 
 let auditMerchantData = {
     @observable list:[],
@@ -76,17 +74,19 @@ function auditMerchantListAction(){
         refresh();
     };
 
-    let autoComplete = function(str){
-        autoMap.autoComplete(str).then((locationList)=>{
-            auditMerchantData.districtList = locationList
-        })
-    };
     let createMerchant = function(merchantInfo){
         merchantListContainer.createMerchant(merchantInfo).then(()=>{
             resetInitShopType();
             load()
         })
     };
+    let setShopPic = function(url){
+        // merchantListContainer.activeItem.
+    };
+    let addMerchantShop = function(){
+        merchantListContainer.newMerchant();
+    };
+
     return {
         resetInitShopType:resetInitShopType,
         //  初始化页面
@@ -109,7 +109,10 @@ function auditMerchantListAction(){
         changeMerchantType:changeMerchantType,
         autoComplete:autoComplete,
         //  创建店铺
-        createMerchant:createMerchant
+        createMerchant:createMerchant,
+        //  设置店铺图片
+        setShopPic:setShopPic,
+        addMerchantShop:addMerchantShop,
     }
 }
 module.exports = {actions:auditMerchantListAction(),data:auditMerchantData};
