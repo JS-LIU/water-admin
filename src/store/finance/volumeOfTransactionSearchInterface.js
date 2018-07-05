@@ -43,7 +43,9 @@ function volumeOfTransactionSearchActions(){
         volumeOfTransactionList.setOrderSrc(orderSrc);
     };
     return {
-        onLoad:load.before(setOrderSrc('merchant_src')),
+        onLoad:load.before(function(){
+            setOrderSrc('merchant_src')
+        }),
         selectQueryInfo:selectQueryInfo,
         queryListByQueryInfo:queryListByQueryInfo,
         queryDataByQueryInfo:queryDataByQueryInfo,

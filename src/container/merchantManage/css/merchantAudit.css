@@ -40,3 +40,6 @@
  .editable-cell-icon-check:hover {
      color: #108ee9;
  }
+ .ant-slider{
+     width:100px;
+ }

@@ -29,6 +29,8 @@ class Merchant{
         this.shopHeaderImg = merchantInfo.imgUrl;
         //  配送时间
         this.deliveryTime = merchantInfo.deliverTimeStr;
+        this._deliveryStartTime = "9:00:00";
+        this._deliveryEndTime = "17:00:00";
         //  配送范围
         this.deliveryRange = merchantInfo.distanceScope;
         //  快递费用
@@ -37,7 +39,6 @@ class Merchant{
         this.shopImg = merchantInfo.shopDetailImage;
         //  店铺类型
         this.merChantType = merchantInfo.merchantType;
-
         this.introduce = merchantInfo.presentation;        //  商家介绍
         this.auditor = merchantInfo.auditor;               //  审核人
 
@@ -143,6 +144,7 @@ class Merchant{
     updateMerchantNum(shopArtificialNum){
         return this._setArtificialInfo({shopId:this.shopId,shopArtificialNum:shopArtificialNum});
     }
+
     //  设置店铺详情图片
     setShopDetailImage(picUrlList){
         this.shopImg = picUrlList;
@@ -156,8 +158,16 @@ class Merchant{
         this.shopName = name;
     }
     //  设置配送时间
-    setDeliveryTime(time){
-        this.deliveryTime = time;
+    _setDeliveryTime(startTime,endTime){
+        this.deliveryTime = startTime+"~"+endTime;
+    }
+    setStartTime(startTimeStr){
+        this._deliveryStartTime = startTimeStr;
+        this._setDeliveryTime(startTimeStr,this._deliveryEndTime);
+    }
+    setEndTime(endTimeStr){
+        this._deliveryEndTime = endTimeStr;
+        this._setDeliveryTime(this._deliveryStartTime,endTimeStr);
     }
     //  设置配送范围
     setDeliveryRange(range){

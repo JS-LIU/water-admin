@@ -14,8 +14,8 @@ class VolumeOfTransactionList extends AdminList{
         };
 
         //  /admin/financial/getTurnoverData
-        this._getVolumeOfTransactionData = function(){
-            return volumeOfTransactionListAjax.save({action:"getTurnoverData"});
+        this._getVolumeOfTransactionData = function(postInfo){
+            return volumeOfTransactionListAjax.save({action:"getTurnoverData"},postInfo);
         };
         // this._getT
         //  merchant_src self_src client_src

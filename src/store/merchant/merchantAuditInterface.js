@@ -9,7 +9,8 @@ let auditMerchantData = {
     @observable list:[],
     @observable detail:{serviceTel:[],shopDetailImg:[]},
     @observable pagination:{},
-    @observable districtList:[]
+    @observable districtList:[],
+    @observable appendingAddress:""
 };
 function auditMerchantListAction(){
     let resetInitShopType = function(){
@@ -77,20 +78,28 @@ function auditMerchantListAction(){
     let addMerchantShop = function(){
         merchantListContainer.newMerchant();
     };
+    let setShopName = function(name){
+        merchantListContainer.activeItem.setShopName(name);
+    };
     let setShopDetailImage = function(url){
         merchantListContainer.activeItem.setShopDetailImage([url]);
     };
     let setShopHeaderImg = function(url){
         merchantListContainer.activeItem.setShopHeaderImg(url);
     };
-    let setDeliveryTime = function(time){
-        merchantListContainer.activeItem.setDeliveryTime(time);
+    let setStartTime = function(time){
+        merchantListContainer.activeItem.setStartTime(time);
+    };
+    let setEndTime = function(time){
+        merchantListContainer.activeItem.setEndTime(time);
     };
     let setDeliveryRange = function(range){
-        merchantListContainer.activeItem.setDeliveryTime(range);
+        merchantListContainer.activeItem.setDeliveryRange(range);
     };
     let setAppendingAddress = function(appendingAddress){
         merchantListContainer.activeItem.setAppendingAddress(appendingAddress);
+        console.log(appendingAddress);
+        auditMerchantData.appendingAddress = appendingAddress
     };
     let setDeliveryMoney = function(money){
         merchantListContainer.activeItem.setDeliveryMoney(money);
@@ -105,7 +114,7 @@ function auditMerchantListAction(){
         merchantListContainer.activeItem.managerTel(tel);
     };
     let setServiceTel = function(telList){
-        merchantListContainer.activeItem.setServiceTel(telList);
+        merchantListContainer.activeItem.setServiceTel([telList]);
     };
     let inputMappingAddress = function(address){
         merchantListContainer.activeItem.inputMappingAddress(address).then((list)=>{
@@ -157,10 +166,12 @@ function auditMerchantListAction(){
         changeMerchantType:changeMerchantType,
         //  创建店铺
         createMerchant:createMerchant,
+        setShopName:setShopName,
         //  设置店铺图片
         setShopDetailImage:setShopDetailImage,
         setShopHeaderImg:setShopHeaderImg,
-        setDeliveryTime:setDeliveryTime,
+        setStartTime:setStartTime,
+        setEndTime:setEndTime,
         setDeliveryRange:setDeliveryRange,
         setAppendingAddress:setAppendingAddress,
         setDeliveryMoney:setDeliveryMoney,
@@ -170,6 +181,7 @@ function auditMerchantListAction(){
         setServiceTel:setServiceTel,
         inputMappingAddress:inputMappingAddress,
         addMerchantShop:addMerchantShop,
+        selectAddress:selectAddress,
     }
 }
 module.exports = {actions:auditMerchantListAction(),data:auditMerchantData};

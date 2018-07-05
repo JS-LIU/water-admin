@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {observer,inject} from 'mobx-react';
-import { Table, Pagination , Button , Radio , Input , Select , DatePicker , Upload} from 'antd';
-const { RangePicker } = DatePicker;
+import { Table, Pagination , Button , Radio , Input , Select , List , TimePicker ,Slider } from 'antd';
+import moment from 'moment';
 const Search = Input.Search;
 const Option = Select.Option;
 import Avatar from '../Avatar';
@@ -47,7 +47,7 @@ class MerchantAuditListQueryView extends Component{
         }
     }
     addMerchant(){
-        actions.addMerchant();
+        actions.addMerchantShop();
         this.props.onChange({
             isShow:false
         })
@@ -277,8 +277,8 @@ class MerchantAuditListQueryView extends Component{
 
 // 添加店铺
 @observer class AddMerchantAuditView extends Component{
-    inputAddress(e){
-        actions.inputMappingAddress(e.target.value);
+    createMerchant(){
+
     }
     render(){
         return (
@@ -286,48 +286,68 @@ class MerchantAuditListQueryView extends Component{
                 <div className='order_detail_header'>添加店铺</div>
                 <div className="add_detail_section_left" id='add_detail_section_left'>
                     <ul>
-                        <li>店铺名称：<Input placeholder="请填写店铺名称" /></li>
-                        <li>商家编号：<Input placeholder='请输入商家编号'/></li>
+                        <li>店铺名称：<Input onBlur={e => actions.setShopName(e.target.value)} placeholder="请填写店铺名称" /></li>
+                        {/*<li>商家编号：<Input onBlur={this.inputShopAli} placeholder='请输入商家编号'/></li>*/}
                         <li>店铺头像：
-                            {/*<input type="file" ref="myInput" id="aaa" onChange={this.uploadPic.bind(this)}/>*/}
+                            <Avatar name={"file"} afterAction={actions.setShopHeaderImg}/>
                         </li>
                         <li>店铺图片：
-                            <Avatar name={"file"} afterAction={actions.setShopPic}/>
+                            <Avatar name={"file"} afterAction={actions.setShopDetailImage}/>
                         </li>
                         <li>店铺属性：
-                            <Select defaultValue="lucy" style={{ width: 200 }} >
-                                <Option value="lucy">选择店铺属性</Option>
-                                <Option value="jack">Jack</Option>
+                            <Select defaultValue="unSelect" style={{ width: 200 }} onChange={value => {actions.setShopType(value)}}>
+                                <Option value="unSelect">选择店铺类型</Option>
+                                <Option value="personal">个人店铺</Option>
+                                <Option value="corporate">公司店铺</Option>
                             </Select>
                         </li>
-                        <li>联系电话：<Input placeholder='请输入联系电话'/></li>
+                        <li>联系电话：<Input onBlur={e => actions.setServiceTel(e.target.value)} placeholder='请输入联系电话'/></li>
                         <li>所在地区：
-                            <Input onKeyUp={this.inputAddress} placeholder='请输入详细地址'/>
+                            <Input onKeyUp={e => actions.inputMappingAddress(e.target.value)} placeholder='请输入详细地址'/>
+                            <DistrictList />
                         </li>
-                        <li>详细地址：<Input onBlur={e => console.log(e.target.value)} placeholder='请输入详细地址'/></li>
-                        <li>配送时间：<RangePicker /></li>
+                        <li>详细地址：<Input onChange={e => actions.setAppendingAddress(e.target.value)} value={data.appendingAddress} placeholder='请输入详细地址'/></li>
+                        <li>配送时间：
+                            <TimePicker defaultValue={moment('09:00:00', 'HH:mm:ss')} onChange={(time,timeString) => {actions.setStartTime(timeString)}}/>
+                            <TimePicker defaultValue={moment('17:00:00', 'HH:mm:ss')} onChange={(time,timeString) => {actions.setEndTime(timeString)}}/>
+                        </li>
                         <li>配送范围：
-                            <Select defaultValue="lucy" style={{ width: 200 }} >
-                                <Option value="lucy">请选择配送范围</Option>
-                                <Option value="jack">Jack</Option>
-                            </Select>
+                            <Slider range step={1} defaultValue={[0, 10]} max={10} onAfterChange={value => console.log(value)}/>
                         </li>
-                        <li>快递费用：<Input onBlur={value => actions.setDeliveryMoney(value)} placeholder='请输入快递费用'/></li>
-                        <li>商家介绍：<Input onBlur={value => actions.setIntroduce(value)} placeholder='请填写商家介绍，有助于提高销售业绩'/></li>
-                        <li>分配账号：<Input onBlur={value => actions.setManagerTel(value)} placeholder='申请人手机号'/></li>
+                        <li>快递费用：<Input onBlur={e => actions.setDeliveryMoney(e.target.value)} placeholder='请输入快递费用'/></li>
+                        <li>商家介绍：<Input onBlur={e => actions.setIntroduce(e.target.value)} placeholder='请填写商家介绍，有助于提高销售业绩'/></li>
+                        <li>分配账号：<Input onBlur={e => actions.setManagerTel(e.target.value)} placeholder='申请人手机号'/></li>
                         <li>默认密码：666666</li>
                     </ul>
                     <div className='add_detail_section_bottom'>
                         <span>
-                            <Button type="primary" className='mr10' >确认添加</Button>
+                            <Button type="primary" className='mr10' onClick={this.createMerchant}>确认添加</Button>
                             <Button type="primary" >取消</Button>
                         </span>
                         <span>
-                            操作人：你爸爸
+                            操作人：张潇潇
                         </span>
                     </div>
                 </div>
             </div>
+        )
+    }
+}
+@observer class DistrictList extends Component{
+    selectAddress(location){
+        return ()=>{
+            console.log(location);
+            actions.selectAddress(location);
+        }
+    }
+    render(){
+        return (
+            <List
+                size="small"
+                bordered
+                dataSource={data.districtList}
+                renderItem={item => (<List.Item onClick={this.selectAddress(item)}>{item.fullAddress}</List.Item>)}
+            />
         )
     }
 }
