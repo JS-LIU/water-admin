@@ -64,6 +64,29 @@ class MerchantListContainer extends AdminList{
     newMerchant(){
         this.setActiveItem(new Merchant({merchantStatus:"待审核"}));
     }
+    createMerchant(){
+        console.log(this.activeItem);
+        let merchant = this.activeItem;
+        let postData = {
+            shopName:merchant.shopName,
+            shopIconImg:merchant.shopHeaderImg,
+            shopDetailImage:merchant.shopImg,
+            shopType:2,
+            merchantAttribute:merchant.merchantType,
+            mappingAddress:merchant.mappingAddress,
+            longitude:merchant.longitude,
+            latitude:merchant.latitude,
+            appendingAddress:merchant.appendingAddress,
+            deliverTime:merchant.deliveryTime,
+            distanceScope:merchant.deliveryRange,
+            freight:merchant.deliveryMoney,
+            merchantDiscription:merchant.introduce,
+            merchantUserTel:merchant.managerTel,
+            phoneNum:merchant.serviceTel
+        };
+        console.log(postData);
+        return this._createShop(postData);
+    }
 }
 
 module.exports = new MerchantListContainer();

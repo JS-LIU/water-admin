@@ -125,8 +125,8 @@ class MerchantAuditListQueryView extends Component{
             width:200
         },{
             title:'店铺属性',
-            dataIndex:"shopType",
-            key:"shopType",
+            dataIndex:"merchantType",
+            key:"merchantType",
             width:200
         },{
             title:'所在地区',
@@ -189,7 +189,7 @@ class MerchantAuditListQueryView extends Component{
                 key:i,
                 applyTime:item.applyTime,
                 shopName:item.shopName,
-                shopType:item.shopType,
+                merchantType:item.merchantType,
                 district:item.district,
                 addressDetail:item. addressDetail,
                 serviceTel:item.serviceTel,
@@ -278,7 +278,7 @@ class MerchantAuditListQueryView extends Component{
 // 添加店铺
 @observer class AddMerchantAuditView extends Component{
     createMerchant(){
-
+        actions.createMerchant();
     }
     render(){
         return (
@@ -292,10 +292,10 @@ class MerchantAuditListQueryView extends Component{
                             <Avatar name={"file"} afterAction={actions.setShopHeaderImg}/>
                         </li>
                         <li>店铺图片：
-                            <Avatar name={"file"} afterAction={actions.setShopDetailImage}/>
+                            <Avatar name={"file"} afterAction={actions.setShopImg}/>
                         </li>
                         <li>店铺属性：
-                            <Select defaultValue="unSelect" style={{ width: 200 }} onChange={value => {actions.setShopType(value)}}>
+                            <Select defaultValue="unSelect" style={{ width: 200 }} onChange={value => {actions.setMerchantType(value)}}>
                                 <Option value="unSelect">选择店铺类型</Option>
                                 <Option value="personal">个人店铺</Option>
                                 <Option value="corporate">公司店铺</Option>
@@ -303,7 +303,7 @@ class MerchantAuditListQueryView extends Component{
                         </li>
                         <li>联系电话：<Input onBlur={e => actions.setServiceTel(e.target.value)} placeholder='请输入联系电话'/></li>
                         <li>所在地区：
-                            <Input onKeyUp={e => actions.inputMappingAddress(e.target.value)} placeholder='请输入详细地址'/>
+                            <Input onChange={e => actions.inputMappingAddress(e.target.value)} value={data.mappingAddress} placeholder='搜索地址'/>
                             <DistrictList />
                         </li>
                         <li>详细地址：<Input onChange={e => actions.setAppendingAddress(e.target.value)} value={data.appendingAddress} placeholder='请输入详细地址'/></li>
@@ -312,7 +312,7 @@ class MerchantAuditListQueryView extends Component{
                             <TimePicker defaultValue={moment('17:00:00', 'HH:mm:ss')} onChange={(time,timeString) => {actions.setEndTime(timeString)}}/>
                         </li>
                         <li>配送范围：
-                            <Slider range step={1} defaultValue={[0, 10]} max={10} onAfterChange={value => console.log(value)}/>
+                            <Slider range step={1} defaultValue={[0, 10]} max={10} onAfterChange={value => actions.setDeliveryRange(value)}/>
                         </li>
                         <li>快递费用：<Input onBlur={e => actions.setDeliveryMoney(e.target.value)} placeholder='请输入快递费用'/></li>
                         <li>商家介绍：<Input onBlur={e => actions.setIntroduce(e.target.value)} placeholder='请填写商家介绍，有助于提高销售业绩'/></li>
@@ -336,7 +336,6 @@ class MerchantAuditListQueryView extends Component{
 @observer class DistrictList extends Component{
     selectAddress(location){
         return ()=>{
-            console.log(location);
             actions.selectAddress(location);
         }
     }

@@ -10,7 +10,8 @@ let auditMerchantData = {
     @observable detail:{serviceTel:[],shopDetailImg:[]},
     @observable pagination:{},
     @observable districtList:[],
-    @observable appendingAddress:""
+    @observable appendingAddress:"",
+    @observable mappingAddress:""
 };
 function auditMerchantListAction(){
     let resetInitShopType = function(){
@@ -81,8 +82,8 @@ function auditMerchantListAction(){
     let setShopName = function(name){
         merchantListContainer.activeItem.setShopName(name);
     };
-    let setShopDetailImage = function(url){
-        merchantListContainer.activeItem.setShopDetailImage([url]);
+    let setShopImg = function(url){
+        merchantListContainer.activeItem.setShopImg([url]);
     };
     let setShopHeaderImg = function(url){
         merchantListContainer.activeItem.setShopHeaderImg(url);
@@ -107,16 +108,17 @@ function auditMerchantListAction(){
     let setIntroduce = function(introduce){
         merchantListContainer.activeItem.setIntroduce(introduce);
     };
-    let setShopType = function(type){
-        merchantListContainer.activeItem.setShopType(type);
+    let setMerchantType = function(type){
+        merchantListContainer.activeItem.setMerchantType(type);
     };
     let setManagerTel = function(tel){
-        merchantListContainer.activeItem.managerTel(tel);
+        merchantListContainer.activeItem.setManagerTel(tel);
     };
     let setServiceTel = function(telList){
         merchantListContainer.activeItem.setServiceTel([telList]);
     };
     let inputMappingAddress = function(address){
+        auditMerchantData.mappingAddress = address;
         merchantListContainer.activeItem.inputMappingAddress(address).then((list)=>{
             auditMerchantData.districtList = list;
             console.log(list);
@@ -129,13 +131,14 @@ function auditMerchantListAction(){
         setAppendingAddress(location.name);
     };
     let _setLatitude = function(latitude){
-        return merchantListContainer.activeItem.setLatitude(latitude);
+        merchantListContainer.activeItem.setLatitude(latitude);
     };
     let _setLongitude = function(longitude){
-        return merchantListContainer.activeItem.setLongitude(longitude);
+        merchantListContainer.activeItem.setLongitude(longitude);
     };
     let _setMappingAddress = function(address){
-        return merchantListContainer.activeItem.setMappingAddress(address);
+        merchantListContainer.activeItem.setMappingAddress(address);
+        auditMerchantData.mappingAddress = address;
     };
     let createMerchant = function(){
         merchantListContainer.createMerchant().then(()=>{
@@ -168,7 +171,7 @@ function auditMerchantListAction(){
         createMerchant:createMerchant,
         setShopName:setShopName,
         //  设置店铺图片
-        setShopDetailImage:setShopDetailImage,
+        setShopImg:setShopImg,
         setShopHeaderImg:setShopHeaderImg,
         setStartTime:setStartTime,
         setEndTime:setEndTime,
@@ -176,7 +179,7 @@ function auditMerchantListAction(){
         setAppendingAddress:setAppendingAddress,
         setDeliveryMoney:setDeliveryMoney,
         setIntroduce:setIntroduce,
-        setShopType:setShopType,
+        setMerchantType:setMerchantType,
         setManagerTel:setManagerTel,
         setServiceTel:setServiceTel,
         inputMappingAddress:inputMappingAddress,

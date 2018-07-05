@@ -7,9 +7,8 @@ class AvatarPicUrl{
     }
     getUrlFromAvatar(info){
         if(info.fileList){
-            this.url = info.fileList[0].response[0].bigImg
+            this.url = info.fileList[0].response[0].big_img
         }
-        console.log(this.url);
         return this.url;
     }
 }

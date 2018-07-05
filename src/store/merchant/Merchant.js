@@ -11,7 +11,8 @@ class Merchant{
     constructor(merchantInfo){
         this.applyTime = merchantInfo.applyTime;           //  申请时间
         this.shopName = merchantInfo.shopName;             //  店铺名称
-        this.shopType = merchantInfo.merchantType;         //  店铺属性
+        this.merchantType = merchantInfo.merchantType;         //  店铺属性("personal","corporate")
+        this.shopType = merchantInfo.shopType;          //  店铺属性("0 virtual_shop",friend_entity_shop(1, "旗舰店")software_used_entity_shop(2, "加V认证")shop_for_test(3, "测试店铺"),warehouse_shop(4, "水厂");//水厂)
         this.district = merchantInfo.address;              //  所在地区
         this.addressDetail = merchantInfo.addressDetail;   //  详细地址
         this.serviceTel =  merchantInfo.serviceTel;        //  客服电话
@@ -37,8 +38,7 @@ class Merchant{
         this.deliveryMoney = merchantInfo.freight;
         //  店铺图片
         this.shopImg = merchantInfo.shopDetailImage;
-        //  店铺类型
-        this.merChantType = merchantInfo.merchantType;
+
         this.introduce = merchantInfo.presentation;        //  商家介绍
         this.auditor = merchantInfo.auditor;               //  审核人
 
@@ -146,7 +146,8 @@ class Merchant{
     }
 
     //  设置店铺详情图片
-    setShopDetailImage(picUrlList){
+    setShopImg(picUrlList){
+        console.log(picUrlList);
         this.shopImg = picUrlList;
     }
     //  设置店铺头像
@@ -171,7 +172,7 @@ class Merchant{
     }
     //  设置配送范围
     setDeliveryRange(range){
-        this.deliveryRange = range;
+        this.deliveryRange = range.join('~');
     }
     //  设置详细地址
     setAppendingAddress(address){
@@ -193,8 +194,8 @@ class Merchant{
         this.introduce = discribe;
     }
     //  personal(0, "个人店铺"),corporate(1, "公司店铺");
-    setShopType(type){
-        this.shopType = type;
+    setMerchantType(type){
+        this.merchantType = type;
     }
     //  用户电话
     setManagerTel(tel){
