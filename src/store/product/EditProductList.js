@@ -18,9 +18,9 @@ class EditProductList extends AdminList{
             return productListAjax.save({entity:"merchant",action:"selfSaleShopProductList"},postInfo);
         };
         //  分销
-        this._getDistributeProductList = function(){
-                return productListAjax.save({entity:"product",actions:'getDistributionProductListInfo'});
-        }
+        this._getDistributeProductList = function(postInfo){
+            return productListAjax.save({entity:"product",action:"getDistributionProductListInfo"},postInfo);
+        };
     }
     getStockList(){
         return new Promise((resolve, reject)=>{
@@ -37,7 +37,7 @@ class EditProductList extends AdminList{
     }
     getDistributeProductList(){
         return new Promise((resolve, reject)=>{
-            this._getDistributeProductList({}).then((list)=>{
+            this._getDistributeProductList().then((list)=>{
                 this.list = EditProductList.createList(this.list,list,Product);
                 resolve(this.list);
             }).catch((err)=>{

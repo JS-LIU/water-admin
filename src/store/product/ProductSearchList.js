@@ -18,7 +18,7 @@ class ProductSearchList extends AdminList{
         };
         //  分销
         this._getDistributeProductList = function(){
-            return productSearchListAjax.save({entity:"product",actions:'getDistributionProductListInfo'});
+            return productSearchListAjax.save({entity:"product",action:'getDistributionProductListInfo'});
         }
     }
     getProductSearchList(){

@@ -5,10 +5,9 @@ const Search = Input.Search;
 import {observer,inject} from 'mobx-react';
 const Option = Select.Option;
 
-import {data,actions} from '../../store/product/stockProductSearchListInterface';
+import {data,actions} from '../../store/product/distributeProductSearchListInterface';
 
-
-@observer class StockProductSearchView extends Component{
+@observer class DistributeProductSearchView extends Component{
     componentWillMount(){
         actions.onLoad();
     }
@@ -150,5 +149,4 @@ import {data,actions} from '../../store/product/stockProductSearchListInterface'
     }
 }
 
-
-module.exports = StockProductSearchView;
+module.exports = DistributeProductSearchView;

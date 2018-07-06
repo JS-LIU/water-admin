@@ -15,19 +15,30 @@ import {
 import HomeMenuView from './HomeMenuView';
 
 import WithdrawInfoView from './WithdrawInfoView';
+// 用户订单
 import ClientOrderView from './order/ClientOrderView';
-import ClientOrderSearchView from './order/ClientOrderSearchView'
+import ClientOrderSearchView from './order/ClientOrderSearchView';
+// 商家订单
 import MerchantOrderView from './order/MerchantOrderView';
 import MerchantOrderSearch from './order/MerchantOrderSearchView';
+// 商家管理
 import MerchantAuditView from './merchantManage/MerchantAuditView';
 import MerchantAuditQueryView from './merchantManage/MerchantListSearchView';
 import MerchantDetailView from './merchantManage/MerchantDetailView';
-import StockProductView from './stockProduct/StockProductView';
+// 批发
+import StockCategoryView from './stockProduct/StockCategoryView';
 import StockProductEditView from './stockProduct/StockProductEditView';
 import StockProductSearchView from './stockProduct/StockProductSearchView';
-import SelfSaleCategoryView from './selfSaleCategory/selfSaleCategoryView'
-import SelfSaleEditProductView from './selfSaleCategory/selfSaleEditProductView'
-import SelfSaleProductSearchView from './selfSaleCategory/selfSaleProductSearchView'
+// 自营
+import SelfSaleCategoryView from './selfSaleCategory/selfSaleCategoryView';
+import SelfSaleEditProductView from './selfSaleCategory/selfSaleEditProductView';
+import SelfSaleProductSearchView from './selfSaleCategory/selfSaleProductSearchView';
+// 分销
+import DistributeCategoryView from './distributeProduct/DistributeCategoryView';
+import DistributeEditProductView from './distributeProduct/DistributeEditProductView';
+import DistributeProductSearchView from './distributeProduct/DistributeProductSearchView';
+// 成本
+import ManufactureCostView from './manufactureCost/ManufactureCostView';
 
 import OpenShopView from './OpenShopView';
 import ShopListView from './ShopListView';
@@ -77,13 +88,19 @@ class HomeView extends Component{
                                 <Route path='/merchantAuditQuery' component={MerchantAuditQueryView} />
                                 <Route path='/merchantDetail' component={MerchantDetailView} />
 
-                                <Route path='/stockProductView' component={StockProductView} />
-                                <Route path='/stockProductEditView' component={StockProductEditView} />
-                                <Route path='/stockProductSearchView' component={StockProductSearchView} />
+                                <Route path='/stockCategory' component={StockCategoryView} />
+                                <Route path='/stockProductEdit' component={StockProductEditView} />
+                                <Route path='/stockProductSearch' component={StockProductSearchView} />
 
                                 <Route path='/selfSaleCategory' component={SelfSaleCategoryView} />
                                 <Route path='/selfSaleEditProduct' component={SelfSaleEditProductView} />
                                 <Route path='/selfSaleProductSearch' component={SelfSaleProductSearchView}/>
+
+                                <Route path='/distributeCategory' component={DistributeCategoryView} />
+                                <Route path='/distributeEditProduct' component={DistributeEditProductView} />
+                                <Route path='/distributeProductSearch' component={DistributeProductSearchView}/>
+
+                                <Route path='/manufactureCost' component={ManufactureCostView} />
 
                                 {/*<Route path="/merchantOrder" component={OrderListTest} />*/}
                                 <Route path="/openShop" component={OpenShopView} />

@@ -53,19 +53,19 @@ import {data,actions} from '../../store/product/selfSaleProductSearchListInterfa
                 title:'销售价',
                 dataIndex:"salePrice",
                 key:"salePrice",
-                width:200
+                width:100
             },
             {
                 title:'原价',
                 dataIndex:"originalPrice",
                 key:"originalPrice",
-                width:200
+                width:100
             },
             {
                 title:'成本价',
                 dataIndex:"price",
                 key:"price",
-                width:200
+                width:100
             },
             // {
             //     title:'已售',
@@ -77,7 +77,7 @@ import {data,actions} from '../../store/product/selfSaleProductSearchListInterfa
                 title:'库存',
                 dataIndex:"stockStatus",
                 key:"stockStatus",
-                width:200
+                width:100
             },
             {
                 title: '促销',
@@ -143,7 +143,7 @@ import {data,actions} from '../../store/product/selfSaleProductSearchListInterfa
                 className="components-table-demo-nested"
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{x: 2700,y:600}}
+                scroll={{x: 2100,y:600}}
             />
         )
     }

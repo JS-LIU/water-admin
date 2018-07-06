@@ -7,6 +7,7 @@ const SubMenu = Menu.SubMenu;
 
 import {Link} from 'react-router-dom';
 import './homeMenuStyle.css';
+import StockCategoryView from "./stockProduct/StockCategoryView";
 
 class HomeMenuView extends Component{
     render(){
@@ -91,27 +92,27 @@ class HomeMenuView extends Component{
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-                    <SubMenu key="sub8" title={<span><Icon type="profile"/><span>批发商品</span></span>}>
-                        <Menu.Item key="/stockProductView">
-                            <Link to="/stockProductView">
+                    <SubMenu key="sub5" title={<span><Icon type="profile"/><span>批发商品</span></span>}>
+                        <Menu.Item key="/stockCategory">
+                            <Link to="/stockCategory">
                                 <Icon type="shop" />
                                 <span>分类管理</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="/stockProductEditView">
-                            <Link to="/stockProductEditView">
+                        <Menu.Item key="/stockProductEdit">
+                            <Link to="/stockProductEdit">
                                 <Icon type="shop" />
                                 <span>编辑商品</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="/stockProductSearchView">
-                            <Link to="/stockProductSearchView">
+                        <Menu.Item key="/stockProductSearch">
+                            <Link to="/stockProductSearch">
                                 <Icon type="shop" />
                                 <span>商品查询</span>
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-                    <SubMenu key='sub5' title={<span><Icon type='profile'/><span>自营商品</span></span>} >
+                    <SubMenu key='sub6' title={<span><Icon type='profile'/><span>自营商品</span></span>} >
                         <Menu.Item key="/selfSaleCategory">
                             <Link to="/selfSaleCategory">
                                 <Icon type="shop" />
@@ -131,20 +132,41 @@ class HomeMenuView extends Component{
                             </Link>
                         </Menu.Item>
                     </SubMenu>
+                    <SubMenu key='sub7' title={<span><Icon type='profile'/><span>分销商品</span></span>} >
+                        <Menu.Item key="/distributeCategory">
+                            <Link to="/distributeCategory">
+                                <Icon type="shop" />
+                                <span>分类管理</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/distributeEditProduct">
+                            <Link to="/distributeEditProduct">
+                                <Icon type="shop" />
+                                <span>编辑商品</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/distributeProductSearch">
+                            <Link to="/distributeProductSearch">
+                                <Icon type="shop" />
+                                <span>商品查询</span>
+                            </Link>
+                        </Menu.Item>
+                    </SubMenu>
+                    <SubMenu key='sub8' title={<span><Icon type='profile'/><span>生产成本</span></span>} >
+                        <Menu.Item key="/manufactureCost">
+                            <Link to="/manufactureCost">
+                                <Icon type="shop" />
+                                <span>喜腾山泉生产</span>
+                            </Link>
+                        </Menu.Item>
+                    </SubMenu>
                     <Menu.Item key="openShop">
                         <Link to="/openShop">
                             <Icon type="user" />
                             <span>审核</span>
                         </Link>
                     </Menu.Item>
-
-                    <Menu.Item key="sub6">
-                        <Link to='/shopList'>
-                            <Icon type="gift" />
-                            <span>商品</span>
-                        </Link>
-                    </Menu.Item>
-                    <SubMenu key="sub7" title={<span><Icon type="pay-circle-o" /><span>测试</span></span>}>
+                    <SubMenu key="sub9" title={<span><Icon type="pay-circle-o" /><span>测试</span></span>}>
                         <Menu.Item key="/auditMerchantTest">
                             <Link to="/auditMerchantTest">
                                 <Icon type="bank" />
