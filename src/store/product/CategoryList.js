@@ -5,9 +5,14 @@ import _h from "../../Util/HB";
 class CategoryList{
     constructor(){
         let brandListAjax = _h.ajax.resource('/admin/product/:action');
+
         this._getCategoryList = function(){
-            return brandListAjax.save({action:'brandList'});
+            return brandListAjax.save({action:'productCategory'});
         };
+        this._getBrandList = function(){
+            return brandListAjax.save({actions:"brandList"})
+        };
+
         this._createCategory = function(categoryName){
             return brandListAjax.save({action:'createCategory/'+categoryName});
         };
@@ -40,9 +45,13 @@ class CategoryList{
     getCategoryList(){
         return this._getCategoryList()
     }
+    getBrandList(){
+        return this._getBrandList();
+    }
     createCategory(categoryName){
         return this._createCategory(categoryName)
     }
+
     createCategoryLv1(categoryId,name){
         let postInfo = {
             categoryId: categoryId,

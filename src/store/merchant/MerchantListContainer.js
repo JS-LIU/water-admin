@@ -21,7 +21,7 @@ class MerchantListContainer extends AdminList{
 
         this.merchantType = "personal";
         this._createShop = function(postInfo){
-            return merchantListAjax.save({action:'createShop'}, postInfo)
+            return merchantListAjax.save({entity:"merchant",action:'createShop'}, postInfo)
         }
 
     }

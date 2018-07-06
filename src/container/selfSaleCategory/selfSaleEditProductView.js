@@ -25,20 +25,7 @@ import {data,actions} from '../../store/product/selfSaleEditProductListInterface
 
 // 搜索
 class SelfSaleEditProductListQueryView extends Component{
-    state = { queryType: 0 };
-    onChange(e){
-        this.setState({ queryType: e.target.value });
-        if(e.target.value==0){
-            actions.getList({productStatus:'在售中'})
-        }else{
-            actions.getList({productStatus:'待上架'})
-        }
-    }
-    handleChange(){
-
-    }
     render(){
-        const { queryType } = this.state;
         return (
             <div>
                 <div className='all_search_box mb15'>
@@ -65,24 +52,9 @@ class SelfSaleEditProductListQueryView extends Component{
                         />
                     </div>
                     <div>
-                        <span>商品分类:</span>
-                        <Search
-                            placeholder="输入商品分类"
-                            onSearch={value => {
-                                actions.getList({productCategory:value});
-                            }}
-                            enterButton
-                            style={{ marginBottom: 16 }}
-                        />
-                    </div>
-                    <div>
-                        <Button type="primary">+添加商品</Button>
+                        <Button type="primary" onClick={actions.addProduct}>+添加商品</Button>
                     </div>
                 </div>
-                <Radio.Group value={queryType} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
-                    <Radio.Button value={0}>在售中</Radio.Button>
-                    <Radio.Button value={1}>待上架</Radio.Button>
-                </Radio.Group>
             </div>
         )
     }
@@ -106,58 +78,43 @@ class SelfSaleEditProductListQueryView extends Component{
                 title:'商品图片',
                 dataIndex:"productImg",
                 key:"productImg",
-                width:200,
+                width:150,
                 render:(text,record)=>(<img src={record.productImg} />)
             },{
-                title:'商品品牌',
-                dataIndex:"productBrand",
-                key:"productBrand",
-                width:200
-            },{
-                title:'分类',
-                dataIndex:"productCategory",
-                key:"productCategory",
-                width:200
-            },{
-                title:'所属区域',
-                dataIndex:"areaBelong",
-                key:"areaBelong",
-                width:200
+                title: '商品品牌',
+                dataIndex:"productTag",
+                key: 'productTag',
+                width: 100
             },{
                 title:'销售价',
-                dataIndex:"salePrice",
-                key:"salePrice",
-                width:200
+                dataIndex:"price",
+                key:"price",
+                width:100
             },{
                 title:'原价',
                 dataIndex:"originalPrice",
                 key:"originalPrice",
-                width:200
+                width:100
             },{
                 title:'成本价',
-                dataIndex:"price",
-                key:"price",
-                width:200
+                dataIndex:"costPrice",
+                key:"costPrice",
+                width:100
             },{
                 title:'库存',
                 dataIndex:"stockStatus",
                 key:"stockStatus",
-                width:200
+                width:100
             },{
                 title: '促销',
                 dataIndex:"productActivity",
                 key: 'productActivity',
-                width: 200
+                width: 100
             },{
                 title: '服务',
                 dataIndex:"serve",
                 key: 'serve',
-                width: 200
-            },{
-                title: '标签',
-                dataIndex:"productTag",
-                key: 'productTag',
-                width: 200
+                width: 100
             },{
                 title: '状态',
                 dataIndex:"productStatus",
@@ -200,15 +157,12 @@ class SelfSaleEditProductListQueryView extends Component{
                 productName:item.productName,
                 volume:item.volume,
                 productImg:item.productImg,
-                productBrand:item. productBrand,
-                productCategory:item.productCategory,
-                areaBelong:item.areaBelong,
-                salePrice:item.salePrice,
-                originalPrice:item.originalPrice,
-                price:item.price,
+                costPrice:item.costPrice / 100,
+                originalPrice:item.originalPrice / 100,
+                price:item.price / 100,
                 stockStatus:item.stockStatus,
-                productActivity:item.productActivity,
-                serve:item.serve,
+                productActivity:item.productActivity || "----",
+                serve:item.serve || "----",
                 productTag:item.productTag,
                 productStatus:item.productStatus.title,
                 operate:item.productStatus.actions
@@ -219,7 +173,7 @@ class SelfSaleEditProductListQueryView extends Component{
                 className="components-table-demo-nested"
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{x: 2900,y:500}}
+                scroll={{x: 1550,y:500}}
             />
         )
     }

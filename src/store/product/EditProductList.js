@@ -4,6 +4,7 @@
 import AdminList from '../AdminList';
 import _h from '../../Util/HB';
 import Product from './Product';
+import categoryList from './CategoryList';
 class EditProductList extends AdminList{
     constructor(){
         super();
@@ -21,6 +22,9 @@ class EditProductList extends AdminList{
         this._getDistributeProductList = function(postInfo){
             return productListAjax.save({entity:"product",action:"getDistributionProductListInfo"},postInfo);
         };
+
+        //  分类
+        this.categoryList = categoryList();
     }
     getStockList(){
         return new Promise((resolve, reject)=>{
@@ -44,6 +48,13 @@ class EditProductList extends AdminList{
                 reject(err);
             })
         })
+    }
+    newProduct(){
+        this.setActiveItem(new Product({shopProductStatus:"在售"}))
+    }
+
+    editProduct(product){
+        this.setActiveItem(product);
     }
 }
 module.exports = new EditProductList();

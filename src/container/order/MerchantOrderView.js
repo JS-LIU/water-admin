@@ -340,7 +340,7 @@ class MerchantOrderListQueryView extends Component{
         }
 
         return(
-            <Table columns={columns} dataSource={dataSource}></Table>
+            <Table columns={columns} dataSource={dataSource} />
         )
     }
 }
@@ -443,7 +443,7 @@ class MerchantOrderListQueryView extends Component{
                         <span>￥1280.00</span>
                     </li>
                     <li>
-                        添加备注<textarea name="" id="" cols="" rows="2"></textarea>
+                        添加备注<textarea name="" id="" cols="" rows="2" />
                     </li>
                     <li className='mt20'>
                         操作人：刘殿麒

@@ -18,10 +18,19 @@ function editProductActions(){
         editProductList.setActiveItem(product);
         product.operate(operate)
     };
+    let addProduct = function(){
+        editProductList.newProduct();
+    };
+    let editProduct = function(productId){
+        let product = editProductList.findItemByItemId(editProductData.list,productId,"productId");
+        editProductList.editProduct(product);
+    };
     //  todo 有查询条件后再加onLoad 在onLoad 传入参数重置查询信息
     return {
         getList:getList,
-        operate:operate
+        operate:operate,
+        addProduct:addProduct,
+        editProduct:editProduct
     }
 }
 module.exports = {actions:editProductActions(),data:editProductData};

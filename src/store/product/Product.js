@@ -10,27 +10,19 @@ class Product {
         this.shopId = productInfo.shopId;
         this.shopName = productInfo.shopName;
         this.shopAlians = productInfo.shopAlians;
-        this.productName = productInfo.productName;// 商品名称
-        this.volume = productInfo.volume;// 规格
-        this.productImg = productInfo.imageUrl;// 商品图片
-        this.productTag = productInfo.productTag;// 标签
-        this.price = productInfo.price;// 成本价
-        this.originalPrice = productInfo.originalPrice;// 原价
-        this.salePrice = productInfo.costPrice;// 销售价
+        this.productName = productInfo.productName;             //  商品名称
+        this.volume = productInfo.volume;                       //  规格
+        this.productImg = productInfo.imageUrl;                 //  商品图片
+        this.productTag = productInfo.productTag;
+        this.price = productInfo.price;                         //  销售价
+        this.originalPrice = productInfo.originalPrice;         //  原价
+        this.costPrice = productInfo.costPrice;                 //  成本价
         this.distributionMoney = parseInt(productInfo.commissionRatio);
         this.saleMount = productInfo.saleMount;
-        this.stockStatus = productInfo.stock;// 库存
-        this.productActivity = productInfo.promotionActivity;// 促销
+        this.stockStatus = productInfo.stock;                   //  库存
+        this.productActivity = productInfo.promotionActivity;   //  促销
         this.storeProductId = productInfo.storeProductId;
-        this.serve = productInfo.serve;// 服务
-
-        //  商品品类
-        this.productCategory = "----";
-
-        //  商品品牌
-        this.productBrand = "----";
-        //  所属区域
-        this.areaBelong = "----";
+        this.serve = productInfo.serve;                         //  服务
         let self = this;
         this.operateStrategy = {
             'soldOut': function () {
@@ -58,11 +50,11 @@ class Product {
         this._added = function () {
             return productAjax.save({action: "updateProductStatus/" + self.productId})
         };
-        this._toTop = function(){
+        this._toTop = function () {
             return productAjax.save({action: "updateProductTop/" + self.productId})
         };
-        this._removeItem = function(){
-            return new Promise((resolve, reject)=>{
+        this._removeItem = function () {
+            return new Promise((resolve, reject) => {
                 resolve(console.log("=delete=="))
             });
 
@@ -89,9 +81,12 @@ class Product {
     operate(action) {
         return this.operateStrategy[action]();
     }
+
     edit() {
 
     }
+
+
 
 
 }
