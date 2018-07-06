@@ -4,7 +4,9 @@
 import {observable, computed, action, autorun} from "mobx";
 import editProductList from './EditProductList';
 let editProductData = {
-    @observable list:[]
+    @observable list:[],
+    @observable brandList:[],
+    @observable categoryList:[]
 };
 function editProductActions(){
     let getList = function(){
@@ -13,6 +15,18 @@ function editProductActions(){
             editProductList.setActiveItem(list[0]);
         })
     };
+    let _getCategoryList = function(){
+        editProductList.brandList.getCategoryList().then((list)=>{
+            editProductData.categoryList = list;
+        })
+    };
+    let _getBrandList = function(){
+        editProductList.brandList.getBrandList().then((list)=>{
+            editProductData.brandList = list;
+        })
+    };
+
+
     let operate = function(productId,operate){
         let product = editProductList.findItemByItemId(editProductData.list,productId,"productId");
         editProductList.setActiveItem(product);
@@ -30,7 +44,8 @@ function editProductActions(){
         getList:getList,
         operate:operate,
         addProduct:addProduct,
-        editProduct:editProduct
+        editProduct:editProduct,
+
     }
 }
 module.exports = {actions:editProductActions(),data:editProductData};

@@ -24,7 +24,7 @@ class EditProductList extends AdminList{
         };
 
         //  分类
-        this.categoryList = categoryList();
+        this.categoryList = categoryList;
     }
     getStockList(){
         return new Promise((resolve, reject)=>{

@@ -86,8 +86,30 @@ class Product {
 
     }
 
-
-
+    setCategory(id){
+        this.categoryId = id;
+    }
+    setBrand(id){
+        this.brandId = id;
+    }
+    setVolume(volume){
+        this.volume = volume;
+    }
+    setHeaderImg(url){
+        this.headerUrl = url;
+    }
+    setProductImg(url){
+        this.ProductImg = [url];
+    }
+    setPrice(price){
+        this.price = price; //  销售价
+    }
+    setOriginalPrice(originalPrice){
+        this.originalPrice = originalPrice;     //  原价
+    }
+    setCostPrice(costPrice){
+        this.costPrice = costPrice;
+    }
 
 }
 
