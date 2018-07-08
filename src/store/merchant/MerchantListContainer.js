@@ -22,7 +22,7 @@ class MerchantListContainer extends AdminList{
         this.merchantType = "personal";
         this._createShop = function(postInfo){
             return merchantListAjax.save({entity:"merchant",action:'createShop'}, postInfo)
-        }
+        };
 
     }
 
@@ -65,7 +65,6 @@ class MerchantListContainer extends AdminList{
         this.setActiveItem(new Merchant({merchantStatus:"待审核"}));
     }
     createMerchant(){
-        console.log(this.activeItem);
         let merchant = this.activeItem;
         let postData = {
             shopName:merchant.shopName,
@@ -84,8 +83,20 @@ class MerchantListContainer extends AdminList{
             merchantUserTel:merchant.managerTel,
             phoneNum:merchant.serviceTel
         };
-        console.log(postData);
         return this._createShop(postData);
+    }
+    getSelfMerchantList(){
+        return new Promise((resolve, reject)=>{
+            resolve([new Merchant({
+                shopId:1,
+                shopName:"汇贝自营店",
+                merchantStatus:"已通过"
+            }),new Merchant({
+                shopId:2,
+                shopName:"汇贝自营二店",
+                merchantStatus:"已通过"
+            })])
+        });
     }
 }
 

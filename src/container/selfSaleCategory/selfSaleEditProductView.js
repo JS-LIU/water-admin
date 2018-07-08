@@ -1,15 +1,19 @@
 
 import React, {Component} from 'react'
-import { Table , Button , Radio , Input , Select , Upload , Icon , Modal , Divider } from 'antd';
+import { Table , Button , Radio , Input , Select , Upload , Icon , Modal , Divider , Form , Row, Col } from 'antd';
+import Avatar from '../Avatar';
 const Search = Input.Search;
-import {observer,inject} from 'mobx-react';
+const FormItem = Form.Item;
 const Option = Select.Option;
 
+import {observer,inject} from 'mobx-react';
 import {data,actions} from '../../store/product/selfSaleEditProductListInterface';
+
+import formStyle from './css/formStyle.css';
 
 @observer class SelfSaleEditProductView extends Component{
     componentWillMount(){
-        actions.getList();
+        actions.onLoad();
     }
     render(){
         return (
@@ -181,102 +185,43 @@ class SelfSaleEditProductListQueryView extends Component{
 
 // 编辑商品
 @observer class SelfSaleEditProductListDetailView extends Component{
-    state = {
-        previewVisible: false,
-        previewImage: '',
-        fileList: [],
-    };
-    handleCancel = () => this.setState({ previewVisible: false });
-    handlePreview = (file) => {
-        this.setState({
-            previewImage: file.url || file.thumbUrl,
-            previewVisible: true,
-        });
-    };
-    handleChange = ({ fileList }) => this.setState({ fileList });
     render(){
-        const { previewVisible, previewImage, fileList } = this.state;
-        const uploadButton = (
-            <div>
-                <Icon type="plus" />
-                <div className="ant-upload-text">上传图片</div>
-            </div>
-        );
+
         return (
+
             <div className='add_order'>
                 <div className='order_detail_header'>添加商品</div>
-                <div className="add_detail_section_left" id='add_detail_section_left'>
-                    <ul>
-                        <li>区域：</li>
-                        <li>商品品牌：</li>
-                        <li>商品名称：<Input placeholder='填写商品名称'/></li>
-                        <li>副标题：<Input placeholder='描述商品特色，卖点，优惠等'/></li>
-                        <li>分类：</li>
-                        <li>规格：</li>
-                        <li>
-                            <span>商品头像：</span>
-                            <div className="clearfix">
-                                <Upload
-                                    action="//jsonplaceholder.typicode.com/posts/"
-                                    listType="picture-card"
-                                    fileList={fileList}
-                                    onPreview={this.handlePreview}
-                                    onChange={this.handleChange}
-                                >
-                                    {fileList.length >= 3 ? null : uploadButton}
-                                </Upload>
-                                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
-                                </Modal>
-                            </div>
-                        </li>
-                        <li>
-                            <span>商品图片：</span>
-                            <div className="clearfix">
-                                <Upload
-                                    action="//jsonplaceholder.typicode.com/posts/"
-                                    listType="picture-card"
-                                    fileList={fileList}
-                                    onPreview={this.handlePreview}
-                                    onChange={this.handleChange}
-                                >
-                                    {fileList.length >= 3 ? null : uploadButton}
-                                </Upload>
-                                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
-                                </Modal>
-                            </div>
-                        </li>
-                        <li>价格：<Input placeholder='请输入销售价格'/></li>
-                        <li>原价：<Input placeholder='请输入原价'/></li>
-                        <li>成本价：<Input placeholder='请输入成本价'/></li>
-                        <li>库存：<Input placeholder='请输入库存数'/></li>
-                        <li>
-                            <span>商品详情：</span>
-                            <div className="clearfix">
-                                <Upload
-                                    action="//jsonplaceholder.typicode.com/posts/"
-                                    listType="picture-card"
-                                    fileList={fileList}
-                                    onPreview={this.handlePreview}
-                                    onChange={this.handleChange}
-                                >
-                                    {fileList.length >= 3 ? null : uploadButton}
-                                </Upload>
-                                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
-                                </Modal>
-                            </div>
-                        </li>
-                        <li>促销：<Input placeholder='描述促销活动'/></li>
-                        <li>服务：<Input placeholder='2小时送货'/></li>
-                        <li>标签：</li>
-                    </ul>
+
+
+
+                    {/*<ul>*/}
+                        {/*<li>区域：</li>*/}
+                        {/*<li>商品品牌：</li>*/}
+                        {/*<li>商品名称：<Input placeholder='填写商品名称'/></li>*/}
+                        {/*<li>副标题：<Input placeholder='描述商品特色，卖点，优惠等'/></li>*/}
+                        {/*<li>分类：</li>*/}
+                        {/*<li>规格：</li>*/}
+                        {/*<li>*/}
+                            {/*<span>商品头像：</span>*/}
+                        {/*</li>*/}
+                        {/*<li>*/}
+                            {/*<span>商品图片：</span>*/}
+                        {/*</li>*/}
+                        {/*<li>价格：<Input placeholder='请输入销售价格'/></li>*/}
+                        {/*<li>原价：<Input placeholder='请输入原价'/></li>*/}
+                        {/*<li>成本价：<Input placeholder='请输入成本价'/></li>*/}
+                        {/*<li>库存：<Input placeholder='请输入库存数'/></li>*/}
+                        {/*<li>*/}
+                            {/*<span>商品详情：</span>*/}
+                        {/*</li>*/}
+                        {/*<li>促销：<Input placeholder='描述促销活动'/></li>*/}
+                        {/*<li>服务：<Input placeholder='2小时送货'/></li>*/}
+                        {/*<li>标签：</li>*/}
+                    {/*</ul>*/}
                     <div>
                         <Button type="primary" className='mr10' >确认修改</Button>
                         <Button type="primary" >取消</Button>
                     </div>
-                </div>
             </div>
         )
     }
@@ -284,114 +229,124 @@ class SelfSaleEditProductListQueryView extends Component{
 
 // 添加商品
 @observer class SelfSaleEditProductListAddDetailView extends Component{
-    state = {
-        previewVisible: false,
-        previewImage: '',
-        fileList: [],
-        fileList2: []
-    };
-    handleCancel = () => this.setState({ previewVisible: false });
-    handlePreview = (file) => {
-        this.setState({
-            previewImage: file.url || file.thumbUrl,
-            previewVisible: true,
+    getBrandNodes(){
+        return data.brandList.map((brand,index)=>{
+            return (
+                <Option key={index} value={brand.id}>{brand.name}</Option>
+            )
         });
-    };
-    handlePreview2 = (file) => {
-        this.setState({
-            previewImage: file.url || file.thumbUrl,
-            previewVisible: true,
-        });
-    };
-    handleChange = ({ fileList }) => {
-        this.setState({  fileList  })
-    };
-    handleChange2 = ({ fileList2 }) => {
-        this.setState({ fileList2 })
-    };
+    }
+    getCategoryNodes(){
+        return data.categoryList.map((category,index)=>{
+            return (
+                <Option key={index} value={category.id}>{category.name}</Option>
+            )
+        })
+    }
+    getShopNodes(){
+        return data.selfMerchantList.map((shop,index)=>{
+            return (
+                <Option key={index} value={shop.id}>{shop.name}</Option>
+            )
+        })
+    }
     render(){
-        const { previewVisible, previewImage, fileList, fileList2 } = this.state;
-        const uploadButton = (
-            <div>
-                <Icon type="plus" />
-                <div className="ant-upload-text">上传图片</div>
-            </div>
-        );
         return (
             <div className='add_order'>
                 <div className='order_detail_header'>添加商品</div>
-                <div className="add_detail_section_left" id='add_detail_section_left'>
-                    <ul>
-                        <li>区域：</li>
-                        <li>商品品牌：</li>
-                        <li>商品名称：<Input placeholder='填写商品名称'/></li>
-                        <li>副标题：<Input placeholder='描述商品特色，卖点，优惠等'/></li>
-                        <li>分类：</li>
-                        <li>规格：</li>
-                        <li>
-                            <span>商品头像：</span>
-                            <div className="clearfix">
-                                <Upload
-                                    action=""
-                                    listType="picture-card"
-                                    fileList={fileList}
-                                    onPreview={this.handlePreview}
-                                    onChange={this.handleChange}
-                                >
-                                    {fileList.length >= 3 ? null : uploadButton}
-                                </Upload>
-                                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
-                                </Modal>
-                            </div>
-                        </li>
-                        <li>
-                            <span>商品图片：</span>
-                            <div className="clearfix">
-                                <Upload
-                                    action=""
-                                    listType="picture-card"
-                                    fileList={fileList2}
-                                    onPreview={this.handlePreview2}
-                                    onChange={this.handleChange2}
-                                >
-                                    {uploadButton}
-                                </Upload>
-                                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
-                                </Modal>
-                            </div>
-                        </li>
-                        <li>价格：<Input placeholder='请输入销售价格'/></li>
-                        <li>原价：<Input placeholder='请输入原价'/></li>
-                        <li>成本价：<Input placeholder='请输入成本价'/></li>
-                        <li>库存：<Input placeholder='请输入库存数'/></li>
-                        <li>
-                            <span>商品详情：</span>
-                            <div className="clearfix">
-                                {/*<Upload*/}
-                                    {/*action="//jsonplaceholder.typicode.com/posts/"*/}
-                                    {/*listType="picture-card"*/}
-                                    {/*fileList={fileList}*/}
-                                    {/*onPreview={this.handlePreview}*/}
-                                    {/*onChange={this.handleChange}*/}
-                                {/*>*/}
-                                    {/*{fileList.length >= 3 ? null : uploadButton}*/}
-                                {/*</Upload>*/}
-                                {/*<Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>*/}
-                                    {/*<img alt="example" style={{ width: '100%' }} src={previewImage} />*/}
-                                {/*</Modal>*/}
-                            </div>
-                        </li>
-                        <li>促销：<Input placeholder='描述促销活动'/></li>
-                        <li>服务：<Input placeholder='2小时送货'/></li>
-                        <li>标签：</li>
-                    </ul>
-                    <div>
-                        <Button type="primary" className='mr10' >确认添加</Button>
-                        <Button type="primary" >取消</Button>
-                    </div>
-                </div>
+                <Form className="add_detail_section_left" id='add_detail_section_left'>
+                    <Row gutter={16}>
+                        <Col span={6}>
+                            <FormItem label={"选择店铺"}>
+                                <Select defaultValue="def" onChange={value => actions.setShopList(value)}>
+                                    <Option value="def">-选择店铺-</Option>
+                                    {this.getShopNodes()}
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"商品品牌"}>
+                                <Select defaultValue="def" onChange={value => actions.setBrand(value)}>
+                                    <Option value="def">-选择品牌-</Option>
+                                    {this.getBrandNodes()}
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"商品名称"}>
+                                <Input placeholder="填写商品名称" onBlur={e => actions.setProductName(e.target.value)}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"副标题"}>
+                                <Input placeholder="描述商品特色，卖点，优惠等" onBlur={e => actions.setProductDescribe(e.target.value)}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"分类"}>
+                                <Select defaultValue="def" onChange={value => actions.setCategory(value)}>
+                                    <Option value="def">-选择品牌-</Option>
+                                    {this.getCategoryNodes()}
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"规格"}>
+                                <Input placeholder="输入规格" onBlur={e => actions.setVolume(e.target.value)}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"商品头像"}>
+                                <Avatar name={"file"} afterAction={actions.setHeaderImg}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"商品图像"}>
+                                <Avatar name={"file"} afterAction={actions.setProductImg}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"价格"}>
+                                <Input placeholder='请输入销售价格' onBlur={e => actions.setPrice(e.target.value)}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"原价"}>
+                                <Input placeholder='请输入原价' onBlur={e => actions.setOriginalPrice(e.target.value)}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"成本价"}>
+                                <Input placeholder='请输入原价' onBlur={e => actions.setCostPrice(e.target.value)}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"库存"}>
+                                <Input placeholder='请输入库存数' onBlur={e => actions.setStockStatus(e.target.value)}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"详情"}>
+                                <Avatar name={"file"} afterAction={actions.setDetailImg}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"促销"}>
+                                <Input placeholder='描述促销活动' onBlur={e => actions.setProductActivity(e.target.value)}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"服务"}>
+                                <Input placeholder='2小时送货' onBlur={e => actions.setServe(e.target.value)}/>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={24} style={{ textAlign: 'right' }}>
+                            <Button type="primary" onClick={actions.createProduct}>创建商品</Button>
+                        </Col>
+                    </Row>
+                </Form>
             </div>
         )
     }

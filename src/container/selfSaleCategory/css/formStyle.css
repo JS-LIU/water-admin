@@ -1,0 +1,9 @@
+.ant-row .ant-col-6{
+    display:flex;
+    align-items: center;
+    min-height:136px;
+}
+.ant-row .ant-col-6 .ant-form-item{
+    display:flex;
+    align-items: center;
+}

@@ -82,10 +82,12 @@ class Product {
         return this.operateStrategy[action]();
     }
 
-    edit() {
-
+    setProductName(name){
+        this.productName = name;
+    };
+    setProductDescribe(name){
+        this.productDescribe = name;
     }
-
     setCategory(id){
         this.categoryId = id;
     }
@@ -96,10 +98,10 @@ class Product {
         this.volume = volume;
     }
     setHeaderImg(url){
-        this.headerUrl = url;
+        this.headerImg = url;
     }
     setProductImg(url){
-        this.ProductImg = [url];
+        this.productImg = [url];
     }
     setPrice(price){
         this.price = price; //  销售价
@@ -110,7 +112,21 @@ class Product {
     setCostPrice(costPrice){
         this.costPrice = costPrice;
     }
-
+    setStockStatus(status){
+        this.stockStatus = status;
+    }
+    setDetailImg(url){
+        this.detailImg = [url];
+    }
+    setProductActivity(activity){
+        this.productActivity = activity;
+    }
+    setServe(serve){
+        this.serve = serve;
+    }
+    setShopIdList(id){
+        this.shopIdList = [id];
+    }
 }
 
 module.exports = Product;

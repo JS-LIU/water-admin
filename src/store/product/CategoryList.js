@@ -10,7 +10,7 @@ class CategoryList{
             return brandListAjax.save({action:'productCategory'});
         };
         this._getBrandList = function(){
-            return brandListAjax.save({actions:"brandList"})
+            return brandListAjax.save({action:"brandList"})
         };
 
         this._createCategory = function(categoryName){
