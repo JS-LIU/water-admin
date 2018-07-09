@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react'
-import { Table , Button , Radio , Input , Select , Upload , Icon , Modal , Divider , Form , Row, Col } from 'antd';
+import { Table , Button , Radio , Input , Select , Icon , Modal , Divider , Form , Row, Col } from 'antd';
 import Avatar from '../Avatar';
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -232,7 +232,7 @@ class SelfSaleEditProductListQueryView extends Component{
                         </Col>
                         <Col span={6}>
                             <FormItem label={"商品名称"}>
-                                <Input placeholder="填写商品名称" onBlur={e => actions.setProductName(e.target.value)}/>
+                                <Input placeholder="填写商品名称" onChange={e => actions.setProductName(e.target.value)} value={data.productName}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>
@@ -250,7 +250,7 @@ class SelfSaleEditProductListQueryView extends Component{
                         </Col>
                         <Col span={6}>
                             <FormItem label={"规格"}>
-                                <Input placeholder="输入规格" onBlur={e => actions.setVolume(e.target.value)}/>
+                                <Input placeholder="输入规格" onChange={e => actions.setVolume(e.target.value)} value={data.volume}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>
@@ -260,7 +260,7 @@ class SelfSaleEditProductListQueryView extends Component{
                         </Col>
                         <Col span={6}>
                             <FormItem label={"商品图像"}>
-                                <Avatar name={"file"} afterAction={actions.setProductImg}/>
+                                <Avatar name={"file"} imageUrl={data.productImg} afterAction={actions.setProductImg}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>
@@ -270,17 +270,17 @@ class SelfSaleEditProductListQueryView extends Component{
                         </Col>
                         <Col span={6}>
                             <FormItem label={"原价"}>
-                                <Input placeholder='请输入原价' onBlur={e => actions.setOriginalPrice(e.target.value)}/>
+                                <Input placeholder='请输入原价' onChange={e => actions.setOriginalPrice(e.target.value)} value={data.originalPrice}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>
                             <FormItem label={"成本价"}>
-                                <Input placeholder='请输入原价' onBlur={e => actions.setCostPrice(e.target.value)}/>
+                                <Input placeholder='请输入成本价' onChange={e => actions.setCostPrice(e.target.value)} value={data.costPrice}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>
                             <FormItem label={"库存"}>
-                                <Input placeholder='请输入库存数' onBlur={e => actions.setStockStatus(e.target.value)}/>
+                                <Input placeholder='请输入库存数' onChange={e => actions.setStockStatus(e.target.value)} value={data.stockStatus}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>
@@ -290,12 +290,12 @@ class SelfSaleEditProductListQueryView extends Component{
                         </Col>
                         <Col span={6}>
                             <FormItem label={"促销"}>
-                                <Input placeholder='描述促销活动' onBlur={e => actions.setProductActivity(e.target.value)}/>
+                                <Input placeholder='描述促销活动' onChange={e => actions.setProductActivity(e.target.value)} value={data.productActivity}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>
                             <FormItem label={"服务"}>
-                                <Input placeholder='2小时送货' onBlur={e => actions.setServe(e.target.value)}/>
+                                <Input placeholder='2小时送货' onChange={e => actions.setServe(e.target.value)} value={data.serve}/>
                             </FormItem>
                         </Col>
                     </Row>

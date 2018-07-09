@@ -12,8 +12,7 @@ let editProductData = {
     @observable shopName:"",
     @observable productName:"",
     @observable volume:"",
-    @observable productImg:"",
-    @observable productTag:"",
+    @observable productImg:null,
     @observable price:"",
     @observable originalPrice:"",
     @observable costPrice:"",
@@ -58,17 +57,10 @@ function editProductActions(){
         })
     };
     let _updateActiveProduct = function(){
-        editProductData.activeProduct = editProductList.activeItem;
-    };
-    let editProduct = function(productId){
-        let product = editProductList.findItemByItemId(editProductData.list,productId,"productId");
-        editProductList.setActiveItem(product);
         editProductData.shopId = editProductList.activeItem.shopId;
-        editProductData.shopName = editProductList.activeItem.shopName;
         editProductData.productName = editProductList.activeItem.productName;
         editProductData.volume = editProductList.activeItem.volume;
-        editProductData.productImg = editProductList.activeItem.imageUrl;
-        editProductData.productTag = editProductList.activeItem.productTag;
+        editProductData.productImg = editProductList.activeItem.productImg;
         editProductData.price = editProductList.activeItem.price;
         editProductData.originalPrice = editProductList.activeItem.originalPrice;
         editProductData.costPrice = editProductList.activeItem.costPrice;
@@ -77,8 +69,15 @@ function editProductActions(){
         editProductData.productActivity = editProductList.activeItem.promotionActivity;
         editProductData.serve = editProductList.activeItem.serve;
     };
+
+    let editProduct = function(productId){
+        let product = editProductList.findItemByItemId(editProductData.list,productId,"productId");
+        editProductList.setActiveItem(product);
+        _updateActiveProduct();
+    };
     let addProduct = function(){
         editProductList.newProduct();
+        _updateActiveProduct();
     };
     let setProductName = function(name){
         editProductList.activeItem.setProductName(name);
@@ -86,60 +85,54 @@ function editProductActions(){
     };
     let setProductDescribe = function(name){
         editProductList.activeItem.setProductDescribe(name);
-
     };
     let setBrand = function(id){
         editProductList.activeItem.setBrand(id);
     };
     let setCategory = function(id){
         editProductList.activeItem.setCategory(id);
-
     };
     let setVolume = function(volume){
         editProductList.activeItem.setVolume(volume);
-        _updateActiveProduct()
+        editProductData.volume = volume;
     };
-    let setHeaderImg = function(url){
-        editProductList.activeItem.setHeaderImg(url);
-        _updateActiveProduct()
-    };
-    let setProductImg = function(url){
-        editProductList.activeItem.setProductImg(url);
-        _updateActiveProduct()
-    };
+
     let setPrice = function(price){
         editProductList.activeItem.setPrice(price);
         editProductData.price = price;
-        console.log(price)
-        // _updateActiveProduct()
     };
     let setOriginalPrice = function(price){
         editProductList.activeItem.setOriginalPrice(price);
-        _updateActiveProduct()
+        editProductData.originalPrice = price;
     };
     let setCostPrice = function(price){
         editProductList.activeItem.setCostPrice(price);
-        _updateActiveProduct()
+        editProductData.costPrice = price;
     };
     let setStockStatus = function(status){
         editProductList.activeItem.setStockStatus(status);
-        _updateActiveProduct()
-    };
-    let setDetailImg = function(url){
-        editProductList.activeItem.setDetailImg(url);
-        _updateActiveProduct()
+        editProductData.stockStatus = status;
     };
     let setProductActivity = function(activity){
         editProductList.activeItem.setProductActivity(activity);
-        _updateActiveProduct()
+        editProductData.productActivity = activity
     };
     let setServe = function(serve){
         editProductList.activeItem.setServe(serve);
-        _updateActiveProduct()
+        editProductData.serve = serve;
     };
     let setShopList = function(id){
         editProductList.activeItem.setShopIdList(id);
-        _updateActiveProduct()
+        editProductData.shopId = id;
+    };
+    let setHeaderImg = function(url){
+        editProductList.activeItem.setHeaderImg(url);
+    };
+    let setProductImg = function(url){
+        editProductList.activeItem.setProductImg(url);
+    };
+    let setDetailImg = function(url){
+        editProductList.activeItem.setDetailImg(url);
     };
     let createProduct = function(){
         editProductList.createProduct().then(()=>{
