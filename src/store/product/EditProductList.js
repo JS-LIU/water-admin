@@ -27,9 +27,7 @@ class EditProductList extends AdminList {
         this._createProduct = function (postInfo) {
             return productListAjax.save({entity: "product", action: "addProduct"}, postInfo);
         };
-        this._updateShopProductInfo = function(postInfo){
-            return _h.ajax.resource('/admin/updateShopProductInfo').save({},postInfo);
-        };
+
         //  分类
         this.categoryList = categoryList;
         //  店铺
@@ -66,28 +64,6 @@ class EditProductList extends AdminList {
         this.setActiveItem(new Product({shopProductStatus: "在售"}))
     }
 
-    updateShopProductInfo(){
-        let product = this.activeItem;
-        let postInfo = {
-            shopProductId:product.storeProductId,
-            brandId: product.brandId,
-            brandImageUrl: product.headerImg,
-            costPrice: product.costPrice,
-            originalPrice: product.originalPrice,
-            productCategoryId: product.categoryId,
-            productDescribe: product.productDescribe,
-            productDetailImageUrl: product.detailImg,
-            productImageUrl: product.productImg,
-            productName: product.productName,
-            productVolume: product.volume,
-            promotion: product.productActivity,
-            sellingPrice: product.price,
-            service: product.service,
-            stock: product.stockStatus,
-        };
-        return this._updateShopProductInfo(postInfo);
-    }
-
     createProduct() {
         let product = this.activeItem;
         let postInfo = {
@@ -105,7 +81,7 @@ class EditProductList extends AdminList {
             promotion: product.productActivity,
             sellingPrice: product.price,
             service: product.service,
-            shopId: product.shopIdList,
+            shopId: [product.shopId],
             stock: product.stockStatus,
         };
         return this._createProduct(postInfo);

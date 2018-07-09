@@ -132,7 +132,9 @@ class SelfSaleEditProductListQueryView extends Component{
                 render: (text, record) => {
                     return (
                         <span>
-                          <a href="javascript:void(0);">编辑</a>
+                          <a href="javascript:void(0);" onClick={() => {
+                              actions.editProduct(record.productId);
+                          }}>编辑</a>
                           <Divider type="vertical" />
                           <a href="javascript:void(0);"
                              onClick={ () => {
@@ -183,50 +185,6 @@ class SelfSaleEditProductListQueryView extends Component{
     }
 }
 
-// 编辑商品
-@observer class SelfSaleEditProductListDetailView extends Component{
-    render(){
-
-        return (
-
-            <div className='add_order'>
-                <div className='order_detail_header'>添加商品</div>
-
-
-
-                    {/*<ul>*/}
-                        {/*<li>区域：</li>*/}
-                        {/*<li>商品品牌：</li>*/}
-                        {/*<li>商品名称：<Input placeholder='填写商品名称'/></li>*/}
-                        {/*<li>副标题：<Input placeholder='描述商品特色，卖点，优惠等'/></li>*/}
-                        {/*<li>分类：</li>*/}
-                        {/*<li>规格：</li>*/}
-                        {/*<li>*/}
-                            {/*<span>商品头像：</span>*/}
-                        {/*</li>*/}
-                        {/*<li>*/}
-                            {/*<span>商品图片：</span>*/}
-                        {/*</li>*/}
-                        {/*<li>价格：<Input placeholder='请输入销售价格'/></li>*/}
-                        {/*<li>原价：<Input placeholder='请输入原价'/></li>*/}
-                        {/*<li>成本价：<Input placeholder='请输入成本价'/></li>*/}
-                        {/*<li>库存：<Input placeholder='请输入库存数'/></li>*/}
-                        {/*<li>*/}
-                            {/*<span>商品详情：</span>*/}
-                        {/*</li>*/}
-                        {/*<li>促销：<Input placeholder='描述促销活动'/></li>*/}
-                        {/*<li>服务：<Input placeholder='2小时送货'/></li>*/}
-                        {/*<li>标签：</li>*/}
-                    {/*</ul>*/}
-                    <div>
-                        <Button type="primary" className='mr10' >确认修改</Button>
-                        <Button type="primary" >取消</Button>
-                    </div>
-            </div>
-        )
-    }
-}
-
 // 添加商品
 @observer class SelfSaleEditProductListAddDetailView extends Component{
     getBrandNodes(){
@@ -246,7 +204,7 @@ class SelfSaleEditProductListQueryView extends Component{
     getShopNodes(){
         return data.selfMerchantList.map((shop,index)=>{
             return (
-                <Option key={index} value={shop.id}>{shop.name}</Option>
+                <Option key={index} value={shop.shopId}>{shop.shopName}</Option>
             )
         })
     }
@@ -258,7 +216,7 @@ class SelfSaleEditProductListQueryView extends Component{
                     <Row gutter={16}>
                         <Col span={6}>
                             <FormItem label={"选择店铺"}>
-                                <Select defaultValue="def" onChange={value => actions.setShopList(value)}>
+                                <Select value={data.shopId || "def"} onChange={value => actions.setShopList(value)}>
                                     <Option value="def">-选择店铺-</Option>
                                     {this.getShopNodes()}
                                 </Select>
@@ -307,7 +265,7 @@ class SelfSaleEditProductListQueryView extends Component{
                         </Col>
                         <Col span={6}>
                             <FormItem label={"价格"}>
-                                <Input placeholder='请输入销售价格' onBlur={e => actions.setPrice(e.target.value)}/>
+                                <Input onChange={e => actions.setPrice(e.target.value)} value={data.price}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>
@@ -354,3 +312,130 @@ class SelfSaleEditProductListQueryView extends Component{
 
 
 module.exports = SelfSaleEditProductView;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 编辑商品
+// @observer class SelfSaleEditProductListDetailView extends Component{
+//     render(){
+//
+//         return (
+//
+//             <div className='add_order'>
+//                 <div className='order_detail_header'>编辑</div>
+//                 <Form className="add_detail_section_left" id='add_detail_section_left'>
+//                     <Row gutter={16}>
+//                         <Col span={6}>
+//                             <FormItem label={"选择店铺"}>
+//                                 <Select defaultValue="def" onChange={value => actions.setShopList(value)}>
+//                                     <Option value="def">-选择店铺-</Option>
+//                                     {this.getShopNodes()}
+//                                 </Select>
+//                             </FormItem>
+//                         </Col>
+//                         <Col span={6}>
+//                             <FormItem label={"商品品牌"}>
+//                                 <Select defaultValue="def" onChange={value => actions.setBrand(value)}>
+//                                     <Option value="def">-选择品牌-</Option>
+//                                     {this.getBrandNodes()}
+//                                 </Select>
+//                             </FormItem>
+//                         </Col>
+//                         <Col span={6}>
+//                             <FormItem label={"商品名称"}>
+//                                 <Input placeholder="填写商品名称" onBlur={e => actions.setProductName(e.target.value)}/>
+//                             </FormItem>
+//                         </Col>
+//                         <Col span={6}>
+//                             <FormItem label={"副标题"}>
+//                                 <Input placeholder="描述商品特色，卖点，优惠等" onBlur={e => actions.setProductDescribe(e.target.value)}/>
+//                             </FormItem>
+//                         </Col>
+//                         <Col span={6}>
+//                             <FormItem label={"分类"}>
+//                                 <Select defaultValue="def" onChange={value => actions.setCategory(value)}>
+//                                     <Option value="def">-选择品牌-</Option>
+//                                     {this.getCategoryNodes()}
+//                                 </Select>
+//                             </FormItem>
+//                         </Col>
+//                         <Col span={6}>
+//                             <FormItem label={"规格"}>
+//                                 <Input placeholder="输入规格" onBlur={e => actions.setVolume(e.target.value)}/>
+//                             </FormItem>
+//                         </Col>
+//                         <Col span={6}>
+//                             <FormItem label={"商品头像"}>
+//                                 <Avatar name={"file"} afterAction={actions.setHeaderImg}/>
+//                             </FormItem>
+//                         </Col>
+//                         <Col span={6}>
+//                             <FormItem label={"商品图像"}>
+//                                 <Avatar name={"file"} afterAction={actions.setProductImg}/>
+//                             </FormItem>
+//                         </Col>
+//                         <Col span={6}>
+//                             <FormItem label={"价格"}>
+//                                 <Input placeholder='请输入销售价格' onBlur={e => actions.setPrice(e.target.value)}/>
+//                             </FormItem>
+//                         </Col>
+//                         <Col span={6}>
+//                             <FormItem label={"原价"}>
+//                                 <Input placeholder='请输入原价' onBlur={e => actions.setOriginalPrice(e.target.value)}/>
+//                             </FormItem>
+//                         </Col>
+//                         <Col span={6}>
+//                             <FormItem label={"成本价"}>
+//                                 <Input placeholder='请输入原价' onBlur={e => actions.setCostPrice(e.target.value)}/>
+//                             </FormItem>
+//                         </Col>
+//                         <Col span={6}>
+//                             <FormItem label={"库存"}>
+//                                 <Input placeholder='请输入库存数' onBlur={e => actions.setStockStatus(e.target.value)}/>
+//                             </FormItem>
+//                         </Col>
+//                         <Col span={6}>
+//                             <FormItem label={"详情"}>
+//                                 <Avatar name={"file"} afterAction={actions.setDetailImg}/>
+//                             </FormItem>
+//                         </Col>
+//                         <Col span={6}>
+//                             <FormItem label={"促销"}>
+//                                 <Input placeholder='描述促销活动' onBlur={e => actions.setProductActivity(e.target.value)}/>
+//                             </FormItem>
+//                         </Col>
+//                         <Col span={6}>
+//                             <FormItem label={"服务"}>
+//                                 <Input placeholder='2小时送货' onBlur={e => actions.setServe(e.target.value)}/>
+//                             </FormItem>
+//                         </Col>
+//                     </Row>
+//                     <Row>
+//                         <Col span={24} style={{ textAlign: 'right' }}>
+//                             <Button type="primary" onClick={actions.createProduct}>创建商品</Button>
+//                         </Col>
+//                     </Row>
+//                 </Form>
+//             </div>
+//         )
+//     }
+// }

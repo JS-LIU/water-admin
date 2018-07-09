@@ -58,8 +58,10 @@ class Product {
                 resolve(console.log("=delete=="))
             });
 
-            // return productAjax.save({action:""})
-        }
+        };
+        this._updateShopProductInfo = function(postInfo){
+            return _h.ajax.resource('/admin/updateShopProductInfo').save({},postInfo);
+        };
     }
 
     static convertProductStatus(status) {
@@ -125,7 +127,29 @@ class Product {
         this.serve = serve;
     }
     setShopIdList(id){
-        this.shopIdList = [id];
+        this.shopId = id;
+    }
+
+    updateShopProductInfo(){
+        let product = this;
+        let postInfo = {
+            shopProductId:product.storeProductId,
+            brandId: product.brandId,
+            brandImageUrl: product.headerImg,
+            costPrice: product.costPrice,
+            originalPrice: product.originalPrice,
+            productCategoryId: product.categoryId,
+            productDescribe: product.productDescribe,
+            productDetailImageUrl: product.detailImg,
+            productImageUrl: product.productImg,
+            productName: product.productName,
+            productVolume: product.volume,
+            promotion: product.productActivity,
+            sellingPrice: product.price,
+            service: product.service,
+            stock: product.stockStatus,
+        };
+        return this._updateShopProductInfo(postInfo);
     }
 }
 
