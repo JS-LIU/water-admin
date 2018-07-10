@@ -48,7 +48,6 @@ class Avatar extends React.Component {
         }else{
             imageUrl = this.props.imageUrl
         }
-        console.log('=======',imageUrl);
         const name = this.props.name;
         return (
             <Upload

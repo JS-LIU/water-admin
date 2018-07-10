@@ -3,7 +3,6 @@
  */
 import {observable, computed, action, autorun} from "mobx";
 import editProductList from './EditProductList';
-import Product from '../product/Product';
 let editProductData = {
     @observable list:[],
     @observable brandList:[],

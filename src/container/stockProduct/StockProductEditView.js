@@ -8,6 +8,9 @@ const Option = Select.Option;
 import {data,actions} from '../../store/product/stockEditProductListInterface';
 
 @observer class StockProductEditView extends Component{
+    componentWillMount(){
+
+    }
     render(){
         return(
             <div>

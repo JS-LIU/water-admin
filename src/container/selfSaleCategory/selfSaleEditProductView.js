@@ -85,7 +85,7 @@ class SelfSaleEditProductListQueryView extends Component{
                 width:150,
                 render:(text,record)=>(<img src={record.productImg} />)
             },{
-                title: '商品品牌',
+                title: '商品标签',
                 dataIndex:"productTag",
                 key: 'productTag',
                 width: 100

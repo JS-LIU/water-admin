@@ -4,10 +4,25 @@
 import {observable, computed, action, autorun} from "mobx";
 import editProductList from './EditProductList';
 let editProductData = {
-    @observable list:[]
+    @observable list:[],
+    @observable brandList:[],
+    @observable categoryList:[],
+    @observable selfMerchantList:[],
+    @observable shopId:"",
+    @observable shopName:"",
+    @observable productName:"",
+    @observable volume:"",
+    @observable productImg:null,
+    @observable price:"",
+    @observable originalPrice:"",
+    @observable costPrice:"",
+    @observable saleMount:"",
+    @observable stockStatus:"",
+    @observable productActivity:"",
+    @observable serve:"",
 };
 function editProductActions(){
-    let getList = function(){
+    let _getList = function(){
         editProductList.getStockList().then((list)=>{
             editProductData.list = list;
             editProductList.setActiveItem(list[0]);
@@ -18,9 +33,22 @@ function editProductActions(){
         editProductList.setActiveItem(product);
         product.operate(operate)
     };
-
+    let load = function(){
+        _getList();
+        _getCategoryList();
+        _getBrandList();
+    };
+    let _getCategoryList = function(){
+        editProductList.categoryList.getCategoryList().then((list)=>{
+            editProductData.categoryList = list;
+        })
+    };
+    let _getBrandList = function(){
+        editProductList.categoryList.getBrandList().then((list)=>{
+            editProductData.brandList = list;
+        })
+    };
     return {
-        getList:getList,
         operate:operate
     }
 }

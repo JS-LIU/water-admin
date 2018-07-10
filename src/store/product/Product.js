@@ -13,7 +13,7 @@ class Product {
         this.productName = productInfo.productName;             //  商品名称
         this.volume = productInfo.volume;                       //  规格
         this.productImg = productInfo.imageUrl;                 //  商品图片
-        this.productTag = productInfo.productTag;
+        this.productTag = productInfo.productTag;               //  标签
         this.price = productInfo.price;                         //  销售价
         this.originalPrice = productInfo.originalPrice;         //  原价
         this.costPrice = productInfo.costPrice;                 //  成本价
