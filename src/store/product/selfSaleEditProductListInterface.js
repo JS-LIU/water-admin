@@ -3,6 +3,7 @@
  */
 import {observable, computed, action, autorun} from "mobx";
 import editProductList from './EditProductList';
+import Product from '../product/Product';
 let editProductData = {
     @observable list:[],
     @observable brandList:[],
@@ -68,11 +69,17 @@ function editProductActions(){
         editProductData.stockStatus = editProductList.activeItem.stockStatus;
         editProductData.productActivity = editProductList.activeItem.promotionActivity;
         editProductData.serve = editProductList.activeItem.serve;
+        console.log('after:',editProductData.productImg);
     };
 
     let editProduct = function(productId){
         let product = editProductList.findItemByItemId(editProductData.list,productId,"productId");
-        editProductList.setActiveItem(product);
+        //  克隆新对象 保持原对象不变
+        // let cloneProduct = Object.assign(new Product({}),product);
+        let cloneProduct = product.clone();
+        console.log('before:',editProductData.productImg);
+        editProductList.setActiveItem(cloneProduct);
+
         _updateActiveProduct();
     };
     let addProduct = function(){
@@ -130,6 +137,7 @@ function editProductActions(){
     };
     let setProductImg = function(url){
         editProductList.activeItem.setProductImg(url);
+        editProductData.productImg = url;
     };
     let setDetailImg = function(url){
         editProductList.activeItem.setDetailImg(url);

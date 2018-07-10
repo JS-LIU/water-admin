@@ -151,6 +151,9 @@ class Product {
         };
         return this._updateShopProductInfo(postInfo);
     }
+    clone(){
+        return Object.assign(new Product({}),this);
+    }
 }
 
 module.exports = Product;

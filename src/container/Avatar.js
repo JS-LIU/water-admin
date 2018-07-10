@@ -4,19 +4,19 @@
 import React, {Component} from 'react';
 import { Upload, Icon, message } from 'antd';
 import avatarPicUrl from '../Util/AvatarPicUrl';
-import {observer,inject} from 'mobx-react';
+
 function getBase64(img, callback) {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
     reader.readAsDataURL(img);
 }
-
 class Avatar extends React.Component {
     state = {
         loading: false,
     }
 
     handleChange = (info) => {
+        this.upLoad = true;
         if (info.file.status === 'uploading') {
             this.setState({ loading: true });
             return;
@@ -28,10 +28,13 @@ class Avatar extends React.Component {
                 loading: false,
             }));
         }
+
         let url = avatarPicUrl.getUrlFromAvatar(info);
         this.props.afterAction(url);
     }
-
+    componentDidUpdate(){
+        this.upLoad = false;
+    }
     render() {
         const uploadButton = (
             <div>
@@ -39,9 +42,14 @@ class Avatar extends React.Component {
                 <div className="ant-upload-text">Upload</div>
             </div>
         );
-        const imageUrl = this.state.imageUrl || this.props.imageUrl;
+        let imageUrl;
+        if(this.upLoad){
+            imageUrl = this.state.imageUrl
+        }else{
+            imageUrl = this.props.imageUrl
+        }
+        console.log('=======',imageUrl);
         const name = this.props.name;
-        console.log(imageUrl)
         return (
             <Upload
                 name={name}

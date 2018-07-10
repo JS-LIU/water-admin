@@ -137,16 +137,15 @@ class SelfSaleEditProductListQueryView extends Component{
                           }}>编辑</a>
                           <Divider type="vertical" />
                           <a href="javascript:void(0);"
-                             onClick={ () => {
+                             onClick={() => {
                                   actions.operate(record.operate[0].title,record.orderId);
                                 }
                              }
                           >{record.operate[0].title}</a>
                           <Divider type="vertical" />
                           <a href="javascript:void(0);"
-                             onClick={ () => {
-                                 actions.operate(record.operate[1].title,record.orderId);
-                             }
+                             onClick={() =>
+                                 actions.operate(record.operate[1].title,record.orderId)
                              }
                           >{record.operate[1].title}</a>
                         </span>
@@ -209,6 +208,7 @@ class SelfSaleEditProductListQueryView extends Component{
         })
     }
     render(){
+        console.log(data.productImg)
         return (
             <div className='add_order'>
                 <div className='order_detail_header'>添加商品</div>
