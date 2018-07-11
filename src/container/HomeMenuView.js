@@ -89,7 +89,12 @@ class HomeMenuView extends Component{
                                 <span>成交</span>
                             </Link>
                         </Menu.Item>
-
+                        <Menu.Item key="/expenditure">
+                            <Link to="/expenditure">
+                                <Icon type="file" />
+                                <span>支出</span>
+                            </Link>
+                        </Menu.Item>
                     </SubMenu>
                     <SubMenu key="sub4" title={<span><Icon type="profile" /><span>商家管理</span></span>}>
                         <Menu.Item key="/merchantAudit">

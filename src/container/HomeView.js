@@ -28,6 +28,8 @@ import RebateDealView from './rebate/RebateDealView';
 import RebateSearchView from './rebate/RebateSearchView';
 //成交
 import chen from './chen/VolumeOfTransactionView';
+// 支出
+import ExpenditureView from './finance/ExpenditureView';
 // 批发
 import StockCategoryView from './stockProduct/StockCategoryView';
 import StockProductEditView from './stockProduct/StockProductEditView';
@@ -92,6 +94,7 @@ class HomeView extends Component{
 
                                 <Route path='/rebateDeal' component={RebateDealView}/>
                                 <Route path='/rebateSearch' component={RebateSearchView}/>
+                                <Route path='/expenditure' component={ExpenditureView} />
                                 <Route path='/distributeCategory' component={DistributeCategoryView}/>
                                 <Route path='/distributeEditProduct' component={DistributeEditProductView}/>
                                 <Route path='/distributeProductSearch' component={DistributeProductSearchView}/>
