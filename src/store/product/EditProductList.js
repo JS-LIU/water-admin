@@ -60,8 +60,8 @@ class EditProductList extends AdminList {
         })
     }
 
-    newProduct() {
-        this.setActiveItem(new Product({shopProductStatus: "在售"}))
+    newProduct(shopId) {
+        this.setActiveItem(new Product({shopProductStatus: "在售",shopId:shopId}))
     }
 
     createProduct() {

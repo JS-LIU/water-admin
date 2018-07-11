@@ -4,7 +4,8 @@
 import Product from './Product';
 class SimpleProduct extends Product{
     constructor(info){
-        super(Object.assign(info,{shopProductStatus:""},{commissionRatio:""}));
+        let product = Object.assign(info,{shopProductStatus:""},{commissionRatio:""});
+        super(product);
         this.productId = info.productId;
     }
 }

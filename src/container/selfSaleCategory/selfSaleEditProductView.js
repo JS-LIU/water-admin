@@ -186,29 +186,22 @@ class SelfSaleEditProductListQueryView extends Component{
 
 // 添加商品
 @observer class SelfSaleEditProductListAddDetailView extends Component{
-    getBrandNodes(){
-        return data.brandList.map((brand,index)=>{
+    render(){
+        let brandNodes = data.brandList.map((brand,index)=>{
             return (
                 <Option key={index} value={brand.id}>{brand.name}</Option>
             )
         });
-    }
-    getCategoryNodes(){
-        return data.categoryList.map((category,index)=>{
+        let categoryNodes = data.categoryList.map((category,index)=>{
             return (
                 <Option key={index} value={category.id}>{category.name}</Option>
             )
-        })
-    }
-    getShopNodes(){
-        return data.selfMerchantList.map((shop,index)=>{
+        });
+        let shopNodes = data.selfMerchantList.map((shop,index)=>{
             return (
                 <Option key={index} value={shop.shopId}>{shop.shopName}</Option>
             )
-        })
-    }
-    render(){
-        console.log(data.productImg)
+        });
         return (
             <div className='add_order'>
                 <div className='order_detail_header'>添加商品</div>
@@ -218,7 +211,7 @@ class SelfSaleEditProductListQueryView extends Component{
                             <FormItem label={"选择店铺"}>
                                 <Select value={data.shopId || "def"} onChange={value => actions.setShopList(value)}>
                                     <Option value="def">-选择店铺-</Option>
-                                    {this.getShopNodes()}
+                                    {shopNodes}
                                 </Select>
                             </FormItem>
                         </Col>
@@ -226,7 +219,7 @@ class SelfSaleEditProductListQueryView extends Component{
                             <FormItem label={"商品品牌"}>
                                 <Select defaultValue="def" onChange={value => actions.setBrand(value)}>
                                     <Option value="def">-选择品牌-</Option>
-                                    {this.getBrandNodes()}
+                                    {brandNodes}
                                 </Select>
                             </FormItem>
                         </Col>
@@ -244,7 +237,7 @@ class SelfSaleEditProductListQueryView extends Component{
                             <FormItem label={"分类"}>
                                 <Select defaultValue="def" onChange={value => actions.setCategory(value)}>
                                     <Option value="def">-选择品牌-</Option>
-                                    {this.getCategoryNodes()}
+                                    {categoryNodes}
                                 </Select>
                             </FormItem>
                         </Col>

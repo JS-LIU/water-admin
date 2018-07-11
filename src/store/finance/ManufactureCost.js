@@ -45,10 +45,6 @@ class ManufactureCost {
     setMark(remark){
         this.remark = remark;
     }
-    //  上传图片
-    upLoadPic(){
-    //  todo 上传图片
-    }
     //  支付金额
     setPayRmb(price){
         this.payRmb = price;
@@ -67,6 +63,9 @@ class ManufactureCost {
     }
     updatePic(picUrl){
         
+    }
+    setTicketUrl(url){
+        this.ticketUrl = url
     }
 }
 module.exports = ManufactureCost;

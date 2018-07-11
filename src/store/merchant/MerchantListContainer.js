@@ -98,6 +98,24 @@ class MerchantListContainer extends AdminList{
             })])
         });
     }
+    getStockMerchantList(){
+        return new Promise((resolve, reject)=>{
+            resolve([new Merchant({
+                shopId:10542,
+                shopName:"huipayStock",
+                merchantStatus:"已通过"
+            })])
+        });
+    }
+    getDistributeMerchantList(){
+        return new Promise((resolve, reject)=>{
+            resolve([new Merchant({
+                shopId:1,
+                shopName:"汇贝自营店",
+                merchantStatus:"已通过"
+            })])
+        });
+    }
 }
 
 module.exports = new MerchantListContainer();

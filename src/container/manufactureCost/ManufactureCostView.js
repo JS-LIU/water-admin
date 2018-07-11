@@ -1,9 +1,11 @@
-import React,{Component} from 'react';
-import {observer,inject} from 'mobx-react';
-import {Table , Input , Select , Button } from 'antd';
+import React, {Component} from 'react'
+import { Table , Button , Radio , Input , Select , Icon , Modal , Divider , Form , Row, Col } from 'antd';
+import Avatar from '../Avatar';
 const Search = Input.Search;
+const FormItem = Form.Item;
 const Option = Select.Option;
 
+import {observer,inject} from 'mobx-react';
 import {data,actions} from '../../store/finance/manufactureCostInterface';
 import manufactureCostStyle from './manufactureCost.css';
 
@@ -23,22 +25,23 @@ import manufactureCostStyle from './manufactureCost.css';
 }
 
 @observer class ManufactureCostSearchView extends Component{
-    addWater(){
-        console.log('进水指出。');
-        actions.addManufacture();
-    }
     render(){
+        let shopNodes = data.waterStoreList.map((shop,index)=>{
+            return (
+                <Option key={index} value={shop.shopId}>{shop.shopName}</Option>
+            )
+        });
         return (
             <div className="manufacture_cost_box" >
                 <div>
                     <span>水厂：</span>
-                    <Select placeholder="选择水厂" style={{ width: 150 }} >
-                        <Option value="jack">Jack</Option>
-                        <Option value="lucy">lucy</Option>
+                    <Select defaultValue={'def'}  style={{ width: 150 }} >
+                        <Option value='def'>-请选择水厂-</Option>
+                        {shopNodes}
                     </Select>
                 </div>
                 <div>
-                    <Button type='primary' onClick={this.addWater.bind(this)} >+进水支出</Button>
+                    <Button type='primary' onClick={() => actions.addManufacture()} >+进水支出</Button>
                 </div>
                 <div>
                     <Button type='primary'>查询</Button>
@@ -155,62 +158,76 @@ import manufactureCostStyle from './manufactureCost.css';
 
 // 添加进水支出
 @observer class ManufactureCostAddView extends Component{
-    confirmAdd(){
-        console.log('确认添加。');
-        actions.createManufactureCost();
-    }
     render(){
+        let productNodes = data.productList.map((product,index)=>{
+            return (
+                <Option key={index} value={product.productId}>{product.productName}</Option>
+            )
+        });
+        let shopNodes = data.waterStoreList.map((shop,index)=>{
+            return (
+                <Option key={index} value={shop.shopId}>{shop.shopName}</Option>
+            )
+        });
         return (
             <div className='manufacture_cost_add' >
-                <div className="manufacture_cost_add_head">
-                    +添加进水支出
-                </div>
-                <div className="manufacture_cost_add_list">
-                    <div className="manufacture_left manufacture_cost_item">
-                        <span>
-                            商品名称：
-                            <Select placeholder="选择商品" style={{ width: 150 , paddingRight:10 }} >
-                              <Option value="jack">Jack</Option>
-                              <Option value="lucy">lucy</Option>
-                            </Select>
-                            <Select placeholder="选择规格" style={{ width: 120 }}>
-                              <Option value="jack">Jack</Option>
-                              <Option value="lucy">lucy</Option>
-                            </Select>
-                        </span>
-                            <span>
-                            单价：<Input placeholder="输入金额"/>  元/桶
-                        </span>
-                            <span>
-                            数量：<Input placeholder="输入数量"/>
-                        </span>
-                            <span>
-                            金额：<Input placeholder="输入金额"/>
-                        </span>
-                            <span>
-                            备注：
-                        </span>
-                    </div>
-                    <div className="manufacture_right manufacture_cost_item">
-                        <span>
-                            水厂：
-                            <Select placeholder="选择水厂" style={{ width: 120 }}>
-                              <Option value="jack">Jack</Option>
-                              <Option value="lucy">lucy</Option>
-                            </Select>
-                        </span>
-                            <span>
-                            支付金额：<Input placeholder="输入支付金额" />
-                        </span>
-                            <span>
-                            收据存根:  <Button>添加存根</Button>
-                        </span>
-                            <span></span>
-                            <span>
-                            <Button type="primary" onClick={this.confirmAdd.bind(this)} >确认添加</Button>
-                        </span>
-                    </div>
-                </div>
+                <div className="manufacture_cost_add_head">+添加进水支出</div>
+                <Form className="add_detail_section_left" id='add_detail_section_left'>
+                    <Row gutter={16}>
+                        <Col span={6}>
+                            <FormItem label={"选择商品"}>
+                                <Select defaultValue="def" onChange={value => actions.selectProduct(value)}>
+                                    <Option value="def">-选择商品-</Option>
+                                    {productNodes}
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"单价"}>
+                                <Input placeholder="输入金额" onChange={e => {actions.setPerProductPrice(e.target.value);actions.calcPayRmb()}}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"数量"}>
+                                <Input placeholder="输入数量" onChange={e => {actions.setTotalCount(e.target.value);actions.calcPayRmb()}}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"金额"}>
+                                <span>{data.totalRmb}</span>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"备注"}>
+                                <Input onChange={e => actions.setMark(e.target.value)}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"选择水厂"}>
+                                <Select defaultValue={'def'} onChange={value => actions.selectWaterStore(value)}>
+                                    <Option value='def'>-请选择水厂-</Option>
+                                    {shopNodes}
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"支付金额"}>
+                                <Input onChange={e => actions.setPayRmb(e.target.value)}/>
+                            </FormItem>
+                        </Col>
+
+                        <Col span={6}>
+                            <FormItem label={"收据存根"}>
+                                <Avatar name={"file"} afterAction={actions.setTicketUrl}/>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={24} style={{ textAlign: 'right' }}>
+                            <Button type="primary" onClick={actions.createProduct}>确认添加</Button>
+                        </Col>
+                    </Row>
+                </Form>
             </div>
         )
     }

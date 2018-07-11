@@ -8,6 +8,7 @@ let manufactureCostListData = {
     @observable pagination:{},
     @observable productList:[],
     @observable waterStoreList:[],
+    @observable totalRmb:""
 
 };
 function manufactureCostListActions(){
@@ -34,12 +35,12 @@ function manufactureCostListActions(){
     let selectWaterStore = function(shopId){
         let waterStore = manufactureCostList.waterStoreList.findItemByItemId(manufactureCostListData.waterStoreList,shopId,"shopId");
         manufactureCostList.waterStoreList.setActiveItem(waterStore);
-        manufactureCostList.activeItem.setWaterStore(manufactureCostList.waterStoreList.activeItem)
+        manufactureCostList.activeItem.setWaterStore(waterStore)
     };
     let selectProduct = function(productId){
-        let product = manufactureCostList.waterStoreList.findItemByItemId(manufactureCostListData.productList,productId,"productId");
+        let product = manufactureCostList.stockProductList.findItemByItemId(manufactureCostListData.productList,productId,"productId");
         manufactureCostList.stockProductList.setActiveItem(product);
-        manufactureCostList.activeItem.setProduct(manufactureCostList.stockProductList.activeItem)
+        manufactureCostList.activeItem.setProduct(product)
     };
     let setPerProductPrice = function(price){
         manufactureCostList.activeItem.setPerProductPrice(price);
@@ -54,7 +55,7 @@ function manufactureCostListActions(){
         manufactureCostList.activeItem.setMark(payRmb);
     };
     let calcPayRmb = function(){
-        manufactureCostList.activeItem.getTotalPayRmb();
+        manufactureCostListData.totalRmb = manufactureCostList.activeItem.getTotalPayRmb();
     };
     let createManufactureCost = function(){
         manufactureCostList.createManufactureCost().then(()=>{
@@ -64,6 +65,9 @@ function manufactureCostListActions(){
     let selectManufactureCost = function(manufactureCostId){
         let manufactureCost = manufactureCostList.findItemByItemId(manufactureCostListData.list,manufactureCostId,"id");
         manufactureCostList.setActiveItem(manufactureCost);
+    };
+    let setTicketUrl = function(url){
+        manufactureCostList.activeItem.setTicketUrl(url);
     };
     let updateRemark = function(remark){
         manufactureCostList.activeItem.updateRemark(remark).then(()=>{
@@ -87,7 +91,8 @@ function manufactureCostListActions(){
         createManufactureCost:createManufactureCost,    //  点击确定创建
         selectManufactureCost:selectManufactureCost,
         updateRemark:updateRemark,
-        changePage:changePage
+        changePage:changePage,
+        setTicketUrl:setTicketUrl               //  设置存根
     }
 }
 module.exports = {data:manufactureCostListData,actions:manufactureCostListActions()};

@@ -1,21 +1,24 @@
 
 import React, {Component} from 'react'
-import { Table , Button , Radio , Input , Select , Upload , Icon , Modal , Divider } from 'antd';
+import { Table , Button , Radio , Input , Select , Icon , Modal , Divider , Form , Row, Col } from 'antd';
+import Avatar from '../Avatar';
 const Search = Input.Search;
-import {observer,inject} from 'mobx-react';
+const FormItem = Form.Item;
 const Option = Select.Option;
+import {observer,inject} from 'mobx-react';
 
 import {data,actions} from '../../store/product/stockEditProductListInterface';
-
+import formStyle from './css/formStyle.css';
 @observer class StockProductEditView extends Component{
     componentWillMount(){
-
+        actions.onLoad();
     }
     render(){
         return(
             <div>
                 <StockProductEditListQueryView/>
                 <StockProductEditListView/>
+                <StockEditProductListAddDetailView/>
             </div>
         )
     }
@@ -23,17 +26,7 @@ import {data,actions} from '../../store/product/stockEditProductListInterface';
 
 // 搜索
 class StockProductEditListQueryView extends Component{
-    state = { queryType: 0 };
-    onChange(e){
-        this.setState({ queryType: e.target.value });
-        if(e.target.value==0){
-            actions.getList({productStatus:'在售中'})
-        }else{
-            actions.getList({productStatus:'待上架'})
-        }
-    }
     render(){
-        const { queryType } = this.state;
         return (
             <div>
                 <div className='all_search_box mb15'>
@@ -74,10 +67,6 @@ class StockProductEditListQueryView extends Component{
                         <Button type="primary">+添加商品</Button>
                     </div>
                 </div>
-                <Radio.Group value={queryType} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
-                    <Radio.Button value={0}>在售中</Radio.Button>
-                    <Radio.Button value={1}>待上架</Radio.Button>
-                </Radio.Group>
             </div>
         )
     }
@@ -101,58 +90,43 @@ class StockProductEditListQueryView extends Component{
                 title:'商品图片',
                 dataIndex:"productImg",
                 key:"productImg",
-                width:200,
+                width:150,
                 render:(text,record)=>(<img src={record.productImg} />)
             },{
-                title:'商品品牌',
-                dataIndex:"productBrand",
-                key:"productBrand",
-                width:200
-            },{
-                title:'分类',
-                dataIndex:"productCategory",
-                key:"productCategory",
-                width:200
-            },{
-                title:'所属区域',
-                dataIndex:"areaBelong",
-                key:"areaBelong",
-                width:200
+                title: '商品标签',
+                dataIndex:"productTag",
+                key: 'productTag',
+                width: 100
             },{
                 title:'销售价',
-                dataIndex:"salePrice",
-                key:"salePrice",
-                width:200
+                dataIndex:"price",
+                key:"price",
+                width:100
             },{
                 title:'原价',
                 dataIndex:"originalPrice",
                 key:"originalPrice",
-                width:200
+                width:100
             },{
                 title:'成本价',
-                dataIndex:"price",
-                key:"price",
-                width:200
+                dataIndex:"costPrice",
+                key:"costPrice",
+                width:100
             },{
                 title:'库存',
                 dataIndex:"stockStatus",
                 key:"stockStatus",
-                width:200
+                width:100
             },{
                 title: '促销',
                 dataIndex:"productActivity",
                 key: 'productActivity',
-                width: 200
+                width: 100
             },{
                 title: '服务',
                 dataIndex:"serve",
                 key: 'serve',
-                width: 200
-            },{
-                title: '标签',
-                dataIndex:"productTag",
-                key: 'productTag',
-                width: 200
+                width: 100
             },{
                 title: '状态',
                 dataIndex:"productStatus",
@@ -166,19 +140,20 @@ class StockProductEditListQueryView extends Component{
                 render: (text, record) => {
                     return (
                         <span>
-                          <a href="javascript:void(0);">编辑</a>
+                          <a href="javascript:void(0);" onClick={() => {
+                              actions.editProduct(record.productId);
+                          }}>编辑</a>
                           <Divider type="vertical" />
                           <a href="javascript:void(0);"
-                             onClick={ () => {
+                             onClick={() => {
                                  actions.operate(record.operate[0].title,record.orderId);
                              }
                              }
                           >{record.operate[0].title}</a>
                           <Divider type="vertical" />
                           <a href="javascript:void(0);"
-                             onClick={ () => {
-                                 actions.operate(record.operate[1].title,record.orderId);
-                             }
+                             onClick={() =>
+                                 actions.operate(record.operate[1].title,record.orderId)
                              }
                           >{record.operate[1].title}</a>
                         </span>
@@ -195,15 +170,12 @@ class StockProductEditListQueryView extends Component{
                 productName:item.productName,
                 volume:item.volume,
                 productImg:item.productImg,
-                productBrand:item. productBrand,
-                productCategory:item.productCategory,
-                areaBelong:item.areaBelong,
-                salePrice:item.salePrice,
-                originalPrice:item.originalPrice,
-                price:item.price,
+                costPrice:item.costPrice / 100,
+                originalPrice:item.originalPrice / 100,
+                price:item.price / 100,
                 stockStatus:item.stockStatus,
-                productActivity:item.productActivity,
-                serve:item.serve,
+                productActivity:item.productActivity || "----",
+                serve:item.serve || "----",
                 productTag:item.productTag,
                 productStatus:item.productStatus.title,
                 operate:item.productStatus.actions
@@ -214,8 +186,114 @@ class StockProductEditListQueryView extends Component{
                 className="components-table-demo-nested"
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{x: 2900,y:500}}
+                scroll={{x: 1550,y:500}}
             />
+        )
+    }
+}
+
+// 添加商品
+@observer class StockEditProductListAddDetailView extends Component{
+    render(){
+        let brandNodes = data.brandList.map((brand,index)=>{
+            return (
+                <Option key={index} value={brand.id}>{brand.name}</Option>
+            )
+        });
+        let categoryNodes = data.categoryList.map((category,index)=>{
+            return (
+                <Option key={index} value={category.id}>{category.name}</Option>
+            )
+        });
+        return (
+            <div className='add_order'>
+                <div className='order_detail_header'>添加商品</div>
+                <Form className="add_detail_section_left" id='add_detail_section_left'>
+                    <Row gutter={16}>
+                        <Col span={6}>
+                            <FormItem label={"商品品牌"}>
+                                <Select defaultValue="def" onChange={value => actions.setBrand(value)}>
+                                    <Option value="def">-选择品牌-</Option>
+                                    {brandNodes}
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"商品名称"}>
+                                <Input placeholder="填写商品名称" onChange={e => actions.setProductName(e.target.value)} value={data.productName}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"副标题"}>
+                                <Input placeholder="描述商品特色，卖点，优惠等" onBlur={e => actions.setProductDescribe(e.target.value)}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"分类"}>
+                                <Select defaultValue="def" onChange={value => actions.setCategory(value)}>
+                                    <Option value="def">-选择品牌-</Option>
+                                    {categoryNodes}
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"规格"}>
+                                <Input placeholder="输入规格" onChange={e => actions.setVolume(e.target.value)} value={data.volume}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"商品头像"}>
+                                <Avatar name={"file"} afterAction={actions.setHeaderImg}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"商品图像"}>
+                                <Avatar name={"file"} imageUrl={data.productImg} afterAction={actions.setProductImg}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"价格"}>
+                                <Input onChange={e => actions.setPrice(e.target.value)} value={data.price}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"原价"}>
+                                <Input placeholder='请输入原价' onChange={e => actions.setOriginalPrice(e.target.value)} value={data.originalPrice}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"成本价"}>
+                                <Input placeholder='请输入成本价' onChange={e => actions.setCostPrice(e.target.value)} value={data.costPrice}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"库存"}>
+                                <Input placeholder='请输入库存数' onChange={e => actions.setStockStatus(e.target.value)} value={data.stockStatus}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"详情"}>
+                                <Avatar name={"file"} afterAction={actions.setDetailImg}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"促销"}>
+                                <Input placeholder='描述促销活动' onChange={e => actions.setProductActivity(e.target.value)} value={data.productActivity}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"服务"}>
+                                <Input placeholder='2小时送货' onChange={e => actions.setServe(e.target.value)} value={data.serve}/>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={24} style={{ textAlign: 'right' }}>
+                            <Button type="primary" onClick={actions.createProduct}>创建商品</Button>
+                        </Col>
+                    </Row>
+                </Form>
+            </div>
         )
     }
 }

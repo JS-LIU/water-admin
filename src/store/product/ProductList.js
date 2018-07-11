@@ -30,7 +30,7 @@ class ProductList extends AdminList {
     }
     getSimpleProductList(){
         return new Promise((resolve, reject)=>{
-            this._getSimpleProductList((productList)=>{
+            this._getSimpleProductList().then((productList)=>{
                 this.list = ProductList.createList(this.list,productList,SimpleProduct);
                 resolve(this.list);
             })
