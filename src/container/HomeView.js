@@ -15,16 +15,19 @@ import {
 import HomeMenuView from './HomeMenuView';
 
 import WithdrawInfoView from './WithdrawInfoView';
-// 用户订单
 import ClientOrderView from './order/ClientOrderView';
 import ClientOrderSearchView from './order/ClientOrderSearchView';
 // 商家订单
 import MerchantOrderView from './order/MerchantOrderView';
 import MerchantOrderSearch from './order/MerchantOrderSearchView';
-// 商家管理
 import MerchantAuditView from './merchantManage/MerchantAuditView';
 import MerchantAuditQueryView from './merchantManage/MerchantListSearchView';
 import MerchantDetailView from './merchantManage/MerchantDetailView';
+//返利
+import RebateDealView from './rebate/RebateDealView';
+import RebateSearchView from './rebate/RebateSearchView';
+//成交
+import chen from './chen/VolumeOfTransactionView';
 // 批发
 import StockCategoryView from './stockProduct/StockCategoryView';
 import StockProductEditView from './stockProduct/StockProductEditView';
@@ -39,7 +42,6 @@ import DistributeEditProductView from './distributeProduct/DistributeEditProduct
 import DistributeProductSearchView from './distributeProduct/DistributeProductSearchView';
 // 成本
 import ManufactureCostView from './manufactureCost/ManufactureCostView';
-
 import OpenShopView from './OpenShopView';
 import ShopListView from './ShopListView';
 import './homeStyle.css';
@@ -88,6 +90,13 @@ class HomeView extends Component{
                                 <Route path='/merchantAuditQuery' component={MerchantAuditQueryView} />
                                 <Route path='/merchantDetail' component={MerchantDetailView} />
 
+                                <Route path='/rebateDeal' component={RebateDealView}/>
+                                <Route path='/rebateSearch' component={RebateSearchView}/>
+                                <Route path='/distributeCategory' component={DistributeCategoryView}/>
+                                <Route path='/distributeEditProduct' component={DistributeEditProductView}/>
+                                <Route path='/distributeProductSearch' component={DistributeProductSearchView}/>
+                                <Route path='/manufactureCost' component={ManufactureCostView}/>
+
                                 <Route path='/stockCategory' component={StockCategoryView} />
                                 <Route path='/stockProductEdit' component={StockProductEditView} />
                                 <Route path='/stockProductSearch' component={StockProductSearchView} />
@@ -96,15 +105,11 @@ class HomeView extends Component{
                                 <Route path='/selfSaleEditProduct' component={SelfSaleEditProductView} />
                                 <Route path='/selfSaleProductSearch' component={SelfSaleProductSearchView}/>
 
-                                <Route path='/distributeCategory' component={DistributeCategoryView} />
-                                <Route path='/distributeEditProduct' component={DistributeEditProductView} />
-                                <Route path='/distributeProductSearch' component={DistributeProductSearchView}/>
-
-                                <Route path='/manufactureCost' component={ManufactureCostView} />
-
                                 {/*<Route path="/merchantOrder" component={OrderListTest} />*/}
                                 <Route path="/openShop" component={OpenShopView} />
                                 <Route path="/shopList" component={ShopListView} />
+
+                                <Route path="/deal" component={chen}/>
                                 {/*<Route path="/auditMerchantList" component={AuditMerchantList}/>*/}
                             </Switch>
                         </div>

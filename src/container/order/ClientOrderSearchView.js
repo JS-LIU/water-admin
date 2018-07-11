@@ -202,6 +202,8 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 key:i,
                 createTime:item.createTime,
                 orderNo:item.orderNo,
+                promotionActivityInfo:item.promotionActivityInfo,
+                userWaterTicket:item.userWaterTicket,
                 productItems:item.productItems,
                 promotionActivity:item.promotionActivity,
                 ticketUseNum:item.ticketUseNum,

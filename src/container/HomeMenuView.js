@@ -71,6 +71,25 @@ class HomeMenuView extends Component{
                                 <span>账户列表</span>
                             </Link>
                         </Menu.Item>
+                        <Menu.Item key="/rebateDeal">
+                            <Link to="/rebateDeal">
+                                <Icon type="solution" />
+                                <span>返利处理</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/rebateSearch">
+                            <Link to="/rebateSearch">
+                                <Icon type="solution" />
+                                <span>返利查询</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="/deal">
+                            <Link to="/deal">
+                                <Icon type="file" />
+                                <span>成交</span>
+                            </Link>
+                        </Menu.Item>
+
                     </SubMenu>
                     <SubMenu key="sub4" title={<span><Icon type="profile" /><span>商家管理</span></span>}>
                         <Menu.Item key="/merchantAudit">

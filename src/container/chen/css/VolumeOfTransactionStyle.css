@@ -1,0 +1,23 @@
+.bargin_summarize{
+    width: 1000px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+}
+.bargin_summarize li h3{
+    font-size: 14px;
+    color: #aaaaaa;
+}
+.bargin_summarize li p span{
+    font-size: 22px;
+    color: #262626;
+}
+.bargin_summarize li .tatal_money{
+    font-size: 22px;
+    color: #1690ff;
+}
+.bargin_summarize li .unit{
+    font-size: 14px;
+    color: #999999;
+}
