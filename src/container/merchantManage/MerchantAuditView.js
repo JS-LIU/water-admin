@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
 import {observer,inject} from 'mobx-react';
-import { Table, Pagination , Button , Radio , Input , Select , List , TimePicker ,Slider } from 'antd';
+import { Table, Pagination , Button , Radio , Input , Select , List , TimePicker ,Slider , Form , Row, Col,AutoComplete } from 'antd';
 import moment from 'moment';
 const Search = Input.Search;
 const Option = Select.Option;
 import Avatar from '../Avatar';
+const FormItem = Form.Item;
 
 import {data,actions} from '../../store/merchant/merchantAuditInterface';
 import merchantAuditStyle from './css/merchantAudit.css';
@@ -96,7 +97,7 @@ class MerchantAuditListQueryView extends Component{
                     <div>
                         <Button type="primary" onClick={this.addMerchant.bind(this)} >+添加店铺</Button>
                     </div>
-            </div>
+                </div>
                 <Radio.Group value={queryType} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
                     <Radio.Button value={0}>待审核</Radio.Button>
                     <Radio.Button value={1}>未通过</Radio.Button>
@@ -114,73 +115,73 @@ class MerchantAuditListQueryView extends Component{
     render(){
         const columns = [
             {
-            title:'申请时间',
-            dataIndex:"applyTime",
-            key:"applyTime",
-            width:200
-        },{
-            title:'店铺名称',
-            dataIndex:"shopName",
-            key:"shopName",
-            width:200
-        },{
-            title:'店铺属性',
-            dataIndex:"merchantType",
-            key:"merchantType",
-            width:200
-        },{
-            title:'所在地区',
-            dataIndex:"district",
-            key:"district",
-            width:200
-        },{
-            title:'详细地址',
-            dataIndex:"addressDetail",
-            key:"addressDetail",
-            width:300
-        },{
-            title:'客服电话',
-            dataIndex:"serviceTel",
-            key:"serviceTel",
-            width:200
-        },{
-            title:'营业执照',
-            dataIndex:"licenseImageUrl",
-            key:"licenseImageUrl",
-            width:200
-        },{
-            title:'店长姓名',
-            dataIndex:"managerName",
-            key:"managerName",
-            width:200
-        },{
-            title:'联系人电话',
-            dataIndex:"managerTel",
-            key:"managerTel",
-            width:200
-        },{
-            title:'手持身份证照片',
-            dataIndex:"managerImgUrl",
-            key:"managerImgUrl",
-            width:200,
-            render:(text,record)=>(<img src={record.managerImgUrl} />)
-        },{
-            title: '审核状态',
-            dataIndex:"auditStatus",
-            key: 'auditStatus',
-            width: 100,
-            render: (text,record) =>{
-                return(<span>{record.auditStatus.title}</span>)
+                title:'申请时间',
+                dataIndex:"applyTime",
+                key:"applyTime",
+                width:200
+            },{
+                title:'店铺名称',
+                dataIndex:"shopName",
+                key:"shopName",
+                width:200
+            },{
+                title:'店铺属性',
+                dataIndex:"merchantType",
+                key:"merchantType",
+                width:200
+            },{
+                title:'所在地区',
+                dataIndex:"district",
+                key:"district",
+                width:200
+            },{
+                title:'详细地址',
+                dataIndex:"addressDetail",
+                key:"addressDetail",
+                width:300
+            },{
+                title:'客服电话',
+                dataIndex:"serviceTel",
+                key:"serviceTel",
+                width:200
+            },{
+                title:'营业执照',
+                dataIndex:"licenseImageUrl",
+                key:"licenseImageUrl",
+                width:200
+            },{
+                title:'店长姓名',
+                dataIndex:"managerName",
+                key:"managerName",
+                width:200
+            },{
+                title:'联系人电话',
+                dataIndex:"managerTel",
+                key:"managerTel",
+                width:200
+            },{
+                title:'手持身份证照片',
+                dataIndex:"managerImgUrl",
+                key:"managerImgUrl",
+                width:200,
+                render:(text,record)=>(<img src={record.managerImgUrl} />)
+            },{
+                title: '审核状态',
+                dataIndex:"auditStatus",
+                key: 'auditStatus',
+                width: 100,
+                render: (text,record) =>{
+                    return(<span>{record.auditStatus.title}</span>)
+                }
+            },{
+                title: '操作',
+                dataIndex:"operate",
+                key: 'operate',
+                width: 100,
+                render: (text,record) =>{
+                    return(<a href="javascript:;">{record.operate.operate}</a>)
+                }
             }
-        },{
-            title: '操作',
-            dataIndex:"operate",
-            key: 'operate',
-            width: 100,
-            render: (text,record) =>{
-                return(<a href="javascript:;">{record.operate.operate}</a>)
-            }
-        }
         ];
         const dataSource = [];
         for(let i = 0;i < data.list.length;i++){
@@ -277,58 +278,93 @@ class MerchantAuditListQueryView extends Component{
 
 // 添加店铺
 @observer class AddMerchantAuditView extends Component{
-    createMerchant(){
-        actions.createMerchant();
-    }
     render(){
         return (
             <div className='add_order'>
                 <div className='order_detail_header'>添加店铺</div>
-                <div className="add_detail_section_left" id='add_detail_section_left'>
-                    <ul>
-                        <li>店铺名称：<Input onBlur={e => actions.setShopName(e.target.value)} placeholder="请填写店铺名称" /></li>
-                        {/*<li>商家编号：<Input onBlur={this.inputShopAli} placeholder='请输入商家编号'/></li>*/}
-                        <li>店铺头像：
-                            <Avatar name={"file"} afterAction={actions.setShopHeaderImg}/>
-                        </li>
-                        <li>店铺图片：
-                            <Avatar name={"file"} afterAction={actions.setShopImg}/>
-                        </li>
-                        <li>店铺属性：
-                            <Select defaultValue="unSelect" style={{ width: 200 }} onChange={value => {actions.setMerchantType(value)}}>
-                                <Option value="unSelect">选择店铺类型</Option>
-                                <Option value="personal">个人店铺</Option>
-                                <Option value="corporate">公司店铺</Option>
-                            </Select>
-                        </li>
-                        <li>联系电话：<Input onBlur={e => actions.setServiceTel(e.target.value)} placeholder='请输入联系电话'/></li>
-                        <li>所在地区：
-                            <Input onChange={e => actions.inputMappingAddress(e.target.value)} value={data.mappingAddress} placeholder='搜索地址'/>
-                            <DistrictList />
-                        </li>
-                        <li>详细地址：<Input onChange={e => actions.setAppendingAddress(e.target.value)} value={data.appendingAddress} placeholder='请输入详细地址'/></li>
-                        <li>配送时间：
-                            <TimePicker defaultValue={moment('09:00:00', 'HH:mm:ss')} onChange={(time,timeString) => {actions.setStartTime(timeString)}}/>
-                            <TimePicker defaultValue={moment('17:00:00', 'HH:mm:ss')} onChange={(time,timeString) => {actions.setEndTime(timeString)}}/>
-                        </li>
-                        <li>配送范围：
-                            <Slider range step={1} defaultValue={[0, 10]} max={10} onAfterChange={value => actions.setDeliveryRange(value)}/>
-                        </li>
-                        <li>快递费用：<Input onBlur={e => actions.setDeliveryMoney(e.target.value)} placeholder='请输入快递费用'/></li>
-                        <li>商家介绍：<Input onBlur={e => actions.setIntroduce(e.target.value)} placeholder='请填写商家介绍，有助于提高销售业绩'/></li>
-                        <li>分配账号：<Input onBlur={e => actions.setManagerTel(e.target.value)} placeholder='申请人手机号'/></li>
-                        <li>默认密码：666666</li>
-                    </ul>
-                    <div className='add_detail_section_bottom'>
-                        <span>
-                            <Button type="primary" className='mr10' onClick={this.createMerchant}>确认添加</Button>
-                            <Button type="primary" >取消</Button>
-                        </span>
-                        <span>
+                <Form className="add_detail_section_left" id='add_detail_section_left'>
+                    <Row gutter={16}>
+                        <Col span={6}>
+                            <FormItem label={"店铺名称"}>
+                                <Input onBlur={e => actions.setShopName(e.target.value)} placeholder="请填写店铺名称" />
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"店铺头像"}>
+                                <Avatar name={"file"} afterAction={actions.setShopHeaderImg}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"店铺图片"}>
+                                <Avatar name={"file"} afterAction={actions.setShopImg}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"店铺属性"}>
+                                <Select defaultValue="unSelect" style={{ width: 200 }} onChange={value => {actions.setMerchantType(value)}}>
+                                    <Option value="unSelect">选择店铺类型</Option>
+                                    <Option value="personal">个人店铺</Option>
+                                    <Option value="corporate">公司店铺</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"联系电话"}>
+                                <Input onBlur={e => actions.setServiceTel(e.target.value)} placeholder='请输入联系电话'/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"所在地区"}>
+                                <Input onChange={e => actions.inputMappingAddress(e.target.value)} value={data.mappingAddress} placeholder='搜索地址'/>
+                                <DistrictList />
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"详细地址"}>
+                                <Input onChange={e => actions.setAppendingAddress(e.target.value)} value={data.appendingAddress} placeholder='请输入详细地址'/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"配送时间"}>
+                                <TimePicker defaultValue={moment('09:00:00', 'HH:mm:ss')} onChange={(time,timeString) => {actions.setStartTime(timeString)}}/>
+                                <TimePicker defaultValue={moment('17:00:00', 'HH:mm:ss')} onChange={(time,timeString) => {actions.setEndTime(timeString)}}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"配送范围"}>
+                                <Slider range step={1} defaultValue={[0, 10]} max={10} onAfterChange={value => actions.setDeliveryRange(value)}/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"快递费用"}>
+                                <Input onBlur={e => actions.setDeliveryMoney(e.target.value)} placeholder='请输入快递费用'/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"商家介绍"}>
+                                <Input onBlur={e => actions.setIntroduce(e.target.value)} placeholder='请填写商家介绍，有助于提高销售业绩'/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"分配账号"}>
+                                <Input onBlur={e => actions.setManagerTel(e.target.value)} placeholder='申请人手机号'/>
+                            </FormItem>
+                        </Col>
+                        <Col span={6}>
+                            <FormItem label={"默认密码"}>
+                                666666
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={24} style={{ textAlign: 'right' }}>
+                            <Button type="primary" className='mr10' onClick={() => actions.createMerchant()}>确认添加</Button>
+                        </Col>
+                        <Col span={24} style={{ textAlign: 'right' }}>
                             操作人：张潇潇
-                        </span>
-                    </div>
-                </div>
+                        </Col>
+                    </Row>
+                </Form>
             </div>
         )
     }

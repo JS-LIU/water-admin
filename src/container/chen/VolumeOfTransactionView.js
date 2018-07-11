@@ -56,7 +56,7 @@ import volumeOfTransaction from './css/VolumeOfTransactionStyle.css'
     state = { orderSrc: "merchant_src"};
     onChange(e){
         this.setState({ orderSrc: e.target.value });
-        actions.selectQueryInfo(e.target.value);
+        actions.setOrderSrc(e.target.value);
         actions.queryListByQueryInfo();
     }
     render(){
