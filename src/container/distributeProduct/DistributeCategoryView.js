@@ -26,8 +26,6 @@ import {data,actions} from '../../store/product/distuibuteCategoryListInterface'
                 key:"operate",
                 width:300,
                 render:(text,record)=>{
-                    console.log('text::',text);
-                    console.log('record::',record);
                     return(
                         <span>
                           <a href="javascript:void(0);"

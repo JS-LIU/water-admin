@@ -1,0 +1,43 @@
+.manufacture_cost_box{
+    padding:20px;
+    display: flex;
+}
+.manufacture_cost_box div{
+    margin-right:20px;
+}
+.manufacture_cost_add{
+    width:100%;
+}
+.manufacture_cost_add_head{
+    width: 100%;
+    padding:0 20px;
+    height:40px;
+    line-height: 40px;
+    font-size:18px;
+    color:#fff;
+    background:dodgerblue;
+}
+.manufacture_cost_add_list{
+    width:100%;
+    display:flex;
+    border:1px solid #eee;
+}
+.manufacture_left{
+    flex:3;
+    border-right:1px solid #eee;
+}
+.manufacture_right{
+    flex:2;
+}
+.manufacture_cost_item{
+    padding:20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.manufacture_cost_item>span{
+    flex-basis: 50%;
+    padding:10px 0;
+}
+.manufacture_cost_item span Input{
+    width:200px;
+}
