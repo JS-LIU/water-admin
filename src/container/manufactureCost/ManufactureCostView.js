@@ -10,21 +10,38 @@ import {data,actions} from '../../store/finance/manufactureCostInterface';
 import manufactureCostStyle from './manufactureCost.css';
 
 @observer class ManufactureCostView extends Component{
+    state = {
+        isShow : false
+    };
     componentWillMount(){
         actions.onLoad();
-    }
+    };
+    changeShow(newState){
+        this.setState(newState)
+    };
     render(){
         return (
             <div>
-                <ManufactureCostSearchView />
+                <ManufactureCostSearchView isShow={this.state.isShow} onChange={this.changeShow.bind(this)} />
                 <ManufactureCostListView />
-                <ManufactureCostAddView />
+                {
+                    this.state.isShow?<ManufactureCostAddView isShow={this.state.isShow} onChange={this.changeShow.bind(this)} />:""
+                }
             </div>
         )
     }
 }
 
 @observer class ManufactureCostSearchView extends Component{
+    constructor(props){
+        super(props);
+    };
+    addManufacture(){
+        actions.addManufacture();
+        this.props.onChange({
+            isShow:!this.props.isShow
+        })
+    };
     render(){
         let shopNodes = data.waterStoreList.map((shop,index)=>{
             return (
@@ -41,7 +58,7 @@ import manufactureCostStyle from './manufactureCost.css';
                     </Select>
                 </div>
                 <div>
-                    <Button type='primary' onClick={() => actions.addManufacture()} >+进水支出</Button>
+                    <Button type='primary' onClick={this.addManufacture.bind(this)} >+进水支出</Button>
                 </div>
                 <div>
                     <Button type='primary'>查询</Button>
@@ -158,6 +175,15 @@ import manufactureCostStyle from './manufactureCost.css';
 
 // 添加进水支出
 @observer class ManufactureCostAddView extends Component{
+    constructor(props){
+        super(props);
+    };
+    createManufactureCost(){
+        actions.createManufactureCost;
+        this.props.onChange({
+            isShow:false
+        })
+    };
     render(){
         let productNodes = data.productList.map((product,index)=>{
             return (
@@ -216,7 +242,7 @@ import manufactureCostStyle from './manufactureCost.css';
                     </Row>
                     <Row>
                         <Col span={24} style={{ textAlign: 'right' }}>
-                            <Button type="primary" onClick={actions.createManufactureCost}>确认添加</Button>
+                            <Button type="primary" onClick={this.createManufactureCost.bind(this)}>确认添加</Button>
                         </Col>
                     </Row>
                 </Form>

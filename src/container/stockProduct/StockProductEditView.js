@@ -10,15 +10,23 @@ import {observer,inject} from 'mobx-react';
 import {data,actions} from '../../store/product/stockEditProductListInterface';
 import formStyle from './css/formStyle.css';
 @observer class StockProductEditView extends Component{
+    state = {
+        isShow : false
+    };
     componentWillMount(){
         actions.onLoad();
-    }
+    };
+    changeShow(newState){
+        this.setState(newState)
+    };
     render(){
         return(
             <div>
-                <StockProductEditListQueryView/>
+                <StockProductEditListQueryView isShow={this.state.isShow} onChange={this.changeShow.bind(this)}  />
                 <StockProductEditListView/>
-                <StockEditProductListAddDetailView/>
+                {
+                    this.state.isShow?<StockEditProductListAddDetailView isShow={this.state.isShow} onChange={this.changeShow.bind(this)}/>:""
+                }
             </div>
         )
     }
@@ -26,6 +34,14 @@ import formStyle from './css/formStyle.css';
 
 // 搜索
 class StockProductEditListQueryView extends Component{
+    constructor(props){
+        super(props);
+    };
+    addProduct(){
+        this.props.onChange({
+            isShow:!this.props.isShow
+        })
+    };
     render(){
         return (
             <div>
@@ -64,7 +80,7 @@ class StockProductEditListQueryView extends Component{
                         />
                     </div>
                     <div>
-                        <Button type="primary">+添加商品</Button>
+                        <Button type="primary" onClick={this.addProduct.bind(this)}>+添加商品</Button>
                     </div>
                 </div>
             </div>
@@ -194,6 +210,15 @@ class StockProductEditListQueryView extends Component{
 
 // 添加商品
 @observer class StockEditProductListAddDetailView extends Component{
+    constructor(props){
+        super(props)
+    };
+    createProduct(){
+        actions.createProduct;
+        this.props.onChange({
+            isShow:false
+        })
+    };
     render(){
         let brandNodes = data.brandList.map((brand,index)=>{
             return (
@@ -289,7 +314,7 @@ class StockProductEditListQueryView extends Component{
                     </Row>
                     <Row>
                         <Col span={24} style={{ textAlign: 'right' }}>
-                            <Button type="primary" onClick={actions.createProduct}>创建商品</Button>
+                            <Button type="primary" onClick={this.createProduct.bind(this)}>创建商品</Button>
                         </Col>
                     </Row>
                 </Form>

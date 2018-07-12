@@ -10,15 +10,23 @@ import {observer,inject} from 'mobx-react';
 import {data,actions} from '../../store/product/distributeEditProductListInterface';
 
 @observer class DistributeEditProductView extends Component{
+    state={
+        isShow : false
+    };
     componentWillMount(){
         actions.onLoad();
-    }
+    };
+    changeShow(newState){
+        this.setState(newState)
+    };
     render(){
         return(
             <div>
-                <DistributeEditProductListQueryView/>
+                <DistributeEditProductListQueryView isShow={this.state.isShow} onChange={this.changeShow.bind(this)}/>
                 <DistributeEditProductListView/>
-                <DistributeEditProductListAddDetailView/>
+                {
+                    this.state.isShow?<DistributeEditProductListAddDetailView isShow={this.state.isShow} onChange={this.changeShow.bind(this)}/>:""
+                }
             </div>
         )
     }
@@ -26,6 +34,14 @@ import {data,actions} from '../../store/product/distributeEditProductListInterfa
 
 // 搜索
 class DistributeEditProductListQueryView extends Component{
+    constructor(props){
+        super(props)
+    };
+    addProduct(){
+        this.props.onChange({
+            isShow:!this.props.isShow
+        })
+    };
     render(){
         return (
             <div>
@@ -64,7 +80,7 @@ class DistributeEditProductListQueryView extends Component{
                         />
                     </div>
                     <div>
-                        <Button type="primary">+添加商品</Button>
+                        <Button type="primary" onClick={this.addProduct.bind(this)}>+添加商品</Button>
                     </div>
                 </div>
             </div>
@@ -192,6 +208,15 @@ class DistributeEditProductListQueryView extends Component{
     }
 }
 @observer class DistributeEditProductListAddDetailView extends Component{
+    constructor(props){
+        super(props);
+    };
+    createProduct(){
+        actions.createProduct;
+        this.props.onChange({
+            isShow:false
+        })
+    };
     render(){
         let brandNodes = data.brandList.map((brand,index)=>{
             return (
@@ -287,7 +312,7 @@ class DistributeEditProductListQueryView extends Component{
                     </Row>
                     <Row>
                         <Col span={24} style={{ textAlign: 'right' }}>
-                            <Button type="primary" onClick={actions.createProduct}>创建商品</Button>
+                            <Button type="primary" onClick={this.createProduct.bind(this)}>创建商品</Button>
                         </Col>
                     </Row>
                 </Form>

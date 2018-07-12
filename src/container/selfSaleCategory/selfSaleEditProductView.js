@@ -12,16 +12,22 @@ import {data,actions} from '../../store/product/selfSaleEditProductListInterface
 import formStyle from './css/formStyle.css';
 
 @observer class SelfSaleEditProductView extends Component{
+    state = {
+        isShow:false
+    };
     componentWillMount(){
         actions.onLoad();
-    }
+    };
+    changeShow(newState){
+        this.setState(newState);
+    };
     render(){
         return (
             <div>
-                <SelfSaleEditProductListQueryView/>
+                <SelfSaleEditProductListQueryView isShow={this.state.isShow} onChange={this.changeShow.bind(this)} />
                 <SelfSaleEditProductListView/>
                 {/*<SelfSaleEditProductListDetailView/>*/}
-                <SelfSaleEditProductListAddDetailView/>
+                {this.state.isShow?<SelfSaleEditProductListAddDetailView isShow={this.state.isShow} onChange={this.changeShow.bind(this)}/>:""}
             </div>
         )
     }
@@ -29,6 +35,15 @@ import formStyle from './css/formStyle.css';
 
 // 搜索
 class SelfSaleEditProductListQueryView extends Component{
+    constructor(props){
+        super(props)
+    };
+    addProduct(){
+        actions.addProduct;
+        this.props.onChange({
+            isShow:!this.props.isShow
+        })
+    };
     render(){
         return (
             <div>
@@ -56,7 +71,7 @@ class SelfSaleEditProductListQueryView extends Component{
                         />
                     </div>
                     <div>
-                        <Button type="primary" onClick={actions.addProduct}>+添加商品</Button>
+                        <Button type="primary" onClick={this.addProduct.bind(this)}>+添加商品</Button>
                     </div>
                 </div>
             </div>
@@ -186,6 +201,15 @@ class SelfSaleEditProductListQueryView extends Component{
 
 // 添加商品
 @observer class SelfSaleEditProductListAddDetailView extends Component{
+    constructor(props){
+        super(props)
+    };
+    createProduct(){
+        actions.createProduct;
+        this.props.onChange({
+            isShow:false
+        })
+    };
     render(){
         let brandNodes = data.brandList.map((brand,index)=>{
             return (
@@ -294,7 +318,7 @@ class SelfSaleEditProductListQueryView extends Component{
                     </Row>
                     <Row>
                         <Col span={24} style={{ textAlign: 'right' }}>
-                            <Button type="primary" onClick={actions.createProduct}>创建商品</Button>
+                            <Button type="primary" onClick={this.createProduct.bind(this)}>创建商品</Button>
                         </Col>
                     </Row>
                 </Form>
