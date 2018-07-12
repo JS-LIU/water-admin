@@ -24,10 +24,10 @@ import MerchantAuditView from './merchantManage/MerchantAuditView';
 import MerchantAuditQueryView from './merchantManage/MerchantListSearchView';
 import MerchantDetailView from './merchantManage/MerchantDetailView';
 //返利
-import RebateDealView from './rebate/RebateDealView';
-import RebateSearchView from './rebate/RebateSearchView';
+import RebateDealView from './finance/RebateDealView';
+import RebateSearchView from './finance/RebateSearchView';
 //成交
-import chen from './chen/VolumeOfTransactionView';
+import chen from './finance/VolumeOfTransactionView';
 // 支出
 import ExpenditureView from './finance/ExpenditureView';
 // 批发
