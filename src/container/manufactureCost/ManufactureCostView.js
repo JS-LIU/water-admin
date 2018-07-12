@@ -135,7 +135,12 @@ import manufactureCostStyle from './manufactureCost.css';
                 title:"收据存根",
                 dataIndex:"ticketUrl",
                 key:"ticketUrl",
-                width:100
+                width:100,
+                render:(text,record)=>{
+                    return (
+                        <img src={record.ticketUrl} />
+                    )
+                }
             },
             {
                 title:"备注",
