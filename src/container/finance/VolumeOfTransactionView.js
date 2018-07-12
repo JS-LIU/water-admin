@@ -89,14 +89,14 @@ import volumeOfTransaction from './css/VolumeOfTransactionStyle.css'
                     <li>
                         <h3>商家端成交</h3>
                         <p>
-                            <span>{parseInt(data.volumeOfTransactionData.merchantRmbTotal / 100)}</span>
+                            <span>{data.volumeOfTransactionData.merchantRmbTotal / 100}</span>
                             <span className="unit">元</span>
                         </p>
                     </li>
                     <li>
                         <h3>用户端成交</h3>
                         <p>
-                            <span>{parseInt(data.volumeOfTransactionData.clientRmbTotal / 100)}</span>
+                            <span>{data.volumeOfTransactionData.clientRmbTotal / 100}</span>
                             <span className="unit">元</span>
                         </p>
                     </li>

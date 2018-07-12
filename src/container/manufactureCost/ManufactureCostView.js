@@ -176,7 +176,7 @@ import manufactureCostStyle from './manufactureCost.css';
                     <Row gutter={16}>
                         <Col span={6}>
                             <FormItem label={"选择商品"}>
-                                <Select defaultValue="def" onChange={value => actions.selectProduct(value)}>
+                                <Select value={data.productId || "def"} onChange={value => actions.selectProduct(value)}>
                                     <Option value="def">-选择商品-</Option>
                                     {productNodes}
                                 </Select>
@@ -184,12 +184,12 @@ import manufactureCostStyle from './manufactureCost.css';
                         </Col>
                         <Col span={6}>
                             <FormItem label={"单价"}>
-                                <Input placeholder="输入金额" onChange={e => {actions.setPerProductPrice(e.target.value);actions.calcPayRmb()}}/>
+                                <Input placeholder="输入金额" onChange={e => {actions.setPerProductPrice(e.target.value);actions.calcPayRmb()}} value={data.unitPrice}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>
                             <FormItem label={"数量"}>
-                                <Input placeholder="输入数量" onChange={e => {actions.setTotalCount(e.target.value);actions.calcPayRmb()}}/>
+                                <Input placeholder="输入数量" onChange={e => {actions.setTotalCount(e.target.value);actions.calcPayRmb()}} value={data.count}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>
@@ -199,32 +199,24 @@ import manufactureCostStyle from './manufactureCost.css';
                         </Col>
                         <Col span={6}>
                             <FormItem label={"备注"}>
-                                <Input onChange={e => actions.setMark(e.target.value)}/>
-                            </FormItem>
-                        </Col>
-                        <Col span={6}>
-                            <FormItem label={"选择水厂"}>
-                                <Select defaultValue={'def'} onChange={value => actions.selectWaterStore(value)}>
-                                    <Option value='def'>-请选择水厂-</Option>
-                                    {shopNodes}
-                                </Select>
+                                <Input onChange={e => actions.setMark(e.target.value)} value={data.remark}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>
                             <FormItem label={"支付金额"}>
-                                <Input onChange={e => actions.setPayRmb(e.target.value)}/>
+                                <Input onChange={e => actions.setPayRmb(e.target.value)} value={data.payRmb}/>
                             </FormItem>
                         </Col>
 
                         <Col span={6}>
                             <FormItem label={"收据存根"}>
-                                <Avatar name={"file"} afterAction={actions.setTicketUrl}/>
+                                <Avatar name={"file"} afterAction={actions.setTicketUrl} value={data.ticketUrl}/>
                             </FormItem>
                         </Col>
                     </Row>
                     <Row>
                         <Col span={24} style={{ textAlign: 'right' }}>
-                            <Button type="primary" onClick={actions.createProduct}>确认添加</Button>
+                            <Button type="primary" onClick={actions.createManufactureCost}>确认添加</Button>
                         </Col>
                     </Row>
                 </Form>

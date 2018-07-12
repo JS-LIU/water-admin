@@ -44,9 +44,9 @@ class ManufactureCostList extends AdminList{
         let postInfo = {
             count:self.activeItem.count,
             payRmb:self.activeItem.payRmb,
-            productId:self.activeItem.productId,
+            productId:self.activeItem.product.productId,
             remake:self.activeItem.remark,
-            shopId:self.activeItem.shopId,
+            shopId:10542,
             ticketUrl:self.activeItem.ticketUrl,
             unitPrice:self.activeItem.unitPrice,
             id:self.activeItem.id

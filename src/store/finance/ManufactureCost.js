@@ -26,7 +26,7 @@ class ManufactureCost {
         }
     }
     //  设置水厂
-    setWaterStore(waterStore){
+    setWaterStore(waterStore = {}){
         this.waterStore = waterStore;
     }
     //  设置商品

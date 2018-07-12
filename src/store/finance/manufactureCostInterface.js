@@ -8,7 +8,13 @@ let manufactureCostListData = {
     @observable pagination:{},
     @observable productList:[],
     @observable waterStoreList:[],
-    @observable totalRmb:""
+    @observable totalRmb:0,
+    @observable productId:null,
+    @observable unitPrice:"",
+    @observable remark:"",
+    @observable payRmb:"",
+    @observable ticketUrl:"",
+    @observable count:""
 
 };
 function manufactureCostListActions(){
@@ -27,10 +33,20 @@ function manufactureCostListActions(){
             manufactureCostListData.productList = list;
         });
     };
-
+    let _updateManufactureCost = function(){
+        manufactureCostListData.payRmb  = manufactureCostList.activeItem.payRmb;
+        manufactureCostListData.productId  = null;
+        manufactureCostListData.productType = manufactureCostList.activeItem.productType;
+        manufactureCostListData.ticketUrl  = manufactureCostList.activeItem.ticketUrl;
+        manufactureCostListData.unitPrice  = manufactureCostList.activeItem.unitPrice;
+        manufactureCostListData.remark = manufactureCostList.activeItem.remark;
+        manufactureCostListData.count = manufactureCostList.activeItem.count;
+        manufactureCostListData.totalRmb = 0;
+    };
 
     let addManufacture = function(){
         manufactureCostList.newManufactureCost();
+        _updateManufactureCost();
     };
     let selectWaterStore = function(shopId){
         let waterStore = manufactureCostList.waterStoreList.findItemByItemId(manufactureCostListData.waterStoreList,shopId,"shopId");
@@ -40,19 +56,24 @@ function manufactureCostListActions(){
     let selectProduct = function(productId){
         let product = manufactureCostList.stockProductList.findItemByItemId(manufactureCostListData.productList,productId,"productId");
         manufactureCostList.stockProductList.setActiveItem(product);
-        manufactureCostList.activeItem.setProduct(product)
+        manufactureCostList.activeItem.setProduct(product);
+        manufactureCostListData.productId = product.productId;
     };
     let setPerProductPrice = function(price){
         manufactureCostList.activeItem.setPerProductPrice(price);
+        manufactureCostListData.unitPrice = price;
     };
     let setTotalCount = function(count){
         manufactureCostList.activeItem.setTotalCount(count);
+        manufactureCostListData.count = count;
     };
     let setMark = function(mark){
         manufactureCostList.activeItem.setMark(mark);
+        manufactureCostListData.mark = mark;
     };
     let setPayRmb = function(payRmb){
-        manufactureCostList.activeItem.setMark(payRmb);
+        manufactureCostList.activeItem.setPayRmb(payRmb);
+        manufactureCostListData.payRmb = payRmb;
     };
     let calcPayRmb = function(){
         manufactureCostListData.totalRmb = manufactureCostList.activeItem.getTotalPayRmb();
