@@ -27,7 +27,7 @@ import MerchantDetailView from './merchantManage/MerchantDetailView';
 import RebateDealView from './finance/RebateDealView';
 import RebateSearchView from './finance/RebateSearchView';
 //成交
-import chen from './finance/VolumeOfTransactionView';
+import VolumeOfTransactionView from './finance/VolumeOfTransactionView';
 // 支出
 import ExpenditureView from './finance/ExpenditureView';
 // 批发
@@ -112,7 +112,7 @@ class HomeView extends Component{
                                 <Route path="/openShop" component={OpenShopView} />
                                 <Route path="/shopList" component={ShopListView} />
 
-                                <Route path="/deal" component={chen}/>
+                                <Route path="/deal" component={VolumeOfTransactionView}/>
                                 {/*<Route path="/auditMerchantList" component={AuditMerchantList}/>*/}
                             </Switch>
                         </div>
