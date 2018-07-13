@@ -21,6 +21,9 @@ let editProductData = {
     @observable stockStatus:"",
     @observable productActivity:"",
     @observable serve:"",
+    @observable brand:null,
+    @observable category:null,
+    @observable described:null,
 };
 function editProductActions(){
     let _getList = function(){
@@ -63,6 +66,9 @@ function editProductActions(){
         editProductData.stockStatus = editProductList.activeItem.stockStatus;
         editProductData.productActivity = editProductList.activeItem.promotionActivity;
         editProductData.serve = editProductList.activeItem.serve;
+        editProductData.productName = editProductList.activeItem.brand;
+        editProductData.category = editProductList.activeItem.category;
+        editProductData.described = editProductList.activeItem.described;
         console.log('after:',editProductData.productImg);
     };
 
@@ -85,12 +91,15 @@ function editProductActions(){
     };
     let setProductDescribe = function(name){
         editProductList.activeItem.setProductDescribe(name);
+        editProductData.described = name;
     };
     let setBrand = function(id){
         editProductList.activeItem.setBrand(id);
+        editProductData.activeItem.brand = id;
     };
     let setCategory = function(id){
         editProductList.activeItem.setCategory(id);
+        editProductData.volume = volume;
     };
     let setVolume = function(volume){
         editProductList.activeItem.setVolume(volume);
