@@ -13,8 +13,7 @@ import merchantAuditDataStyle from './css/merchantAuditData.css';
 
 @observer class MerchantAuditView extends Component{
     state = {
-        isShow:true,
-        isShowArea:true
+        isShow:true
     };
     componentWillMount(){
         actions.onLoad();
@@ -24,18 +23,13 @@ import merchantAuditDataStyle from './css/merchantAuditData.css';
             isShow:newState.isShow
         })
     }
-    getNewShowArea(newState){
-        this.setState({
-            isShowArea:newState.isShow
-        })
-    }
     render(){
         return (
             <div>
                 <MerchantAuditListQueryView isShow={this.state.isShow} onChange={this.getNewShow.bind(this)} />
                 <MerchantAuditListView isShow={this.state.isShow} onChange={this.getNewShow.bind(this)} />
                 {
-                    this.state.isShow?(<MerchantAuditDatailView />):(<AddMerchantAuditView isShowArea={this.state.isShowArea} onChange={this.getNewShowArea.bind(this)}/>)
+                    this.state.isShow?(<MerchantAuditDatailView />):(<AddMerchantAuditView/>)
                 }
             </div>
         )
@@ -286,6 +280,9 @@ class MerchantAuditListQueryView extends Component{
 @observer class AddMerchantAuditView extends Component{
     constructor(props){
         super(props);
+        this.state = ({
+            isShowArea:false
+        })
     };
     selectAddress(location){
         return ()=>{
@@ -335,15 +332,20 @@ class MerchantAuditListQueryView extends Component{
                                        }}
                                        value={data.mappingAddress}
                                        placeholder='搜索地址'
+                                       onFocus={()=>{
+                                           this.setState({
+                                               isShowArea:true
+                                           })
+                                       }}
                                 />
                                 {
-                                    this.props.isShowArea?<List
+                                    this.state.isShowArea?<List
                                         size="small"
                                         bordered
                                         dataSource={data.districtList}
                                         renderItem={item => (<List.Item onClick={()=>{
                                             this.selectAddress(item);
-                                            this.props.onChange({
+                                            this.setState({
                                                 isShowArea:false
                                             })
                                         }}>{item.fullAddress}</List.Item>)}
