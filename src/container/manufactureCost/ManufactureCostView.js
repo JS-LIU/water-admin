@@ -184,7 +184,7 @@ import manufactureCostStyle from './manufactureCost.css';
         super(props);
     };
     createManufactureCost(){
-        actions.createManufactureCost;
+        actions.createManufactureCost();
         this.props.onChange({
             isShow:false
         })

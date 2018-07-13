@@ -39,7 +39,7 @@ class SelfSaleEditProductListQueryView extends Component{
         super(props)
     };
     addProduct(){
-        actions.addProduct;
+        actions.addProduct();
         this.props.onChange({
             isShow:!this.props.isShow
         })

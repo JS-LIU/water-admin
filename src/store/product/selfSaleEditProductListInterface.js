@@ -62,7 +62,6 @@ function editProductActions(){
         editProductData.shopId = editProductList.activeItem.shopId;
         editProductData.productName = editProductList.activeItem.productName;
         editProductData.volume = editProductList.activeItem.volume;
-        editProductData.productImg = editProductList.activeItem.productImg;
         editProductData.price = editProductList.activeItem.price;
         editProductData.originalPrice = editProductList.activeItem.originalPrice;
         editProductData.costPrice = editProductList.activeItem.costPrice;
@@ -70,7 +69,9 @@ function editProductActions(){
         editProductData.stockStatus = editProductList.activeItem.stockStatus;
         editProductData.productActivity = editProductList.activeItem.promotionActivity;
         editProductData.serve = editProductList.activeItem.serve;
-        console.log('after:',editProductData.productImg);
+        editProductData.productImg= editProductList.activeItem.productImg;
+        editProductData.headerImg = editProductList.activeItem.headerImg;
+        editProductData.detailImg = editProductList.activeItem.detailImg;
     };
 
     let editProduct = function(productId){
@@ -78,7 +79,6 @@ function editProductActions(){
         //  克隆新对象 保持原对象不变
         // let cloneProduct = Object.assign(new Product({}),product);
         let cloneProduct = product.clone();
-        console.log('before:',editProductData.productImg);
         editProductList.setActiveItem(cloneProduct);
 
         _updateActiveProduct();

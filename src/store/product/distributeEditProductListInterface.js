@@ -55,7 +55,9 @@ function editProductActions(){
         editProductData.shopId = editProductList.activeItem.shopId;
         editProductData.productName = editProductList.activeItem.productName;
         editProductData.volume = editProductList.activeItem.volume;
-        editProductData.productImg = editProductList.activeItem.productImg;
+        editProductData.productImg= editProductList.activeItem.productImg;
+        editProductData.headerImg = editProductList.activeItem.headerImg;
+        editProductData.detailImg = editProductList.activeItem.detailImg;
         editProductData.price = editProductList.activeItem.price;
         editProductData.originalPrice = editProductList.activeItem.originalPrice;
         editProductData.costPrice = editProductList.activeItem.costPrice;

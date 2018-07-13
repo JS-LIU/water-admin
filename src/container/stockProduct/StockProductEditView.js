@@ -38,6 +38,7 @@ class StockProductEditListQueryView extends Component{
         super(props);
     };
     addProduct(){
+        actions.addProduct();
         this.props.onChange({
             isShow:!this.props.isShow
         })
