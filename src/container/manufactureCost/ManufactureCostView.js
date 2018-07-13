@@ -39,7 +39,7 @@ import manufactureCostStyle from './manufactureCost.css';
     addManufacture(){
         actions.addManufacture();
         this.props.onChange({
-            isShow:!this.props.isShow
+            isShow:true
         })
     };
     render(){

@@ -6,9 +6,12 @@ const Option = Select.Option;
 import {observer,inject}from "mobx-react";
 
 import expenditureStyle from './expenditure.css';
-import {actions} from "../../store/order/merchantOrderSearchInterface";
+import {data,actions} from "../../store/finance/manufactureCostSearchInterface";
 
 @observer class ExpenditureView extends Component{
+    componentWillMount(){
+        actions.onLoad();
+    };
     render(){
         return (
             <div>
@@ -70,53 +73,48 @@ import {actions} from "../../store/order/merchantOrderSearchInterface";
         const columns = [
             {
                 title:"生产时间",
-                dataIndex:"",
-                key:"",
+                dataIndex:"createTime",
+                key:"createTime",
                 width:200
             },{
                 title:"交易单号",
-                dataIndex:"",
-                key:"",
+                dataIndex:"payNumber",
+                key:"payNumber",
                 width:200
             },{
                 title:"水厂",
-                dataIndex:"",
-                key:"",
+                dataIndex:"shopName",
+                key:"shopName",
                 width:200
             },{
-                title:"商品",
-                dataIndex:"",
-                key:"",
+                title:"商品规格",
+                dataIndex:"productName",
+                key:"productName",
                 width:200
-            },{
-                title:"规格",
-                dataIndex:"",
-                key:"",
-                width:100
             },{
                 title:"分类",
-                dataIndex:"",
-                key:"",
+                dataIndex:"productType",
+                key:"productType",
                 width:200
             },{
                 title:"成本(元/桶)",
-                dataIndex:"",
-                key:"",
+                dataIndex:"unitPrice",
+                key:"unitPrice",
                 width:200
             },{
                 title:"数量(桶)",
-                dataIndex:"",
-                key:"",
+                dataIndex:"count",
+                key:"count",
                 width:100
             },{
                 title:"金额(元)",
-                dataIndex:"",
-                key:"",
+                dataIndex:"payRmb",
+                key:"payRmb",
                 width:100
             },{
                 title:"收据存根",
-                dataIndex:"",
-                key:"",
+                dataIndex:"ticketUrl",
+                key:"ticketUrl",
                 width:200
             },{
                 title:"备注",
@@ -130,7 +128,15 @@ import {actions} from "../../store/order/merchantOrderSearchInterface";
             let item = dataSource[i];
             dataSource.push({
                 key:i,
-
+                createTime:item.createTime,
+                payNumber:item.payNumber,
+                shopName:item.shopName,
+                productName:item.productName,
+                productType:item.productType,
+                unitPrice:item.unitPrice,
+                count:item.count,
+                payRmb:item.payRmb,
+                ticketUrl:item.ticketUrl
             })
         }
         return (

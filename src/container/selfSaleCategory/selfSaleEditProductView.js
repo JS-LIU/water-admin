@@ -25,7 +25,7 @@ import formStyle from './css/formStyle.css';
         return (
             <div>
                 <SelfSaleEditProductListQueryView isShow={this.state.isShow} onChange={this.changeShow.bind(this)} />
-                <SelfSaleEditProductListView/>
+                <SelfSaleEditProductListView isShow={this.state.isShow} onChange={this.changeShow.bind(this)}/>
                 {/*<SelfSaleEditProductListDetailView/>*/}
                 {this.state.isShow?<SelfSaleEditProductListAddDetailView isShow={this.state.isShow} onChange={this.changeShow.bind(this)}/>:""}
             </div>
@@ -41,7 +41,7 @@ class SelfSaleEditProductListQueryView extends Component{
     addProduct(){
         actions.addProduct();
         this.props.onChange({
-            isShow:!this.props.isShow
+            isShow:true
         })
     };
     render(){
@@ -81,6 +81,9 @@ class SelfSaleEditProductListQueryView extends Component{
 
 // list
 @observer class SelfSaleEditProductListView extends Component{
+    constructor(props){
+        super(props);
+    };
     render(){
         const columns = [
             {
@@ -149,6 +152,9 @@ class SelfSaleEditProductListQueryView extends Component{
                         <span>
                           <a href="javascript:void(0);" onClick={() => {
                               actions.editProduct(record.productId);
+                              this.props.onChange({
+                                  isShow:true
+                              });
                           }}>编辑</a>
                           <Divider type="vertical" />
                           <a href="javascript:void(0);"
