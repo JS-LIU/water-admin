@@ -11,7 +11,9 @@ let auditMerchantData = {
     @observable pagination:{},
     @observable districtList:[],
     @observable appendingAddress:"",
-    @observable mappingAddress:""
+    @observable mappingAddress:"",
+    @observable shopHeaderImg:null,
+    @observable shopImg:null,
 };
 function auditMerchantListAction(){
     let resetInitShopType = function(){
@@ -84,9 +86,11 @@ function auditMerchantListAction(){
     };
     let setShopImg = function(url){
         merchantListContainer.activeItem.setShopImg([url]);
+        auditMerchantData.shopImg = url;
     };
     let setShopHeaderImg = function(url){
         merchantListContainer.activeItem.setShopHeaderImg(url);
+        auditMerchantData.shopHeaderImg = url;
     };
     let setStartTime = function(time){
         merchantListContainer.activeItem.setStartTime(time);
@@ -99,7 +103,6 @@ function auditMerchantListAction(){
     };
     let setAppendingAddress = function(appendingAddress){
         merchantListContainer.activeItem.setAppendingAddress(appendingAddress);
-        console.log(appendingAddress);
         auditMerchantData.appendingAddress = appendingAddress
     };
     let setDeliveryMoney = function(money){
@@ -121,7 +124,6 @@ function auditMerchantListAction(){
         auditMerchantData.mappingAddress = address;
         merchantListContainer.activeItem.inputMappingAddress(address).then((list)=>{
             auditMerchantData.districtList = list;
-            console.log(list);
         });
     };
     let selectAddress = function(location){

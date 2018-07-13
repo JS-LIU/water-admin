@@ -291,12 +291,12 @@ class MerchantAuditListQueryView extends Component{
                         </Col>
                         <Col span={6}>
                             <FormItem label={"店铺头像"}>
-                                <Avatar name={"file"} afterAction={actions.setShopHeaderImg}/>
+                                <Avatar name={"file"} afterAction={actions.setShopHeaderImg} imageUrl={data.shopHeaderImg}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>
                             <FormItem label={"店铺图片"}>
-                                <Avatar name={"file"} afterAction={actions.setShopImg}/>
+                                <Avatar name={"file"} afterAction={actions.setShopImg} imageUrl={data.shopImg}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>

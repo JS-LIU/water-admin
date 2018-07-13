@@ -214,7 +214,7 @@ class StockProductEditListQueryView extends Component{
         super(props)
     };
     createProduct(){
-        actions.createProduct;
+        actions.createProduct();
         this.props.onChange({
             isShow:false
         })
@@ -268,7 +268,7 @@ class StockProductEditListQueryView extends Component{
                         </Col>
                         <Col span={6}>
                             <FormItem label={"商品头像"}>
-                                <Avatar name={"file"} afterAction={actions.setHeaderImg}/>
+                                <Avatar name={"file"} afterAction={actions.setHeaderImg} imageUrl={data.headerImg}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>

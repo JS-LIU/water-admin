@@ -12,6 +12,8 @@ let editProductData = {
     @observable productName:"",
     @observable volume:"",
     @observable productImg:null,
+    @observable headerImg:null,
+    @observable detailImg:null,
     @observable price:"",
     @observable originalPrice:"",
     @observable costPrice:"",
@@ -123,6 +125,7 @@ function editProductActions(){
     };
     let setHeaderImg = function(url){
         editProductList.activeItem.setHeaderImg(url);
+        editProductData.headerImg = url;
     };
     let setProductImg = function(url){
         editProductList.activeItem.setProductImg(url);
@@ -130,6 +133,7 @@ function editProductActions(){
     };
     let setDetailImg = function(url){
         editProductList.activeItem.setDetailImg(url);
+        editProductData.detailImg = url;
     };
     let createProduct = function(){
         editProductList.createProduct().then(()=>{

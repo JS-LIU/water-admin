@@ -212,7 +212,7 @@ class DistributeEditProductListQueryView extends Component{
         super(props);
     };
     createProduct(){
-        actions.createProduct;
+        actions.createProduct();
         this.props.onChange({
             isShow:false
         })
@@ -266,7 +266,7 @@ class DistributeEditProductListQueryView extends Component{
                         </Col>
                         <Col span={6}>
                             <FormItem label={"商品头像"}>
-                                <Avatar name={"file"} afterAction={actions.setHeaderImg}/>
+                                <Avatar name={"file"} imageUrl={data.headerImg} afterAction={actions.setHeaderImg}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>

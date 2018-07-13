@@ -205,7 +205,7 @@ class SelfSaleEditProductListQueryView extends Component{
         super(props)
     };
     createProduct(){
-        actions.createProduct;
+        actions.createProduct();
         this.props.onChange({
             isShow:false
         })
@@ -272,7 +272,7 @@ class SelfSaleEditProductListQueryView extends Component{
                         </Col>
                         <Col span={6}>
                             <FormItem label={"商品头像"}>
-                                <Avatar name={"file"} afterAction={actions.setHeaderImg}/>
+                                <Avatar name={"file"} afterAction={actions.setHeaderImg} imageUrl={data.headerImg}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>
@@ -302,7 +302,7 @@ class SelfSaleEditProductListQueryView extends Component{
                         </Col>
                         <Col span={6}>
                             <FormItem label={"详情"}>
-                                <Avatar name={"file"} afterAction={actions.setDetailImg}/>
+                                <Avatar name={"file"} afterAction={actions.setDetailImg} imageUrl={data.detailImg}/>
                             </FormItem>
                         </Col>
                         <Col span={6}>
