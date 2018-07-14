@@ -21,29 +21,30 @@ class RebateItem{
         this.city = rebateInfo.city;                                //  区域
         this.productName = rebateInfo.productName;                  //  商品名称
         this.productMount = rebateInfo.productMount;                //  数量
-        this.rebateOrderId = rebateInfo.rebateOrderId;              //  返利标准
+        this.rebatePriceExcel = rebateInfo.rebatePriceExcel ;              //  返利标准
         this.rebatePrice = rebateInfo.rebatePrice;                  //  返利金额
         this.rebateResult = rebateInfo.rebateResult;                //  实际返利金额
 
 
         let rebateAjax = _h.ajax.resource('/admin/financial/:action');
         this._getDetail = function(postInfo){
-            return rebateAjax.save({action:"/getRebateOrder/"+rebateInfo.rebateId},postInfo);
+            return rebateAjax.save({action:"getRebateOrder/"+rebateInfo.rebateOrderId},postInfo);
         };
         this._toRebate = function(postInfo){
-            return rebateAjax.save({action:"/doRebate"},postInfo);
+            return rebateAjax.save({action:"doRebate"},postInfo);
         }
     }
     getDetail(){
         return this._getDetail();
     }
     toRebate(){
+        let self = this;
         let postInfo = {
-            realRebateResult:this.totalPrice,
-            realTotalMount:this.totalMount,
-            rebateOrderId:this.rebateId,
-            rebatePrice:this.rebatePerPrice,
-            remark:this.remark
+            realRebateResult:self.totalPrice,
+            realTotalMount:self.totalMount,
+            rebateOrderId:self.rebateId,
+            rebatePrice:self.rebatePerPrice,
+            remark:self.remark
         };
         return this._toRebate(postInfo)
     }

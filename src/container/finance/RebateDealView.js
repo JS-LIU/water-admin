@@ -9,6 +9,7 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
 
 @observer class RebateDealView extends Component{
     componentWillMount(){
+        console.log(123123123);
         actions.onLoad();
     }
     render(){
@@ -112,8 +113,8 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
             width:150
         },{
             title: '返利标准（/桶）',
-            dataIndex: 'rebateOrderId',
-            key: 'rebateOrderId',
+            dataIndex: 'rebatePriceExcel',
+            key: 'rebatePriceExcel',
             width:150
         }, {
             title: '返利金额（元）',
@@ -144,7 +145,7 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
                 totalMount:item.totalMount,
                 realTotalMount:item.realTotalMount,
                 rebateId:item.rebateId,
-                rebateOrderId:item.rebateOrderId/10+"元",
+                rebatePriceExcel:item.rebatePriceExcel/10+"元",
                 rebatePrice:item.rebatePrice,
                 remark:item.remark,
                 productName:item.productName,
@@ -242,7 +243,7 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
                         备注：
                         <Input type="textarea" placeholder="填写备注" rows={4} style={{ width: 363, height:130}}/>
                     </span>
-                    <Button type="primary" onClick={actions.confirmRebate}>确认返利</Button>
+                    <Button type="primary" onClick={() => actions.confirmRebate()}>确认返利</Button>
                 </ul>
             </div>
         )
