@@ -93,8 +93,8 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
             width:200
         }, {
             title: '进货商品',
-            dataIndex: 'productName',
-            key: 'productName',
+            dataIndex: 'stockProcutMap ',
+            key: 'stockProcutMap ',
             width:350
         },{
             title: '数量',
@@ -141,15 +141,13 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
                 shopAlians:item.shopAlians,
                 shopName:item.shopName,
                 phoneNum:item.phoneNum,
-                productItemList:item.productItemList,
-                totalMount:item.totalMount,
+                stockProcutMap:item.stockProcutMap,
+                productMount:item.productMount,
+                totalMount :item.totalMount ,
                 realTotalMount:item.realTotalMount,
-                rebateId:item.rebateId,
                 rebatePriceExcel:item.rebatePriceExcel/10+"元",
                 rebatePrice:item.rebatePrice,
                 remark:item.remark,
-                productName:item.productName,
-                productMount:item.productMount/10,
                 status:item.status,
             })
         }
@@ -167,83 +165,22 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
 //返利操作
 @observer class RebateOperation extends Component{
     render(){
-        const columns = [{
-            title: '商店名称',
-            dataIndex: 'shopName',
-            key: 'shopName',
-            width:100
-        }, {
-            title: '规格',
-            dataIndex: '11',
-            key: '11',
-            width:50
-        },  {
-            title: '返利标准（/桶）',
-            dataIndex: 'rebatePerPrice',
-            key: 'rebatePerPrice',
-            width:50
-        }, {
-            title: '返利金额（元）',
-            dataIndex: 'totalPrice',
-            key: 'totalPrice',
-            width:50
-        }];
-
-        const dataSource = [];
-        for(let i = 0;i < data.list.length;i++){
-            let item = data.list[i];
-            dataSource.push({
-                key:i,
-                shopName:item.shopName,
-                rebatePerPrice:item.rebatePerPrice,
-                totalPrice:item.totalPrice
-            })
-        }
         return(
             <div className="operation">
                 <div className='order_detail_header'>
                     <span>返利操作</span>
                 </div>
-                <ul className="left">
-                    <li className="order_detail_list">
-                        <span>店铺名称：{data.detail.shopName}</span>
-                        <span>店铺编号：{data.detail.shopAlians}</span>
+                <ul>
+                    <li className="rebate_list">
+                        <span>实际总进货数量（桶）: {data.detail.realTotalMount}</span>
+                        <span>实际返利标准（/元）: {data.detail.rebatePriceExcel}</span>
+                        <span>实际返利金额（/元）: {data.detail.rebateResult / 100}</span>
+                        <span>
+                            备注：
+                            <Input type="textarea" placeholder="填写备注" rows={4} style={{ width: 363, height:130}}/>
+                        </span>
+                        <Button type="primary" onClick={actions.confirmRebate} className="rebate_btn">确认返利</Button>
                     </li>
-                    <li className="order_detail_list">
-                        <span>联系电话：{data.detail.phoneNum}</span>
-                        <span>详细地址：{data.detail.address}</span>
-                    </li>
-
-                    <div className="rebate_operation">
-                        <Table columns={columns} dataSource={dataSource} />
-                    </div>
-                </ul>
-                <ul className="right">
-                    <span>
-                        实际总进货数量（桶）：
-                        <Input placeholder="输入实际总进货数" style={{ width: 250 }}/>
-                    </span>
-                    <span>
-                        实际返利标准（/桶）：
-                        {/*<Input placeholder="输入实际返利标准" style={{ width: 260 }} onFocus={actions.selectRebateItem} />*/}
-
-                        <Select defaultValue="选择实际返利" style={{ width: 265 }}>
-                            <Option value="Option1">0.5元</Option>
-                            <Option value="Option2">1.00元</Option>
-                            <Option value="Option3">1.5元</Option>
-                            <Option value="Option4">2.00元</Option>
-                        </Select>
-                    </span>
-
-                    <span>
-                        实际返利金额（元）：
-                        <Input placeholder="输入实际返利金额" style={{ width: 265 }}/>
-                    </span>
-                    <span>
-                        备注：
-                        <Input type="textarea" placeholder="填写备注" rows={4} style={{ width: 363, height:130}}/>
-                    </span>
-                    <Button type="primary" onClick={() => actions.confirmRebate()}>确认返利</Button>
                 </ul>
             </div>
         )
