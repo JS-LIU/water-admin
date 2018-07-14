@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react'
-import { Table , Button , Radio , Input , Select , Icon , Modal , Divider , Form , Row, Col } from 'antd';
+import { Table , Button , Radio , Input , Select , Icon , Modal , Divider , Form , Row, Col ,Tooltip} from 'antd';
 import Avatar from '../Avatar';
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -226,12 +226,20 @@ class DistributeEditProductListQueryView extends Component{
     render(){
         let brandNodes = data.brandList.map((brand,index)=>{
             return (
-                <Option key={index} value={brand.id}>{brand.name}</Option>
+                <Option key={index} value={brand.id}>
+                    <Tooltip placement="topLeft" title={brand.name}>
+                    {brand.name}
+                    </Tooltip>
+                </Option>
             )
         });
         let categoryNodes = data.categoryList.map((category,index)=>{
             return (
-                <Option key={index} value={category.id}>{category.name}</Option>
+                <Option key={index} value={category.id}>
+                    <Tooltip placement="topLeft" title={category.name}>
+                    {category.name}
+                    </Tooltip>
+                </Option>
             )
         });
         return (
