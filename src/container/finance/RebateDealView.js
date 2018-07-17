@@ -9,7 +9,6 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
 
 @observer class RebateDealView extends Component{
     componentWillMount(){
-        console.log(123123123);
         actions.onLoad();
     }
     render(){
@@ -91,33 +90,13 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
             dataIndex: 'phoneNum',
             key: 'phoneNum',
             width:200
-        }, {
-            title: '进货商品',
-            dataIndex: 'stockProcutMap ',
-            key: 'stockProcutMap ',
-            width:350
-        },{
-            title: '数量',
-            dataIndex: 'productMount',
-            key: 'productMount',
-            width:100
         },{
             title: '总进货数量（桶）',
             dataIndex: 'totalMount',
             key: 'totalMount',
             width:150
         }, {
-            title: '实际进货数量',
-            dataIndex: 'realTotalMount',
-            key: 'realTotalMount',
-            width:150
-        },{
-            title: '返利标准（/桶）',
-            dataIndex: 'rebatePriceExcel',
-            key: 'rebatePriceExcel',
-            width:150
-        }, {
-            title: '返利金额（元）',
+            title: '返利标准（元）',
             dataIndex: 'rebatePrice',
             key: 'rebatePrice',
             width:150
@@ -141,21 +120,50 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
                 shopAlians:item.shopAlians,
                 shopName:item.shopName,
                 phoneNum:item.phoneNum,
-                stockProcutMap:item.stockProcutMap,
-                productMount:item.productMount,
                 totalMount :item.totalMount ,
-                realTotalMount:item.realTotalMount,
-                rebatePriceExcel:item.rebatePriceExcel/10+"元",
-                rebatePrice:item.rebatePrice,
+                rebatePrice:parseFloat(item.rebatePrice) / 100,
                 remark:item.remark,
                 status:item.status,
+                rebateId:item.rebateId,
+                productItemList:item.productItemList
             })
         }
+        const expandedRowRender = record => {
+            const columns = [
+                { title: "商品名称", dataIndex: "productName" , key: 'productName'},
+                { title: '数量', dataIndex: "saleMount", key: 'saleMount' },
+            ];
+            const dataSource = [];
+            for(let i = 0;i < record.productItemList.length;i++){
+                let item = record.productItemList[i];
+                dataSource.push({
+                    key:i,
+                    productName:item.productName,
+                    saleMount:item.saleMount,
+                })
+            }
+
+            return (
+                <Table
+                    columns={columns}
+                    dataSource={dataSource}
+                    pagination={false}
+                />
+            );
+        };
         return(
             <Table
                 columns={columns}
                 dataSource={dataSource}
                 scroll={{y:300,x:1680}}
+                expandedRowRender={expandedRowRender}
+                onRow={(record) => {
+                    return {
+                        onClick: () => {
+                            actions.selectRebateItem(record.rebateId);
+                        },
+                    };
+                }}
                 pagination={{total:data.total,defaultCurrent:1,onChange:this.changePage.bind(this)}}
             />
         )
@@ -165,21 +173,42 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
 //返利操作
 @observer class RebateOperation extends Component{
     render(){
+        const columns = [
+            { title: "商品名称", dataIndex: "productName" , key: 'productName',width:200},
+            { title: '数量', dataIndex: "saleMount", key: 'saleMount' },
+        ];
+        const dataSource = [];
+        for(let i = 0;i < data.activeItem.productItemList.length;i++){
+            let item = data.activeItem.productItemList[i];
+            dataSource.push({
+                key:i,
+                productName:item.productName,
+                saleMount:item.saleMount,
+            })
+        }
+
         return(
             <div className="operation">
                 <div className='order_detail_header'>
                     <span>返利操作</span>
                 </div>
+
+                <Table
+                    columns={columns}
+                    dataSource={dataSource}
+                    pagination={false}
+                />
+
                 <ul>
                     <li className="rebate_list">
-                        <span>实际总进货数量（桶）: {data.detail.realTotalMount}</span>
-                        <span>实际返利标准（/元）: {data.detail.rebatePriceExcel}</span>
+                        <span>实际总进货数量（桶）: {data.detail.totalMount}</span>
+                        <span>实际返利标准（/元）: {parseFloat(data.detail.rebatePrice)/100}</span>
                         <span>实际返利金额（/元）: {data.detail.rebateResult / 100}</span>
                         <span>
                             备注：
                             <Input type="textarea" placeholder="填写备注" rows={4} style={{ width: 363, height:130}}/>
                         </span>
-                        <Button type="primary" onClick={actions.confirmRebate} className="rebate_btn">确认返利</Button>
+                        <Button type="primary" onClick={() => actions.confirmRebate()} className="rebate_btn">确认返利</Button>
                     </li>
                 </ul>
             </div>

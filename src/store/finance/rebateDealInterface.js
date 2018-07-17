@@ -11,7 +11,8 @@ const rebateList = new RebateList();
 let rebateDealListData = {
     @observable list:[],
     @observable detail:{},
-    @observable pagination:{}
+    @observable pagination:{},
+    @observable activeItem:{productItemList:[]}
 };
 
 
@@ -23,6 +24,7 @@ function rebateDealListActions(){
             rebateDealListData.list = list;
             rebateDealListData.pagination = rebateList.pagination;
             rebateList.setActiveItem(list[0]);
+            rebateDealListData.activeItem = rebateList.activeItem;
         })
     };
     let _getRebateDetail = function(){
@@ -35,6 +37,7 @@ function rebateDealListActions(){
             rebateDealListData.list = list;
             rebateDealListData.pagination = rebateList.pagination;
             rebateList.setActiveItem(list[0]);
+            rebateDealListData.activeItem = rebateList.activeItem;
             return rebateList.activeItem.getDetail();
         }).then((detail)=>{
             rebateDealListData.detail = detail;
@@ -50,6 +53,7 @@ function rebateDealListActions(){
     let selectRebateItem = function(rebateId){
         let rebateItem = rebateList.findItemByItemId(rebateDealListData.list,rebateId,"rebateId");
         rebateList.setActiveItem(rebateItem);
+        rebateDealListData.activeItem = rebateList.activeItem;
         _getRebateDetail();
     };
     let changePage = function(pageNum){
@@ -108,10 +112,10 @@ function rebateDealListActions(){
         onLoad:load.before(function(){
             changeStatus('create');
         }),
-        selectRebateItem:selectRebateItem,   //选择返利
-        setRealTotalMount:{},  //设置实际全部数量
-        confirmRebate:confirmRebate,      //确认返利
-        setQueryInfo:setQueryInfo,       //设置查询信息
+        selectRebateItem:selectRebateItem,
+        setRealTotalMount:{},
+        confirmRebate:confirmRebate,
+        setQueryInfo:setQueryInfo,
         queryByQueryInfo:queryByQueryInfo,
         changePage:changePage,
     };

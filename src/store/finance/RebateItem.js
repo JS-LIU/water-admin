@@ -2,6 +2,7 @@
  * Created by LDQ on 2018/6/7
  */
 import _h from "../../Util/HB";
+import ProductList from '../product/ProductList';
 class RebateItem{
     constructor(rebateInfo){
         this.month = rebateInfo.month;                              //  时间
@@ -10,7 +11,9 @@ class RebateItem{
         this.phoneNum = rebateInfo.phoneNum;                        //  联系电话
         this.address = rebateInfo.appendingAddress;                 //  地址
         this.distance = rebateInfo.area;                            //  距离
-        this.productItemList = rebateInfo.stockProductItemInfoList; //  产品项目表
+
+        this.productItemList = ProductList.convertProductsKVToList(rebateInfo.stockProcutMap); //  产品项目表
+
         this.totalMount = rebateInfo.totalMount;                    //  总数
         this.realTotalMount = rebateInfo.realTotalMount;            //  实际总数
         this.rebatePerPrice = rebateInfo.rebatePrice;               //  每一个的返利价格
@@ -90,6 +93,12 @@ class RebateItem{
         }
         return "nextSuccessor"
     }
-
+    // convertProductsKVToList(products){
+    //     let productList = [];
+    //     for(let prop in products){
+    //         productList.push(new Product({productName:prop,saleMount:products[prop]}))
+    //     }
+    //     return productList;
+    // }
 }
 module.exports = RebateItem;
