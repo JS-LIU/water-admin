@@ -101,6 +101,11 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
             key: 'rebatePrice',
             width:150
         }, {
+            title: '返利金额',
+            dataIndex: 'rebateResult',
+            key: 'rebateResult',
+            width:150
+        },{
             title:"评论",
             dataIndex:'remark',
             key:"remark",
@@ -125,7 +130,8 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
                 remark:item.remark,
                 status:item.status,
                 rebateId:item.rebateId,
-                productItemList:item.productItemList
+                productItemList:item.productItemList,
+                rebateResult:item.rebateResult / 100
             })
         }
         const expandedRowRender = record => {
