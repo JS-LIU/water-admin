@@ -340,7 +340,11 @@ class MerchantOrderListQueryView extends Component{
         }
 
         return(
-            <Table columns={columns} dataSource={dataSource} />
+            <Table
+                columns={columns}
+                dataSource={dataSource}
+                scroll={{ x: 800, y: 400 }}
+            />
         )
     }
 }
