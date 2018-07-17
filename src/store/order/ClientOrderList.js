@@ -15,7 +15,7 @@ class ClientOrderList extends AdminList{
             return orderListAjax.save({action:'waitingdispathlist'}, postInfo)
         };
         this.queryType = 0;
-        this.orderStatus = ['create','delivery','finish','finish_comment'];//    create,delivery,finish,finish_comment
+        this.orderStatus = ['create','delivery',"waiting_dispatch",'finish','finish_comment'];//    create,delivery,finish,finish_comment
         this._getOrderList = function(postInfo){
             return orderListAjax.save({action:"list"},postInfo);
         }

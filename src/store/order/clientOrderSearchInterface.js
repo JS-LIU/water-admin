@@ -24,7 +24,7 @@ function clientOrderSearchActions(){
     };
     let searchOrderListStrategy = {
         "all":function(){
-            clientOrderList.setOrderStatus(['create','delivery','finish','finish_comment']);
+            clientOrderList.setOrderStatus(['create','delivery','waiting_dispatch','finish','finish_comment']);
             getOrderList();
 
         },

@@ -43,13 +43,6 @@ import merchantAddOrder from './css/merchantAddOrder.css';
 }
 
 @observer class MerchantOrderListContainerView extends Component{
-    constructor(props){
-        super(props)
-
-    }
-    componentWillMount(){
-
-    }
     render(){
         return(
             <div>
@@ -269,7 +262,7 @@ class MerchantOrderListQueryView extends Component{
                         </div>
                         <div className='shop_price'>
                             <span>实付金额：</span>
-                            <span>-0.0</span>
+                            <span>{data.detail.totalPayRmb / 100}</span>
                         </div>
                         <div className='shop_price'>
                             <span>付款方式：</span>
