@@ -7,15 +7,21 @@ import RebateList from './RebateList';
 let rebateList = new RebateList();
 
 let rebateListSearchData = {
-    @observable list:[]
+    @observable list:[],
+    @observable pagination:{}
 };
 
 
 function rebateListSearchActions(){
+    let _setInitType = function(){
+        rebateList.changeStatus("create");
+    };
+
     let load = function(){
         rebateList.pagination.setPage(1);
         rebateList.getRebateList().then((rebateList)=>{
             rebateListSearchData.list = rebateList;
+            rebateListSearchData.pagination = rebateList.pagination;
         });
     };
     let changePage = function(pageNum){
@@ -36,7 +42,7 @@ function rebateListSearchActions(){
         load();
     };
     return {
-        onLoad:load,
+        onLoad:load.before(_setInitType),
         changePage:changePage,
         changeType:changeType,
         setQueryInfo:setQueryInfo,
