@@ -323,7 +323,7 @@ class MerchantOrderListQueryView extends Component{
                 title:"操作",
                 dataIndex:"operator",
                 key:"operator",
-                render: () => <a href="javascript:;">确认派单</a>,
+                render: (text,record) => <a href="javascript:;" onClick={() => actions.dispatchOrder(record.shopId)}>确认派单</a>,
             }
         ];
 
@@ -335,7 +335,8 @@ class MerchantOrderListQueryView extends Component{
                 shopName:item.shopName,
                 shopAddress:item.shopAddress,
                 deliveryor:item.deliveryor,
-                shopTelephone:item.shopTelephone
+                shopTelephone:item.shopTelephone,
+                shopId:item.shopId
             })
         }
 

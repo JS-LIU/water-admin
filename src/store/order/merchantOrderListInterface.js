@@ -43,8 +43,8 @@ function merchantOrderListActions(){
             merchantOrderListData.nearStore = storeList;
         });
     };
-    let dispatchOrder = function(merchantId){
-        let merchant = nearStoreList.findMerchantById(merchantId);
+    let dispatchOrder = function(shopId){
+        let merchant = nearStoreList.findMerchantById(shopId);
         merchantOrderList.dispatchOrder(merchant).then(()=>{
             return merchantOrderList.getOrderList()
         }).then((list)=>{
