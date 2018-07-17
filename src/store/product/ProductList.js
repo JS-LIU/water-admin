@@ -36,6 +36,13 @@ class ProductList extends AdminList {
             })
         })
     }
+    static convertProductsKVToList(products){
+        let productList = [];
+        for(let prop in products){
+            productList.push(new Product({productName:prop,saleMount:products[prop]}))
+        }
+        return productList;
+    }
 }
 
 module.exports = ProductList;

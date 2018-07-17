@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Table , Button , Radio , Input , Select , Icon , Modal , Divider , Form , Row, Col } from 'antd';
+import { Table , Button , Radio , Input , Select , Icon , Modal , Divider , Form , Row, Col ,Tooltip} from 'antd';
 import Avatar from '../Avatar';
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -192,7 +192,11 @@ import manufactureCostStyle from './manufactureCost.css';
     render(){
         let productNodes = data.productList.map((product,index)=>{
             return (
-                <Option key={index} value={product.productId}>{product.productName}</Option>
+                <Option key={index} value={product.productId}>
+                    <Tooltip placement="topLeft" title={product.productName}>
+                        {product.productName}
+                    </Tooltip>
+                </Option>
             )
         });
         let shopNodes = data.waterStoreList.map((shop,index)=>{

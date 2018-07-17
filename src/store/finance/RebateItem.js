@@ -2,6 +2,7 @@
  * Created by LDQ on 2018/6/7
  */
 import _h from "../../Util/HB";
+import ProductList from '../product/ProductList';
 class RebateItem{
     constructor(rebateInfo){
         this.month = rebateInfo.month;                              //  时间
@@ -10,7 +11,9 @@ class RebateItem{
         this.phoneNum = rebateInfo.phoneNum;                        //  联系电话
         this.address = rebateInfo.appendingAddress;                 //  地址
         this.distance = rebateInfo.area;                            //  距离
-        this.productItemList = rebateInfo.stockProductItemInfoList; //  产品项目表
+
+        this.productItemList = ProductList.convertProductsKVToList(rebateInfo.stockProcutMap); //  产品项目表
+
         this.totalMount = rebateInfo.totalMount;                    //  总数
         this.realTotalMount = rebateInfo.realTotalMount;            //  实际总数
         this.rebatePerPrice = rebateInfo.rebatePrice;               //  每一个的返利价格
@@ -21,29 +24,30 @@ class RebateItem{
         this.city = rebateInfo.city;                                //  区域
         this.productName = rebateInfo.productName;                  //  商品名称
         this.productMount = rebateInfo.productMount;                //  数量
-        this.rebateOrderId = rebateInfo.rebateOrderId;              //  返利标准
+        this.rebatePriceExcel = rebateInfo.rebatePriceExcel ;              //  返利标准
         this.rebatePrice = rebateInfo.rebatePrice;                  //  返利金额
         this.rebateResult = rebateInfo.rebateResult;                //  实际返利金额
 
 
         let rebateAjax = _h.ajax.resource('/admin/financial/:action');
         this._getDetail = function(postInfo){
-            return rebateAjax.save({action:"/getRebateOrder/"+rebateInfo.rebateId},postInfo);
+            return rebateAjax.save({action:"getRebateOrder/"+rebateInfo.rebateOrderId},postInfo);
         };
         this._toRebate = function(postInfo){
-            return rebateAjax.save({action:"/doRebate"},postInfo);
+            return rebateAjax.save({action:"doRebate"},postInfo);
         }
     }
     getDetail(){
         return this._getDetail();
     }
     toRebate(){
+        let self = this;
         let postInfo = {
-            realRebateResult:this.totalPrice,
-            realTotalMount:this.totalMount,
-            rebateOrderId:this.rebateId,
-            rebatePrice:this.rebatePerPrice,
-            remark:this.remark
+            realRebateResult:self.totalPrice,
+            realTotalMount:self.totalMount,
+            rebateOrderId:self.rebateId,
+            rebatePrice:self.rebatePerPrice,
+            remark:self.remark
         };
         return this._toRebate(postInfo)
     }
@@ -89,6 +93,12 @@ class RebateItem{
         }
         return "nextSuccessor"
     }
-
+    // convertProductsKVToList(products){
+    //     let productList = [];
+    //     for(let prop in products){
+    //         productList.push(new Product({productName:prop,saleMount:products[prop]}))
+    //     }
+    //     return productList;
+    // }
 }
 module.exports = RebateItem;

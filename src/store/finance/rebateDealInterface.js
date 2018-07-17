@@ -10,71 +10,114 @@ const rebateList = new RebateList();
 
 let rebateDealListData = {
     @observable list:[],
-    @observable detail:{}
-};
-
-let actions = {
-    onLoad:{},
-    total:0,
-    selectRebateItem:{},   //选择返利
-    setRealTotalMount:{},  //设置实际全部数量
-    confirmRebate:{},      //确认返利
-    setQueryInfo:{},       //设置查询信息
-    queryByQueryInfo:{},
-    changePage:{}
+    @observable detail:{},
+    @observable pagination:{},
+    @observable activeItem:{productItemList:[]}
 };
 
 
 
 function rebateDealListActions(){
-    rebateList.changeStatus('create');
-    actions.onLoad = function(){
-        rebateList.pagination.setPage(1);
+
+    let _getList = function(){
         rebateList.getRebateList().then((list)=>{
             rebateDealListData.list = list;
-            rebateDealListData.total = rebateList.pagination.total;
-            rebateList.setActiveRebateItem(list[0]);
-            rebateList.activeRebateItem.getDetail().then((detail)=>{
-                rebateDealListData.detail = detail;
-
-            })
+            rebateDealListData.pagination = rebateList.pagination;
+            rebateList.setActiveItem(list[0]);
+            rebateDealListData.activeItem = rebateList.activeItem;
         })
     };
-
-    actions.selectRebateItem = function(rebateId){
-        let rebateItem = rebateList.findRebateItemByRebateId(rebateDealListData.list,rebateId);
-        rebateList.setActiveRebateItem(rebateItem);
-        rebateList.activeRebateItem.getDetail().then((detail)=>{
+    let _getRebateDetail = function(){
+        rebateList.activeItem.getDetail().then((detail)=>{
             rebateDealListData.detail = detail;
+        });
+    };
+    let _getListAndSetActiveItem = function(){
+        rebateList.getRebateList().then((list)=>{
+            rebateDealListData.list = list;
+            rebateDealListData.pagination = rebateList.pagination;
+            rebateList.setActiveItem(list[0]);
+            rebateDealListData.activeItem = rebateList.activeItem;
+            return rebateList.activeItem.getDetail();
+        }).then((detail)=>{
+            rebateDealListData.detail = detail;
+        });
+    };
+    let changeStatus = function(status){
+        rebateList.changeStatus(status);
+    };
+    let load = function(){
+        rebateList.pagination.setPage(1);
+        _getListAndSetActiveItem();
+    };
+    let selectRebateItem = function(rebateId){
+        let rebateItem = rebateList.findItemByItemId(rebateDealListData.list,rebateId,"rebateId");
+        rebateList.setActiveItem(rebateItem);
+        rebateDealListData.activeItem = rebateList.activeItem;
+        _getRebateDetail();
+    };
+    let changePage = function(pageNum){
+        rebateDealListData.pagination.setPage(pageNum);
+        _getListAndSetActiveItem()
+    };
+
+    let setQueryInfo = function(queryMsg){
+        rebateList.selectQueryMsg(queryMsg);
+    };
+    let queryByQueryInfo = function(){
+        rebateList.pagination.setPage(1);
+        _getListAndSetActiveItem();
+    };
+    let confirmRebate = function(remark){
+        rebateList.activeItem.setRemark(remark);
+        rebateList.activeItem.toRebate().then(()=>{
+            _getListAndSetActiveItem();
         })
     };
-    actions.setRealTotalMount = function(realTotalMount){
-        rebateList.activeRebateItem.setRealTotalMount(realTotalMount);
-        rebateList.activeRebateItem.setRebatePerPrice();
-        rebateList.activeRebateItem.setTotalPrice();
+    // actions.selectRebateItem = function(rebateId){
+    //     let rebateItem = rebateList.findRebateItemByRebateId(rebateDealListData.list,rebateId);
+    //     rebateList.setActiveRebateItem(rebateItem);
+    //     rebateList.activeRebateItem.getDetail().then((detail)=>{
+    //         rebateDealListData.detail = detail;
+    //     })
+    // };
+    // actions.setRealTotalMount = function(realTotalMount){
+    //     rebateList.activeRebateItem.setRealTotalMount(realTotalMount);
+    //     rebateList.activeRebateItem.setRebatePerPrice();
+    //     rebateList.activeRebateItem.setTotalPrice();
+    // };
+    // actions.confirmRebate = function(remark){
+    //     rebateList.activeRebateItem.setRemark(remark);
+    //     rebateList.activeRebateItem.toRebate().then(()=>{
+    //         rebateList.removeRebateItem(rebateDealListData.list,rebateList.activeRebateItem);
+    //     })
+    // };
+    // actions.setQueryInfo = function(queryMsg){
+    //     rebateList.selectQueryInfo(queryMsg);
+    // };
+    // actions.queryByQueryInfo = function(){
+    //     actions.onLoad();
+    // };
+    // actions.changePage = function(pageNum){
+    //     rebateList.pagination.setPage(pageNum);
+    //     rebateList.getRebateList().then((rebateList)=>{
+    //         rebateDealListData.list = rebateList;
+    //         rebateList.setActiveRebateItem(rebateList[0]);
+    //         rebateList.activeRebateItem.getDetail().then((detail)=>{
+    //             rebateDealListData.detail = detail;
+    //         })
+    //     })
+    // };
+    return {
+        onLoad:load.before(function(){
+            changeStatus('create');
+        }),
+        selectRebateItem:selectRebateItem,
+        setRealTotalMount:{},
+        confirmRebate:confirmRebate,
+        setQueryInfo:setQueryInfo,
+        queryByQueryInfo:queryByQueryInfo,
+        changePage:changePage,
     };
-    actions.confirmRebate = function(remark){
-        rebateList.activeRebateItem.setRemark(remark);
-        rebateList.activeRebateItem.toRebate().then(()=>{
-            rebateList.removeRebateItem(rebateDealListData.list,rebateList.activeRebateItem);
-        })
-    };
-    actions.setQueryInfo = function(queryMsg){
-        rebateList.selectQueryInfo(queryMsg);
-    };
-    actions.queryByQueryInfo = function(){
-        actions.onLoad();
-    };
-    actions.changePage = function(pageNum){
-        rebateList.pagination.setPage(pageNum);
-        rebateList.getRebateList().then((rebateList)=>{
-            rebateDealListData.list = rebateList;
-            rebateList.setActiveRebateItem(rebateList[0]);
-            rebateList.activeRebateItem.getDetail().then((detail)=>{
-                rebateDealListData.detail = detail;
-            })
-        })
-    };
-    return actions;
 }
 module.exports = {data:rebateDealListData,actions:rebateDealListActions()};
