@@ -14,7 +14,7 @@ import merchantAuditDataStyle from './css/merchantAuditData.css';
 @observer class MerchantAuditView extends Component{
     state = {
         isShow:true
-    }
+    };
     componentWillMount(){
         actions.onLoad();
     }
@@ -29,7 +29,7 @@ import merchantAuditDataStyle from './css/merchantAuditData.css';
                 <MerchantAuditListQueryView isShow={this.state.isShow} onChange={this.getNewShow.bind(this)} />
                 <MerchantAuditListView isShow={this.state.isShow} onChange={this.getNewShow.bind(this)} />
                 {
-                    this.state.isShow?(<MerchantAuditDatailView />):(<AddMerchantAuditView />)
+                    this.state.isShow?(<MerchantAuditDatailView />):(<AddMerchantAuditView/>)
                 }
             </div>
         )
@@ -278,6 +278,17 @@ class MerchantAuditListQueryView extends Component{
 
 // 添加店铺
 @observer class AddMerchantAuditView extends Component{
+    constructor(props){
+        super(props);
+        this.state = ({
+            isShowArea:false
+        })
+    };
+    selectAddress(location){
+        return ()=>{
+            actions.selectAddress(location);
+        }
+    }
     render(){
         return (
             <div className='add_order'>
@@ -315,8 +326,31 @@ class MerchantAuditListQueryView extends Component{
                         </Col>
                         <Col span={6}>
                             <FormItem label={"所在地区"}>
-                                <Input onChange={e => actions.inputMappingAddress(e.target.value)} value={data.mappingAddress} placeholder='搜索地址'/>
-                                <DistrictList />
+                                <Input
+                                       onChange={e => {
+                                           actions.inputMappingAddress(e.target.value);
+                                       }}
+                                       value={data.mappingAddress}
+                                       placeholder='搜索地址'
+                                       onFocus={()=>{
+                                           this.setState({
+                                               isShowArea:true
+                                           })
+                                       }}
+                                />
+                                {
+                                    this.state.isShowArea?<List
+                                        size="small"
+                                        bordered
+                                        dataSource={data.districtList}
+                                        renderItem={item => (<List.Item onClick={()=>{
+                                            this.selectAddress(item);
+                                            this.setState({
+                                                isShowArea:false
+                                            })
+                                        }}>{item.fullAddress}</List.Item>)}
+                                    />:""
+                                }
                             </FormItem>
                         </Col>
                         <Col span={6}>
@@ -369,22 +403,6 @@ class MerchantAuditListQueryView extends Component{
         )
     }
 }
-@observer class DistrictList extends Component{
-    selectAddress(location){
-        return ()=>{
-            actions.selectAddress(location);
-        }
-    }
-    render(){
-        return (
-            <List
-                size="small"
-                bordered
-                dataSource={data.districtList}
-                renderItem={item => (<List.Item onClick={this.selectAddress(item)}>{item.fullAddress}</List.Item>)}
-            />
-        )
-    }
-}
+
 
 module.exports = MerchantAuditView;

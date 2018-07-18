@@ -20,7 +20,6 @@
 .merchant_shop_message>ul>li{
     padding:15px 0;
 }
-
 #merchant_card_icon{
     font-size:25px;
     padding-right:10px;
@@ -29,7 +28,6 @@
     width:100px;
     height:100px;
 }
-
 .ant-tabs-nav{
     display:flex;
 
