@@ -13,10 +13,10 @@ class NearStoreList extends AdminList{
         };
         this.storeList = [];
     }
-    getNearStoreList(locationInfo){
+    getNearStoreList(locationInfoAndOrderId){
         this.storeList = [];
         return new Promise((resolve,reject)=>{
-            this._getNearStoreList(locationInfo).then((storeListData)=>{
+            this._getNearStoreList(locationInfoAndOrderId).then((storeListData)=>{
                 this.storeList = NearStoreList.createStoreList(this.storeList,storeListData);
                 resolve(this.storeList);
             }).catch((err)=>{
@@ -44,10 +44,5 @@ class NearStoreList extends AdminList{
             cityName: storeData.cityName
         }
     }
-    // findMerchantById(list,merchantId){
-    //     return list.find((merchant)=>{
-    //         return merchant.shopId === merchantId;
-    //     })
-    // }
 }
 module.exports = new NearStoreList();

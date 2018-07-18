@@ -42,11 +42,14 @@ class NearShopListContainer{
     /**
      * 找到附近可以配送的店铺(按条件查询数据：接口不同)
      */
-    getNearMerchantList(locationInfo) {
+    getNearMerchantList(locationInfoAndOrderId) {
         this.nearShopList = [];
         return new Promise((resolve, reject)=>{
-            this._getNearMerchantList(locationInfo).then((merchantList)=>{
+            this._getNearMerchantList(locationInfoAndOrderId).then((merchantList)=>{
                 this.nearShopList = NearShopListContainer.createMerchantList(this.nearShopList,merchantList);
+                this.nearShopList.sort((shop,otherShop)=>{
+                    return shop.distance - otherShop.distance
+                });
                 resolve(this.nearShopList);
             }).catch((err)=>{
                 reject(err);

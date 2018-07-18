@@ -44,19 +44,27 @@ class MerchantOrder{
         this._getOrderDetail = function(postInfo){
             return merchantOrderAjax.save({action:'shopOrderDetail'},postInfo)
         };
+        this._dispatchOrder = function(postInfo){
+            return merchantOrderAjax.save({action:'startDelivery'},postInfo)
+        }
     }
 
     getNearStore(){
+        let self = this;
         let locationInfo = this.deliveryMerchant.getMerchantAddressInfo();
-        return nearStoreList.getNearStoreList(locationInfo);
+        let locationInfoAndOrderId = Object.assign(locationInfo,{orderId:self.orderId});
+        return nearStoreList.getNearStoreList(locationInfoAndOrderId);
     }
-    dispatchOrder(deliveryMerchant) {
+    redirectOrder(deliveryMerchant) {
         let postInfo = {
             shopId: deliveryMerchant.shopId,
             shopOrderId: this.orderId
         };
 
         return this._redirectOrder(postInfo);
+    }
+    dispatchOrder(orderId){
+        return this._dispatchOrder({orderId:orderId})
     }
     getDetail(){
         return new Promise((resolve, reject)=>{
@@ -68,6 +76,7 @@ class MerchantOrder{
             });
         })
     }
+
 
 }
 module.exports = MerchantOrder;

@@ -27,75 +27,16 @@ class ClientOrderList extends AdminList{
         this.orderStatus = statusList;
     }
     getWaitingDispatchOrderList(){
-        this.queryMsg = Object.assign(this.queryMsg,{queryType:this.queryType});
-        this.queryMsg = {queryInfoMsg:this.queryMsg};
-        let reqMsg = this.getQueryMsg({orderSrc: this.orderType});
+        let queryMsg = Object.assign({},this.queryMsg,{queryType:this.queryType},{orderSrc: this.orderType});
+        let reqMsg = this.getQueryMsg({queryInfoMsg:queryMsg});
         return this.getList(reqMsg,this._getWaitingDispatchOrderList,ClientOrder);
     }
     getOrderList(){
-        this.queryMsg = Object.assign(this.queryMsg,{orderStatus:this.orderStatus});
-        this.queryMsg = {queryInfoMsg:this.queryMsg};
-        let reqMsg = this.getQueryMsg({orderSrc:this.orderType});
+        let queryMsg = Object.assign({},this.queryMsg,{orderStatus:this.orderStatus},{orderSrc: this.orderType});
+        let reqMsg = this.getQueryMsg({queryInfoMsg:queryMsg});
         return this.getList(reqMsg,this._getOrderList,ClientOrder);
     }
 
-
-
-    // /**
-    //  * 获取查询条件
-    //  * @returns {({} & {orderSrc: string}) | *}
-    //  * @private
-    //  */
-    // _getQueryInfo(){
-    //     return Object.assign(this.queryMsg,{orderSrc: this.orderType});
-    // }
-    //
-    // /**
-    //  * 获取订单列表
-    //  * @returns {Promise<any>}
-    //  */
-    //
-    // getOrderList(){
-    //     let queryInfoMsg = this._getQueryInfo();
-    //     this.orderList = [];
-    //     return new Promise((resolve,reject)=>{
-    //         this.getOrderListData(queryInfoMsg).then((orderContainer)=>{
-    //             let orderListData = orderContainer.content;
-    //             this.pagination.setTotal(orderContainer.totalElements);
-    //             this.orderList = ClientOrderList.createOrderList(this.orderList,orderListData);
-    //             resolve(this.orderList);
-    //         }).catch((err)=>{
-    //             reject(err);
-    //         });
-    //     })
-    // }
-    //
-    // static createOrderList(orderList,orderListData){
-    //     for(let i = 0;i < orderListData.length;i++){
-    //         orderList.push(new ClientOrder(orderListData[i]));
-    //     }
-    //     return orderList;
-    // }
-    //
-    // selectActiveOrder(order){
-    //     this.activeOrder = order;
-    // }
-    //
-    // findClientOrderIndexById(list,orderId){
-    //     return list.findIndex((order)=>{
-    //         return order.orderId === orderId;
-    //     })
-    // };
-    // removeClientOrder(list,order){
-    //     let index = this.findClientOrderIndexById(list,order.orderId);
-    //     list.splice(index,1);
-    //     return list;
-    // }
-    // findClientOrderById(list,orderId){
-    //     return list.find((order)=>{
-    //         return order.orderId === orderId;
-    //     })
-    // }
 }
 
 module.exports = new ClientOrderList();

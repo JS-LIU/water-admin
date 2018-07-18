@@ -3,8 +3,10 @@
  */
 import React, {Component} from 'react';
 import {observer,inject} from 'mobx-react';
-import { Table, Tooltip , Button , Radio , Input , Cascader  } from 'antd';
+import { Table, Tooltip , Button , Radio , Input , Cascader ,Form , Row, Col , DatePicker } from 'antd';
 const Search = Input.Search;
+const FormItem = Form.Item;
+const { RangePicker } = DatePicker;
 
 import {actions,data} from "../../store/order/merchantOrderSearchInterface";
 import clientOrderSearchStyle from './css/clientOrderSearch.css'
@@ -28,6 +30,7 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 <Radio.Group value={queryStrategy} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
                     <Radio.Button value={"all"}>全部</Radio.Button>
                     <Radio.Button value={"waitPay"}>待付款</Radio.Button>
+                    <Radio.Button value={"alreadyPay"}>已付款</Radio.Button>
                     <Radio.Button value={"waitDispatch"}>待派单</Radio.Button>
                     <Radio.Button value={"waitReceive"}>待收货</Radio.Button>
                     <Radio.Button value={"finish"}>已完成</Radio.Button>
@@ -39,66 +42,71 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
     }
 }
 @observer class OrderListSearchView extends Component{
+    searchByCreateTime(data,dataString){
+        actions.setQueryInfo({createTimePeriod:dataString});
+        actions.searchOrderList(this.props.queryStrategy)
+    }
+    searchByPayTime(data,dataString){
+        actions.setQueryInfo({payTimePeriod:dataString});
+        actions.searchOrderList(this.props.queryStrategy)
+    }
+    searchByDispatchTime(data,dataString){
+        actions.setQueryInfo({dispatchTimePeriod:dataString});
+        actions.searchOrderList(this.props.queryStrategy)
+    }
     render(){
         let queryStrategy = this.props.queryStrategy;
         return (
-            <div className='all_search_box mb15'>
-                <div>
-                    <span>订单号:</span>
-                    <Search
-                        placeholder="输入订单号"
-                        onSearch={value => {
-                            actions.selectQueryMsg({orderNo:value});
-                            actions.searchOrderList(queryStrategy);
-                        }}
-                        enterButton
-                        style={{ marginBottom: 16 }}
-                    />
-                </div>
-                <div>
-                    <span>收货人:</span>
-                    <Search
-                        placeholder="输入收货人"
-                        onSearch={value => {
-                            actions.selectQueryMsg({receiver:value});
-                            actions.searchOrderList(queryStrategy);
-                        }}
-                        enterButton
-                        style={{ marginBottom: 16 }}
-                    />
-                </div>
-                <div>
-                    <span>收货人电话:</span>
-                    <Search
-                        placeholder="输入收货人电话"
-                        onSearch={value => {
-                            actions.selectQueryMsg({receiver:value});
-                            actions.searchOrderList(queryStrategy);
-                        }}
-                        enterButton
-                        style={{ marginBottom: 16 }}
-                    />
-                </div>
-                <div>
-                    <span>配送商家:</span>
-                    <Search
-                        placeholder="输入配送商家名称或编号"
-                        onSearch={value => {
-                            actions.selectQueryMsg({shopArtificialNum:value});
-                            actions.searchOrderList(queryStrategy);
-                        }}
-                        enterButton
-                        style={{ marginBottom: 16 }}
-                    />
-                </div>
-            </div>
+            <Form>
+                <Row gutter={16}>
+                    <Col span={8}>
+                        <FormItem label={"订单号"}>
+                            <Search
+                                placeholder="请输入订单号"
+                                onSearch={value => {
+                                    actions.setQueryInfo({orderNo:value});
+                                    actions.searchOrderList(queryStrategy);
+                                }}
+                                enterButton
+                            />
+                        </FormItem>
+                    </Col>
+                    <Col span={8}>
+                        <FormItem label={"订单创建时间"}>
+                            <RangePicker onChange={this.searchByCreateTime} />
+                        </FormItem>
+                    </Col>
+                    <Col span={8}>
+                        <FormItem label={"付款时间"}>
+                            <RangePicker onChange={this.searchByPayTime} />
+                        </FormItem>
+                    </Col>
+                    <Col span={8}>
+                        <FormItem label={"处理时间"}>
+                            <RangePicker onChange={this.searchByDispatchTime} />
+                        </FormItem>
+                    </Col>
+                    <Col span={8}>
+                        <FormItem label={"账户查询"}>
+                            <Search
+                                placeholder="请输入用户手机号"
+                                onSearch={value => {
+                                    actions.setQueryInfo({orderNo:value});
+                                    actions.searchOrderList(queryStrategy);
+                                }}
+                                enterButton
+                            />
+                        </FormItem>
+                    </Col>
+                </Row>
+            </Form>
         )
     }
 }
 
 @observer class MerchantOrderListView extends Component{
-    changePage(){
-
+    changePage(pageNum){
+        actions.changePage(pageNum);
     }
     render(){
         const columns = [
@@ -114,42 +122,7 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 key:"orderNo",
                 width:300
             },
-            {
-                title:"促销",
-                dataIndex:"promotionActivity",
-                key:"promotionActivity",
-                width:200
-            },
-            {
-                title:"水票",
-                dataIndex:"ticketUseNum",
-                key:"ticketUseNum",
-                width:200
-            },
-            {
-                title:"立减（每桶）",
-                dataIndex:"minusMount",
-                key:"minusMount",
-                width:200
-            },
-            {
-                title:"运费",
-                dataIndex:"freight",
-                key:"freight",
-                width:200
-            },
-            {
-                title:"实付金额",
-                dataIndex:"totalPrice",
-                key:"totalPrice",
-                width:200
-            },
-            {
-                title:"支付方式",
-                dataIndex:"payChannel",
-                key:"payChannel",
-                width:200
-            },
+
             {
                 title:"用户账号",
                 dataIndex:"userInfo",
@@ -184,6 +157,41 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 title:"商家电话",
                 dataIndex:"shopTelephone",
                 key:"shopTelephone",
+                width:200
+            },{
+                title:"促销",
+                dataIndex:"promotionActivity",
+                key:"promotionActivity",
+                width:200
+            },
+            {
+                title:"水票",
+                dataIndex:"ticketUseNum",
+                key:"ticketUseNum",
+                width:200
+            },
+            {
+                title:"立减（每桶）",
+                dataIndex:"minusMount",
+                key:"minusMount",
+                width:200
+            },
+            {
+                title:"运费",
+                dataIndex:"freight",
+                key:"freight",
+                width:200
+            },
+            {
+                title:"实付金额",
+                dataIndex:"totalPrice",
+                key:"totalPrice",
+                width:200
+            },
+            {
+                title:"支付方式",
+                dataIndex:"payChannel",
+                key:"payChannel",
                 width:200
             },
             {
@@ -269,7 +277,7 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 dataSource={dataSource}
                 expandedRowRender={expandedRowRender}
                 scroll={{x:3300,y:600}}
-                pagination={{defaultCurrent:data.pagination.page+1,onChange:this.changePage.bind(this),total:data.pagination.total}}
+                pagination={{current:data.pagination.page+1,onChange:this.changePage.bind(this),total:data.pagination.total}}
             />
         )
     }

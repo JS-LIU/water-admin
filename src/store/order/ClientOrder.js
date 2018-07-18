@@ -4,9 +4,9 @@ import nearShopListContainer from './NearShopListContainer';
 class ClientOrder {
     constructor(orderInfo) {
         this.orderId = orderInfo.orderId;
-        this.orderNo = orderInfo.orderNo;// 订单号
+        this.orderNo = orderInfo.orderNo;               // 订单号
         this.orderSrc = orderInfo.orderSrc;
-        this.orderSource = orderInfo.orderSource;// 订单来源
+        this.orderSource = orderInfo.orderSource;       // 订单来源
         this.createTime = orderInfo.createTime;// 订单时间
         this.productItems = orderInfo.productItems;// 商品名称
         this.receiver = orderInfo.receiver;// 收货人
@@ -14,16 +14,15 @@ class ClientOrder {
         this.deliveryAddress = orderInfo.deliveryAddress;// 收获地址
         this.totalPrice = orderInfo.totalPrice;// 实付金额
         this.payChannel = orderInfo.payChannel;// 支付方式
-        this.orderStatus = orderInfo.status;// 订单状态
         this.promotionActivity = orderInfo.promotionActivity;// 促销
         this.ticketUseNum = orderInfo.ticketUseNum;// 水票
         this.minusMount = orderInfo.minusMount;// 立减
         this.freight = orderInfo.freight;// 运费
-        this.shopName = orderInfo.shopName;
+        this.shopName = orderInfo.huibeiStoreName;// 配送商家
         this.deliveryShop = new DeliveryMerchant({
             longitude: orderInfo.longitude,
             latitude: orderInfo.latitude,
-            shopName: orderInfo.shopName,// 配送商家
+            shopName: orderInfo.huibeiStoreName,// 配送商家
             shopAddress: orderInfo.shopAddress,
             shopTelephone: orderInfo.shopTelephone,// 商家电话
             shopAlias: orderInfo.shopAlias,
@@ -31,16 +30,26 @@ class ClientOrder {
             shopId: orderInfo.shopId,
             cityName: orderInfo.cityName
         });
+        this.orderStatus = orderInfo.status === "待派单"?this.convertStatus():orderInfo.status;   // 订单状态
         this.orderDetail = {};
         let clientOrderAjax = _h.ajax.resource('/admin/order/:action');
         this._redirectClientOrder = function(postInfo){
             return clientOrderAjax.save({action:"redirectShopOrder"},postInfo);
         };
         this._getOrderDetail = function(postInfo){
-            return clientOrderAjax.save({action:'shopOrderDetail'},postInfo)
+            return clientOrderAjax.save({action:'shopOrderDetail'},postInfo);
         };
+        this._dispatchOrder = function(postInfo){
+            return clientOrderAjax.save({action:'startDelivery'},postInfo);
+        }
     }
-
+    convertStatus(){
+        if(this.deliveryShop.shopId === 1 || this.deliveryShop.shopId === 2){
+            return "待指派"
+        }else{
+            return "待配送"
+        }
+    }
     getPositionInfo(){
         let position = this.orderDetail.deliveryAddressModel.position;
         let cityName = this.orderDetail.deliveryAddressModel.address.cityName;
@@ -51,12 +60,15 @@ class ClientOrder {
         }
     }
 
-    dispatchOrder(merchantShop) {
+    redirectOrder(merchantShop) {
         let postInfo = {
             shopId: merchantShop.shopId,
             shopOrderId: this.orderId
         };
         return this._redirectClientOrder(postInfo)
+    }
+    dispatchOrder(orderNo){
+        return this._dispatchOrder({orderNo:orderNo})
     }
     getDetail(){
         return new Promise((resolve, reject)=>{
@@ -70,8 +82,10 @@ class ClientOrder {
 
     }
     getNearMerchantList(){
+        let self = this;
         let locationInfo = this.getPositionInfo();
-        return nearShopListContainer.getNearMerchantList(locationInfo);
+        let locationInfoAndOrderId = Object.assign(locationInfo,{orderId:self.orderId});
+        return nearShopListContainer.getNearMerchantList(locationInfoAndOrderId);
     }
 }
 

@@ -44,7 +44,7 @@ module.exports = {
         port:"9999",
         proxy:{
             "/huibeiwater":{
-                target: 'http://123.57.161.212:9931',
+                target: 'http://192.168.1.244:9931',
                 secure: false,
                 bypass: function (req, res, proxyOptions) {
                     if (req.headers.accept.indexOf('html') !== -1) {

@@ -3,8 +3,11 @@
  */
 
 import React, {Component} from 'react';
-import { Table, Tooltip , Button , Radio , Input } from 'antd';
+import { Table, Tooltip , Button , Radio , Input , Form , Row, Col , DatePicker} from 'antd';
 const Search = Input.Search;
+const FormItem = Form.Item;
+const { RangePicker } = DatePicker;
+
 import {observer,inject} from 'mobx-react';
 import {data,actions} from '../../store/order/merchantOrderListInterface';
 import {observable, computed, action, autorun} from "mobx";
@@ -63,23 +66,45 @@ class MerchantOrderListQueryView extends Component{
             isShow:!this.props.isShow
         })
     }
+    onChange(data,dataString){
+        actions.setQueryInfo({xxx:dataString});
+        actions.queryByQueryInfo();
+    }
     render(){
         return (
-            <div>
-                <div>
-                    订单号：
-                    <Search
-                        placeholder="请输入订单号"
-                        onSearch={value => {
-                            actions.setQueryInfo({orderNo:value});
-                            actions.queryByQueryInfo();
-                        }}
-                        enterButton
-                        style={{ marginBottom: 16 , width:260 }}
-                    />
-                    <Button type="primary" className='ml15' onClick={this.addOrder.bind(this)} >+添加订单</Button>
-                </div>
-            </div>
+            <Form>
+                <Row gutter={16}>
+                    <Col span={6}>
+                        <FormItem label={"订单号"}>
+                            <Search
+                                placeholder="请输入订单号"
+                                onSearch={value => {
+                                    actions.setQueryInfo({orderNo:value});
+                                    actions.queryByQueryInfo();
+                                }}
+                                enterButton
+                            />
+                        </FormItem>
+                    </Col>
+                    <Col span={6}>
+                        <FormItem label={"账户查询"}>
+                            <Search
+                                placeholder="请输入手机号"
+                                onSearch={value => {
+                                    actions.setQueryInfo({orderNo:value});
+                                    actions.queryByQueryInfo();
+                                }}
+                                enterButton
+                            />
+                        </FormItem>
+                    </Col>
+                    <Col span={6}>
+                        <FormItem label={"xxx"}>
+                            <RangePicker onChange={this.onChange} />
+                        </FormItem>
+                    </Col>
+                </Row>
+            </Form>
         )
     }
 }
@@ -125,15 +150,9 @@ class MerchantOrderListQueryView extends Component{
                 width:150
             },{
                 title:"订单状态",
-                dataIndex:"status",
-                key:"status",
+                dataIndex:"orderStatus",
+                key:"orderStatus",
                 width:100
-            },{
-                title:"配送仓库",
-                dataIndex:"deliveryMerchant",
-                key:"deliveryMerchant",
-                width:300,
-                render: (text,record) =>{return ( <a href="javascript:;">{record.deliveryMerchant.shopName}</a>)}
             }
         ];
         const dataSource =[];
@@ -148,7 +167,7 @@ class MerchantOrderListQueryView extends Component{
                 receiver:item.receiver,
                 deliveryAddress:item.deliveryAddress,
                 totalPrice:item.totalPrice,
-                status:item.status,
+                orderStatus:item.orderStatus,
                 productItems:item.productItems,
                 orderId:item.orderId,
                 deliveryMerchant:item.deliveryMerchant,
@@ -316,7 +335,7 @@ class MerchantOrderListQueryView extends Component{
                 title:"操作",
                 dataIndex:"operator",
                 key:"operator",
-                render: (text,record) => <a href="javascript:;" onClick={() => actions.dispatchOrder(record.shopId)}>确认派单</a>,
+                render: (text,record) => <a href="javascript:;" onClick={() => actions.redirectOrder(record.shopId)}>确认派单</a>,
             }
         ];
 

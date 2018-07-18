@@ -51,15 +51,26 @@ function clientOrderSearchActions(){
     };
     //  fuck
     let searchOrderList = function(orderStatus){
+        clientOrderList.pagination.setPage(1);
         return searchOrderListStrategy[orderStatus]();
     };
     let selectQueryMsg = function(queryMsg){
         clientOrderList.selectQueryMsg(queryMsg);
     };
+    let load = function(){
+        clientOrderList.pagination.setPage(1);
+        searchOrderList("all")
+    };
+    let changePage = function(pageNum){
+        clientOrderList.pagination.setPage(pageNum);
+        getOrderList();
+    };
     return {
-        //  加载load 搜索
+        //  加载load
+        onLoad:load,
         searchOrderList:searchOrderList,
-        selectQueryMsg:selectQueryMsg
+        selectQueryMsg:selectQueryMsg,
+        changePage:changePage
     }
 }
 module.exports = {actions:clientOrderSearchActions(),data:orderSearchData};

@@ -13,7 +13,6 @@ import {data,actions} from '../../store/order/clientOrderListInterface';
 
 @observer class ClientOrderView extends Component{
     componentWillMount(){
-        actions.resetInitQueryInfo();
         actions.onLoad();
     }
     render(){
@@ -22,7 +21,8 @@ import {data,actions} from '../../store/order/clientOrderListInterface';
                 <ClientOrderListContainerView/>
                 <div className='client_order_bottom'>
                     <ClientOrderDetailView />
-                    <DeliveryMerchantListView />
+                    {data.activeOrder.orderStatus === '待指派'?<DeliveryMerchantListView />:""}
+
                 </div>
             </div>
         )
@@ -81,8 +81,30 @@ class ClientOrderListQueryView extends Component{
     changePage(pageNumber){
         actions.changePagination(pageNumber);
     }
+    operateText(deliveryMerchant){
+        if(deliveryMerchant.shopId === 1 || deliveryMerchant.shopId === 2){
+            return "";
+        }else{
+            return "立即派单"
+        }
+    }
+    getOperate(orderStatus,orderNo){
+        if(orderStatus === "待配送"){
+            return () => actions.dispatchOrder(orderNo);
+        }
+    }
+    getColumns(){
+        if(data.queryType === 0){
+            return this.allColumns;
+        }else if(data.queryType === 1){
+            return this.waitRedirectColumns;
+        }else if(data.queryType === 2){
+            return this.waitDispatchColumns;
+        }
+
+    }
     render(){
-        const columns = [{
+        const baseColumns = [{
             title:'订单时间',
             dataIndex:"createTime",
             key:"createTime",
@@ -111,6 +133,11 @@ class ClientOrderListQueryView extends Component{
             key:"deliveryAddress",
             width:500
         },{
+            title:'送货商家',
+            dataIndex:"shopName",
+            key:"shopName",
+            width:200
+        },{
             title:'实付金额',
             dataIndex:"totalPrice",
             key:"totalPrice",
@@ -120,14 +147,26 @@ class ClientOrderListQueryView extends Component{
             dataIndex:"orderStatus",
             key:"orderStatus",
             width:100
-        },{
-            title: '配送商家',
-            key: 'operator',
-            width: 200,
-            dataIndex:"deliveryShop",
-            render: (text,record) =>{return ( <a href="javascript:;">{record.deliveryShop.shopName}</a>)}
         }];
+        this.allColumns = [...baseColumns];
+        this.allColumns.push({
+            title:'操作',
+            dataIndex:"operate",
+            key:"operate",
+            width:100,
+            render:(text,record) =>{return (<a href="javascript:void(0)" onClick={this.getOperate(record.orderStatus,record.orderNo)}>{this.operateText(record.deliveryShop)}</a>)}
+        });
+        this.waitRedirectColumns = [...baseColumns];
+        this.waitDispatchColumns = [...baseColumns];
+        this.waitDispatchColumns.push({
+            title:'操作',
+            dataIndex:"operate",
+            key:"operate",
+            width:100,
+            render:(text,record) =>{return (<a href="javascript:void(0)" onClick={() => actions.dispatchOrder(record.orderNo)}>立即配送</a>)}
+        });
         const dataSource = [];
+
         for(let i = 0;i < data.list.length;i++){
             let item = data.list[i];
             dataSource.push({
@@ -142,6 +181,7 @@ class ClientOrderListQueryView extends Component{
                 productItems:item.productItems,
                 orderId:item.orderId,
                 deliveryShop:item.deliveryShop,
+                shopName:item.shopName,
             })
         }
         const expandedRowRender = record => {
@@ -173,13 +213,14 @@ class ClientOrderListQueryView extends Component{
                 />
             );
         };
+        let columns = this.getColumns();
         return (
             <Table
                 className="components-table-demo-nested"
                 columns={columns}
                 expandedRowRender={expandedRowRender}
                 dataSource={dataSource}
-                scroll={{x: 1650,y:300}}
+                scroll={{x: 1850,y:300}}
                 onRow={(record) => {
                     return {
                         onClick: () => {
@@ -334,7 +375,7 @@ class ClientOrderListQueryView extends Component{
                 dataIndex:"operator",
                 key:"operator",
                 width:100,
-                render: (text, record) => <a href="javascript:;" onClick={()=>actions.dispatchOrder(record.merchantId)}>确认派单</a>,
+                render: (text, record) => <a href="javascript:;" onClick={()=>actions.redirectOrder(record.merchantId)}>重新指派</a>,
             }
         ];
 

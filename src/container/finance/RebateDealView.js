@@ -170,7 +170,7 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
                         },
                     };
                 }}
-                pagination={{total:data.total,defaultCurrent:1,onChange:this.changePage.bind(this)}}
+                pagination={{defaultCurrent:data.pagination.page+1,onChange:this.changePage.bind(this),total:data.pagination.total}}
             />
         )
     }

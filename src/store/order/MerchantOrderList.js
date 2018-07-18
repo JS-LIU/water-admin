@@ -1,5 +1,4 @@
 
-import OrderList from './OrderList';
 import MerchantOrder from "./MerchantOrder";
 import AdminList from '../AdminList';
 import _h from "../../Util/HB";
@@ -27,15 +26,13 @@ class MerchantOrderList extends AdminList{
         this.orderStatus = statusList;
     }
     getWaitingDispatchOrderList(){
-        this.queryMsg = Object.assign(this.queryMsg,{queryType:this.queryType});
-        this.queryMsg = {queryInfoMsg:this.queryMsg};
-        let reqMsg = this.getQueryMsg({orderSrc: this.orderType});
+        let queryMsg = Object.assign({},this.queryMsg,{queryType:this.queryType},{orderSrc: this.orderType});
+        let reqMsg = this.getQueryMsg({queryInfoMsg:queryMsg});
         return this.getList(reqMsg,this._getWaitingDispatchOrderList,MerchantOrder);
     }
     getOrderList(){
-        this.queryMsg = Object.assign(this.queryMsg,{orderStatus:this.orderStatus});
-        this.queryMsg = {queryInfoMsg:this.queryMsg};
-        let reqMsg = this.getQueryMsg({orderSrc:this.orderType});
+        let queryMsg = Object.assign({},this.queryMsg,{orderStatus:this.orderStatus},{orderSrc: this.orderType});
+        let reqMsg = this.getQueryMsg({queryInfoMsg:queryMsg});
         return this.getList(reqMsg,this._getOrderList,MerchantOrder);
     }
 }

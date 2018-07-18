@@ -16,8 +16,7 @@ let merchantOrderListData = {
 };
 
 function merchantOrderListActions(){
-    let load = function(){
-        merchantOrderList.pagination.setPage(1);
+    let _refresh = function(){
         merchantOrderList.getWaitingDispatchOrderList().then((list)=>{
             merchantOrderListData.list = list;
             merchantOrderListData.pagination = merchantOrderList.pagination;
@@ -31,6 +30,11 @@ function merchantOrderListActions(){
             merchantOrderListData.nearStore = storeList;
         });
     };
+
+    let load = function(){
+        merchantOrderList.pagination.setPage(1);
+        _refresh();
+    };
     let selectMerchantOrder = function(orderId){
         let order = merchantOrderList.findItemByItemId(merchantOrderListData.list,orderId,"orderId");
         merchantOrderList.setActiveItem(order);
@@ -41,22 +45,11 @@ function merchantOrderListActions(){
             merchantOrderListData.nearStore = storeList;
         });
     };
-    let dispatchOrder = function(shopId){
+    let redirectOrder = function(shopId){
         let merchant = nearStoreList.findItemByItemId(merchantOrderListData.nearStore,shopId,"shopId");
-        merchantOrderList.activeItem.dispatchOrder(merchant).then(()=>{
-            return merchantOrderList.getOrderList()
-        }).then((list)=>{
-            merchantOrderListData.list = list;
-            merchantOrderListData.pagination = merchantOrderList.pagination;
-            merchantOrderList.setActiveItem(list[0]);
-            merchantOrderListData.activeOrder = merchantOrderList.activeItem;
-            return merchantOrderList.activeItem.getDetail()
-        }).then((detail)=>{
-            merchantOrderListData.detail = detail;
-            return merchantOrderListData.activeOrder.getNearStore()
-        }).then((storeList)=>{
-            merchantOrderListData.nearStore = storeList;
-        });
+        merchantOrderList.activeItem.redirectOrder(merchant).then(()=>{
+            return _dispatchOrder(merchantOrderList.activeItem.orderNo);
+        })
     };
     let queryByQueryInfo = function(){
         load();
@@ -67,26 +60,18 @@ function merchantOrderListActions(){
 
     let changePagination = function(page){
         merchantOrderList.pagination.setPage(page);
-        merchantOrderList.getOrderList().then((list)=>{
-            merchantOrderListData.list = list;
-            merchantOrderListData.pagination = merchantOrderList.pagination;
-            merchantOrderList.setActiveItem(list[0]);
-            merchantOrderListData.activeOrder = merchantOrderList.activeItem;
-            return merchantOrderList.activeItem.getDetail()
-
-
-        }).then((detail)=>{
-            merchantOrderListData.detail = detail;
-            return merchantOrderListData.activeOrder.getNearStore()
-        }).then((storeList)=>{
-            merchantOrderListData.nearStore = storeList;
-        });
+        _refresh();
+    };
+    let _dispatchOrder = function(orderId){
+        merchantOrderList.activeItem.dispatchOrder(orderId).then(()=>{
+            _refresh();
+        })
     };
 
     return {
         onLoad:load,
         selectMerchantOrder:selectMerchantOrder,
-        dispatchOrder:dispatchOrder,
+        redirectOrder:redirectOrder,
         queryByQueryInfo:queryByQueryInfo,
         setQueryInfo:setQueryInfo,
         changePagination:changePagination
