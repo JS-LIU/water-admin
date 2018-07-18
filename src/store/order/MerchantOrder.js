@@ -17,7 +17,7 @@ class MerchantOrder{
         this.deliveryAddress = orderInfo.deliveryAddress;// 收货地址
         this.totalPrice = orderInfo.totalPrice;// 实付金额
         this.payChannel = orderInfo.payChannel;// 支付方式
-        this.receiverShopName = orderInfo.merchantName;
+        this.receiverShopName = orderInfo.buyShopName;
         this.shopArtificialNum = orderInfo.shopArtificialNum;
         this.shopAlias = orderInfo.shopAlias;
         this.promotionActivity = orderInfo.promotionActivity;// 促销
@@ -29,7 +29,7 @@ class MerchantOrder{
             shopAlias:orderInfo.shopAlias,
             shopArtificialNum:orderInfo.shopArtificialNum,// 商家编号
             latitude:orderInfo.latitude,
-            shopName:orderInfo.shopName,// 配送商家
+            shopName:orderInfo.huibeiStoreName,// 配送商家
             shopAddress:orderInfo.shopAddress,
             shopTelephone:orderInfo.shopTelephone,// 商家电话
             shopId:orderInfo.shopId,

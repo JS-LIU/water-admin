@@ -231,7 +231,7 @@ class ClientOrderListQueryView extends Component{
                 <ul className='order_detail_left'>
                     <li className='list_border'>
                         <span>订单号：{data.detail.orderNo}</span>
-                        <span className="send_orders">订单时间：{data.detail.createTime}</span>
+                        <span>订单时间：{data.detail.createTime}</span>
                     </li>
                     <li className='list_border'>
                         <div> 收货人：{data.detail.deliveryAddressModel.name} </div>
@@ -334,7 +334,7 @@ class ClientOrderListQueryView extends Component{
                 dataIndex:"operator",
                 key:"operator",
                 width:100,
-                render: () => <a href="javascript:;">确认派单</a>,
+                render: (text, record) => <a href="javascript:;" onClick={()=>actions.dispatchOrder(record.merchantId)}>确认派单</a>,
             }
         ];
 
@@ -357,14 +357,7 @@ class ClientOrderListQueryView extends Component{
                 columns={columns}
                 dataSource={dataSource}
                 pagination={false}
-                scroll={{y:400,x:780}}
-                onRow={(record) => {
-                    return {
-                        onClick: () => {
-                            actions.dispatchOrder(record.merchantId);
-                        },
-                    };
-                }}
+                scroll={{ x: "160%",y:400 }}
             />
         )
     }

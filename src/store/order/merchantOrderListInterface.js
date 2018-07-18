@@ -18,14 +18,12 @@ let merchantOrderListData = {
 function merchantOrderListActions(){
     let load = function(){
         merchantOrderList.pagination.setPage(1);
-        merchantOrderList.getOrderList().then((list)=>{
+        merchantOrderList.getWaitingDispatchOrderList().then((list)=>{
             merchantOrderListData.list = list;
             merchantOrderListData.pagination = merchantOrderList.pagination;
             merchantOrderList.setActiveItem(list[0]);
             merchantOrderListData.activeOrder = merchantOrderList.activeItem;
             return merchantOrderList.activeItem.getDetail()
-
-
         }).then((detail)=>{
             merchantOrderListData.detail = detail;
             return merchantOrderListData.activeOrder.getNearStore()
@@ -43,9 +41,9 @@ function merchantOrderListActions(){
             merchantOrderListData.nearStore = storeList;
         });
     };
-    let dispatchOrder = function(merchantId){
-        let merchant = nearStoreList.findMerchantById(merchantId);
-        merchantOrderList.dispatchOrder(merchant).then(()=>{
+    let dispatchOrder = function(shopId){
+        let merchant = nearStoreList.findItemByItemId(merchantOrderListData.nearStore,shopId,"shopId");
+        merchantOrderList.activeItem.dispatchOrder(merchant).then(()=>{
             return merchantOrderList.getOrderList()
         }).then((list)=>{
             merchantOrderListData.list = list;

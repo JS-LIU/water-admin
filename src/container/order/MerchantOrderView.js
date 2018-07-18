@@ -43,13 +43,6 @@ import merchantAddOrder from './css/merchantAddOrder.css';
 }
 
 @observer class MerchantOrderListContainerView extends Component{
-    constructor(props){
-        super(props)
-
-    }
-    componentWillMount(){
-
-    }
     render(){
         return(
             <div>
@@ -269,7 +262,7 @@ class MerchantOrderListQueryView extends Component{
                         </div>
                         <div className='shop_price'>
                             <span>实付金额：</span>
-                            <span>-0.0</span>
+                            <span>{data.detail.totalPayRmb / 100}</span>
                         </div>
                         <div className='shop_price'>
                             <span>付款方式：</span>
@@ -306,24 +299,29 @@ class MerchantOrderListQueryView extends Component{
             {
                 title:"配送仓库",
                 dataIndex:"shopName",
-                key:"shopName"
+                key:"shopName",
+                width:200
             },{
                 title:"仓库地址",
                 dataIndex:"shopAddress",
-                key:"shopAddress"
+                key:"shopAddress",
+                width:150
             },{
                 title:"配送员",
                 dataIndex:"deliveryor",
-                key:"deliveryor"
+                key:"deliveryor",
+                width:100
             },{
                 title:"配送电话",
                 dataIndex:"shopTelephone",
-                key:"shopTelephone"
+                key:"shopTelephone",
+                width:100
             },{
                 title:"操作",
                 dataIndex:"operator",
                 key:"operator",
-                render: () => <a href="javascript:;">确认派单</a>,
+                render: (text,record) => <a href="javascript:;" onClick={() => actions.dispatchOrder(record.shopId)}>确认派单</a>,
+                width:100
             }
         ];
 
@@ -335,12 +333,17 @@ class MerchantOrderListQueryView extends Component{
                 shopName:item.shopName,
                 shopAddress:item.shopAddress,
                 deliveryor:item.deliveryor,
-                shopTelephone:item.shopTelephone
+                shopTelephone:item.shopTelephone,
+                shopId:item.shopId
             })
         }
 
         return(
-            <Table columns={columns} dataSource={dataSource} />
+            <Table
+                columns={columns}
+                dataSource={dataSource}
+                scroll={{ x: 650, y: 400 }}
+            />
         )
     }
 }

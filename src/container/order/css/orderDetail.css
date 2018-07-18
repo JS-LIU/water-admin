@@ -10,11 +10,14 @@
     flex:1;
 }
 .order_detail_r{
+    display:block;
     flex:2;
 }
 /*.send_orders{*/
-    /*width:64%;*/
-    /*margin-left:25px;*/
+    /*!*overflow-x: auto;*!*/
+    /*overflow-y: auto;*/
+    /*width: 779px;*/
+    /*!*height: 450px;*!*/
 /*}*/
 .order_detail .order_detail_left{
     padding: 20px 40px 20px 20px;
@@ -54,6 +57,7 @@ textarea{
 }
 .order_detail_shop{
     display: flex;
+    margin-bottom: 10px;
 }
 .order_detail_shop span{
     flex:1
@@ -76,5 +80,5 @@ textarea{
 }
 .order_detail_right{
     padding: 0 20px;
-    height: 450px;
+    /*height: 450px;*/
 }

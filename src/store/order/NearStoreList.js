@@ -3,9 +3,11 @@
  */
 import _h from '../../Util/HB';
 import DeliveryMerchant from './DeliveryMerchant';
+import AdminList from '../AdminList';
 
-class NearStoreList{
+class NearStoreList extends AdminList{
     constructor(){
+        super();
         this._getNearStoreList = function(postInfo){
             return _h.ajax.resource('/admin/order/:action').save({action:'wareHouseList'}, postInfo);
         };
@@ -42,10 +44,10 @@ class NearStoreList{
             cityName: storeData.cityName
         }
     }
-    findMerchantById(list,merchantId){
-        return list.find((merchant)=>{
-            return merchant.shopId === merchantId;
-        })
-    }
+    // findMerchantById(list,merchantId){
+    //     return list.find((merchant)=>{
+    //         return merchant.shopId === merchantId;
+    //     })
+    // }
 }
 module.exports = new NearStoreList();
