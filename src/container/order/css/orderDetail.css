@@ -57,6 +57,7 @@ textarea{
 }
 .order_detail_shop{
     display: flex;
+    margin-bottom: 10px;
 }
 .order_detail_shop span{
     flex:1

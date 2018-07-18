@@ -299,24 +299,29 @@ class MerchantOrderListQueryView extends Component{
             {
                 title:"配送仓库",
                 dataIndex:"shopName",
-                key:"shopName"
+                key:"shopName",
+                width:200
             },{
                 title:"仓库地址",
                 dataIndex:"shopAddress",
-                key:"shopAddress"
+                key:"shopAddress",
+                width:150
             },{
                 title:"配送员",
                 dataIndex:"deliveryor",
-                key:"deliveryor"
+                key:"deliveryor",
+                width:100
             },{
                 title:"配送电话",
                 dataIndex:"shopTelephone",
-                key:"shopTelephone"
+                key:"shopTelephone",
+                width:100
             },{
                 title:"操作",
                 dataIndex:"operator",
                 key:"operator",
                 render: (text,record) => <a href="javascript:;" onClick={() => actions.dispatchOrder(record.shopId)}>确认派单</a>,
+                width:100
             }
         ];
 
@@ -337,7 +342,7 @@ class MerchantOrderListQueryView extends Component{
             <Table
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{ x: 800, y: 400 }}
+                scroll={{ x: 650, y: 400 }}
             />
         )
     }
