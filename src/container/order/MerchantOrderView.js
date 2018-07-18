@@ -60,7 +60,7 @@ class MerchantOrderListQueryView extends Component{
     }
     addOrder(){
         this.props.onChange({
-            isShow:!this.props.isShow
+            isShow:true
         })
     }
     render(){
@@ -211,8 +211,8 @@ class MerchantOrderListQueryView extends Component{
         let productItemNodes = data.detail.productItemModels.map((item,i)=>{
             return (
                 <div key={i} className='order_detail_shop'>
-                     <span>{item.name}</span>
-                     <span>{item.volume}</span>
+                     <span className='detail_shop'>{item.name}</span>
+                     <span className='detail_shop'>{item.volume}</span>
                      <span>{item.currentPrice}</span>
                      <span>{item.selectCount}</span>
                 </div>
@@ -222,7 +222,7 @@ class MerchantOrderListQueryView extends Component{
             <div className='order_detail'>
                 <div className='order_detail_header'>订单详情</div>
                 <ul className='order_detail_left'>
-                    <li className='mt20'>
+                    <li className='list_border'>
                         <span>订单号：{data.detail.orderNo}</span>
                         <span className="send_orders">订单时间：{data.detail.createTime}</span>
                     </li>
@@ -232,8 +232,8 @@ class MerchantOrderListQueryView extends Component{
                     </li>
                     <li>
                         <div className='order_detail_shop'>
-                            <span>商品名称</span>
-                            <span>规格</span>
+                            <span className='detail_shop'>商品名称</span>
+                            <span className='detail_shop'>规格</span>
                             <span>单价</span>
                             <span>数量</span>
                         </div>
@@ -268,11 +268,11 @@ class MerchantOrderListQueryView extends Component{
                             <span>付款方式：</span>
                             <span>{data.activeOrder.payChannel}</span>
                         </div>
-                        <div>
+                        <div className='mb100' >
                             <span>备注：</span>
-                            <textarea name="" id="" cols="40" rows="3"></textarea>
-                            <div className='print_order'>
-                                <Button>打印订单</Button>
+                            <textarea name="" id="" cols="40" rows="3" placeholder="填写备注"></textarea>
+                            <div className='print_order mt10'>
+                                <Button type='primary'>打印订单</Button>
                             </div>
                         </div>
                     </li>

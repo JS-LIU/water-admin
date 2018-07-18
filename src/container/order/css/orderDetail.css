@@ -45,11 +45,6 @@
     display: flex;
     justify-content: space-between;
 }
-.print_order{
-    position: absolute;
-    right:60px;
-    bottom:30px;
-}
 textarea{
     padding-left:5px;
     outline: none;
@@ -61,6 +56,9 @@ textarea{
 }
 .order_detail_shop span{
     flex:1
+}
+.order_detail_shop>.detail_shop{
+    flex:2
 }
 .shop_price_container .money{
     /*width:40%;*/
@@ -81,4 +79,7 @@ textarea{
 .order_detail_right{
     padding: 0 20px;
     /*height: 450px;*/
+}
+.print_order{
+    text-align: right;
 }
