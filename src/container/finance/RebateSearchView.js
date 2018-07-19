@@ -172,7 +172,7 @@ const Search = Input.Search;
                 dataSource={dataSource}
                 scroll={{y:300,x:1680}}
                 expandedRowRender={expandedRowRender}
-                pagination={{total:data.total,defaultCurrent:1,onChange:value => actions.changePage(value)}}
+                pagination={{total:data.pagination.total,current:data.pagination.page+1,onChange:value => actions.changePage(value)}}
             />
         )
     }

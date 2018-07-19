@@ -19,8 +19,8 @@ function rebateListSearchActions(){
 
     let load = function(){
         rebateList.pagination.setPage(1);
-        rebateList.getRebateList().then((rebateList)=>{
-            rebateListSearchData.list = rebateList;
+        rebateList.getRebateList().then((list)=>{
+            rebateListSearchData.list = list;
             rebateListSearchData.pagination = rebateList.pagination;
         });
     };

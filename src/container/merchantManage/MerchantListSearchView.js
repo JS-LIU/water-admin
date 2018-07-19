@@ -169,8 +169,8 @@ import merchantAuditStyle from './css/merchantAudit.css';
             },
             {
                 title: "商家编号",
-                dataIndex: "shopAlians",
-                key: "shopAlians",
+                dataIndex: "shopArtificialNum",
+                key: "shopArtificialNum",
                 width: 200,
                 render: (text, record) => (
                     <EditableCell
@@ -298,7 +298,7 @@ import merchantAuditStyle from './css/merchantAudit.css';
                 key: i,
                 merchantNumber: item.merchantNumber,
                 shopName: item.shopName,
-                shopAlians: item.shopAlians,
+                shopArtificialNum: item.shopArtificialNum,
                 shopHeaderImg: item.shopHeaderImg,
                 shopType: item.shopType,
                 district: item.district,

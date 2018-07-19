@@ -62,8 +62,8 @@ function merchantOrderListActions(){
         merchantOrderList.pagination.setPage(page);
         _refresh();
     };
-    let _dispatchOrder = function(orderId){
-        merchantOrderList.activeItem.dispatchOrder(orderId).then(()=>{
+    let _dispatchOrder = function(orderNo){
+        merchantOrderList.activeItem.dispatchOrder(orderNo).then(()=>{
             _refresh();
         })
     };

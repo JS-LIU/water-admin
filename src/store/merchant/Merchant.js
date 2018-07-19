@@ -25,7 +25,7 @@ class Merchant{
         //  商户号
         this.merchantNumber = merchantInfo.merchantNumber;
         //  商家编号
-        this.shopAlians = merchantInfo.shopAlians;
+        this.shopArtificialNum = merchantInfo.shopArtificialNum;
         //  店铺头像
         this.shopHeaderImg = merchantInfo.imgUrl;
         //  配送时间
@@ -172,7 +172,7 @@ class Merchant{
     }
     //  设置配送范围
     setDeliveryRange(range){
-        this.deliveryRange = range.join('~');
+        this.deliveryRange = range[1];
     }
     //  设置详细地址
     setAppendingAddress(address){

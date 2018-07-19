@@ -63,8 +63,8 @@ class MerchantOrder{
 
         return this._redirectOrder(postInfo);
     }
-    dispatchOrder(orderId){
-        return this._dispatchOrder({orderId:orderId})
+    dispatchOrder(orderNo){
+        return this._dispatchOrder({orderNo:orderNo})
     }
     getDetail(){
         return new Promise((resolve, reject)=>{

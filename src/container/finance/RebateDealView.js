@@ -67,7 +67,7 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
 //各店铺返利详情
 @observer class RebateDisposeDetails extends Component{
     changePage(pageNumber){
-        actions.changePagination(pageNumber);
+        actions.changePage(pageNumber);
     }
     render(){
         const columns = [{

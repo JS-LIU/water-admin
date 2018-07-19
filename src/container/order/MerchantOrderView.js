@@ -66,15 +66,50 @@ class MerchantOrderListQueryView extends Component{
             isShow:!this.props.isShow
         })
     }
-    onChange(data,dataString){
-        actions.setQueryInfo({xxx:dataString});
-        actions.queryByQueryInfo();
-    }
+    // searchByCreateTime(data,dataString){
+    //     actions.setQueryInfo({createTimePeriod:dataString});
+    //     actions.searchOrderList(this.props.queryStrategy)
+    // }
+    // searchByPayTime(data,dataString){
+    //     actions.setQueryInfo({payTimePeriod:dataString});
+    //     actions.searchOrderList(this.props.queryStrategy)
+    // }
+    // searchByDispatchTime(data,dataString){
+    //     actions.setQueryInfo({dispatchTimePeriod:dataString});
+    //     actions.searchOrderList(this.props.queryStrategy)
+    // }
     render(){
         return (
             <Form>
                 <Row gutter={16}>
-                    <Col span={6}>
+                    <Col span={8}>
+                        <FormItem label={"账户查询"}>
+                            <Search
+                                placeholder="请输入用户手机号"
+                                onSearch={value => {
+                                    actions.setQueryInfo({orderNo:value});
+                                    actions.searchOrderList(queryStrategy);
+                                }}
+                                enterButton
+                            />
+                        </FormItem>
+                    </Col>
+                    {/*<Col span={8}>*/}
+                        {/*<FormItem label={"订单创建时间"}>*/}
+                            {/*<RangePicker onChange={this.searchByCreateTime} />*/}
+                        {/*</FormItem>*/}
+                    {/*</Col>*/}
+                    {/*<Col span={8}>*/}
+                        {/*<FormItem label={"付款时间"}>*/}
+                            {/*<RangePicker onChange={this.searchByPayTime} />*/}
+                        {/*</FormItem>*/}
+                    {/*</Col>*/}
+                    {/*<Col span={8}>*/}
+                        {/*<FormItem label={"处理时间"}>*/}
+                            {/*<RangePicker onChange={this.searchByDispatchTime} />*/}
+                        {/*</FormItem>*/}
+                    {/*</Col>*/}
+                    <Col span={8}>
                         <FormItem label={"订单号"}>
                             <Search
                                 placeholder="请输入订单号"
@@ -84,23 +119,6 @@ class MerchantOrderListQueryView extends Component{
                                 }}
                                 enterButton
                             />
-                        </FormItem>
-                    </Col>
-                    <Col span={6}>
-                        <FormItem label={"账户查询"}>
-                            <Search
-                                placeholder="请输入手机号"
-                                onSearch={value => {
-                                    actions.setQueryInfo({orderNo:value});
-                                    actions.queryByQueryInfo();
-                                }}
-                                enterButton
-                            />
-                        </FormItem>
-                    </Col>
-                    <Col span={6}>
-                        <FormItem label={"xxx"}>
-                            <RangePicker onChange={this.onChange} />
                         </FormItem>
                     </Col>
                 </Row>
@@ -124,6 +142,11 @@ class MerchantOrderListQueryView extends Component{
                 key:"orderNo",
                 width:200
             },{
+                title:"商家编号",
+                dataIndex:"shopArtificialNum",
+                key:"shopArtificialNum",
+                width:200
+            }, {
                 title:"商家名称",
                 dataIndex:"receiverShopName",
                 key:"receiverShopName",
@@ -171,6 +194,7 @@ class MerchantOrderListQueryView extends Component{
                 productItems:item.productItems,
                 orderId:item.orderId,
                 deliveryMerchant:item.deliveryMerchant,
+                shopArtificialNum:item.deliveryMerchant.shopArtificialNum
             })
         }
         const expandedRowRender = (record) => {
@@ -243,7 +267,13 @@ class MerchantOrderListQueryView extends Component{
                 <ul className='order_detail_left'>
                     <li className='mt20'>
                         <span>订单号：{data.detail.orderNo}</span>
+
+                    </li>
+                    <li>
                         <span className="send_orders">订单时间：{data.detail.createTime}</span>
+                    </li>
+                    <li className='mt20'>
+                        <span>商家编号：{data.detail.shopArtificialNum}</span>
                     </li>
                     <li>
                         <div> 收货人：{data.detail.deliveryAddressModel.name} </div>

@@ -3,7 +3,6 @@
  */
 import _h from "../../Util/HB";
 import AdminList from '../AdminList';
-import Pagination from "../Pagination";
 import RebateItem from './RebateItem';
 class RebateList extends AdminList{
     constructor(){
@@ -13,7 +12,6 @@ class RebateList extends AdminList{
         this._getRebateList = function(postInfo){
             return rebateListAjax.save({action:"getMonthRebateList"},postInfo);
         };
-        this.pagination = new Pagination(10);
         this.rebateStatus = "create";
     }
     changeStatus(status){

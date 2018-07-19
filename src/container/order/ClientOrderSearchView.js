@@ -8,6 +8,8 @@ const Search = Input.Search;
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 import {actions,data} from "../../store/order/clientOrderSearchInterface";
+
+
 import clientOrderSearchStyle from './css/clientOrderSearch.css'
 
 @observer class ClientOrderSearchView extends Component{
@@ -42,15 +44,15 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
 }
 @observer class OrderListSearchView extends Component{
     searchByCreateTime(data,dataString){
-        actions.setQueryInfo({createTimePeriod:dataString});
+        actions.selectQueryMsg({createTimePeriod:dataString});
         actions.searchOrderList(this.props.queryStrategy)
     }
     searchByPayTime(data,dataString){
-        actions.setQueryInfo({payTimePeriod:dataString});
+        actions.selectQueryMsg({payTimePeriod:dataString});
         actions.searchOrderList(this.props.queryStrategy)
     }
     searchByDispatchTime(data,dataString){
-        actions.setQueryInfo({dispatchTimePeriod:dataString});
+        actions.selectQueryMsg({dispatchTimePeriod:dataString});
         actions.searchOrderList(this.props.queryStrategy)
     }
     render(){
@@ -59,38 +61,39 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
             <Form>
                 <Row gutter={16}>
                     <Col span={8}>
-                        <FormItem label={"订单号"}>
+                        <FormItem label={"账户查询"}>
                             <Search
-                                placeholder="请输入订单号"
+                                placeholder="请输入用户手机号"
                                 onSearch={value => {
-                                    actions.setQueryInfo({orderNo:value});
+                                    actions.selectQueryMsg({phoneNum:value});
                                     actions.searchOrderList(queryStrategy);
                                 }}
                                 enterButton
                             />
                         </FormItem>
                     </Col>
+
                     <Col span={8}>
                         <FormItem label={"订单创建时间"}>
-                            <RangePicker onChange={this.searchByCreateTime} />
+                            <RangePicker onChange={this.searchByCreateTime.bind(this)} />
                         </FormItem>
                     </Col>
                     <Col span={8}>
                         <FormItem label={"付款时间"}>
-                            <RangePicker onChange={this.searchByPayTime} />
+                            <RangePicker onChange={this.searchByPayTime.bind(this)} />
                         </FormItem>
                     </Col>
                     <Col span={8}>
                         <FormItem label={"处理时间"}>
-                            <RangePicker onChange={this.searchByDispatchTime} />
+                            <RangePicker onChange={this.searchByDispatchTime.bind(this)} />
                         </FormItem>
                     </Col>
                     <Col span={8}>
-                        <FormItem label={"账户查询"}>
+                        <FormItem label={"订单号"}>
                             <Search
-                                placeholder="请输入用户手机号"
+                                placeholder="请输入订单号"
                                 onSearch={value => {
-                                    actions.setQueryInfo({orderNo:value});
+                                    actions.selectQueryMsg({orderNo:value});
                                     actions.searchOrderList(queryStrategy);
                                 }}
                                 enterButton
@@ -232,25 +235,21 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                     title:"商品名称",
                     dataIndex:"name",
                     key:"name",
-                    width:100
                 },
                 {
                     title:"规格",
                     dataIndex:"volume",
                     key:"volume",
-                    width:100,
                 },
                 {
                     title:"单价（元）",
                     dataIndex:"price",
                     key:"price",
-                    width:100,
                 },
                 {
                     title:"数量",
                     dataIndex:"count",
                     key:"count",
-                    width:100,
                 }
             ];
             const dataSource = [];
@@ -260,8 +259,8 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                     key:i,
                     name:item.name,
                     volume:item.volume,
-                    price:item.price,
-                    count:item.count / 100
+                    price:item.price / 100,
+                    count:item.count
                 })
             }
 

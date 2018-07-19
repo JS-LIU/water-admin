@@ -28,12 +28,12 @@ class ClientOrderList extends AdminList{
     }
     getWaitingDispatchOrderList(){
         let queryMsg = Object.assign({},this.queryMsg,{queryType:this.queryType},{orderSrc: this.orderType});
-        let reqMsg = this.getQueryMsg({queryInfoMsg:queryMsg});
+        let reqMsg = {queryInfoMsg:queryMsg};
         return this.getList(reqMsg,this._getWaitingDispatchOrderList,ClientOrder);
     }
     getOrderList(){
         let queryMsg = Object.assign({},this.queryMsg,{orderStatus:this.orderStatus},{orderSrc: this.orderType});
-        let reqMsg = this.getQueryMsg({queryInfoMsg:queryMsg});
+        let reqMsg = {queryInfoMsg:queryMsg};
         return this.getList(reqMsg,this._getOrderList,ClientOrder);
     }
 
