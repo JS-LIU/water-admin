@@ -14,7 +14,7 @@ class WithdrawItem{
         this.openAccountAddress = withdrawInfo.openAccountAddress;
         this.bankCardNo = withdrawInfo.bankCardNo;
         this.status = withdrawInfo.status;
-        this.finishTime = withdrawInfo.finishTime;
+        this.finishTime = WithdrawItem.convertDate(withdrawInfo.finishTime);
         this.merchantId = withdrawInfo.merchantId;
         this.orderId = withdrawInfo.orderId;
         this.accountId = withdrawInfo.accountId;
@@ -24,7 +24,6 @@ class WithdrawItem{
         this.address = withdrawInfo.address;
         this.remark = withdrawInfo.remark;
         this.cardholderName = withdrawInfo.cardholderName;
-
 
 
         let withdrawAjax = _h.ajax.resource("/admin/withdraw/:action");
@@ -44,6 +43,14 @@ class WithdrawItem{
     }
     reject(){
         return this._rejectWithdraw({orderId:this.orderId,remarks:this.remark});
+    }
+    static convertDate(ms){
+        if(ms){
+            let time = new Date(ms);
+            return time.toLocaleDateString();
+        }
+        return "----"
+
     }
 
 

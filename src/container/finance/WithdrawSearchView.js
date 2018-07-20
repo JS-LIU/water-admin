@@ -92,21 +92,41 @@ import withdrawStyle from './css/withdrawStyle.css';
                 dataIndex:"shopName",
                 key:"shopName",
                 width:200
-            }, {
+            },{
                 title:"商家电话",
                 dataIndex:"shopPhone",
                 key:"shopPhone",
-                width:100
-            },{
-                title:"账户余额",
-                dataIndex:"currentMount",
-                key:"currentMount",
-                width:100
+                width:200
             },{
                 title:"提现金额",
                 dataIndex:"cashMount",
                 key:"cashMount",
                 width:100
+            },{
+                title:"银行卡号",
+                dataIndex:"bankCardNo",
+                key:"bankCardNo",
+                width:200
+            },{
+                title:"开户行",
+                dataIndex:"openAccountAddress",
+                key:"openAccountAddress",
+                width:200
+            },{
+                title:"持卡人姓名",
+                dataIndex:"cardholderName",
+                key:"cardholderName",
+                width:100
+            },{
+                title:"审核时间",
+                dataIndex:"finishTime",
+                key:"finishTime",
+                width:200
+            },{
+                title:"备注",
+                dataIndex:"remark",
+                key:"remark",
+                width:200
             }
 
         ];
@@ -141,7 +161,7 @@ import withdrawStyle from './css/withdrawStyle.css';
             <Table
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{x:900,y:600}}
+                scroll={{x:1800,y:600}}
                 pagination={{current:data.pagination.page+1,onChange:this.changePage.bind(this),total:data.pagination.total}}
             />
         )

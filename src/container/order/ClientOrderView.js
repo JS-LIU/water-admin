@@ -251,10 +251,6 @@ class ClientOrderListQueryView extends Component{
                         <dd>单价</dd>
                         <dd>{productItem.currentPrice /100}</dd>
                     </dl>
-                    {/*<div>*/}
-                        {/*<dd>立减</dd>*/}
-                        {/*<dd>{productItem.payRelatedRmb||0 }</dd>*/}
-                    {/*</div>*/}
                     <dl>
                         <dd>数量</dd>
                         <dd>{productItem.selectCount }</dd>
@@ -327,10 +323,6 @@ class ClientOrderListQueryView extends Component{
             <div className='order_detail_r ml30'>
                 <div className='order_detail_header send'>
                     <span className="pai">派单</span>
-                    {/*<span className="search_site">*/}
-                       {/*<Input placeholder="输入水站名称" />*/}
-                        {/*<Button className="search_site_btn">搜索水站</Button>*/}
-                    {/*</span>*/}
                 </div>
                 <div className="order_detail_right">
                     <MerchantListView/>

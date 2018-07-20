@@ -514,6 +514,8 @@ Function.prototype.before = function( beforefn ){
         return __self.apply( this, arguments );
     }
 };
-
+Date.prototype.toLocaleString = function() {
+    return this.getFullYear() + "/" + (this.getMonth() + 1) + "/" + this.getDate() + "/ " + this.getHours() + ":" + this.getMinutes() + ":" + this.getSeconds();
+};
 
 module.exports = HB;
