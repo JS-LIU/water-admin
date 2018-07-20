@@ -30,8 +30,6 @@ import {data,actions} from '../../store/order/clientOrderListInterface';
 }
 
 @observer class ClientOrderListContainerView extends Component{
-    componentWillMount(){
-    }
     render(){
         return(
             <div>

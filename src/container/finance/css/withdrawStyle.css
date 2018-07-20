@@ -1,0 +1,13 @@
+.withdraw_detail_title{
+    background:#14c2fc;
+    height:30px;
+    color:#FFF;
+    line-height: 30px;
+}
+.withdraw_detail_info{
+    display:flex;
+}
+.withdraw_detail_info_left,
+.withdraw_detail_info_right{
+    flex:1;
+}

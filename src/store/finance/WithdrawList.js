@@ -20,7 +20,7 @@ class WithdrawList extends AdminList{
         }
     }
     setStatus(status){
-        return this.status[status];
+        return this.status[status]();
     }
     getWithdrawList(){
         let queryMsg = Object.assign({},this.queryMsg,{orderStatus: this.orderStatus});
@@ -29,4 +29,4 @@ class WithdrawList extends AdminList{
     }
 
 }
-// module.exports =
+module.exports = new WithdrawList();

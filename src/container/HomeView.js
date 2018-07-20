@@ -23,6 +23,10 @@ import MerchantOrderSearch from './order/MerchantOrderSearchView';
 import MerchantAuditView from './merchantManage/MerchantAuditView';
 import MerchantAuditQueryView from './merchantManage/MerchantListSearchView';
 import MerchantDetailView from './merchantManage/MerchantDetailView';
+//  提现
+import WithdrawView from './finance/WithdrawView';
+import WithdrawSearchView from './finance/WithdrawSearchView';
+
 //返利
 import RebateDealView from './finance/RebateDealView';
 import RebateSearchView from './finance/RebateSearchView';
@@ -47,6 +51,9 @@ import ManufactureCostView from './manufactureCost/ManufactureCostView';
 import OpenShopView from './OpenShopView';
 import ShopListView from './ShopListView';
 import './homeStyle.css';
+
+
+// import RebateSearchView from './finance/RebateSearchView';
 
 class HomeView extends Component{
     constructor(props){
@@ -87,11 +94,12 @@ class HomeView extends Component{
                                 <Route path="/merchantOrder" component={MerchantOrderView} />
                                 <Route path="/merchantOrderSearch" component={MerchantOrderSearch} />
 
-                                <Route path="/withdraw" component={WithdrawInfoView} />
                                 <Route path='/merchantAudit' component={MerchantAuditView} />
                                 <Route path='/merchantAuditQuery' component={MerchantAuditQueryView} />
                                 <Route path='/merchantDetail' component={MerchantDetailView} />
 
+                                <Route path="/withdraw" component={WithdrawView} />
+                                <Route path="/withdrawSearch" component={WithdrawSearchView} />
                                 <Route path='/rebateDeal' component={RebateDealView}/>
                                 <Route path='/rebateSearch' component={RebateSearchView}/>
                                 <Route path='/expenditure' component={ExpenditureView} />

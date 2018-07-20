@@ -65,6 +65,12 @@ class HomeMenuView extends Component{
                                 <span>提现订单</span>
                             </Link>
                         </Menu.Item>
+                        <Menu.Item key="/withdrawSearch">
+                            <Link to="/withdrawSearch">
+                                <Icon type="bank" />
+                                <span>提现查询</span>
+                            </Link>
+                        </Menu.Item>
                         <Menu.Item key="/accountList">
                             <Link to="/accountList">
                                 <Icon type="solution" />
