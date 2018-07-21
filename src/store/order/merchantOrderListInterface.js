@@ -22,10 +22,19 @@ function merchantOrderListActions(){
             merchantOrderListData.pagination = merchantOrderList.pagination;
             merchantOrderList.setActiveItem(list[0]);
             merchantOrderListData.activeOrder = merchantOrderList.activeItem;
-            return merchantOrderList.activeItem.getDetail()
+            if (merchantOrderListData.activeItem){
+                return merchantOrderList.activeItem.getDetail()
+            }else{
+                return {
+                            deliveryAddressModel:{address:{},position:{}},
+                             productItemModels:[],
+                        }
+                };
         }).then((detail)=>{
             merchantOrderListData.detail = detail;
-            return merchantOrderListData.activeOrder.getNearStore()
+            if (merchantOrderListData.activeOrder){
+                return merchantOrderListData.activeOrder.getNearStore()
+            }
         }).then((storeList)=>{
             merchantOrderListData.nearStore = storeList;
         });

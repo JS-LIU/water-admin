@@ -315,7 +315,7 @@ class MerchantOrderListQueryView extends Component{
                         </div>
                         <div className='shop_price'>
                             <span>付款方式：</span>
-                            <span>{data.activeOrder.payChannel}</span>
+                            <span>{data.detail.payChannel}</span>
                         </div>
                         <div>
                             <span>备注：</span>
@@ -344,6 +344,9 @@ class MerchantOrderListQueryView extends Component{
 
 @observer class MerchantListView extends Component{
     render(){
+        if (data.nearStore == null){
+            return null;
+        }
         const columns = [
             {
                 title:"配送仓库",
