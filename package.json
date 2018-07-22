@@ -4,9 +4,7 @@
   "description": "antd+mobx+react-router4+mobx",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "set NODE_ENV=production && webpack --config ./webpack.config.js --progress"
-
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "LIUDQ",
   "license": "ISC",

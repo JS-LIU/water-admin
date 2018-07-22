@@ -250,6 +250,9 @@ class MerchantOrderListQueryView extends Component{
 //  订单详情
 @observer class MerchantOrderDetailView extends Component{
     render() {
+        if (!data.detail){
+            return null;
+        }
         // console.log(data.detail)
         let productItemNodes = data.detail.productItemModels.map((item,i)=>{
             return (
@@ -344,7 +347,7 @@ class MerchantOrderListQueryView extends Component{
 
 @observer class MerchantListView extends Component{
     render(){
-        if (data.nearStore == null){
+        if (!data.nearStore){
             return null;
         }
         const columns = [

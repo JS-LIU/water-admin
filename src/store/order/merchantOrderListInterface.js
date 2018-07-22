@@ -8,9 +8,8 @@ import nearStoreList from './NearStoreList';
 
 let merchantOrderListData = {
     @observable list:[],
-    @observable detail:{deliveryAddressModel:{address:{},position:{}},
-        productItemModels:[]},
-    @observable nearStore:[],
+    @observable detail:null,
+    @observable nearStore:null,
     @observable activeOrder:{},
     @observable pagination:{}
 };
@@ -22,21 +21,28 @@ function merchantOrderListActions(){
             merchantOrderListData.pagination = merchantOrderList.pagination;
             merchantOrderList.setActiveItem(list[0]);
             merchantOrderListData.activeOrder = merchantOrderList.activeItem;
-            if (merchantOrderListData.activeItem){
-                return merchantOrderList.activeItem.getDetail()
-            }else{
-                return {
-                            deliveryAddressModel:{address:{},position:{}},
-                             productItemModels:[],
-                        }
-                };
+            return merchantOrderList.activeItem.getDetail()
+            // if (merchantOrderListData.activeItem){
+            //     return merchantOrderList.activeItem.getDetail()
+            // }else{
+            //     return {
+            //                 deliveryAddressModel:{address:{},position:{}},
+            //                  productItemModels:[],
+            //             }
+            //     };
+        }).catch(()=>{
+            merchantOrderListData.detail = null;
+            merchantOrderListData.nearStore = null;
         }).then((detail)=>{
             merchantOrderListData.detail = detail;
-            if (merchantOrderListData.activeOrder){
-                return merchantOrderListData.activeOrder.getNearStore()
-            }
+            return merchantOrderListData.activeOrder.getNearStore()
+            // if (merchantOrderListData.activeOrder){
+            //     return merchantOrderListData.activeOrder.getNearStore()
+            // }
         }).then((storeList)=>{
             merchantOrderListData.nearStore = storeList;
+        }).catch(()=>{
+            merchantOrderListData.nearStore = null;
         });
     };
 

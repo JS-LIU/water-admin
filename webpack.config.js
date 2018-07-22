@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 module.exports = {
-    // devtool: 'eval-source-map',// 调试时定位到编译前的代码位置，推荐安装react插件
+    devtool: 'eval-source-map',// 调试时定位到编译前的代码位置，推荐安装react插件
     entry: [
         './src/index.js',
         "babel-polyfill"
@@ -38,42 +38,42 @@ module.exports = {
     plugins: [
         new webpack.HotModuleReplacementPlugin() // Enable HMR
     ],
-    // devServer: {
-    //     host: "0.0.0.0",
-    //     disableHostCheck: true,
-    //     port:"9999",
-    //     proxy:{
-    //         "/huibeiwater":{
-    //             target: 'https://huipay.com',
-    //             secure: false,
-    //             bypass: function (req, res, proxyOptions) {
-    //                 if (req.headers.accept.indexOf('html') !== -1) {
-    //                     return '/index.html';
-    //                 }
-    //                 if (req.headers.accept.indexOf('css') !== -1) {
-    //                     return '/src/Util/base.css';
-    //                 }
-    //                 if (req.headers.accept.indexOf('images') !== -1) {
-    //                     return req.url;
-    //                 }
-    //             }
-    //         },
-    //         "/imageserver":{
-    //             target: 'http://123.57.161.212:9936',
-    //             secure: false,
-    //             bypass: function (req, res, proxyOptions) {
-    //                 if (req.headers.accept.indexOf('html') !== -1) {
-    //                     return '/index.html';
-    //                 }
-    //                 if (req.headers.accept.indexOf('css') !== -1) {
-    //                     return '/src/Util/base.css';
-    //                 }
-    //                 if (req.headers.accept.indexOf('images') !== -1) {
-    //                     return req.url;
-    //                 }
-    //             }
-    //         }
-    //
-    //     }
-    // }
+    devServer: {
+        host: "0.0.0.0",
+        disableHostCheck: true,
+        port:"9999",
+        proxy:{
+            "/huibeiwater":{
+                target: 'https://huipay.com',
+                secure: false,
+                bypass: function (req, res, proxyOptions) {
+                    if (req.headers.accept.indexOf('html') !== -1) {
+                        return '/index.html';
+                    }
+                    if (req.headers.accept.indexOf('css') !== -1) {
+                        return '/src/Util/base.css';
+                    }
+                    if (req.headers.accept.indexOf('images') !== -1) {
+                        return req.url;
+                    }
+                }
+            },
+            "/imageserver":{
+                target: 'http://123.57.161.212:9936',
+                secure: false,
+                bypass: function (req, res, proxyOptions) {
+                    if (req.headers.accept.indexOf('html') !== -1) {
+                        return '/index.html';
+                    }
+                    if (req.headers.accept.indexOf('css') !== -1) {
+                        return '/src/Util/base.css';
+                    }
+                    if (req.headers.accept.indexOf('images') !== -1) {
+                        return req.url;
+                    }
+                }
+            }
+
+        }
+    }
 };
