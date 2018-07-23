@@ -116,7 +116,7 @@ class ClientOrderListQueryView extends Component{
             title:'用户账号',
             dataIndex:"userInfo",
             key:"userInfo",
-            width:200
+            width:130
         },{
             title:'收货人-收货电话',
             dataIndex:"receiver",
@@ -134,7 +134,7 @@ class ClientOrderListQueryView extends Component{
             title:'送货商家',
             dataIndex:"shopName",
             key:"shopName",
-            width:200
+            width:180
         },{
             title:'实付金额',
             dataIndex:"totalPrice",
@@ -184,10 +184,10 @@ class ClientOrderListQueryView extends Component{
         }
         const expandedRowRender = record => {
             const columns = [
-                { title: "商品类型", dataIndex: "type" , key: 'type'},
-                { title: '商品品牌', dataIndex: "name", key: 'name' },
-                { title: "商品种类", dataIndex: "volume" , key: 'volume'},
-                { title: '商品数量', dataIndex: 'count', key: 'count' },
+                { title: "商品类型", dataIndex: "type" , key: 'type',width:200},
+                { title: '商品品牌', dataIndex: "name", key: 'name',width:200},
+                { title: "商品种类", dataIndex: "volume" , key: 'volume',width:200},
+                { title: '商品数量', dataIndex: 'count', key: 'count',width:200},
                 { title: '商品单价', dataIndex: 'price', key:'price'}
             ];
             const dataSource = [];
@@ -218,7 +218,7 @@ class ClientOrderListQueryView extends Component{
                 columns={columns}
                 expandedRowRender={expandedRowRender}
                 dataSource={dataSource}
-                scroll={{x: 1850,y:300}}
+                scroll={{x: 1800,y:300}}
                 onRow={(record) => {
                     return {
                         onClick: () => {
@@ -269,8 +269,9 @@ class ClientOrderListQueryView extends Component{
                         <span>订单时间：{data.detail.createTime}</span>
                     </li>
                     <li className='list_border'>
-                        <div> 收货人：{data.detail.deliveryAddressModel.name} </div>
-                        <div>收获地址：{data.detail.deliveryAddressModel.address.fullAddress}</div>
+                        <div className="consignee">收货人：{data.detail.deliveryAddressModel.name} </div>
+                        <div className="consignee">收获地址：{data.detail.deliveryAddressModel.address.fullAddress}</div>
+                        <div className="consignee">联系人电话：{data.detail.deliveryAddressModel.phoneNum }</div>
                     </li>
                     <li>
                         <ul>
@@ -388,7 +389,7 @@ class ClientOrderListQueryView extends Component{
                 columns={columns}
                 dataSource={dataSource}
                 pagination={false}
-                scroll={{ x: "160%",y:400 }}
+                scroll={{ x: "130%",y:400 }}
             />
         )
     }

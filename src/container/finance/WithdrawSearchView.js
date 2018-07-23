@@ -91,12 +91,12 @@ import withdrawStyle from './css/withdrawStyle.css';
                 title:"店铺名称",
                 dataIndex:"shopName",
                 key:"shopName",
-                width:200
+                width:150
             },{
                 title:"商家电话",
                 dataIndex:"shopPhone",
                 key:"shopPhone",
-                width:200
+                width:150
             },{
                 title:"提现金额",
                 dataIndex:"cashMount",
@@ -116,17 +116,17 @@ import withdrawStyle from './css/withdrawStyle.css';
                 title:"持卡人姓名",
                 dataIndex:"cardholderName",
                 key:"cardholderName",
-                width:100
+                width:130
             },{
                 title:"审核时间",
                 dataIndex:"finishTime",
                 key:"finishTime",
-                width:200
+                width:150
             },{
                 title:"备注",
                 dataIndex:"remark",
                 key:"remark",
-                width:200
+                width:130
             }
 
         ];
@@ -161,7 +161,7 @@ import withdrawStyle from './css/withdrawStyle.css';
             <Table
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{x:1800,y:600}}
+                scroll={{x:1630,y:600}}
                 pagination={{current:data.pagination.page+1,onChange:this.changePage.bind(this),total:data.pagination.total}}
             />
         )

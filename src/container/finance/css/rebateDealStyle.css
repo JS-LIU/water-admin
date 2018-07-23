@@ -1,10 +1,9 @@
 .inquire_view{
-    width: 1250px;
+    width: 1000px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-bottom: 15px;
-    padding-left: 50px;
     box-sizing: border-box;
 }
 .rebate_list{
@@ -14,7 +13,7 @@
     padding: 15px;
 }
 .rebate_list>span{
-    margin: 10px 0 23px 0;
+    margin: 10px 0;
 }
 .rebate_btn{
     width: 100px;

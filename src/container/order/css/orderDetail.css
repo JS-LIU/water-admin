@@ -83,3 +83,6 @@ textarea{
 .print_order{
     text-align: right;
 }
+.consignee{
+    margin: 5px 0;
+}

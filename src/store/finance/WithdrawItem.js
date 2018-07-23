@@ -22,7 +22,7 @@ class WithdrawItem{
         this.shopName = withdrawInfo.shopName;
         this.shopPhone = withdrawInfo.shopPhone;
         this.address = withdrawInfo.address;
-        this.remark = withdrawInfo.remark;
+        this.remark = withdrawInfo.remark||"------";
         this.cardholderName = withdrawInfo.cardholderName;
 
 

@@ -72,21 +72,6 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                         </FormItem>
                     </Col>
                     <Col span={8}>
-                        <FormItem label={"订单创建时间"}>
-                            <RangePicker onChange={this.searchByCreateTime.bind(this)} />
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <FormItem label={"付款时间"}>
-                            <RangePicker onChange={this.searchByPayTime.bind(this)} />
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <FormItem label={"处理时间"}>
-                            <RangePicker onChange={this.searchByDispatchTime.bind(this)} />
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
                         <FormItem label={"账户查询"}>
                             <Search
                                 placeholder="请输入用户手机号"
@@ -98,6 +83,23 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                             />
                         </FormItem>
                     </Col>
+                    <div>
+                        <Col span={8}>
+                            <FormItem label={"订单创建时间"}>
+                                <RangePicker onChange={this.searchByCreateTime.bind(this)} />
+                            </FormItem>
+                        </Col>
+                        <Col span={8}>
+                            <FormItem label={"付款时间"}>
+                                <RangePicker onChange={this.searchByPayTime.bind(this)} />
+                            </FormItem>
+                        </Col>
+                        <Col span={8}>
+                            <FormItem label={"处理时间"}>
+                                <RangePicker onChange={this.searchByDispatchTime.bind(this)} />
+                            </FormItem>
+                        </Col>
+                    </div>
                 </Row>
             </Form>
         )
@@ -120,14 +122,14 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 title:"订单号",
                 dataIndex:"orderNo",
                 key:"orderNo",
-                width:300
+                width:200
             },
 
             {
                 title:"用户账号",
                 dataIndex:"userInfo",
                 key:"userInfo",
-                width:200
+                width:150
             },
             {
                 title:"收货人-电话",
@@ -151,54 +153,54 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 title:"商家编号",
                 dataIndex:"shopArtificialNum",
                 key:"shopArtificialNum",
-                width:200
+                width:100
             },
             {
                 title:"商家电话",
                 dataIndex:"shopTelephone",
                 key:"shopTelephone",
-                width:200
+                width:150
             },{
                 title:"促销",
                 dataIndex:"promotionActivity",
                 key:"promotionActivity",
-                width:200
+                width:100
             },
             {
                 title:"水票",
                 dataIndex:"ticketUseNum",
                 key:"ticketUseNum",
-                width:200
+                width:100
             },
             {
                 title:"立减（每桶）",
                 dataIndex:"minusMount",
                 key:"minusMount",
-                width:200
+                width:100
             },
             {
                 title:"运费",
                 dataIndex:"freight",
                 key:"freight",
-                width:200
+                width:100
             },
             {
                 title:"实付金额",
                 dataIndex:"totalPrice",
                 key:"totalPrice",
-                width:200
+                width:150
             },
             {
                 title:"支付方式",
                 dataIndex:"payChannel",
                 key:"payChannel",
-                width:200
+                width:150
             },
             {
                 title:"订单状态",
                 dataIndex:"orderStatus",
                 key:"ordearStatus",
-                width:200
+                width:100
             }
 
         ];
@@ -231,25 +233,24 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                     title:"商品名称",
                     dataIndex:"name",
                     key:"name",
-                    width:100
+                    width:200
                 },
                 {
                     title:"规格",
                     dataIndex:"volume",
                     key:"volume",
-                    width:100,
+                    width:200,
                 },
                 {
                     title:"单价（元）",
                     dataIndex:"price",
                     key:"price",
-                    width:100,
+                    width:200,
                 },
                 {
                     title:"数量",
                     dataIndex:"count",
                     key:"count",
-                    width:100,
                 }
             ];
             const dataSource = [];
@@ -276,7 +277,7 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 columns={columns}
                 dataSource={dataSource}
                 expandedRowRender={expandedRowRender}
-                scroll={{x:3300,y:600}}
+                scroll={{x:2500,y:600}}
                 pagination={{current:data.pagination.page+1,onChange:this.changePage.bind(this),total:data.pagination.total}}
             />
         )

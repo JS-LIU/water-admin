@@ -145,12 +145,12 @@ class MerchantOrderListQueryView extends Component{
                 title:"商家编号",
                 dataIndex:"shopArtificialNum",
                 key:"shopArtificialNum",
-                width:200
+                width:100
             }, {
                 title:"商家名称",
                 dataIndex:"receiverShopName",
                 key:"receiverShopName",
-                width:300
+                width:200
             },{
                 title:"收货人-电话",
                 dataIndex:"receiver",
@@ -160,17 +160,17 @@ class MerchantOrderListQueryView extends Component{
                 title:"电话",
                 dataIndex:"userInfo",
                 key:"userInfo",
-                width:200
+                width:150
             },{
                 title:"收货地址",
                 dataIndex:"deliveryAddress",
                 key:"deliveryAddress",
-                width:300
+                width:250
             },{
                 title:"商品金额",
                 dataIndex:"totalPrice",
                 key:"totalPrice",
-                width:150
+                width:100
             },{
                 title:"订单状态",
                 dataIndex:"orderStatus",
@@ -198,11 +198,11 @@ class MerchantOrderListQueryView extends Component{
             })
         }
         const expandedRowRender = (record) => {
-            const columns = [ {title: "商品类型", dataIndex: "type" , key: 'type'},
-            { title: '商品品牌', dataIndex: "name", key: 'name' },
-            { title: "商品种类", dataIndex: "volume" , key: 'volume'},
-            { title: '商品数量', dataIndex: 'count', key: 'count' },
-            { title: '商品单价', dataIndex: 'price', key:'price'}];
+            const columns = [ {title: "商品类型", dataIndex: "type" , key: 'type',width:200},
+            { title: '商品品牌', dataIndex: "name", key: 'name',width:200 },
+            { title: "商品种类", dataIndex: "volume" , key: 'volume',width:200},
+            { title: '商品数量', dataIndex: 'count', key: 'count',width:200},
+            { title: '商品总价', dataIndex: 'price', key:'price'}];
             const dataSource = [];
             for(let i = 0;i < record.productItems.length;i++){
                 let item = record.productItems[i];
@@ -231,7 +231,7 @@ class MerchantOrderListQueryView extends Component{
                 columns={columns}
                 dataSource={dataSource}
                 expandedRowRender={expandedRowRender}
-                scroll={{x: 1950,y:300}}
+                scroll={{x: 1600,y:300}}
                 onRow={(record) => {
                     return {
                         onClick: () => {
@@ -259,7 +259,7 @@ class MerchantOrderListQueryView extends Component{
                 <div key={i} className='order_detail_shop'>
                      <span>{item.name}</span>
                      <span>{item.volume}</span>
-                     <span>{item.currentPrice}</span>
+                     <span>{item.currentPrice / 100}</span>
                      <span>{item.selectCount}</span>
                 </div>
             )

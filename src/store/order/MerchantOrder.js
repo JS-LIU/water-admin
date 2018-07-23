@@ -16,11 +16,11 @@ class MerchantOrder{
         this.userInfo = orderInfo.userInfo;// 用户账号
         this.deliveryAddress = orderInfo.deliveryAddress;// 收货地址
         this.totalPrice = orderInfo.totalPrice;// 实付金额
-        this.payChannel = orderInfo.payChannel;// 支付方式
+        this.payChannel = orderInfo.payChannel||"------";// 支付方式
         this.receiverShopName = orderInfo.buyShopName;
         this.shopArtificialNum = orderInfo.shopArtificialNum;
         this.shopAlias = orderInfo.shopAlias;
-        this.promotionActivity = orderInfo.promotionActivity;// 促销
+        this.promotionActivity = orderInfo.promotionActivity||"------";// 促销
         this.ticketUseNum = orderInfo.ticketUseNum;// 水票
         this.minusMount = orderInfo.minusMount;// 立减
         this.freight = orderInfo.freight;// 运费
@@ -31,7 +31,7 @@ class MerchantOrder{
             latitude:orderInfo.latitude,
             shopName:orderInfo.huibeiStoreName,// 配送商家
             shopAddress:orderInfo.shopAddress,
-            shopTelephone:orderInfo.shopTelephone,// 商家电话
+            shopTelephone:orderInfo.shopTelephone||"------",// 商家电话
             shopId:orderInfo.shopId,
             cityName:orderInfo.cityName
         });

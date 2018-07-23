@@ -9,6 +9,7 @@ class Location {
         this.name = name;
         this.district = district;
         this.fullAddress = name + district;
+        this.phoneNum = phoneNum;
     }
 }
 module.exports = Location;

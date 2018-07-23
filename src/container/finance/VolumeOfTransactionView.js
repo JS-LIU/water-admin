@@ -50,11 +50,11 @@ import volumeOfTransaction from './css/VolumeOfTransactionStyle.css'
                                 actions.queryListByQueryInfo();
                             }}
                             enterButton
-                            style={{ marginBottom: 16 }}
+                            style={{ marginBottom: 25 }}
                         />
                     </span>
                 </div>
-                <Radio.Group value={orderSrc} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
+                <Radio.Group value={orderSrc} onChange={this.onChange.bind(this)} style={{ marginBottom: 10 }} >
                     <Radio.Button value={"merchant_src"}>批发订单</Radio.Button>
                     <Radio.Button value={"self_src"}>自营订单</Radio.Button>
                     <Radio.Button value={"client_src"}>水站订单</Radio.Button>
@@ -173,10 +173,10 @@ import volumeOfTransaction from './css/VolumeOfTransactionStyle.css'
         //级联
         const expandedRowRender = record => {
             const columns = [
-                { title: "商品名称", dataIndex: "name" , key: 'name'},
-                { title: '商品规格', dataIndex: "volume", key: 'volume' },
-                { title: '商品类型', dataIndex: "productType", key: 'productType' },
-                { title: '单价', dataIndex: "originalPrice", key: 'originalPrice' },
+                { title: "商品名称", dataIndex: "name" , key: 'name',width:200},
+                { title: '商品规格', dataIndex: "volume", key: 'volume',width:200},
+                { title: '商品类型', dataIndex: "productType", key: 'productType',width:200},
+                { title: '单价', dataIndex: "originalPrice", key: 'originalPrice',width:200},
                 { title: '数量', dataIndex: "selectCount", key: 'selectCount' },
 
             ];

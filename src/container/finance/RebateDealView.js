@@ -79,17 +79,17 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
             title: '店铺编号',
             dataIndex: 'shopAlians',
             key: 'shopAlians',
-            width:150
+            width:100
         }, {
             title: '店铺名称',
             dataIndex: 'shopName',
             key: 'shopName',
-            width:250
+            width:150
         }, {
             title: '联系电话',
             dataIndex: 'phoneNum',
             key: 'phoneNum',
-            width:200
+            width:150
         },{
             title: '总进货数量（桶）',
             dataIndex: 'totalMount',
@@ -109,7 +109,7 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
             title:"评论",
             dataIndex:'remark',
             key:"remark",
-            width:180
+            width:100
         },{
             title: '状态',
             dataIndex: 'status',
@@ -136,7 +136,7 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
         }
         const expandedRowRender = record => {
             const columns = [
-                { title: "商品名称", dataIndex: "productName" , key: 'productName'},
+                { title: "商品名称", dataIndex: "productName" , key: 'productName',width:300},
                 { title: '数量', dataIndex: "saleMount", key: 'saleMount' },
             ];
             const dataSource = [];
@@ -161,7 +161,7 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
             <Table
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{y:300,x:1680}}
+                scroll={{y:300,x:1130}}
                 expandedRowRender={expandedRowRender}
                 onRow={(record) => {
                     return {
@@ -180,7 +180,7 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
 @observer class RebateOperation extends Component{
     render(){
         const columns = [
-            { title: "商品名称", dataIndex: "productName" , key: 'productName',width:200},
+            { title: "商品名称", dataIndex: "productName" , key: 'productName',width:300},
             { title: '数量', dataIndex: "saleMount", key: 'saleMount' },
         ];
         const dataSource = [];
