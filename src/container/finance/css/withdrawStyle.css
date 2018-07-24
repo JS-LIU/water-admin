@@ -1,8 +1,10 @@
 .withdraw_detail_title{
-    background:#14c2fc;
-    height:30px;
+    background:dodgerblue;
+    height:38px;
+    line-height: 38px;
     color:#FFF;
-    line-height: 30px;
+    font-size: 16px;
+    padding-left: 10px;
 }
 .withdraw_detail_info{
     display:flex;

@@ -159,19 +159,19 @@ import merchantAuditStyle from './css/merchantAudit.css';
                 title: "商户号",
                 dataIndex: "merchantNumber",
                 key: "merchantNumber",
-                width: 200
+                width: 100
             },
             {
                 title: "店铺名称",
                 dataIndex: "shopName",
                 key: "shopName",
-                width: 200
+                width: 150
             },
             {
                 title: "商家编号",
                 dataIndex: "shopArtificialNum",
                 key: "shopArtificialNum",
-                width: 200,
+                width: 150,
                 render: (text, record) => (
                     <EditableCell
                         value={text}
@@ -190,25 +190,25 @@ import merchantAuditStyle from './css/merchantAudit.css';
                 title: "店铺属性",
                 dataIndex: "shopType",
                 key: "shopType",
-                width: 200
+                width: 150
             },
             {
                 title: "所在地区",
                 dataIndex: "district",
                 key: "district",
-                width: 200
+                width: 250
             },
             {
                 title: "详细地址",
                 dataIndex: "addressDetail",
                 key: "addressDetail",
-                width: 300
+                width: 250
             },
             {
                 title: "客服电话",
                 dataIndex: "serviceTel",
                 key: "serviceTel",
-                width: 200
+                width: 150
             },
             {
                 title: "配送时间",
@@ -220,13 +220,13 @@ import merchantAuditStyle from './css/merchantAudit.css';
                 title: "配送范围",
                 dataIndex: "deliveryRange",
                 key: "deliveryRange",
-                width: 200
+                width: 100
             },
             {
                 title: "快递费用",
                 dataIndex: "deliveryMoney",
                 key: "deliveryMoney",
-                width: 200
+                width: 100
             },
             {
                 title: "店铺图片",
@@ -239,7 +239,7 @@ import merchantAuditStyle from './css/merchantAudit.css';
                 title: "营业执照",
                 dataIndex: "licenseImageUrl",
                 key: "licenseImageUrl",
-                width: 200
+                width: 100
             },
             {
                 title: "商家介绍",
@@ -251,13 +251,13 @@ import merchantAuditStyle from './css/merchantAudit.css';
                 title: "店长姓名",
                 dataIndex: "managerName",
                 key: "managerName",
-                width: 200
+                width: 150
             },
             {
                 title: "联系电话",
                 dataIndex: "managerTel",
                 key: "managerTel",
-                width: 200
+                width: 150
             },
             {
                 title: "手持身份证照片",
@@ -270,13 +270,13 @@ import merchantAuditStyle from './css/merchantAudit.css';
                 title: "审核人",
                 dataIndex: "auditor",
                 key: "auditor",
-                width: 200
+                width: 150
             },
             {
                 title: "店铺类型",
                 dataIndex: "merChantType",
                 key: "merChantType",
-                width: 200
+                width: 100
             },
             {
                 title: "操作",
@@ -323,7 +323,7 @@ import merchantAuditStyle from './css/merchantAudit.css';
                 className="components-table-demo-nested"
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{x: 4000}}
+                scroll={{x: 3300}}
                 pagination={{total:data.pagination.total,defaultCurrent:1,onChange:this.changePage.bind(this),current:data.pagination.page+1}}
             />
         )

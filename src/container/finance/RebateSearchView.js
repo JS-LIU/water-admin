@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import rebateSearchStyle from './css/rebateSearchStyle.css';
 import {observer,inject} from 'mobx-react';
 import {data,actions} from '../../store/finance/rebateListSearchInterface';
 

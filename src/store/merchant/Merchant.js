@@ -9,39 +9,29 @@ import ShopActivityList from './ShopActivityList';
 import AutoMap from '../../Util/huipayLocation/AutoMap';
 class Merchant{
     constructor(merchantInfo){
-        this.applyTime = merchantInfo.applyTime;           //  申请时间
-        this.shopName = merchantInfo.shopName;             //  店铺名称
-        this.merchantType = merchantInfo.merchantType;         //  店铺属性("personal","corporate")
-        this.shopType = merchantInfo.shopType;          //  店铺属性("0 virtual_shop",friend_entity_shop(1, "旗舰店")software_used_entity_shop(2, "加V认证")shop_for_test(3, "测试店铺"),warehouse_shop(4, "水厂");//水厂)
-        this.district = merchantInfo.address;              //  所在地区
-        this.addressDetail = merchantInfo.addressDetail;   //  详细地址
-        this.serviceTel =  merchantInfo.serviceTel;        //  客服电话
-        this.licenseImageUrl = merchantInfo.businessLicenseImageUr;    //  营业执照
-        this.managerName = merchantInfo.userName;          //  店长姓名
-        this.managerTel = merchantInfo.telePhone;          //  联系人电话
-        this.managerImgUrl = merchantInfo.idCardImageUrl;  //  手持身份证照片
-
-        this.auditStatus = Merchant.convertToAuditStatus(merchantInfo.merchantStatus);   //  审核状态
-        //  商户号
-        this.merchantNumber = merchantInfo.merchantNumber;
-        //  商家编号
-        this.shopArtificialNum = merchantInfo.shopArtificialNum;
-        //  店铺头像
-        this.shopHeaderImg = merchantInfo.imgUrl;
-        //  配送时间
-        this.deliveryTime = merchantInfo.deliverTimeStr;
+        this.applyTime = merchantInfo.applyTime;                                        //  申请时间
+        this.shopName = merchantInfo.shopName;                                          //  店铺名称
+        this.merchantType = merchantInfo.merchantType||"------";                        //  店铺属性("personal","corporate")
+        this.shopType = merchantInfo.shopType;                                          //  店铺属性("0 virtual_shop",friend_entity_shop(1, "旗舰店")software_used_entity_shop(2, "加V认证")shop_for_test(3, "测试店铺"),warehouse_shop(4, "水厂");//水厂)
+        this.district = merchantInfo.address||"------";                                 //  所在地区
+        this.addressDetail = merchantInfo.addressDetail||"------";                      //  详细地址
+        this.serviceTel =  merchantInfo.serviceTel;                                     //  客服电话
+        this.licenseImageUrl = merchantInfo.businessLicenseImageUr||"------";           //  营业执照
+        this.managerName = merchantInfo.userName;                                       //  店长姓名
+        this.managerTel = merchantInfo.telePhone;                                       //  联系人电话
+        this.managerImgUrl = merchantInfo.idCardImageUrl;                               //  手持身份证照片
+        this.auditStatus = Merchant.convertToAuditStatus(merchantInfo.merchantStatus); //  审核状态
+        this.merchantNumber = merchantInfo.merchantNumber;                              //  商户号
+        this.shopArtificialNum = merchantInfo.shopArtificialNum;                        //  商家编号
+        this.shopHeaderImg = merchantInfo.imgUrl;                                       //  店铺头像
+        this.deliveryTime = merchantInfo.deliverTimeStr;                                //  配送时间
         this._deliveryStartTime = "9:00:00";
         this._deliveryEndTime = "17:00:00";
-        //  配送范围
-        this.deliveryRange = merchantInfo.distanceScope;
-        //  快递费用
-        this.deliveryMoney = merchantInfo.freight;
-        //  店铺图片
-        this.shopImg = merchantInfo.shopDetailImage;
-
-        this.introduce = merchantInfo.presentation;        //  商家介绍
-        this.auditor = merchantInfo.auditor;               //  审核人
-
+        this.deliveryRange = merchantInfo.distanceScope;                                //  配送范围
+        this.deliveryMoney = merchantInfo.freight;                                      //  快递费用
+        this.shopImg = merchantInfo.shopDetailImage;                                    //  店铺图片
+        this.introduce = merchantInfo.presentation;                                     //  商家介绍
+        this.auditor = merchantInfo.auditor;
         this.merchantId = merchantInfo.merchantId;
         this.shopId = merchantInfo.shopId;
         let merchantListAjax = _h.ajax.resource('/admin/merchant/:action');

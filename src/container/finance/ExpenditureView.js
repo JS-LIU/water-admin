@@ -5,7 +5,7 @@ const TabPane = Tabs.TabPane;
 const Option = Select.Option;
 import {observer,inject}from "mobx-react";
 
-import expenditureStyle from './expenditure.css';
+import expenditureStyle from './css/expenditureStyle.css';
 import {data,actions} from "../../store/finance/manufactureCostSearchInterface";
 
 @observer class ExpenditureView extends Component{

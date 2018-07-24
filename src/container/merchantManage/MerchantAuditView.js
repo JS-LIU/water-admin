@@ -118,47 +118,47 @@ class MerchantAuditListQueryView extends Component{
                 title:'申请时间',
                 dataIndex:"applyTime",
                 key:"applyTime",
-                width:200
+                width:150
             },{
                 title:'店铺名称',
                 dataIndex:"shopName",
                 key:"shopName",
-                width:200
+                width:100
             },{
                 title:'店铺属性',
                 dataIndex:"merchantType",
                 key:"merchantType",
-                width:200
+                width:100
             },{
                 title:'所在地区',
                 dataIndex:"district",
                 key:"district",
-                width:200
+                width:250
             },{
                 title:'详细地址',
                 dataIndex:"addressDetail",
                 key:"addressDetail",
-                width:300
+                width:250
             },{
                 title:'客服电话',
                 dataIndex:"serviceTel",
                 key:"serviceTel",
-                width:200
+                width:150
             },{
                 title:'营业执照',
                 dataIndex:"licenseImageUrl",
                 key:"licenseImageUrl",
-                width:200
+                width:150
             },{
                 title:'店长姓名',
                 dataIndex:"managerName",
                 key:"managerName",
-                width:200
+                width:150
             },{
                 title:'联系人电话',
                 dataIndex:"managerTel",
                 key:"managerTel",
-                width:200
+                width:150
             },{
                 title:'手持身份证照片',
                 dataIndex:"managerImgUrl",
@@ -208,7 +208,7 @@ class MerchantAuditListQueryView extends Component{
                 className="components-table-demo-nested"
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{x: 2300,y:420}}
+                scroll={{x: 1700,y:420}}
                 onRow={(record)=>{
                     return {
                         onClick:()=>{
