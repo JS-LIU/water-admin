@@ -80,8 +80,8 @@ class MerchantOrderListQueryView extends Component{
     // }
     render(){
         return (
-            <Form>
-                <Row gutter={16}>
+            <Form className="search_box">
+                    <div className="search_region">
                     <Col span={8}>
                         <FormItem label={"账户查询"}>
                             <Search
@@ -121,7 +121,8 @@ class MerchantOrderListQueryView extends Component{
                             />
                         </FormItem>
                     </Col>
-                </Row>
+                    </div>
+                    <Button type="primary" icon="reload" onClick={() => actions.queryByQueryInfo()}>点击刷新</Button>
             </Form>
         )
     }
@@ -280,7 +281,8 @@ class MerchantOrderListQueryView extends Component{
                     </li>
                     <li>
                         <div> 收货人：{data.detail.deliveryAddressModel.name} </div>
-                        <div> 收货地址：{data.detail.deliveryAddressModel.address.fullAddress}  </div>
+                        <div> 收货地址：{data.detail.deliveryAddressModel.address.fullAddress}</div>
+                        <div> 收货人电话：{data.detail.deliveryAddressModel.phoneNum }</div>
                     </li>
                     <li>
                         <div className='order_detail_shop'>

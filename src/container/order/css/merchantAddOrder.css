@@ -47,4 +47,10 @@ textarea{
     text-align: end;
     margin-right:50px;
 }
+.search_region{
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 

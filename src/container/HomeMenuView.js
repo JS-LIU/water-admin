@@ -31,12 +31,12 @@ class HomeMenuView extends Component{
                                 <span>订单查询</span>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="/orderForms">
-                            <Link to="/clientOrder">
-                                <Icon type="file-text" />
-                                <span>订单报表</span>
-                            </Link>
-                        </Menu.Item>
+                        {/*<Menu.Item key="/orderForms">*/}
+                            {/*<Link to="/clientOrder">*/}
+                                {/*<Icon type="file-text" />*/}
+                                {/*<span>订单报表</span>*/}
+                            {/*</Link>*/}
+                        {/*</Menu.Item>*/}
                     </SubMenu>
                     <SubMenu key="sub2" title={<span><Icon type="team" /><span>商家订单</span></span>}>
                         <Menu.Item key="/merchantOrder">

@@ -62,6 +62,7 @@ class ClientOrderListQueryView extends Component{
                         enterButton
                         style={{ marginBottom: 16 }}
                     />
+                    <Button type="primary" icon="reload" onClick={() => actions.queryByQueryInfo()}>点击刷新</Button>
                 </div>
                 <Radio.Group value={queryType} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
                     <Radio.Button value={0}>全部</Radio.Button>
@@ -271,7 +272,7 @@ class ClientOrderListQueryView extends Component{
                     <li className='list_border'>
                         <div className="consignee">收货人：{data.detail.deliveryAddressModel.name} </div>
                         <div className="consignee">收获地址：{data.detail.deliveryAddressModel.address.fullAddress}</div>
-                        <div className="consignee">联系人电话：{data.detail.deliveryAddressModel.phoneNum }</div>
+                        <div className="consignee">收货人电话：{data.detail.deliveryAddressModel.phoneNum }</div>
                     </li>
                     <li>
                         <ul>
