@@ -4,7 +4,7 @@
 import {observable, computed, action, autorun} from "mobx";
 import merchantOrderList from './MerchantOrderList';
 import clientOrderList from "./ClientOrderList";
-
+var $ = require('jquery');
 let orderSearchData = {
     @observable list:[],
     @observable pagination:{}
@@ -66,12 +66,37 @@ function merchantOrderSearchActions(){
         merchantOrderList.pagination.setPage(pageNum);
         getOrderList();
     };
+    let getExcel = function(){
+        // let data = merchantOrderList.getExcel();
+        //
+        // $.ajax({
+        //     type: "POST",
+        //     url: '/huibeiwater/admin/exportShopOrder',
+        //     data: JSON.stringify(data),
+        // })
+        merchantOrderList.getExcel()
+    };
+    let selectMerchantOrder = function(orderId){
+        let order = merchantOrderList.findItemByItemId(orderSearchData.list,orderId,"orderId");
+        merchantOrderList.setActiveItem(order);
+    };
+    let confirmReceipt = function(orderId){
+        selectMerchantOrder(orderId);
+        console.log(merchantOrderList.activeItem);
+        merchantOrderList.activeItem.confirmReceipt().then(()=>{
+            clientOrderList.pagination.setPage(1);
+            getOrderList();
+        })
+    };
     return {
         onLoad:load,
         //  加载load 搜索
         searchOrderList:searchOrderList,
         selectQueryMsg:selectQueryMsg,
-        changePage:changePage
+        changePage:changePage,
+        selectMerchantOrder:selectMerchantOrder,
+        confirmReceipt:confirmReceipt,
+        getExcel:getExcel
     }
 }
 module.exports = {actions:merchantOrderSearchActions(),data:orderSearchData};

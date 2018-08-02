@@ -104,9 +104,14 @@ class ClientOrderListQueryView extends Component{
     }
     render(){
         const baseColumns = [{
-            title:'订单时间',
+            title:'创建时间',
             dataIndex:"createTime",
             key:"createTime",
+            width:200
+        },{
+            title:'付款时间',
+            dataIndex:"payTime",
+            key:"payTime",
             width:200
         },{
             title:'订单号',
@@ -170,6 +175,7 @@ class ClientOrderListQueryView extends Component{
             let item = data.list[i];
             dataSource.push({
                 key:i,
+                payTime:item.payTime,
                 createTime:item.createTime,
                 orderNo:item.orderNo,
                 userInfo:item.userInfo,

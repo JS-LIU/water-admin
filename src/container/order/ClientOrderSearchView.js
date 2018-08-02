@@ -84,24 +84,24 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                             />
                         </FormItem>
                     </Col>
-                    <br/>
-                    <div>
-                        <Col span={8}>
-                            <FormItem label={"订单创建时间"}>
-                                <RangePicker onChange={this.searchByCreateTime.bind(this)} />
-                            </FormItem>
-                        </Col>
-                        <Col span={8}>
-                            <FormItem label={"付款时间"}>
-                                <RangePicker onChange={this.searchByPayTime.bind(this)} />
-                            </FormItem>
-                        </Col>
-                        <Col span={8}>
-                            <FormItem label={"处理时间"}>
-                                <RangePicker onChange={this.searchByDispatchTime.bind(this)} />
-                            </FormItem>
-                        </Col>
-                    </div>
+                    <Col span={8}>
+                        <FormItem label={"订单创建时间"}>
+                            <RangePicker onChange={this.searchByCreateTime.bind(this)} />
+                        </FormItem>
+                    </Col>
+                    <Col span={8}>
+                        <FormItem label={"付款时间"}>
+                            <RangePicker onChange={this.searchByPayTime.bind(this)} />
+                        </FormItem>
+                    </Col>
+                    <Col span={8}>
+                        <FormItem label={"处理时间"}>
+                            <RangePicker onChange={this.searchByDispatchTime.bind(this)} />
+                        </FormItem>
+                    </Col>
+                    <Col span={8}>
+                        <Button type="primary" onClick={actions.getExcel}>导出报表</Button>
+                    </Col>
                 </Row>
             </Form>
         )
@@ -112,12 +112,31 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
     changePage(pageNum){
         actions.changePage(pageNum)
     }
+    getOperate(orderStatus,orderId){
+        if(orderStatus === "待收货"){
+            return () => actions.confirmReceipt(orderId);
+        }
+
+    }
+    operateText(orderStatus){
+        if(orderStatus === "待收货"){
+            return "确认收货"
+        }else{
+            return orderStatus
+        }
+    }
     render(){
         const columns = [
             {
-                title:"订单时间",
+                title:"创建时间",
                 dataIndex:"createTime",
                 key:"createTime",
+                width:200
+            },
+            {
+                title:"付款时间",
+                dataIndex:"payTime",
+                key:"payTime",
                 width:200
             },
             {
@@ -202,7 +221,8 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 title:"订单状态",
                 dataIndex:"orderStatus",
                 key:"orderStatus",
-                width:100
+                width:100,
+                render:(text,record) =>{return (<a href="javascript:void(0)" onClick={this.getOperate(record.orderStatus,record.orderId)}>{this.operateText(record.orderStatus,record.orderId)}</a>)}
             }
 
         ];
@@ -212,6 +232,7 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
             dataSource.push({
                 key:i,
                 createTime:item.createTime,
+                payTime:item.payTime,
                 orderNo:item.orderNo,
                 promotionActivityInfo:item.promotionActivityInfo,
                 userWaterTicket:item.userWaterTicket,
@@ -228,7 +249,8 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 shopName:item.shopName,
                 shopArtificialNum:item.deliveryShop.shopArtificialNum,
                 shopTelephone:item.deliveryShop.shopTelephone,
-                orderStatus:item.orderStatus
+                orderStatus:item.orderStatus,
+                orderId:item.orderId
             })
         }
         const expandedRowRender = record => {

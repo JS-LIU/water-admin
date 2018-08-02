@@ -137,6 +137,12 @@ class MerchantOrderListQueryView extends Component{
                 dataIndex:"createTime",
                 key:"createTime",
                 width:200
+            },
+            {
+                title:"付款时间",
+                dataIndex:"payTime",
+                key:"payTime",
+                width:200
             },{
                 title:"订单号",
                 dataIndex:"orderNo",
@@ -184,6 +190,7 @@ class MerchantOrderListQueryView extends Component{
             let item = data.list[i];
             dataSource.push({
                 key:i,
+                payTime:item.payTime,
                 receiverShopName:item.receiverShopName+"-"+item.shopArtificialNum+item.shopAlias,
                 createTime:item.createTime,
                 orderNo:item.orderNo,

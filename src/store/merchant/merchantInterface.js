@@ -6,13 +6,16 @@ import merchantListContainer from './MerchantListContainer';
 import Merchant from './Merchant';
 
 let merchantData = {
-    @observable merchant:{shopImg:[],serviceTel:[]},    //  店铺信息
+    @observable merchant:null,                          //  店铺信息
+    @observable pagination:{},
     @observable detail:{},
     @observable productList:[],                         //  店铺商品
+    @observable accountRecordFlowList:[],               //  资金记录
+
     @observable buyOrderList:[],                        //  进货订单
     @observable saleOrderList:[],                       //  销售订单
     @observable waterTicketOrderList:[],                //  水票款
-    @observable withdrawList:[]                         //  提现
+    @observable withdrawList:[],                        //  提现
 };
 
 function merchantActions(){
@@ -49,10 +52,21 @@ function merchantActions(){
             merchantData.buyOrderList = orderList;
         });
     };
-    let getWaterTicketOrderList = function(){
-        merchantData.merchant.account.waterTicketOrderList.getWaterTicketList().then((list)=>{
-            merchantData.waterTicketOrderList = list;
+    let changeRecordType = function(type){
+        merchantData.merchant.account.changeRecordType(type);
+    };
+    let setInitPage = function(){
+        merchantData.merchant.account.pagination.setPage(1);
+    };
+    let getAccountRecordInfo = function(){
+        merchantData.merchant.account.getAccountRecordInfo().then((list)=>{
+            merchantData.pagination = merchantData.merchant.account.pagination;
+            merchantData.accountRecordFlowList = list;
         });
+    };
+    let changePage = function(pageNum,action){
+        merchantData.merchant.account.pagination.setPage(pageNum);
+        action();
     };
     let getWithdrawList = function(){
         merchantData.merchant.account.withdrawList.changeStatus('finish');
@@ -66,7 +80,10 @@ function merchantActions(){
         getMerchantProduct:getMerchantProduct,          //  获取店铺商品
         getBuyOrder:getBuyOrder,                        //  获取进货订单
         getSaleOrder:getSaleOrder,                      //  获取销售订单
-        getWaterTicketOrderList:getWaterTicketOrderList,//  获取水票款
+        getAccountRecordInfo:getAccountRecordInfo,      //  获取水票款
+        setInitPage:setInitPage,
+        changePage:changePage,
+        changeRecordType:changeRecordType,
         getWithdrawList:getWithdrawList                 //  获取提现详情
     }
 

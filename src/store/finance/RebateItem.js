@@ -47,7 +47,8 @@ class RebateItem{
             realTotalMount:self.totalMount,
             rebateOrderId:self.rebateId,
             rebatePrice:self.rebatePerPrice,
-            remark:self.remark
+            remark:self.remark,
+            realRebate:self.realRebate||self.rebatePerPrice
         };
         return this._toRebate(postInfo)
     }
@@ -65,6 +66,9 @@ class RebateItem{
     }
     setTotalPrice(){
         this.totalPrice = this.realTotalMount * this.rebatePerPrice;
+    }
+    setRealResult(realRebate){
+        this.realRebate = realRebate;
     }
     setRemark(remark){
         this.remark = remark;

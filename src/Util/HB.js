@@ -120,17 +120,26 @@ HB.ajax = (function(){
                     url:'/huibeiwater'+url,
                     data:data,
                     contentType:'application/json; charset=utf-8',
-                    async:bool
+                    async:bool,
                 })
             };
-        }
+            // this.excel = function(type,url,data,bool) {
+            //     return $.ajax({
+            //         type: type,
+            //         url: '/huibeiwater' + url,
+            //         data: data,
+            //         contentType:"application/json; charset=utf-8",
+            //         dataType: 'text',
+            //         async:bool
+            //     })
+            // };
+        };
 
-        query(entity_obj,bool=true){
+        query(entity_obj,data,bool=true){
 
             let url = this.getRealUrl(entity_obj);
             let type = 'GET';
-            var data = {};
-            return this.ajax(type,url,data,bool);
+            return this.ajax(type,url,JSON.stringify(data),bool);
         }
 
 
@@ -145,6 +154,17 @@ HB.ajax = (function(){
                 })
             }
         }
+        // exportExcel(entity_obj,data,bool=true){
+        //     let url = this.getRealUrl(entity_obj);
+        //     let type = "POST";
+        //     if(!bool){
+        //         return this.excel(type,url,JSON.stringify(data),false);
+        //     }else{
+        //         return new Promise((resolve,reject)=>{
+        //             this.excel(type,url,JSON.stringify(data),bool).done(resolve).fail(reject);
+        //         })
+        //     }
+        // }
     }
 
     return {
@@ -153,6 +173,12 @@ HB.ajax = (function(){
         }
     }
 })();
+//
+// HB.exportExcel = (function(){
+//
+// });
+
+
 HB.valid = (function(){
     /*
     *   用途：按一定规则分割字符串

@@ -74,6 +74,9 @@ function rebateDealListActions(){
             _getListAndSetActiveItem();
         })
     };
+    let setRealResult = function(realResult){
+        rebateList.activeItem.setRealResult(realResult);
+    };
     // actions.selectRebateItem = function(rebateId){
     //     let rebateItem = rebateList.findRebateItemByRebateId(rebateDealListData.list,rebateId);
     //     rebateList.setActiveRebateItem(rebateItem);
@@ -117,6 +120,7 @@ function rebateDealListActions(){
         confirmRebate:confirmRebate,
         setQueryInfo:setQueryInfo,
         queryByQueryInfo:queryByQueryInfo,
+        setRealResult:setRealResult,
         changePage:changePage,
     };
 }

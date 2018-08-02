@@ -20,7 +20,7 @@ class Merchant{
         this.managerName = merchantInfo.userName;                                       //  店长姓名
         this.managerTel = merchantInfo.telePhone;                                       //  联系人电话
         this.managerImgUrl = merchantInfo.idCardImageUrl;                               //  手持身份证照片
-        this.auditStatus = Merchant.convertToAuditStatus(merchantInfo.merchantStatus); //  审核状态
+        this.auditStatus = Merchant.convertToAuditStatus(merchantInfo.merchantStatus);  //  审核状态
         this.merchantNumber = merchantInfo.merchantNumber;                              //  商户号
         this.shopArtificialNum = merchantInfo.shopArtificialNum;                        //  商家编号
         this.shopHeaderImg = merchantInfo.imgUrl;                                       //  店铺头像
@@ -71,10 +71,13 @@ class Merchant{
             return detailStrategy[status](shopId);
         };
         this.shopProductList = new ProductList(merchantInfo.shopId);
+
+        //  商品列表
         this.shopOrderList = new ShopOrderList(merchantInfo.shopId);
+        //  账户信息
         this.account = new ShopAccount(merchantInfo.shopId);
         this.shopActivityList = new ShopActivityList(merchantInfo.shopId);
-
+        //  地图模块
         this.location = new AutoMap();
     }
     /**
@@ -99,8 +102,6 @@ class Merchant{
         return new Promise((resolve,reject)=>{
             this._getDetail(this.shopId).then((merchantDetail)=>{
                 resolve(merchantDetail);
-
-
             }).catch((err)=>{
                 reject(err);
             })

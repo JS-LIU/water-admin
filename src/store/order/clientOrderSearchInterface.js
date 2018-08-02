@@ -3,6 +3,7 @@
  */
 import {observable, computed, action, autorun} from "mobx";
 import clientOrderList from './ClientOrderList';
+import merchantOrderList from "./MerchantOrderList";
 
 let orderSearchData = {
     @observable list:[],
@@ -65,12 +66,37 @@ function clientOrderSearchActions(){
         clientOrderList.pagination.setPage(pageNum);
         getOrderList();
     };
+    let getExcel = function(){
+        // let data = merchantOrderList.getExcel();
+        //
+        // $.ajax({
+        //     type: "POST",
+        //     url: '/huibeiwater/admin/exportShopOrder',
+        //     data: JSON.stringify(data),
+        // })
+        clientOrderList.getExcel()
+    };
+    let selectClientOrder = function(orderId){
+        let order = clientOrderList.findItemByItemId(orderSearchData.list,orderId,"orderId");
+        clientOrderList.setActiveItem(order);
+    };
+    let confirmReceipt = function(orderId){
+        selectClientOrder(orderId);
+        console.log(clientOrderList.activeItem);
+        clientOrderList.activeItem.confirmReceipt().then(()=>{
+            clientOrderList.pagination.setPage(1);
+            getOrderList();
+        })
+    };
     return {
         //  加载load
         onLoad:load,
         searchOrderList:searchOrderList,
         selectQueryMsg:selectQueryMsg,
-        changePage:changePage
+        changePage:changePage,
+        getExcel:getExcel,
+        selectClientOrder:selectClientOrder,
+        confirmReceipt:confirmReceipt
     }
 }
 module.exports = {actions:clientOrderSearchActions(),data:orderSearchData};

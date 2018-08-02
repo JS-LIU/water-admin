@@ -61,9 +61,11 @@ class MerchantListContainer extends AdminList{
 
         })
     }
+    //  新建店铺
     newMerchant(){
         this.setActiveItem(new Merchant({merchantStatus:"待审核"}));
     }
+    //  创建店铺（给后台）
     createMerchant(){
         let merchant = this.activeItem;
         let postData = {
@@ -85,6 +87,7 @@ class MerchantListContainer extends AdminList{
         };
         return this._createShop(postData);
     }
+    //  获取自营店铺
     getSelfMerchantList(){
         return new Promise((resolve, reject)=>{
             resolve([new Merchant({
@@ -98,6 +101,7 @@ class MerchantListContainer extends AdminList{
             })])
         });
     }
+    //  获取水站
     getStockMerchantList(){
         return new Promise((resolve, reject)=>{
             resolve([new Merchant({
@@ -107,6 +111,7 @@ class MerchantListContainer extends AdminList{
             })])
         });
     }
+    //  获取1店
     getDistributeMerchantList(){
         return new Promise((resolve, reject)=>{
             resolve([new Merchant({

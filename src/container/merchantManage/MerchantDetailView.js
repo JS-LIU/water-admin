@@ -69,6 +69,9 @@ import merchantDetail from './css/merchantDetail.css';
 
 @observer class MerchantInfo extends Component{
     render(){
+        if (!data.merchant){
+            return null;
+        }
         let merchantPicNodes = data.merchant.shopImg.map((picItem,index)=>{
             return (
                 <img className='mr15' key={index} src={picItem} alt=""/>
@@ -110,7 +113,7 @@ import merchantDetail from './css/merchantDetail.css';
         }else if(key === '3'){
             actions.getSaleOrder();
         }else if(key === '4'){
-            actions.getWaterTicketOrderList();
+            actions.getAccountRecordInfo.before(actions.setInitPage)();
         }else if(key === '5'){
 
         }
@@ -133,9 +136,9 @@ import merchantDetail from './css/merchantDetail.css';
 
                         </TabPane >
                         <TabPane tab={<div><div><Icon type='pay-circle-o' />账户余额</div>
-                            <div>资金金额：<b>￥{data.detail.merchantUserBalance}</b>(元)</div>
+                            <div>资金金额：<b>￥{data.detail.merchantUserBalance / 100}</b>(元)</div>
                             <div>水票款：<b>￥{data.detail.waterTicketRmb}</b></div></div>} key="4">
-
+                            <AccountRecordView />
                         </TabPane >
                         <TabPane tab={<div><div><Icon type='red-envelope' />水票优惠</div>
                             <div>买赠活动：<b>{data.detail.waterTicketCoupon}</b></div></div>} key="5">
@@ -146,6 +149,104 @@ import merchantDetail from './css/merchantDetail.css';
         )
     }
 }
+
+@observer class AccountRecordView extends Component{
+    render(){
+        return (
+            <div>
+                <AccountRecordTypeView />
+                <AccountRecordTableView />
+            </div>
+        )
+    }
+}
+@observer class AccountRecordTypeView extends Component{
+    state = { queryType: "money" };
+    onChange(e){
+        this.setState({ queryType: e.target.value });
+        actions.changeRecordType(e.target.value);
+        actions.getAccountRecordInfo.before(actions.setInitPage)(e.target.value);
+    }
+    render(){
+        const { queryType } = this.state;
+        return (
+            <Radio.Group value={queryType} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
+                <Radio.Button value={"money"}>资金流</Radio.Button>
+                <Radio.Button value={"ticket"}>水票流</Radio.Button>
+            </Radio.Group>
+        )
+    }
+}
+
+@observer class AccountRecordTableView extends Component{
+    changePage(pageNum){
+        actions.changePage(pageNum,actions.getAccountRecordInfo);
+    }
+    render(){
+        const columns = [
+            {
+                title:"交易时间",
+                dataIndex:"tradeTime",
+                key:"tradeTime",
+                width:250
+            },
+            {
+                title:"交易前",
+                dataIndex:"preTradeRmb",
+                key:"preTradeRmb",
+                width:150
+            },
+            {
+                title:"交易数",
+                dataIndex:"tradeRmb",
+                key:"tradeRmb",
+                width:150
+            },
+
+            {
+                title:"交易后",
+                dataIndex:"afterTradeRmb",
+                key:"afterTradeRmb",
+                width:150
+            },
+            {
+                title:"订单号",
+                dataIndex:"orderNo",
+                key:"orderNo",
+                width:250
+            },
+            {
+                title:"订单类型",
+                dataIndex:"tradeType",
+                key:"tradeType",
+                width:150
+            }
+
+        ];
+        const dataSource = [];
+        for(let i = 0;i < data.accountRecordFlowList.length;i++){
+            let item = data.accountRecordFlowList[i];
+            dataSource.push({
+                key:i,
+                tradeTime:item.tradeTime,
+                preTradeRmb:item.preTradeRmb,
+                tradeRmb:item.tradeRmb,
+                afterTradeRmb:item.afterTradeRmb,
+                orderNo:item.orderNo,
+                tradeType:item.tradeType
+            })
+        }
+        return (
+            <Table
+                columns={columns}
+                dataSource={dataSource}
+                scroll={{x:950,y:600}}
+                pagination={{current:data.pagination.page+1,onChange:this.changePage.bind(this),total:data.pagination.total}}
+            />
+        )
+    }
+}
+
 
 @observer class ProductListView extends Component{
     render(){

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Input ,Button ,Table, Icon ,Col, Select, InputNumber, DatePicker} from 'antd';
+import { Input ,Button ,Table, Icon ,Col, Select, InputNumber, DatePicker } from 'antd';
 const Search = Input.Search;
 import rebateDealStyle from './css/rebateDealStyle.css';
 const InputGroup = Input.Group;
@@ -209,7 +209,8 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
                     <li className="rebate_list">
                         <span>实际总进货数量（桶）: {data.detail.totalMount}</span>
                         <span>实际返利标准（/元）: {parseFloat(data.detail.rebatePrice)/100}</span>
-                        <span>实际返利金额（/元）: {data.detail.rebateResult / 100}</span>
+                        <span>应该返利金额（/元）: {data.detail.rebateResult / 100}</span>
+                        <span>实际返利金额（/元）:</span><InputNumber defaultValue={data.detail.rebateResult / 100} onChange={value => actions.setRealResult(value)}/>
                         <span>
                             备注：
                             <Input type="textarea" placeholder="填写备注" rows={4} style={{ width: 363, height:130}}/>

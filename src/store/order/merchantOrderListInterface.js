@@ -82,14 +82,13 @@ function merchantOrderListActions(){
             _refresh();
         })
     };
-
     return {
         onLoad:load,
         selectMerchantOrder:selectMerchantOrder,
         redirectOrder:redirectOrder,
         queryByQueryInfo:queryByQueryInfo,
         setQueryInfo:setQueryInfo,
-        changePagination:changePagination
+        changePagination:changePagination,
     }
 }
 module.exports = {data:merchantOrderListData,actions:merchantOrderListActions()};
