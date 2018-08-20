@@ -116,17 +116,17 @@ import withdrawStyle from './css/withdrawStyle.css';
                 title:"持卡人姓名",
                 dataIndex:"cardholderName",
                 key:"cardholderName",
-                width:130
+                width:110
             },{
                 title:"审核时间",
                 dataIndex:"finishTime",
                 key:"finishTime",
-                width:150
+                width:100
             },{
                 title:"备注",
                 dataIndex:"remark",
                 key:"remark",
-                width:130
+                width:100
             }
 
         ];
@@ -161,7 +161,7 @@ import withdrawStyle from './css/withdrawStyle.css';
             <Table
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{x:1630,y:600}}
+                scroll={{x:1450,y:600}}
                 pagination={{current:data.pagination.page+1,onChange:this.changePage.bind(this),total:data.pagination.total}}
             />
         )

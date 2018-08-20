@@ -197,7 +197,7 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 title:"立减（每桶）",
                 dataIndex:"minusMount",
                 key:"minusMount",
-                width:100
+                width:120
             },
             {
                 title:"运费",

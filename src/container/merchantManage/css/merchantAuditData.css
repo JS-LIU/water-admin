@@ -15,7 +15,7 @@
     padding:10px 0 0;
 }
 .audit_material_container ul{
-    width:80%;
+    width:100%;
     display: flex;
     flex-wrap:wrap;
 }

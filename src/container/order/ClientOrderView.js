@@ -117,7 +117,7 @@ class ClientOrderListQueryView extends Component{
             title:'订单号',
             dataIndex:"orderNo",
             key:"orderNo",
-            width:200
+            width:210
         },{
             title:'用户账号',
             dataIndex:"userInfo",
@@ -277,7 +277,7 @@ class ClientOrderListQueryView extends Component{
                     </li>
                     <li className='list_border'>
                         <div className="consignee">收货人：{data.detail.deliveryAddressModel.name} </div>
-                        <div className="consignee">收获地址：{data.detail.deliveryAddressModel.address.fullAddress}</div>
+                        <div className="consignee">收货地址：{data.detail.deliveryAddressModel.address.fullAddress}</div>
                         <div className="consignee">收货人电话：{data.detail.deliveryAddressModel.phoneNum }</div>
                     </li>
                     <li>

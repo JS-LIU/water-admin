@@ -8,15 +8,13 @@ const Search = Input.Search;
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 
-var $ = require('jquery');
-
-
 import {actions,data} from "../../store/order/merchantOrderSearchInterface";
 import clientOrderSearchStyle from './css/clientOrderSearch.css'
 
 @observer class MerchantOrderSearchView extends Component{
     state = { queryStrategy: "all" };
     componentWillMount(){
+        actions.onLoad();
         actions.selectQueryMsg({});
         actions.searchOrderList(this.state.queryStrategy)
     }
@@ -38,12 +36,36 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                     <Radio.Button value={"waitReceive"}>待收货</Radio.Button>
                     <Radio.Button value={"finish"}>已完成</Radio.Button>
                 </Radio.Group>
+                {/*<PaymentMethodTotalAmountView />*/}
                 <MerchantOrderListView />
             </div>
 
         )
     }
 }
+
+// 各种支付方式总金额
+// @observer class  PaymentMethodTotalAmountView extends Component{
+//     render(){
+//         return(
+//             <ul className="pay_ment_money">
+//                 <li>
+//                     支付宝：
+//                     <span>{data.payInfo.aliPayMount}</span>
+//                 </li>
+//                 <li>
+//                     微信：
+//                     <span>{data.payInfo.wechatPayMount}</span>
+//                 </li>
+//                 <li>
+//                     钱包支付：
+//                     <span>{data.payInfo.rmbPayMount}</span>
+//                 </li>
+//             </ul>
+//         )
+//     }
+// }
+
 @observer class OrderListSearchView extends Component{
     searchByCreateTime(data,dataString){
         actions.selectQueryMsg({createTimePeriod:dataString});
@@ -147,7 +169,30 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 key:"orderNo",
                 width:200
             },
-
+            {
+                title:"配送商家",
+                dataIndex:"shopName",
+                key:"shopName",
+                width:150
+            },
+            {
+                title:"商家编号",
+                dataIndex:"shopArtificialNum",
+                key:"shopArtificialNum",
+                width:100
+            },
+            {
+                title:"实付金额",
+                dataIndex:"totalPrice",
+                key:"totalPrice",
+                width:150
+            },
+            {
+                title:"支付方式",
+                dataIndex:"payChannel",
+                key:"payChannel",
+                width:150
+            },
             {
                 title:"用户账号",
                 dataIndex:"userInfo",
@@ -165,18 +210,6 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 dataIndex:"deliveryAddress",
                 key:"deliveryAddress",
                 width:400
-            },
-            {
-                title:"配送商家",
-                dataIndex:"shopName",
-                key:"shopName",
-                width:200
-            },
-            {
-                title:"商家编号",
-                dataIndex:"shopArtificialNum",
-                key:"shopArtificialNum",
-                width:100
             },
             {
                 title:"商家电话",
@@ -199,25 +232,13 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 title:"立减（每桶）",
                 dataIndex:"minusMount",
                 key:"minusMount",
-                width:100
+                width:120
             },
             {
                 title:"运费",
                 dataIndex:"freight",
                 key:"freight",
                 width:100
-            },
-            {
-                title:"实付金额",
-                dataIndex:"totalPrice",
-                key:"totalPrice",
-                width:150
-            },
-            {
-                title:"支付方式",
-                dataIndex:"payChannel",
-                key:"payChannel",
-                width:150
             },
             {
                 title:"订单状态",
@@ -303,7 +324,7 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 columns={columns}
                 dataSource={dataSource}
                 expandedRowRender={expandedRowRender}
-                scroll={{x:2500,y:600}}
+                scroll={{x:2550,y:600}}
                 pagination={{current:data.pagination.page+1,onChange:this.changePage.bind(this),total:data.pagination.total}}
             />
         )

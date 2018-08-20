@@ -4,9 +4,9 @@
 import {observable, computed, action, autorun} from "mobx";
 import merchantOrderList from './MerchantOrderList';
 import clientOrderList from "./ClientOrderList";
-var $ = require('jquery');
 let orderSearchData = {
     @observable list:[],
+    @observable payInfo:{},
     @observable pagination:{}
 };
 
@@ -59,8 +59,7 @@ function merchantOrderSearchActions(){
         merchantOrderList.selectQueryMsg(queryMsg);
     };
     let load = function(){
-        merchantOrderList.pagination.setPage(1);
-        searchOrderList("all")
+        _getPayInfo();
     };
     let changePage = function(pageNum){
         merchantOrderList.pagination.setPage(pageNum);
@@ -82,10 +81,14 @@ function merchantOrderSearchActions(){
     };
     let confirmReceipt = function(orderId){
         selectMerchantOrder(orderId);
-        console.log(merchantOrderList.activeItem);
         merchantOrderList.activeItem.confirmReceipt().then(()=>{
             clientOrderList.pagination.setPage(1);
             getOrderList();
+        })
+    };
+    let _getPayInfo = function(){
+        merchantOrderList.getOrderPayInfo().then((payInfo)=>{
+            orderSearchData.payInfo = payInfo;
         })
     };
     return {

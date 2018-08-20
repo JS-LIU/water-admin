@@ -26,7 +26,8 @@ class RebateItem{
         this.productMount = rebateInfo.productMount;                //  数量
         this.rebatePriceExcel = rebateInfo.rebatePriceExcel ;              //  返利标准
         this.rebatePrice = rebateInfo.rebatePrice;                  //  返利金额
-        this.rebateResult = rebateInfo.rebateResult;                //  实际返利金额
+        this.rebateResult = rebateInfo.rebateResult;                //  返利金额
+        this.realRebateResult = rebateInfo.realRebateResult;        // 实际返利金额
 
 
         let rebateAjax = _h.ajax.resource('/admin/financial/:action');
