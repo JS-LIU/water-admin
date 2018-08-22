@@ -36,7 +36,7 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                     <Radio.Button value={"waitReceive"}>待收货</Radio.Button>
                     <Radio.Button value={"finish"}>已完成</Radio.Button>
                 </Radio.Group>
-                {/*<PaymentMethodTotalAmountView />*/}
+                <PaymentMethodTotalAmountView />
                 <MerchantOrderListView />
             </div>
 
@@ -44,27 +44,27 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
     }
 }
 
-// 各种支付方式总金额
-// @observer class  PaymentMethodTotalAmountView extends Component{
-//     render(){
-//         return(
-//             <ul className="pay_ment_money">
-//                 <li>
-//                     支付宝：
-//                     <span>{data.payInfo.aliPayMount}</span>
-//                 </li>
-//                 <li>
-//                     微信：
-//                     <span>{data.payInfo.wechatPayMount}</span>
-//                 </li>
-//                 <li>
-//                     钱包支付：
-//                     <span>{data.payInfo.rmbPayMount}</span>
-//                 </li>
-//             </ul>
-//         )
-//     }
-// }
+//各种支付方式总金额
+@observer class  PaymentMethodTotalAmountView extends Component{
+    render(){
+        return(
+            <ul className="pay_ment_money">
+                <li>
+                    支付宝：
+                    <span>{data.payInfo.aliPayMount}</span>
+                </li>
+                <li>
+                    微信：
+                    <span>{data.payInfo.wechatPayMount}</span>
+                </li>
+                <li>
+                    钱包支付：
+                    <span>{data.payInfo.rmbPayMount}</span>
+                </li>
+            </ul>
+        )
+    }
+}
 
 @observer class OrderListSearchView extends Component{
     searchByCreateTime(data,dataString){

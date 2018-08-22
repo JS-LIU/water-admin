@@ -17,17 +17,18 @@ class RebateItem{
         this.totalMount = rebateInfo.totalMount;                    //  总数
         this.realTotalMount = rebateInfo.realTotalMount;            //  实际总数
         this.rebatePerPrice = rebateInfo.rebatePrice;               //  每一个的返利价格
-        this.totalPrice = rebateInfo.rebateResult;                  //  总价格
         this.status = rebateInfo.rebateStatus;                      //  状态
         this.rebateId = rebateInfo.rebateOrderId;                   //  折扣id
         this.remark = rebateInfo.remark||"----";                    //  评论
         this.city = rebateInfo.city;                                //  区域
         this.productName = rebateInfo.productName;                  //  商品名称
         this.productMount = rebateInfo.productMount;                //  数量
-        this.rebatePriceExcel = rebateInfo.rebatePriceExcel ;              //  返利标准
+        this.rebatePriceExcel = rebateInfo.rebatePriceExcel ;       //  返利标准
         this.rebatePrice = rebateInfo.rebatePrice;                  //  返利金额
-        this.rebateResult = rebateInfo.rebateResult;                //  返利金额
-        this.realRebateResult = rebateInfo.realRebateResult;        // 实际返利金额
+        // this.rebateResult = rebateInfo.rebateResult;                  //  总价格
+        this.rebateResult = rebateInfo.rebateResult;                //  实际返利金额
+        this.realRebate = rebateInfo.rebateResult/10;
+        this.realRebateResult = rebateInfo.realRebateResult;
 
 
         let rebateAjax = _h.ajax.resource('/admin/financial/:action');
@@ -43,13 +44,14 @@ class RebateItem{
     }
     toRebate(){
         let self = this;
+        // let realRebateResult = self.realRebate?self.realRebate:(self.rebateResult/10);
         let postInfo = {
-            realRebateResult:self.totalPrice,
-            realTotalMount:self.totalMount,
             rebateOrderId:self.rebateId,
+            realTotalMount:self.totalMount,
+            calcRebateResult:self.rebateResult,
             rebatePrice:self.rebatePerPrice,
             remark:self.remark,
-            realRebate:self.realRebate||self.rebatePerPrice
+            realRebateResult:self.realRebate
         };
         return this._toRebate(postInfo)
     }

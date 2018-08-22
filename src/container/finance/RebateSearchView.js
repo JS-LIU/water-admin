@@ -109,7 +109,7 @@ const Search = Input.Search;
             key: 'rebatePrice',
             width:150
         }, {
-            title: '返利金额',
+            title: '返利金额(喜币)',
             dataIndex: 'realRebateResult',
             key: 'realRebateResult',
             width:100
@@ -139,7 +139,7 @@ const Search = Input.Search;
                 status:item.status,
                 rebateId:item.rebateId,
                 productItemList:item.productItemList,
-                realRebateResult:item.realRebateResult / 100
+                realRebateResult:item.realRebateResult
             })
         }
         const expandedRowRender = record => {

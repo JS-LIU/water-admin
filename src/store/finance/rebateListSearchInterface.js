@@ -36,7 +36,7 @@ function rebateListSearchActions(){
     };
 
     let setQueryInfo = function(queryInfo){
-        rebateList.selectQueryInfo(queryInfo);
+        rebateList.selectQueryMsg(queryInfo);
     };
     let queryByQueryInfo = function(){
         load();
