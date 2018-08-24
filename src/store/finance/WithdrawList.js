@@ -2,13 +2,14 @@
  * Created by LDQ on 2018/6/11
  */
 import AdminList from '../AdminList';
-import _h from "../../Util/HB";
+// import _h from "../../Util/HB";
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import WithdrawItem from "./WithdrawItem";
 
 class WithdrawList extends AdminList{
     constructor() {
         super();
-        let withdrawAjax = _h.ajax.resource("/admin/withdraw/:action");
+        let withdrawAjax = commonAjax.resource("/admin/withdraw/:action");
         this.orderStatus = ['create',"rejected","finish"];              //  create,rejected,finish
         this._withdrawList = function(postInfo){
             return withdrawAjax.save({action:"list"},postInfo);

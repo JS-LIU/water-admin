@@ -1,7 +1,8 @@
 /**
  * Created by LDQ on 2018/6/7
  */
-import _h from "../../Util/HB";
+// import _h from "../../Util/HB";
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import ProductList from '../product/ProductList';
 class RebateItem{
     constructor(rebateInfo){
@@ -17,19 +18,19 @@ class RebateItem{
         this.totalMount = rebateInfo.totalMount;                    //  总数
         this.realTotalMount = rebateInfo.realTotalMount;            //  实际总数
         this.rebatePerPrice = rebateInfo.rebatePrice;               //  每一个的返利价格
-        this.totalPrice = rebateInfo.rebateResult;                  //  总价格
         this.status = rebateInfo.rebateStatus;                      //  状态
         this.rebateId = rebateInfo.rebateOrderId;                   //  折扣id
         this.remark = rebateInfo.remark||"----";                    //  评论
         this.city = rebateInfo.city;                                //  区域
         this.productName = rebateInfo.productName;                  //  商品名称
         this.productMount = rebateInfo.productMount;                //  数量
-        this.rebatePriceExcel = rebateInfo.rebatePriceExcel ;              //  返利标准
+        this.rebatePriceExcel = rebateInfo.rebatePriceExcel ;       //  返利标准
         this.rebatePrice = rebateInfo.rebatePrice;                  //  返利金额
+        // this.rebateResult = rebateInfo.rebateResult;                  //  总价格
         this.rebateResult = rebateInfo.rebateResult;                //  实际返利金额
+        this.realRebate = rebateInfo.rebateResult / 100;
 
-
-        let rebateAjax = _h.ajax.resource('/admin/financial/:action');
+        let rebateAjax = commonAjax.resource('/admin/financial/:action');
         this._getDetail = function(postInfo){
             return rebateAjax.save({action:"getRebateOrder/"+rebateInfo.rebateOrderId},postInfo);
         };
@@ -42,13 +43,14 @@ class RebateItem{
     }
     toRebate(){
         let self = this;
+        let realRebateResult = self.realRebate?self.realRebate * 100:self.rebateResult;
         let postInfo = {
-            realRebateResult:self.totalPrice,
-            realTotalMount:self.totalMount,
             rebateOrderId:self.rebateId,
+            realTotalMount:self.totalMount,
+            calcRebateResult:self.rebateResult,
             rebatePrice:self.rebatePerPrice,
             remark:self.remark,
-            realRebate:self.realRebate||self.rebatePerPrice
+            realRebateResult:realRebateResult
         };
         return this._toRebate(postInfo)
     }
@@ -63,9 +65,6 @@ class RebateItem{
         ).after(
             RebateItem.rebateLv3(this.realTotalMount)
         );
-    }
-    setTotalPrice(){
-        this.totalPrice = this.realTotalMount * this.rebatePerPrice;
     }
     setRealResult(realRebate){
         this.realRebate = realRebate;

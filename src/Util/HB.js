@@ -83,101 +83,248 @@ HB.obj = (function(){
 
 
 
-HB.ajax = (function(){
-    /*
-    *   第一个参数:url模板字符串类型，其中可以出现占位符，占位符要以“:”为前缀
-    *   比如：'/productList/:type';
-    *
-    *
-    *
-    *
-    * */
-    class Resource{
-        constructor(templateUrl){
-
-            //  分割字符串
-            let templateUrlArr = templateUrl.split('/');
-
-            this.getRealUrl = function(entity_obj){
-                let url = [...templateUrlArr];
-                templateUrlArr.map((item,i)=>{
-                    if(item[0] === ":"){
-                        this.replaceItem(url,entity_obj,item,i)
-                    }
-                });
-                return url.join('/');
-            };
-            this.replaceItem = function(url,entity_obj,item,index){
-                for(let prop in entity_obj){
-                    if(prop === item.slice(1)){
-                        url[index] = entity_obj[prop];
-                    }
-                }
-            };
-            this.ajax = function(type,url,data,bool){
-                return $.ajax({
-                    type:type,
-                    url:'/huibeiwater'+url,
-                    data:data,
-                    contentType:'application/json; charset=utf-8',
-                    async:bool,
-                })
-            };
-            // this.excel = function(type,url,data,bool) {
-            //     return $.ajax({
-            //         type: type,
-            //         url: '/huibeiwater' + url,
-            //         data: data,
-            //         contentType:"application/json; charset=utf-8",
-            //         dataType: 'text',
-            //         async:bool
-            //     })
-            // };
-        };
-
-        query(entity_obj,data,bool=true){
-
-            let url = this.getRealUrl(entity_obj);
-            let type = 'GET';
-            return this.ajax(type,url,JSON.stringify(data),bool);
-        }
-
-
-        save(entity_obj,data,bool=true){
-            let url = this.getRealUrl(entity_obj);
-            let type = "POST";
-            if(!bool){
-                return this.ajax(type,url,JSON.stringify(data),false);
-            }else{
-                return new Promise((resolve,reject)=>{
-                    this.ajax(type,url,JSON.stringify(data),bool).done(resolve).fail(reject);
-                })
-            }
-        }
-        // exportExcel(entity_obj,data,bool=true){
-        //     let url = this.getRealUrl(entity_obj);
-        //     let type = "POST";
-        //     if(!bool){
-        //         return this.excel(type,url,JSON.stringify(data),false);
-        //     }else{
-        //         return new Promise((resolve,reject)=>{
-        //             this.excel(type,url,JSON.stringify(data),bool).done(resolve).fail(reject);
-        //         })
-        //     }
-        // }
-    }
-
-    return {
-        resource:function(templateUrl){
-            return new Resource(templateUrl);
-        }
-    }
-})();
+// HB.ajax = (function(){
+//     /*
+//     *   第一个参数:url模板字符串类型，其中可以出现占位符，占位符要以“:”为前缀
+//     *   比如：'/productList/:type';
+//     *
+//     *
+//     *
+//     *
+//     * */
+//     class Resource{
+//         constructor(templateUrl){
 //
+//             //  分割字符串
+//             let templateUrlArr = templateUrl.split('/');
+//
+//             this.getRealUrl = function(entity_obj){
+//                 let url = [...templateUrlArr];
+//                 templateUrlArr.map((item,i)=>{
+//                     if(item[0] === ":"){
+//                         this.replaceItem(url,entity_obj,item,i)
+//                     }
+//                 });
+//                 return url.join('/');
+//             };
+//             this.replaceItem = function(url,entity_obj,item,index){
+//                 for(let prop in entity_obj){
+//                     if(prop === item.slice(1)){
+//                         url[index] = entity_obj[prop];
+//                     }
+//                 }
+//             };
+//             this.ajax = function(type,url,data,bool){
+//                 return $.ajax({
+//                     type:type,
+//                     url:'/huibeiwater'+url,
+//                     data:data,
+//                     contentType:'application/json; charset=utf-8',
+//                     async:bool,
+//                 })
+//             };
+//             // this.excel = function(type,url,data,bool) {
+//             //     return $.ajax({
+//             //         type: type,
+//             //         url: '/huibeiwater' + url,
+//             //         data: data,
+//             //         contentType:"application/json; charset=utf-8",
+//             //         dataType: 'text',
+//             //         async:bool
+//             //     })
+//             // };
+//         };
+//
+//         query(entity_obj,data,bool=true){
+//
+//             let url = this.getRealUrl(entity_obj);
+//             let type = 'GET';
+//             return this.ajax(type,url,JSON.stringify(data),bool);
+//         }
+//
+//
+//         save(entity_obj,data,bool=true){
+//             let url = this.getRealUrl(entity_obj);
+//             let type = "POST";
+//             if(!bool){
+//                 return this.ajax(type,url,JSON.stringify(data),false);
+//             }else{
+//                 return new Promise((resolve,reject)=>{
+//                     this.ajax(type,url,JSON.stringify(data),bool).done(resolve).fail(reject);
+//                 })
+//             }
+//         }
+//         // exportExcel(entity_obj,data,bool=true){
+//         //     let url = this.getRealUrl(entity_obj);
+//         //     let type = "POST";
+//         //     if(!bool){
+//         //         return this.excel(type,url,JSON.stringify(data),false);
+//         //     }else{
+//         //         return new Promise((resolve,reject)=>{
+//         //             this.excel(type,url,JSON.stringify(data),bool).done(resolve).fail(reject);
+//         //         })
+//         //     }
+//         // }
+//     }
+//
+//     return {
+//         resource:function(templateUrl){
+//             return new Resource(templateUrl);
+//         }
+//     }
+// })();
 // HB.exportExcel = (function(){
 //
 // });
+HB.ajax = function(){
+    //  创建请求的模板类
+    class AbstractSendAjax{
+        constructor(url,config){
+            this.urlFactory = new UrlFactory(url);
+            this.config = config.ajaxConfig;
+        }
+        getUrl(replaceUrlObj){
+            this.url = this.config.baseUrl + this.urlFactory.getUrl(replaceUrlObj)
+        }
+        getAsync(){
+            this.async = this.config.async;
+        }
+        getHeader(){
+            this.header = this.config.requestHeader.header;
+        }
+        getHeaderValue(){
+            this.value = this.config.requestHeader.value;
+        }
+        getResponseType(){
+            this.responseType = this.config.responseType;
+        }
+        createXHR(){
+            this.xhr = new XMLHttpRequest();
+        }
+        openXHR(){
+            return new Error('请重写openXHR');
+        }
+        isSetRequestHeader(){
+            return true;
+        }
+        setRequestHeader(){
+            return new Error('请重写setRequestHeader');
+        }
+        isSend(){
+            return true;
+        }
+        send(data){
+            this.xhr.send(JSON.stringify(data));
+        }
+        getResponse(resolve,data){
+            let response = data;
+            if(this.responseType === "json" && data){
+                response = JSON.parse(data);
+            }
+            return resolve(response);
+        }
+        onReadyStateChange(){
+            return new Promise((resolve,reject)=>{
+                // 服务器是否正确响应
+                if (this.xhr.readyState === 4 && this.xhr.status === 200) {
+                    this.getResponse(resolve,this.xhr.response)
+                }else{
+                    console.log('response Error:',this.xhr.response);
+                    reject(this.xhr.response);
+                }
 
+            })
+        }
+
+        initAjax(replaceUrlObj, data){
+            this.getUrl(replaceUrlObj);
+            this.getAsync();
+            this.getHeader();
+            this.getHeaderValue();
+            this.getResponseType();
+            this.createXHR();
+            this.openXHR();
+            if(this.isSetRequestHeader()){
+                this.setRequestHeader();
+            }
+            if(this.isSend() && data){
+                this.send(data);
+            }
+
+            return this.onReadyStateChange();
+        }
+    }
+    class Post extends AbstractSendAjax{
+        constructor(url,config){
+            super(url,config);
+        }
+        openXHR(){
+            this.xhr.open("post",this.url,this.ansyn);
+        }
+        setRequestHeader(){
+            this.xhr.setRequestHeader(this.header,this.value);
+        }
+
+    }
+
+
+    //  url加工厂
+    class UrlFactory{
+        constructor(templateUrl) {
+            this.templateUrl = templateUrl + "/";
+        }
+        getUrl(replaceUrlObj) {
+            let url = this.templateUrl;
+            for (let p in replaceUrlObj) {
+                url = url.replace("/:" + p + "/", "/" + replaceUrlObj[p] + "/");
+            }
+            return url.substr(0, url.length - 1);
+        }
+    }
+
+
+    //  请求方式
+    class Resource{
+        constructor(url,config) {
+            this.url = url;
+            this.config = config;
+        }
+        query() {}
+        save(replaceUrlObj, data) {
+            let post = new Post(this.url,this.config);
+            return post.initAjax(replaceUrlObj, data);
+        }
+    }
+
+    /**
+     * 配置
+     * baseURL:string 基础url 被加在所有请求地址前
+     * ansyn:bool 是否异步（由于使用promise接收返回值是否异步已经不在有影响）
+     * requestHeader:object 设置请求头
+     * responseType:string 返回值类型json text html arraybuffer
+     */
+    class Config{
+        constructor(ajaxConfig){
+            this.ajaxConfig = Object.assign({baseUrl:"",ansyn:true,requestHeader:{
+                    header:"Content-type",
+                    value:"application/json; charset=utf-8"
+                },responseType:"json"},ajaxConfig);
+        }
+    }
+    class Ajax{
+        // constructor(){
+        //     this.config = new Config({});
+        // }
+        config(ajaxConfig){
+            this.config = new Config(ajaxConfig)
+        }
+        resource(url){
+            return new Resource(url,this.config);
+        }
+    }
+
+    return new Ajax();
+};
 
 HB.valid = (function(){
     /*
@@ -198,11 +345,7 @@ HB.valid = (function(){
         return newPhoneNum.join(str).trim();
     }
     function validPhoneNum(phoneNum){
-        if(phoneNum.length === 11){
-            return true;
-        }else{
-            return false;
-        }
+        return phoneNum.length === 11;
     }
 
 
@@ -267,7 +410,7 @@ HB.valid = (function(){
 })();
 
 HB.ui = (function(){
-
+    //  是否移动到底部
     var scrollToTheBottom = function(func){
         $(window).bind("scroll",function(){
             var $_scrollTop = $(this).scrollTop();

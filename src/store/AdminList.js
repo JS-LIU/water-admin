@@ -1,7 +1,6 @@
 /**
  * Created by LDQ on 2018/6/7
  */
-import _h from '../Util/HB';
 import Pagination from './Pagination';
 class AdminList {
     constructor(){

@@ -1,12 +1,13 @@
 /**
  * Created by LDQ on 2018/4/28
  */
-import _h from '../../Util/HB';
+// import _h from '../../Util/HB';
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import Pagination from '../Pagination';
 class OrderList{
     constructor(){
 
-        let orderListAjax = _h.ajax.resource('/admin/order/:action');
+        let orderListAjax = commonAjax.resource('/admin/order/:action');
         this._getOrderListInfo = function (postInfo) {
             return orderListAjax.save({action:'waitingdispathlist'}, postInfo)
         };

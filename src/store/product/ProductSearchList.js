@@ -2,12 +2,13 @@
  * Created by LDQ on 2018/6/22
  */
 import AdminList from '../AdminList';
-import _h from '../../Util/HB';
+// import _h from '../../Util/HB';
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import Product from "./Product";
 class ProductSearchList extends AdminList{
     constructor(){
         super();
-        let productSearchListAjax = _h.ajax.resource('/admin/:entity/:action');
+        let productSearchListAjax = commonAjax.resource('/admin/:entity/:action');
         //  批发
         this._getProductSearchList = function(){
             return productSearchListAjax.save({entity:"product",action:"getStockList"});

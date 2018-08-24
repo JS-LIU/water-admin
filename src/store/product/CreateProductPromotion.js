@@ -2,7 +2,8 @@
  * Created by LDQ on 2018/6/27
  */
 import ProductList from './ProductList';
-import _h from '../../Util/HB';
+// import _h from '../../Util/HB';
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import PromotionActivityStrategyList from './PromotionActivityStrategyList';
 
 class CreateProductPromotion{
@@ -13,7 +14,7 @@ class CreateProductPromotion{
         this.productListEntity = new ProductList(this.shopId);
         this.mark = "创建者很懒什么都没写";
         this._createProductPromotion = function(postInfo){
-            return _h.ajax.resource('/admin/promotion/addEntityProductPromotion').save({},postInfo);
+            return commonAjax.resource('/admin/promotion/addEntityProductPromotion').save({},postInfo);
         };
         this.promotionActivityStrategyList = new PromotionActivityStrategyList([]);
     }

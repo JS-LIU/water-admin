@@ -1,7 +1,8 @@
 /**
  * Created by LDQ on 2018/6/1
  */
-import _h from '../../Util/HB';
+// import _h from '../../Util/HB';
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import DeliveryMerchant from './DeliveryMerchant';
 import AdminList from '../AdminList';
 
@@ -9,7 +10,7 @@ class NearStoreList extends AdminList{
     constructor(){
         super();
         this._getNearStoreList = function(postInfo){
-            return _h.ajax.resource('/admin/order/:action').save({action:'wareHouseList'}, postInfo);
+            return commonAjax.resource('/admin/order/:action').save({action:'wareHouseList'}, postInfo);
         };
         this.storeList = [];
     }

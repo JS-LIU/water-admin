@@ -2,7 +2,8 @@
  * Created by LDQ on 2018/6/21
  */
 import AdminList from '../AdminList';
-import _h from '../../Util/HB';
+// import _h from '../../Util/HB';
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import Product from './Product';
 import categoryList from './CategoryList';
 import merchantListContainer from '../merchant/MerchantListContainer';
@@ -10,7 +11,7 @@ import merchantListContainer from '../merchant/MerchantListContainer';
 class EditProductList extends AdminList {
     constructor() {
         super();
-        let productListAjax = _h.ajax.resource('/admin/:entity/:action');
+        let productListAjax = commonAjax.resource('/admin/:entity/:action');
 
         //  批发
         this._getStockList = function (postInfo) {

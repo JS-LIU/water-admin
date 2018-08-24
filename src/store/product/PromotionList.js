@@ -2,14 +2,15 @@
  * Created by LDQ on 2018/6/25
  */
 import AdminList from '../AdminList';
-import _h from '../../Util/HB';
+// import _h from '../../Util/HB';
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import ProductPromotionActivity from './ProductPromotionActivity';
 import CreateProductPromotion from './CreateProductPromotion';
 
 class PromotionList extends AdminList{
     constructor(promotionSrc){
         super();
-        let promotionAjax = _h.ajax.resource('/admin/promotion/:action');
+        let promotionAjax = commonAjax.resource('/admin/promotion/:action');
         //  获取商品详情
         this._getProductPromotionList = function(postInfo){
             return promotionAjax.save({action:"getShopEntityProductPromotionList"},postInfo);

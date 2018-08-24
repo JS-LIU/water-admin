@@ -2,12 +2,13 @@
  * Created by LDQ on 2018/7/3
  */
 import AdminList from '../AdminList';
-import _h from '../../Util/HB';
+// import _h from '../../Util/HB';
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import Income from './Income';
 class IncomeList extends AdminList{
     constructor(){
         super();
-        let incomeListAjax = _h.ajax.resource('/admin/financial/:action');
+        let incomeListAjax = commonAjax.resource('/admin/financial/:action');
         this._getIncomeList = function(postInfo){
             return incomeListAjax.save({action:"getStockInfoList"},postInfo)
         };

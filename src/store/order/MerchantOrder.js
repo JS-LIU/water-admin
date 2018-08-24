@@ -1,7 +1,8 @@
 /**
  * Created by LDQ on 2018/6/1
  */
-import _h from '../../Util/HB';
+// import _h from '../../Util/HB';
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import nearStoreList from "./NearStoreList";
 import DeliveryMerchant from './DeliveryMerchant';
 class MerchantOrder{
@@ -38,7 +39,7 @@ class MerchantOrder{
         });
         this.orderStatus = orderInfo.status;// 订单状态
         this.detail = {};
-        let merchantOrderAjax = _h.ajax.resource('/admin/order/:action');
+        let merchantOrderAjax = commonAjax.resource('/admin/order/:action');
         this._redirectOrder = function(postInfo){
             return merchantOrderAjax.save({action:"redirectShopOrder"},postInfo);
         };

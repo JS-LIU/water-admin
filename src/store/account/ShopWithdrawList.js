@@ -1,7 +1,8 @@
 /**
  * Created by LDQ on 2018/6/14
  */
-import _h from '../../Util/HB';
+// import _h from '../../Util/HB';
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import AdminList from '../AdminList';
 import WithdrawItem from '../finance/WithdrawItem';
 class ShopWithdrawList extends AdminList{
@@ -9,7 +10,7 @@ class ShopWithdrawList extends AdminList{
         super();
         this.shopId = shopId;
         this.withdrawStatus = {orderStatus:['finish']};
-        let withdrawAjax = _h.ajax.resource('/admin/withdraw/:action');
+        let withdrawAjax = commonAjax.resource('/admin/withdraw/:action');
         this._getWithdrawList = function(postInfo){
             return withdrawAjax.save({action:"list"},postInfo);
         }

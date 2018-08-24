@@ -1,8 +1,8 @@
 /**
  * Created by LDQ on 2018/6/13
  */
-import _h from '../../Util/HB';
-
+// import _h from '../../Util/HB';
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 class Product {
     constructor(productInfo) {
         this.productId = productInfo.id;
@@ -38,7 +38,7 @@ class Product {
                 return this._removeItem();
             }
         };
-        let productAjax = _h.ajax.resource('/admin/product/:action');
+        let productAjax = commonAjax.resource('/admin/product/:action');
 
         this._editProduct = function () {
             console.log("--bianji-");
@@ -60,7 +60,7 @@ class Product {
 
         };
         this._updateShopProductInfo = function(postInfo){
-            return _h.ajax.resource('/admin/updateShopProductInfo').save({},postInfo);
+            return commonAjax.resource('/admin/updateShopProductInfo').save({},postInfo);
         };
     }
 

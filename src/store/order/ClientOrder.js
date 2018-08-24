@@ -1,4 +1,5 @@
-import _h from '../../Util/HB';
+// import _h from '../../Util/HB';
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import DeliveryMerchant from './DeliveryMerchant';
 import nearShopListContainer from './NearShopListContainer';
 
@@ -34,7 +35,7 @@ class ClientOrder {
         });
         this.orderStatus = orderInfo.status === "待派单" ? this.convertStatus() : orderInfo.status;  // 订单状态
         this.orderDetail = {};
-        let clientOrderAjax = _h.ajax.resource('/admin/order/:action');
+        let clientOrderAjax = commonAjax.resource('/admin/order/:action');
         this._redirectClientOrder = function (postInfo) {
             return clientOrderAjax.save({action: "redirectShopOrder"}, postInfo);
         };

@@ -113,14 +113,14 @@ class Merchant{
      * @returns {Promise}
      */
     allow(){
-        return this._allow({id:this.merchantId})
+        return this._allow({merchantId:this.merchantId})
     }
 
     /**
      * 拒绝审核
      */
     notAllow(){
-        return this._notAllow({id:this.merchantId})
+        return this._notAllow({merchantId:this.merchantId})
     }
     //  关闭店铺
     close(){

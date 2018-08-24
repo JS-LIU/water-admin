@@ -1,7 +1,8 @@
 /**
  * Created by LDQ on 2018/6/14
  */
-import _h from "../../Util/HB";
+// import _h from "../../Util/HB";
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 class WithdrawItem{
     constructor(withdrawInfo){
         this.createTime = withdrawInfo.createTime;
@@ -26,7 +27,7 @@ class WithdrawItem{
         this.cardholderName = withdrawInfo.cardholderName;
 
 
-        let withdrawAjax = _h.ajax.resource("/admin/withdraw/:action");
+        let withdrawAjax = commonAjax.resource("/admin/withdraw/:action");
         this._allowWithdraw = function(postInfo){
             return withdrawAjax.save({action:"allow"},postInfo);
         };

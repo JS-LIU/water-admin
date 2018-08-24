@@ -2,14 +2,15 @@
  * Created by LDQ on 2018/6/13
  */
 import AdminList from '../AdminList';
-import _h from '../../Util/HB';
+// import _h from '../../Util/HB';
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import Product from './Product';
 import SimpleProduct from './SimpleProduct';
 class ProductList extends AdminList {
     constructor(shopId) {
         super();
         this.shopId = shopId;
-        let productListAjax = _h.ajax.resource('/admin/:entity/:action');
+        let productListAjax = commonAjax.resource('/admin/:entity/:action');
         this._getProductList = function () {
             return productListAjax.save({entity:"merchant",action: "shopProductList/" + shopId});
         };

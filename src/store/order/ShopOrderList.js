@@ -2,7 +2,8 @@
  * Created by LDQ on 2018/6/13
  */
 import AdminList from '../AdminList';
-import _h from '../../Util/HB';
+// import _h from '../../Util/HB';
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import Order from "../order/Order";
 
 class ShopOrderList extends AdminList{
@@ -10,7 +11,7 @@ class ShopOrderList extends AdminList{
         super();
         this.shopId = shopId;
         this.orderSrc = "merchant_src";
-        let shopOrderAjax = _h.ajax.resource('/admin/order/:action');
+        let shopOrderAjax = commonAjax.resource('/admin/order/:action');
         this._getShopOrderList = function(postInfo){
             return shopOrderAjax.save({action:"shopOrderList"},postInfo);
         }

@@ -14,7 +14,6 @@ import {
 
 import HomeMenuView from './HomeMenuView';
 
-import WithdrawInfoView from './WithdrawInfoView';
 import ClientOrderView from './order/ClientOrderView';
 import ClientOrderSearchView from './order/ClientOrderSearchView';
 // 商家订单
@@ -48,8 +47,6 @@ import DistributeEditProductView from './distributeProduct/DistributeEditProduct
 import DistributeProductSearchView from './distributeProduct/DistributeProductSearchView';
 // 成本
 import ManufactureCostView from './manufactureCost/ManufactureCostView';
-import OpenShopView from './OpenShopView';
-import ShopListView from './ShopListView';
 import './homeStyle.css';
 
 
@@ -115,10 +112,6 @@ class HomeView extends Component{
                                 <Route path='/selfSaleCategory' component={SelfSaleCategoryView} />
                                 <Route path='/selfSaleEditProduct' component={SelfSaleEditProductView} />
                                 <Route path='/selfSaleProductSearch' component={SelfSaleProductSearchView}/>
-
-                                {/*<Route path="/merchantOrder" component={OrderListTest} />*/}
-                                <Route path="/openShop" component={OpenShopView} />
-                                <Route path="/shopList" component={ShopListView} />
 
                                 <Route path="/deal" component={VolumeOfTransactionView}/>
                                 {/*<Route path="/auditMerchantList" component={AuditMerchantList}/>*/}

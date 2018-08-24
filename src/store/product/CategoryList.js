@@ -1,10 +1,11 @@
 /**
  * Created by LDQ on 2018/6/22
  */
-import _h from "../../Util/HB";
+// import _h from "../../Util/HB";
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 class CategoryList{
     constructor(){
-        let brandListAjax = _h.ajax.resource('/admin/product/:action');
+        let brandListAjax = commonAjax.resource('/admin/product/:action');
 
         this._getCategoryList = function(){
             return brandListAjax.save({action:'productCategory'});

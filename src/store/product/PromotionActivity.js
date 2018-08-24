@@ -2,7 +2,8 @@
  * Created by LDQ on 2018/6/25
  */
 import PromotionActivityStrategyList from './PromotionActivityStrategyList';
-import _h from '../../Util/HB';
+// import _h from '../../Util/HB';
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 class PromotionActivity{
     constructor(promotionInfo){
         this.promotionActivityId = promotionInfo.promotionActivityId;
@@ -18,7 +19,7 @@ class PromotionActivity{
         this.waterTicketMount = promotionInfo.waterTicketMount;
         this.operate = PromotionActivity.convertProductStatus(promotionInfo.promotionStatus);
         let self = this;
-        let promotionAjax = _h.ajax.resource('/admin/promotion/:action');
+        let promotionAjax = commonAjax.resource('/admin/promotion/:action');
         this._changeStatus = function(){
             let postInfo = {
                 promotionId: promotionInfo.promotionActivityId,

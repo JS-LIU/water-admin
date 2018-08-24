@@ -1,14 +1,15 @@
 /**
  * Created by LDQ on 2018/5/22
  */
-import _h from "../../Util/HB";
+// import _h from "../../Util/HB";
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import Merchant from './Merchant';
 import AdminList from '../AdminList';
 import WaterStore from './WaterStore';
 class MerchantListContainer extends AdminList{
     constructor(){
         super();
-        let merchantListAjax = _h.ajax.resource('/admin/:entity/:action');
+        let merchantListAjax = commonAjax.resource('/admin/:entity/:action');
         this._getMerchantList = function (postInfo) {
             return merchantListAjax.save({entity:"merchant",action:'getShopList'}, postInfo)
         };

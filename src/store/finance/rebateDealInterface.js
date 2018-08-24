@@ -12,7 +12,8 @@ let rebateDealListData = {
     @observable list:[],
     @observable detail:{},
     @observable pagination:{},
-    @observable activeItem:{productItemList:[]}
+    @observable activeItem:{productItemList:[]},
+    @observable isCanRebate:false,
 };
 
 
@@ -69,48 +70,16 @@ function rebateDealListActions(){
         _getListAndSetActiveItem();
     };
     let confirmRebate = function(remark){
+        rebateDealListData.isCanRebate = true;
         rebateList.activeItem.setRemark(remark);
         rebateList.activeItem.toRebate().then(()=>{
             _getListAndSetActiveItem();
+            rebateDealListData.isCanRebate = false;
         })
     };
     let setRealResult = function(realResult){
         rebateList.activeItem.setRealResult(realResult);
     };
-    // actions.selectRebateItem = function(rebateId){
-    //     let rebateItem = rebateList.findRebateItemByRebateId(rebateDealListData.list,rebateId);
-    //     rebateList.setActiveRebateItem(rebateItem);
-    //     rebateList.activeRebateItem.getDetail().then((detail)=>{
-    //         rebateDealListData.detail = detail;
-    //     })
-    // };
-    // actions.setRealTotalMount = function(realTotalMount){
-    //     rebateList.activeRebateItem.setRealTotalMount(realTotalMount);
-    //     rebateList.activeRebateItem.setRebatePerPrice();
-    //     rebateList.activeRebateItem.setTotalPrice();
-    // };
-    // actions.confirmRebate = function(remark){
-    //     rebateList.activeRebateItem.setRemark(remark);
-    //     rebateList.activeRebateItem.toRebate().then(()=>{
-    //         rebateList.removeRebateItem(rebateDealListData.list,rebateList.activeRebateItem);
-    //     })
-    // };
-    // actions.setQueryInfo = function(queryMsg){
-    //     rebateList.selectQueryInfo(queryMsg);
-    // };
-    // actions.queryByQueryInfo = function(){
-    //     actions.onLoad();
-    // };
-    // actions.changePage = function(pageNum){
-    //     rebateList.pagination.setPage(pageNum);
-    //     rebateList.getRebateList().then((rebateList)=>{
-    //         rebateDealListData.list = rebateList;
-    //         rebateList.setActiveRebateItem(rebateList[0]);
-    //         rebateList.activeRebateItem.getDetail().then((detail)=>{
-    //             rebateDealListData.detail = detail;
-    //         })
-    //     })
-    // };
     return {
         onLoad:load.before(function(){
             changeStatus('create');

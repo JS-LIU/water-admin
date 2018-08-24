@@ -1,13 +1,16 @@
 /**
  * Created by LDQ on 2018/5/16
  */
-import _h from "../../Util/HB";
+// import _h from "../../Util/HB";
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import Pagination from "../Pagination";
 import DeliveryMerchant from './DeliveryMerchant';
+
+
 class NearShopListContainer{
     constructor(){
-        let merchantListAjax = _h.ajax.resource('/admin/order/:action');
-
+        // let merchantListAjax = _h.ajax.resource('/admin/order/:action');
+        let merchantListAjax = commonAjax.resource('/admin/order/:action');
         this._getMerchantListInfo = function (postInfo) {
             return merchantListAjax.save({action:'assignShopQueryList'}, postInfo)
         };

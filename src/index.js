@@ -16,12 +16,6 @@ import { Provider } from 'mobx-react';
 import base from './Util/base.css';
 
 import HomeView from './container/HomeView';
-import OrderContainer from './MobX/OrderContainer';
-import ShopOrderCondition from './MobX/ShopOrderCondition';
-import WithdrawOrderContainer from './MobX/WithdrawOrderContainer';
-import WithdrawOrderCondition from './MobX/WithdrawOrderCondition';
-import OpenShopContainer from './MobX/OpenShopContainer';
-import ShopListContainer from './MobX/ShopListContainer';
 
 const App = ()=>(
     <HashRouter>
@@ -34,26 +28,7 @@ const App = ()=>(
 
 );
 
-const orderContainer = new OrderContainer();
-const shopOrderCondition = new ShopOrderCondition();
-const withdrawOrderContainer = new WithdrawOrderContainer();
-const withdrawOrderCondition = new WithdrawOrderCondition();
-const openShopContainer = new OpenShopContainer();
-const shopListContainer = new ShopListContainer();
-
-const stores = {
-    orderContainer,
-    shopOrderCondition,
-    withdrawOrderContainer,
-    withdrawOrderCondition,
-    openShopContainer,
-    shopListContainer
-};
 ReactDom.render(
-    <Provider {...stores}>
-        <div>
-            <App />
-        </div>
-    </Provider>,
+    <App />,
     document.getElementById('root')
 );

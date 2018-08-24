@@ -4,7 +4,6 @@
 import {observable, computed, action, autorun} from "mobx";
 import clientOrderList from './ClientOrderList';
 import nearShopListContainer from './NearShopListContainer';
-import merchantOrderList from "./MerchantOrderList";
 
 let clientOrderListData = {
     @observable list:[],

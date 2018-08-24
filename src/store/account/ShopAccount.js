@@ -1,7 +1,8 @@
 /**
  * Created by LDQ on 2018/6/14
  */
-import _h from '../../Util/HB';
+// import _h from '../../Util/HB';
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import ShopWithdrawList from './ShopWithdrawList';
 import WaterTicketOrderList from '../order/WaterTicketOrderList';
 import AdminList from '../AdminList';
@@ -12,7 +13,7 @@ class ShopAccount extends AdminList{
     constructor(shopId){
         super();
         this.shopId = shopId;
-        let shopAccountAjax = _h.ajax.resource('/admin/merchant/:action');
+        let shopAccountAjax = commonAjax.resource('/admin/merchant/:action');
         // this.balance = accountInfo.balance;
         //  提现列表
         this.withdrawList = new ShopWithdrawList(this.shopId);
