@@ -20,6 +20,9 @@ class MerchantOrderList extends AdminList{
         this._getOrderList = function(postInfo){
             return orderListAjax.save({action:"list"},postInfo);
         };
+        this._getOrderPayInfo = function(postInfo){
+            return orderListAjax.save({action:"payInfo"},postInfo);
+        };
 
         let exportsAjax = commonAjax.resource('/admin/exportShopOrder');
         this._getExcel = function(data){
@@ -41,6 +44,9 @@ class MerchantOrderList extends AdminList{
         let queryMsg = Object.assign({},this.queryMsg,{orderStatus:this.orderStatus},{orderSrc: this.orderType});
         let reqMsg = {queryInfoMsg:queryMsg};
         return this.getList(reqMsg,this._getOrderList,MerchantOrder);
+    }
+    getOrderPayInfo(){
+        return this._getOrderPayInfo({queryInfoMsg:{orderSrc: this.orderType}});
     }
 
     getExcel(){

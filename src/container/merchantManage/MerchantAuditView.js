@@ -123,7 +123,7 @@ class MerchantAuditListQueryView extends Component{
                 title:'店铺名称',
                 dataIndex:"shopName",
                 key:"shopName",
-                width:100
+                width:130
             },{
                 title:'店铺属性',
                 dataIndex:"merchantType",
@@ -148,12 +148,12 @@ class MerchantAuditListQueryView extends Component{
                 title:'营业执照',
                 dataIndex:"licenseImageUrl",
                 key:"licenseImageUrl",
-                width:150
+                width:100
             },{
                 title:'店长姓名',
                 dataIndex:"managerName",
                 key:"managerName",
-                width:150
+                width:100
             },{
                 title:'联系人电话',
                 dataIndex:"managerTel",
@@ -208,7 +208,7 @@ class MerchantAuditListQueryView extends Component{
                 className="components-table-demo-nested"
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{x: 1700,y:420}}
+                scroll={{x: 1600,y:420}}
                 onRow={(record)=>{
                     return {
                         onClick:()=>{

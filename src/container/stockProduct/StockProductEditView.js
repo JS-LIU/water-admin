@@ -100,12 +100,12 @@ class StockProductEditListQueryView extends Component{
                 title:'商品名称',
                 dataIndex:"productName",
                 key:"productName",
-                width:200
+                width:230
             },{
                 title:'规格',
                 dataIndex:"volume",
                 key:"volume",
-                width:200
+                width:180
             },{
                 title:'商品图片',
                 dataIndex:"productImg",
@@ -126,17 +126,17 @@ class StockProductEditListQueryView extends Component{
                 title:'原价',
                 dataIndex:"originalPrice",
                 key:"originalPrice",
-                width:100
+                width:80
             },{
                 title:'成本价',
                 dataIndex:"costPrice",
                 key:"costPrice",
-                width:100
+                width:80
             },{
                 title:'库存',
                 dataIndex:"stockStatus",
                 key:"stockStatus",
-                width:100
+                width:80
             },{
                 title: '促销',
                 dataIndex:"productActivity",
@@ -209,7 +209,7 @@ class StockProductEditListQueryView extends Component{
                 className="components-table-demo-nested"
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{x: 1550,y:500}}
+                scroll={{x: 1500,y:500}}
             />
         )
     }

@@ -131,7 +131,7 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
                 status:item.status,
                 rebateId:item.rebateId,
                 productItemList:item.productItemList,
-                rebateResult:item.rebateResult / 100
+                rebateResult:item.rebateResult / 10
             })
         }
         const expandedRowRender = record => {
@@ -218,7 +218,7 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
                             备注：
                             <Input type="textarea" placeholder="填写备注" rows={4} style={{ width: 363, height:130}}/>
                         </span>
-                        <Button type="primary" disabled={data.isCanRebate} onClick={this.confirmRebate.bind(this)} className="rebate_btn">确认返利</Button>
+                        <Button type="primary" onClick={() => actions.confirmRebate()} className="rebate_btn">确认返利</Button>
                     </li>
                 </ul>
             </div>

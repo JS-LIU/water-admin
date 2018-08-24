@@ -147,7 +147,7 @@ class MerchantOrderListQueryView extends Component{
                 title:"订单号",
                 dataIndex:"orderNo",
                 key:"orderNo",
-                width:200
+                width:210
             },{
                 title:"商家编号",
                 dataIndex:"shopArtificialNum",

@@ -6,3 +6,12 @@
 .all_search_box > Search{
     flex-basis: 25%;
 }
+.pay_ment_money{
+    display: flex;
+    flex-direction: row;
+}
+.ant-table-thead > tr,
+.ant-table-thead > tr > th{
+    background-color: #e3effb;
+    height: 54px;
+}

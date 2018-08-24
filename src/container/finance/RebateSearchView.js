@@ -109,9 +109,9 @@ const Search = Input.Search;
             key: 'rebatePrice',
             width:150
         }, {
-            title: '返利金额',
-            dataIndex: 'rebateResult',
-            key: 'rebateResult',
+            title: '返利金额(喜币)',
+            dataIndex: 'realRebateResult',
+            key: 'realRebateResult',
             width:100
         },{
             title:"评论",
@@ -139,7 +139,7 @@ const Search = Input.Search;
                 status:item.status,
                 rebateId:item.rebateId,
                 productItemList:item.productItemList,
-                rebateResult:item.rebateResult / 100
+                realRebateResult:item.realRebateResult
             })
         }
         const expandedRowRender = record => {
@@ -169,7 +169,7 @@ const Search = Input.Search;
             <Table
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{y:300,x:1100}}
+                scroll={{x:1100}}
                 expandedRowRender={expandedRowRender}
                 pagination={{total:data.pagination.total,current:data.pagination.page+1,onChange:value => actions.changePage(value)}}
             />

@@ -165,7 +165,7 @@ import merchantAuditStyle from './css/merchantAudit.css';
                 title: "店铺名称",
                 dataIndex: "shopName",
                 key: "shopName",
-                width: 150
+                width: 130
             },
             {
                 title: "商家编号",
@@ -190,7 +190,7 @@ import merchantAuditStyle from './css/merchantAudit.css';
                 title: "店铺属性",
                 dataIndex: "shopType",
                 key: "shopType",
-                width: 150
+                width: 100
             },
             {
                 title: "所在地区",
@@ -214,7 +214,7 @@ import merchantAuditStyle from './css/merchantAudit.css';
                 title: "配送时间",
                 dataIndex: "deliveryTime",
                 key: "deliveryTime",
-                width: 200
+                width: 150
             },
             {
                 title: "配送范围",
@@ -245,7 +245,7 @@ import merchantAuditStyle from './css/merchantAudit.css';
                 title: "商家介绍",
                 dataIndex: "introduce",
                 key: "introduce",
-                width: 300
+                width: 200
             },
             {
                 title: "店长姓名",
@@ -270,7 +270,7 @@ import merchantAuditStyle from './css/merchantAudit.css';
                 title: "审核人",
                 dataIndex: "auditor",
                 key: "auditor",
-                width: 150
+                width: 100
             },
             {
                 title: "店铺类型",
@@ -323,7 +323,7 @@ import merchantAuditStyle from './css/merchantAudit.css';
                 className="components-table-demo-nested"
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{x: 3300}}
+                scroll={{x: 3000}}
                 pagination={{total:data.pagination.total,defaultCurrent:1,onChange:this.changePage.bind(this),current:data.pagination.page+1}}
             />
         )

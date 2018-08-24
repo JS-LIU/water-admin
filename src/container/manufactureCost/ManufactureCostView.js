@@ -75,31 +75,31 @@ import manufactureCostStyle from './manufactureCost.css';
                 title:"生产时间",
                 dataIndex:"createTime",
                 key:"createTime",
-                width:200
+                width:150
             },
             {
                 title:"交易单号",
                 dataIndex:"payNumber",
                 key:"payNumber",
-                width:200
+                width:150
             },
             {
                 title:"水厂",
                 dataIndex:"shopName",
                 key:"shopName",
-                width:200
+                width:120
             },
             {
                 title:"区域",
                 dataIndex:"address",
                 key:"address",
-                width:200
+                width:150
             },
             {
                 title:"商品",
                 dataIndex:"productName",
                 key:"productName",
-                width:200
+                width:150
             },
             {
                 title:"规格",
@@ -117,7 +117,7 @@ import manufactureCostStyle from './manufactureCost.css';
                 title:"成本（元/桶）",
                 dataIndex:"unitPrice",
                 key:"unitPrice",
-                width:200
+                width:120
             },
             {
                 title:"数量（桶）",
@@ -172,7 +172,7 @@ import manufactureCostStyle from './manufactureCost.css';
             <Table
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{x:1800,y:400}}
+                scroll={{x:1420,y:400}}
             />
         )
     }

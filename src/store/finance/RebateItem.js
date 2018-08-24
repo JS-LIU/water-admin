@@ -26,9 +26,9 @@ class RebateItem{
         this.productMount = rebateInfo.productMount;                //  数量
         this.rebatePriceExcel = rebateInfo.rebatePriceExcel ;       //  返利标准
         this.rebatePrice = rebateInfo.rebatePrice;                  //  返利金额
-        // this.rebateResult = rebateInfo.rebateResult;                  //  总价格
         this.rebateResult = rebateInfo.rebateResult;                //  实际返利金额
-        this.realRebate = rebateInfo.rebateResult / 100;
+        this.realRebate = rebateInfo.rebateResult/10;
+        this.realRebateResult = rebateInfo.realRebateResult;
 
         let rebateAjax = commonAjax.resource('/admin/financial/:action');
         this._getDetail = function(postInfo){
@@ -43,14 +43,13 @@ class RebateItem{
     }
     toRebate(){
         let self = this;
-        let realRebateResult = self.realRebate?self.realRebate * 100:self.rebateResult;
         let postInfo = {
             rebateOrderId:self.rebateId,
             realTotalMount:self.totalMount,
             calcRebateResult:self.rebateResult,
             rebatePrice:self.rebatePerPrice,
             remark:self.remark,
-            realRebateResult:realRebateResult
+            realRebateResult:self.realRebate
         };
         return this._toRebate(postInfo)
     }

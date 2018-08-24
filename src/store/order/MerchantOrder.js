@@ -12,7 +12,7 @@ class MerchantOrder{
         this.orderSrc = orderInfo.orderSrc;
         this.orderSource = orderInfo.orderSource;           // 订单来源
         this.createTime = orderInfo.createTime;             // 订单时间
-        this.payTime = orderInfo.payTime;
+        this.payTime = orderInfo.payTime||"------------------";
         this.productItems = orderInfo.productItems;         // 商品数量规格单价
         this.receiver = orderInfo.receiver;                 // 收货人
         this.userInfo = orderInfo.userInfo;                 // 用户账号
