@@ -101,7 +101,7 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
             key: 'rebatePrice',
             width:150
         }, {
-            title: '返利金额',
+            title: '返利金额（元）',
             dataIndex: 'rebateResult',
             key: 'rebateResult',
             width:150
@@ -131,7 +131,7 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
                 status:item.status,
                 rebateId:item.rebateId,
                 productItemList:item.productItemList,
-                rebateResult:item.rebateResult / 10
+                rebateResult:item.rebateResult
             })
         }
         const expandedRowRender = record => {
@@ -181,6 +181,9 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
     confirmRebate(){
         actions.confirmRebate();
     }
+    handleChange(value){
+        actions.changeRebateCurrencyType(value);
+    }
     render(){
         const columns = [
             { title: "商品名称", dataIndex: "productName" , key: 'productName',width:300},
@@ -207,13 +210,26 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
                     dataSource={dataSource}
                     pagination={false}
                 />
-
                 <ul>
                     <li className="rebate_list">
-                        <span>实际总进货数量（桶）: {data.detail.totalMount}</span>
-                        <span>实际返利标准（/元）: {parseFloat(data.detail.rebatePrice)/100}</span>
-                        <span>应该返利金额（/元）: {data.detail.rebateResult / 100}</span>
-                        <span>实际返利金额（/元）:</span><InputNumber defaultValue={0} onChange={value => actions.setRealResult(value)}/>
+
+                        <span>实际总进货数量（桶）: {data.activeItem.totalMount}</span>
+                        <span>应该返利金额（/元）: {data.activeItem.rebateResult}</span>
+                        <div style={{display:"flex"}}>
+                            <span>实际返利金额:</span>
+                            <Select
+                                showSearch
+                                style={{ width: 100 }}
+                                defaultValue="rmb"
+                                placeholder="人民币"
+                                onChange={this.handleChange}
+                            >
+                                <Option value="rmb">人民币</Option>
+                                <Option value="xtb">喜腾币</Option>
+                            </Select>
+                        </div>
+
+                        <InputNumber value={data.activeItem.realRebate} onChange={value => actions.setRealResult(value)}/>
                         <span>
                             备注：
                             <Input type="textarea" placeholder="填写备注" rows={4} style={{ width: 363, height:130}}/>

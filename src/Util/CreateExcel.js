@@ -6,7 +6,7 @@ class CreateExcel{
         this.title = "报表.xls";
     }
     setTitle(title){
-        this.title = title + "xls";
+        this.title = title + ".xls";
     }
     downLoad(response){
         let blob = new Blob([response], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});

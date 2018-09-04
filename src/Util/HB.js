@@ -186,7 +186,10 @@ HB.ajax = function(){
         getUrl(replaceUrlObj){
             this.url = this.config.baseUrl + this.urlFactory.getUrl(replaceUrlObj)
         }
-        getAsync(){
+        createXHR(){
+            this.xhr = new XMLHttpRequest();
+        }
+        setAsync(){
             this.async = this.config.async;
         }
         getHeader(){
@@ -195,12 +198,7 @@ HB.ajax = function(){
         getHeaderValue(){
             this.value = this.config.requestHeader.value;
         }
-        getResponseType(){
-            this.responseType = this.config.responseType;
-        }
-        createXHR(){
-            this.xhr = new XMLHttpRequest();
-        }
+
         openXHR(){
             return new Error('请重写openXHR');
         }
@@ -210,48 +208,62 @@ HB.ajax = function(){
         setRequestHeader(){
             return new Error('请重写setRequestHeader');
         }
+        setResponseType(){
+            this.xhr.responseType = this.config.responseType;
+        }
         isSend(){
             return true;
         }
         send(data){
             this.xhr.send(JSON.stringify(data));
         }
-        getResponse(resolve,data){
-            let response = data;
-            if(this.responseType === "json" && data){
-                response = JSON.parse(data);
+        success(resolve){
+            if(this.xhr.readyState === 4 && this.xhr.status === 200){
+                return resolve(this.xhr.response);
             }
-            return resolve(response);
-        }
-        onReadyStateChange(){
-            return new Promise((resolve,reject)=>{
-                // 服务器是否正确响应
-                if (this.xhr.readyState === 4 && this.xhr.status === 200) {
-                    this.getResponse(resolve,this.xhr.response)
-                }else{
-                    console.log('response Error:',this.xhr.response);
-                    reject(this.xhr.response);
-                }
+            return "nextSuccessor";
 
+        }
+        fail(reject){
+            if(this.xhr.readyState === 4 && this.xhr.status !== 200){
+                return reject(this.xhr.response);
+            }
+            return "nextSuccessor";
+
+        }
+        waitStateChange(){
+            if(this.xhr.readyState !== 4){
+                return "nextSuccessor";
+            }
+        }
+        getResponse(){
+            let self = this;
+            return new Promise((resolve, reject)=>{
+                this.xhr.onreadystatechange = function(){
+                    if (self.xhr.readyState === 4 && self.xhr.status === 200) {
+                        resolve(self.xhr.response);
+                    }else if(self.xhr.readyState === 4 && self.xhr.status !== 200){
+                        reject(self.xhr.response);
+                    }
+                }
             })
         }
 
         initAjax(replaceUrlObj, data){
             this.getUrl(replaceUrlObj);
-            this.getAsync();
+            this.setAsync();
+            this.createXHR();
             this.getHeader();
             this.getHeaderValue();
-            this.getResponseType();
-            this.createXHR();
             this.openXHR();
             if(this.isSetRequestHeader()){
                 this.setRequestHeader();
             }
+            this.setResponseType();
             if(this.isSend() && data){
                 this.send(data);
             }
-
-            return this.onReadyStateChange();
+            return this.getResponse()
         }
     }
     class Post extends AbstractSendAjax{
@@ -259,14 +271,24 @@ HB.ajax = function(){
             super(url,config);
         }
         openXHR(){
-            this.xhr.open("post",this.url,this.ansyn);
+            this.xhr.open("post",this.url,this.async);
         }
         setRequestHeader(){
             this.xhr.setRequestHeader(this.header,this.value);
         }
 
     }
-
+    class Query extends AbstractSendAjax{
+        constructor(url,config){
+            super(url,config);
+        }
+        openXHR(){
+            this.xhr.open("get",this.url,this.async);
+        }
+        isSetRequestHeader(){
+            return false;
+        }
+    }
 
     //  url加工厂
     class UrlFactory{
@@ -289,7 +311,10 @@ HB.ajax = function(){
             this.url = url;
             this.config = config;
         }
-        query() {}
+        query(replaceUrlObj,data={}) {
+            let query = new Query(this.url,this.config);
+            return query.initAjax(replaceUrlObj,data);
+        }
         save(replaceUrlObj, data) {
             let post = new Post(this.url,this.config);
             return post.initAjax(replaceUrlObj, data);
@@ -305,17 +330,17 @@ HB.ajax = function(){
      */
     class Config{
         constructor(ajaxConfig){
-            this.ajaxConfig = Object.assign({baseUrl:"",ansyn:true,requestHeader:{
+            this.ajaxConfig = Object.assign({baseUrl:"",async:true,requestHeader:{
                     header:"Content-type",
                     value:"application/json; charset=utf-8"
                 },responseType:"json"},ajaxConfig);
         }
     }
     class Ajax{
-        // constructor(){
-        //     this.config = new Config({});
-        // }
-        config(ajaxConfig){
+        constructor(){
+            this.config = new Config({});
+        }
+        setConfig(ajaxConfig){
             this.config = new Config(ajaxConfig)
         }
         resource(url){

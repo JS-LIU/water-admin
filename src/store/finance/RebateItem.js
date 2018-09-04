@@ -26,9 +26,11 @@ class RebateItem{
         this.productMount = rebateInfo.productMount;                //  数量
         this.rebatePriceExcel = rebateInfo.rebatePriceExcel ;       //  返利标准
         this.rebatePrice = rebateInfo.rebatePrice;                  //  返利金额
-        this.rebateResult = rebateInfo.rebateResult;                //  实际返利金额
-        this.realRebate = rebateInfo.rebateResult/10;
-        this.realRebateResult = rebateInfo.realRebateResult;
+        this.rebateCurrencyType = rebateInfo.rebateCurrencyType || "rmb";    //  返利币种
+        this.rebateResult = this.convertToShowUnit(rebateInfo.rebateResult);                //  实际返利金额
+        this.realRebate = this.convertToShowUnit(rebateInfo.rebateResult);                  //  财务修改后的默认金额
+        this.repairResult = this.convertToShowUnit(rebateInfo.repairResult);                //  补充返利
+        this.realRebateResult = this.convertToShowUnit(rebateInfo.realRebateResult);
 
         let rebateAjax = commonAjax.resource('/admin/financial/:action');
         this._getDetail = function(postInfo){
@@ -36,22 +38,37 @@ class RebateItem{
         };
         this._toRebate = function(postInfo){
             return rebateAjax.save({action:"doRebate"},postInfo);
+        };
+        this._repairRebate = function(postInfo){
+            return rebateAjax.save({action:"repairRebate"},postInfo);
         }
     }
     getDetail(){
-        return this._getDetail();
+        return this._getDetail({});
     }
     toRebate(){
-        let self = this;
         let postInfo = {
-            rebateOrderId:self.rebateId,
-            realTotalMount:self.totalMount,
-            calcRebateResult:self.rebateResult,
-            rebatePrice:self.rebatePerPrice,
-            remark:self.remark,
-            realRebateResult:self.realRebate
+            rebateOrderId:this.rebateId,
+            realTotalMount:this.totalMount,
+            calcRebateResult:this.rebateResult,
+            rebatePrice:this.rebatePerPrice,
+            remark:this.remark,
+            realRebateResult:this.convertToPostUnit(this.realRebate),
+            currencyType:this.rebateCurrencyType
         };
         return this._toRebate(postInfo)
+    }
+    repairRebate(repairResult){
+
+        let postInfo = {
+            currencyType: this.rebateCurrencyType,
+            rebateOrderId: this.rebateId,
+            repairResult: this.convertToPostUnit(repairResult)
+        };
+        return this._repairRebate(postInfo);
+    }
+    setRepairResult(repairResult){
+        this.repairResult = repairResult;
     }
     setRealTotalMount(mount){
         this.realTotalMount = mount;
@@ -66,10 +83,16 @@ class RebateItem{
         );
     }
     setRealResult(realRebate){
-        this.realRebate = realRebate;
+        this.realRebate = this.convertToShowUnit(realRebate);
     }
     setRemark(remark){
         this.remark = remark;
+    }
+    convertToShowUnit(money){
+        return this.rebateCurrencyType === "rmb" ? money / 100 : money;
+    }
+    convertToPostUnit(money){
+        return this.rebateCurrencyType === "rmb" ? money * 100 : money;
     }
     static rebateLv0(realTotalMount){
         if(realTotalMount <=200){
@@ -95,12 +118,8 @@ class RebateItem{
         }
         return "nextSuccessor"
     }
-    // convertProductsKVToList(products){
-    //     let productList = [];
-    //     for(let prop in products){
-    //         productList.push(new Product({productName:prop,saleMount:products[prop]}))
-    //     }
-    //     return productList;
-    // }
+    changeRebateCurrencyType(rebateCurrencyType){
+        this.rebateCurrencyType = rebateCurrencyType;
+    }
 }
 module.exports = RebateItem;

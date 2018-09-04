@@ -24,10 +24,10 @@ class MerchantOrderList extends AdminList{
             return orderListAjax.save({action:"payInfo"},postInfo);
         };
 
-        let exportsAjax = commonAjax.resource('/admin/exportShopOrder');
-        this._getExcel = function(data){
-            return exportsAjax.save({},data);
-        }
+        let exportAjax = exportExcelAjax.resource('/admin/exportShopOrder');
+        this._exportExcel = function(postInfo){
+            return exportAjax.save({}, postInfo)
+        };
     }
     selectQueryType(typeNum){
         this.queryType = typeNum;
@@ -57,6 +57,7 @@ class MerchantOrderList extends AdminList{
             createExcel.setTitle("订单流水");
             createExcel.downLoad(response);
         });
+
     }
 
 }

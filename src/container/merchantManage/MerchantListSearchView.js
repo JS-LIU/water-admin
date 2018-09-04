@@ -126,7 +126,7 @@ import merchantAuditStyle from './css/merchantAudit.css';
                         />
                     ) : (
                         <div style={{ paddingRight: 24 }}>
-                            {value || '添加水站编号'}
+                            {this.props.value || '添加水站编号'}
                             <Icon
                                 type="edit"
                                 className="editable-cell-icon"

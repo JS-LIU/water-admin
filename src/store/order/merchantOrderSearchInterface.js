@@ -59,7 +59,7 @@ function merchantOrderSearchActions(){
         merchantOrderList.selectQueryMsg(queryMsg);
     };
     let load = function(){
-        _getPayInfo();
+        // _getPayInfo();
     };
     let changePage = function(pageNum){
         merchantOrderList.pagination.setPage(pageNum);

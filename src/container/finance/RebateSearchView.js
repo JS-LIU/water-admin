@@ -75,6 +75,60 @@ const Search = Input.Search;
     }
 }
 
+@observer class EditableCell extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            value: this.props.value,
+            editable: false
+        };
+    }
+    handleChange = (e) => {
+        const value = e.target.value;
+        this.setState({ value });
+    };
+    check = () => {
+        this.setState({ editable: false });
+        actions.repairRebate(this.props.rebateId,this.state.value);
+
+    };
+    edit = () => {
+        this.setState({ editable: true });
+    };
+    render(){
+        const { value,editable } = this.state;
+        return  (
+            <div className="editable-cell">
+                {
+                    editable ? (
+                        <Input
+                            value={value}
+                            onChange={this.handleChange}
+                            onPressEnter={this.check}
+                            suffix={
+                                <Icon
+                                    type="check"
+                                    className="editable-cell-icon-check"
+                                    onClick={this.check}
+                                />
+                            }
+                        />
+                    ) : (
+                        <div style={{ paddingRight: 24 }}>
+                            {this.props.value || '暂无第二次修改'}
+                            <Icon
+                                type="edit"
+                                className="editable-cell-icon"
+                                onClick={this.edit}
+                            />
+                        </div>
+                    )
+                }
+            </div>
+        );
+    }
+}
+
 //商品详情表格
 @observer class CommodityDetailsTable extends Component{
     render(){
@@ -109,10 +163,26 @@ const Search = Input.Search;
             key: 'rebatePrice',
             width:150
         }, {
-            title: '返利金额(喜币)',
+            title: '第一次返利',
             dataIndex: 'realRebateResult',
             key: 'realRebateResult',
-            width:100
+            width:120
+        }, {
+            title:"单位",
+            dataIndex:"rebateCurrencyType",
+            key:"rebateCurrencyType",
+            width:80,
+        },{
+            title: "补充返利",
+            dataIndex: "repairResult",
+            key: "repairResult",
+            width: 150,
+            render: (text, record) => (
+                <EditableCell
+                    value={record.repairResult}
+                    rebateId={record.rebateId}
+                />
+            ),
         },{
             title:"评论",
             dataIndex:'remark',
@@ -130,11 +200,13 @@ const Search = Input.Search;
             dataSource.push({
                 key:i,
                 month:item.month+"月",
+                repairResult:item.repairResult,
                 shopAlians:item.shopAlians,
                 shopName:item.shopName,
                 phoneNum:item.phoneNum,
                 totalMount :item.totalMount ,
                 rebatePrice:parseFloat(item.rebatePrice) / 100,
+                rebateCurrencyType:item.rebateCurrencyType,
                 remark:item.remark,
                 status:item.status,
                 rebateId:item.rebateId,
@@ -169,12 +241,15 @@ const Search = Input.Search;
             <Table
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{x:1100}}
+                scroll={{x:1000}}
                 expandedRowRender={expandedRowRender}
                 pagination={{total:data.pagination.total,current:data.pagination.page+1,onChange:value => actions.changePage(value)}}
             />
         )
     }
 }
+
+
+
 
 module.exports = RebateSearchView;

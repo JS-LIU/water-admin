@@ -80,10 +80,14 @@ function rebateDealListActions(){
     let setRealResult = function(realResult){
         rebateList.activeItem.setRealResult(realResult);
     };
+    let changeRebateCurrencyType = function(rebateCurrencyType){
+        rebateList.activeItem.changeRebateCurrencyType(rebateCurrencyType);
+    };
     return {
         onLoad:load.before(function(){
             changeStatus('create');
         }),
+        changeRebateCurrencyType:changeRebateCurrencyType,
         selectRebateItem:selectRebateItem,
         setRealTotalMount:{},
         confirmRebate:confirmRebate,

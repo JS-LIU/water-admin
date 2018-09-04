@@ -37,7 +37,9 @@ function merchantSearchAction(){
     };
     let updateMerchantNum = function(shopId,merchantNum){
         let merchant = merchantListContainer.findItemByItemId(merchantSearchData.list,shopId,"shopId");
-        merchant.updateMerchantNum(merchantNum);
+        merchant.updateMerchantNum(merchantNum).then(()=>{
+            _getList()
+        });
     };
     let changePage = function(pageNum){
         merchantListContainer.pagination.setPage(pageNum);

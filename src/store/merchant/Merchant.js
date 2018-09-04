@@ -1,7 +1,7 @@
 /**
  * Created by LDQ on 2018/5/22
  */
-import _h from '../../Util/HB';
+import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import ProductList from '../product/ProductList';
 import ShopOrderList from '../order/ShopOrderList';
 import ShopAccount from '../account/ShopAccount';
@@ -34,8 +34,7 @@ class Merchant{
         this.auditor = merchantInfo.auditor;
         this.merchantId = merchantInfo.merchantId;
         this.shopId = merchantInfo.shopId;
-        let merchantListAjax = _h.ajax.resource('/admin/merchant/:action');
-
+        let merchantListAjax = commonAjax.resource('/admin/merchant/:action');
         this._allow = function(postInfo){
             return merchantListAjax.save({action:'passStatus'},postInfo);
         };

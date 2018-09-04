@@ -41,12 +41,22 @@ function rebateListSearchActions(){
     let queryByQueryInfo = function(){
         load();
     };
+    let repairRebate = function(rebateId,money){
+        let rebateItem = rebateList.findItemByItemId(rebateListSearchData.list,rebateId,"rebateId");
+        rebateItem.repairRebate(money).then(()=>{
+            return rebateList.getRebateList()
+        }).then((list)=>{
+            rebateListSearchData.list = list;
+            rebateListSearchData.pagination = rebateList.pagination;
+        });
+    };
     return {
         onLoad:load.before(_setInitType),
         changePage:changePage,
         changeType:changeType,
         setQueryInfo:setQueryInfo,
-        queryByQueryInfo:queryByQueryInfo
+        queryByQueryInfo:queryByQueryInfo,
+        repairRebate:repairRebate,
     }
 }
 module.exports = {data:rebateListSearchData,actions:rebateListSearchActions()};
