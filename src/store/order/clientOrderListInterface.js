@@ -92,6 +92,9 @@ function clientOrderListActions(){
     let _setInitQueryInfo = function(){
         clientOrderList.selectQueryType(0);
     };
+    let setDeltaSettleDownValue = function(deltaSettleDownValue){
+        clientOrderList.activeItem.setDeltaSettleDownValue(deltaSettleDownValue)
+    };
     return {
         onLoad:load.before(_setInitQueryInfo),
         selectOrder:selectOrder,
@@ -103,7 +106,8 @@ function clientOrderListActions(){
         setNearShopQueryInfo:setNearShopQueryInfo,
         loadMoreNearShop:loadMoreNearShop,
         selectQueryType:selectQueryType,
-        changePagination:changePagination
+        changePagination:changePagination,
+        setDeltaSettleDownValue:setDeltaSettleDownValue
     }
 }
 module.exports = {data:clientOrderListData,actions:clientOrderListActions()};

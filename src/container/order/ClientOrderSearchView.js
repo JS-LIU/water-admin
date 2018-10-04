@@ -35,6 +35,7 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                     <Radio.Button value={"waitDelivery"}>待配送</Radio.Button>
                     <Radio.Button value={"waitReceive"}>待收货</Radio.Button>
                     <Radio.Button value={"finish"}>已完成</Radio.Button>
+                    <Radio.Button value={"alreadyPay"}>已付款</Radio.Button>
                 </Radio.Group>
                 <ClientOrderListView />
             </div>
@@ -127,12 +128,7 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
     }
     render(){
         const columns = [
-            {
-                title:"创建时间",
-                dataIndex:"createTime",
-                key:"createTime",
-                width:200
-            },
+
             {
                 title:"付款时间",
                 dataIndex:"payTime",
@@ -144,6 +140,21 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 dataIndex:"orderNo",
                 key:"orderNo",
                 width:200
+            },{
+                title:'结算价',
+                dataIndex:"cashSettleDownMount",
+                key:"cashSettleDownMount",
+                width:100
+            },{
+                title:'调整价',
+                dataIndex:"deltaSettleDownValue",
+                key:"deltaSettleDownValue",
+                width:100,
+            }, {
+                title:'实际结算',
+                dataIndex:"actualSettleDownMount",
+                key:"actualSettleDownMount",
+                width:100
             },
 
             {
@@ -216,6 +227,11 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 dataIndex:"payChannel",
                 key:"payChannel",
                 width:150
+            },{
+                title:"创建时间",
+                dataIndex:"createTime",
+                key:"createTime",
+                width:200
             },
             {
                 title:"订单状态",
@@ -223,7 +239,7 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 key:"orderStatus",
                 width:100,
                 render:(text,record) =>{return (<a href="javascript:void(0)" onClick={this.getOperate(record.orderStatus,record.orderId)}>{this.operateText(record.orderStatus,record.orderId)}</a>)}
-            }
+            },
 
         ];
         const dataSource = [];
@@ -250,7 +266,10 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 shopArtificialNum:item.deliveryShop.shopArtificialNum,
                 shopTelephone:item.deliveryShop.shopTelephone,
                 orderStatus:item.orderStatus,
-                orderId:item.orderId
+                orderId:item.orderId,
+                cashSettleDownMount:item.cashSettleDownMount/100,
+                deltaSettleDownValue:item.deltaSettleDownValue/100,
+                actualSettleDownMount:item.actualSettleDownMount/100
             })
         }
         const expandedRowRender = record => {

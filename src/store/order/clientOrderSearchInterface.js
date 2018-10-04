@@ -37,6 +37,10 @@ function clientOrderSearchActions(){
             clientOrderList.selectQueryType(1);
             getWaitingDispatchOrder();
         },
+        "alreadyPay":function(){
+            clientOrderList.setOrderStatus(["waiting_dispatch",'delivery','finish','finish_comment']);
+            getOrderList();
+        },
         "waitDelivery":function(){
             clientOrderList.selectQueryType(2);
             getWaitingDispatchOrder();

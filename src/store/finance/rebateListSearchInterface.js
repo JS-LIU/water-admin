@@ -50,6 +50,9 @@ function rebateListSearchActions(){
             rebateListSearchData.pagination = rebateList.pagination;
         });
     };
+    let getExcel = function(){
+
+    };
     return {
         onLoad:load.before(_setInitType),
         changePage:changePage,
@@ -57,6 +60,7 @@ function rebateListSearchActions(){
         setQueryInfo:setQueryInfo,
         queryByQueryInfo:queryByQueryInfo,
         repairRebate:repairRebate,
+        // getExcel:getExcel
     }
 }
 module.exports = {data:rebateListSearchData,actions:rebateListSearchActions()};

@@ -87,6 +87,10 @@ class ClientOrderListQueryView extends Component{
             return "立即派单"
         }
     }
+    setDeltaSettleDownValue(e){
+        console.log(e.target.value);
+        actions.setDeltaSettleDownValue(e.target.value)
+    }
     getOperate(orderStatus,orderNo){
         if(orderStatus === "待配送"){
             return () => actions.dispatchOrder(orderNo);
@@ -104,11 +108,6 @@ class ClientOrderListQueryView extends Component{
     }
     render(){
         const baseColumns = [{
-            title:'创建时间',
-            dataIndex:"createTime",
-            key:"createTime",
-            width:200
-        },{
             title:'付款时间',
             dataIndex:"payTime",
             key:"payTime",
@@ -118,6 +117,22 @@ class ClientOrderListQueryView extends Component{
             dataIndex:"orderNo",
             key:"orderNo",
             width:210
+        },{
+            title:'结算价',
+            dataIndex:"cashSettleDownMount",
+            key:"cashSettleDownMount",
+            width:100
+        },{
+            title:'调整价',
+            dataIndex:"deltaSettleDownValue",
+            key:"deltaSettleDownValue",
+            width:200,
+            render:(text,record) =>{return (<input onChange={this.setDeltaSettleDownValue.bind(this)}/>)}
+        }, {
+            title:'实际结算',
+            dataIndex:"actualSettleDownMount",
+            key:"actualSettleDownMount",
+            width:100
         },{
             title:'用户账号',
             dataIndex:"userInfo",
@@ -146,6 +161,11 @@ class ClientOrderListQueryView extends Component{
             dataIndex:"totalPrice",
             key:"totalPrice",
             width:100
+        },{
+            title:'创建时间',
+            dataIndex:"createTime",
+            key:"createTime",
+            width:200
         },{
             title:'订单状态',
             dataIndex:"orderStatus",
@@ -187,6 +207,9 @@ class ClientOrderListQueryView extends Component{
                 orderId:item.orderId,
                 deliveryShop:item.deliveryShop,
                 shopName:item.shopName,
+                cashSettleDownMount:item.cashSettleDownMount/100,
+                deltaSettleDownValue:item.deltaSettleDownValue/100,
+                actualSettleDownMount:item.actualSettleDownMount/100
             })
         }
         const expandedRowRender = record => {
@@ -225,7 +248,7 @@ class ClientOrderListQueryView extends Component{
                 columns={columns}
                 expandedRowRender={expandedRowRender}
                 dataSource={dataSource}
-                scroll={{x: 1800,y:300}}
+                scroll={{x: 2100,y:300}}
                 onRow={(record) => {
                     return {
                         onClick: () => {

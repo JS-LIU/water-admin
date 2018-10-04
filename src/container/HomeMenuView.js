@@ -210,6 +210,12 @@ class HomeMenuView extends Component{
                             </Link>
                         </Menu.Item>
                     </SubMenu>
+                    <Menu.Item key="/waterTicketActive">
+                        <Link to="/waterTicketActive">
+                            <Icon type="laptop" />
+                            <span>水票促销</span>
+                        </Link>
+                    </Menu.Item>
                 </Menu>
             </div>
         )

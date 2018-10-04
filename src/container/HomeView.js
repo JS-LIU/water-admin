@@ -47,7 +47,10 @@ import DistributeEditProductView from './distributeProduct/DistributeEditProduct
 import DistributeProductSearchView from './distributeProduct/DistributeProductSearchView';
 // 成本
 import ManufactureCostView from './manufactureCost/ManufactureCostView';
+import WaterTicketActiveListView from './activeManage/WaterTicketActiveListView';
+
 import './homeStyle.css';
+
 
 
 // import RebateSearchView from './finance/RebateSearchView';
@@ -115,6 +118,8 @@ class HomeView extends Component{
 
                                 <Route path="/deal" component={VolumeOfTransactionView}/>
                                 {/*<Route path="/auditMerchantList" component={AuditMerchantList}/>*/}
+
+                                <Route path="/waterTicketActive" component={WaterTicketActiveListView}/>
                             </Switch>
                         </div>
                     </Content>

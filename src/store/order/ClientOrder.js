@@ -33,6 +33,9 @@ class ClientOrder {
             shopId: orderInfo.shopId,
             cityName: orderInfo.cityName
         });
+        this.cashSettleDownMount = orderInfo.cashSettleDownMount;
+        this.deltaSettleDownValue = orderInfo.deltaSettleDownValue;
+        this.actualSettleDownMount = orderInfo.actualSettleDownMount;
         this.orderStatus = orderInfo.status === "待派单" ? this.convertStatus() : orderInfo.status;  // 订单状态
         this.orderDetail = {};
         let clientOrderAjax = commonAjax.resource('/admin/order/:action');
@@ -57,7 +60,9 @@ class ClientOrder {
             return "待配送"
         }
     }
-
+    setDeltaSettleDownValue(deltaSettleDownValue){
+        this.deltaSettleDownValue = deltaSettleDownValue;
+    }
     getPositionInfo() {
         let position = this.orderDetail.deliveryAddressModel.position;
         let cityName = this.orderDetail.deliveryAddressModel.address.cityName;
@@ -71,7 +76,8 @@ class ClientOrder {
     redirectOrder(merchantShop) {
         let postInfo = {
             shopId: merchantShop.shopId,
-            shopOrderId: this.orderId
+            shopOrderId: this.orderId,
+            deltaValueForSettleDown:this.deltaSettleDownValue
         };
         return this._redirectClientOrder(postInfo)
     }

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {observer,inject} from 'mobx-react';
 import {data,actions} from '../../store/finance/rebateListSearchInterface';
 
-import { Input , Button , Radio ,Table, Icon} from 'antd';
+import { Table, Tooltip , Button , Radio , Input , Cascader ,Form , Row, Col , DatePicker } from 'antd';
 const Search = Input.Search;
 
 @observer class RebateSearchView extends Component{
@@ -28,43 +28,61 @@ const Search = Input.Search;
     render(){
         const { rebateStatus } = this.state;
         return(
-            <div>
-                <div className="inquire_view">
-                    <span>
-                        <Search
-                            placeholder="输入店铺编号"
-                            onSearch={value => {
-                                actions.setQueryInfo({shopAlians:value});
-                                actions.queryByQueryInfo();
-                            }}
-                            enterButton
-                            style={{ marginBottom: 16 }}
-                        />
-                    </span>
-                        <span>
-                        <Search
-                            placeholder="输入店铺名称"
-                            onSearch={value => {
-                                actions.setQueryInfo({shopName:value});
-                                actions.queryByQueryInfo();
-                            }}
-                            enterButton
-                            style={{ marginBottom: 16 }}
-                        />
-                    </span>
-                        <span>
-                        <Search
-                            placeholder="输入电话号码"
-                            onSearch={value => {
-                                actions.setQueryInfo({phoneNum:value});
-                                actions.queryByQueryInfo();
-                            }}
-                            enterButton
-                            style={{ marginBottom: 16 }}
-                        />
-                    </span>
-                </div>
 
+            <div>
+                <Form>
+                    <Row gutter={16}>
+                        <Col span={8}>
+                            <FormItem label={"编号查询"}>
+                                <Search
+                                    placeholder="输入店铺编号"
+                                    onSearch={value => {
+                                        actions.setQueryInfo({shopAlians:value});
+                                        actions.queryByQueryInfo();
+                                    }}
+                                    enterButton
+                                />
+                            </FormItem>
+                        </Col>
+                        <Col span={8}>
+                            <FormItem label={"店铺名称查询"}>
+                                <Search
+                                    placeholder="输入店铺名称"
+                                    onSearch={value => {
+                                        actions.setQueryInfo({shopName:value});
+                                        actions.queryByQueryInfo();
+                                    }}
+                                    enterButton
+                                />
+                            </FormItem>
+                        </Col>
+                        <Col span={8}>
+                            <FormItem label={"电话号码查询"}>
+                                <Search
+                                    placeholder="输入电话号码"
+                                    onSearch={value => {
+                                        actions.setQueryInfo({phoneNum:value});
+                                        actions.queryByQueryInfo();
+                                    }}
+                                    enterButton
+                                />
+                            </FormItem>
+                        </Col>
+                        <Col span={8}>
+                            <FormItem label={"付款时间"}>
+                                <RangePicker onChange={this.searchByPayTime.bind(this)} />
+                            </FormItem>
+                        </Col>
+                        <Col span={8}>
+                            <FormItem label={"处理时间"}>
+                                <RangePicker onChange={this.searchByDispatchTime.bind(this)} />
+                            </FormItem>
+                        </Col>
+                        <Col span={8}>
+                            <Button type="primary" onClick={actions.getExcel}>导出报表</Button>
+                        </Col>
+                    </Row>
+                </Form>
                 <Radio.Group value={rebateStatus} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
                     <Radio.Button value={"create"}>待返利</Radio.Button>
                     <Radio.Button value={"over"}>已返利</Radio.Button>
