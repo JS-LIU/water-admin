@@ -52,7 +52,6 @@ import WaterTicketActiveListView from './activeManage/WaterTicketActiveListView'
 import './homeStyle.css';
 
 
-
 // import RebateSearchView from './finance/RebateSearchView';
 
 class HomeView extends Component{
@@ -120,6 +119,7 @@ class HomeView extends Component{
                                 {/*<Route path="/auditMerchantList" component={AuditMerchantList}/>*/}
 
                                 <Route path="/waterTicketActive" component={WaterTicketActiveListView}/>
+                                <Route path="/waterVoteUp" component={WaterVoteUpView}/>
                             </Switch>
                         </div>
                     </Content>

@@ -162,6 +162,14 @@ class HomeMenuView extends Component{
                             </Link>
                         </Menu.Item>
                     </SubMenu>
+                    <SubMenu key='sub11' title={<span><Icon type="database" /><span>用户端水票管理</span></span>} >
+                        <Menu.Item key="/waterVoteUp">
+                            <Link to="/waterVoteUp">
+                                <Icon type="appstore-o" />
+                                <span>水票回笼</span>
+                            </Link>
+                        </Menu.Item>
+                    </SubMenu>
                     <SubMenu key='sub7' title={<span><Icon type="share-alt" /><span>分销商品</span></span>} >
                         <Menu.Item key="/distributeCategory">
                             <Link to="/distributeCategory">
