@@ -11,8 +11,11 @@ class AdminList {
     setActiveItem(item){
         this.activeItem = item;
     }
-    selectQueryMsg(queryMsg){
-        this.queryMsg = queryMsg;
+    selectQueryMsg(...queryMsg){
+        queryMsg.map((item)=>{
+            this.queryMsg = Object.assign({},this.queryMsg,item);
+        });
+        return this.queryMsg;
     }
 
     getList(reqMsg,ajax,listItem){

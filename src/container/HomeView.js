@@ -49,6 +49,9 @@ import DistributeProductSearchView from './distributeProduct/DistributeProductSe
 import ManufactureCostView from './manufactureCost/ManufactureCostView';
 import WaterTicketActiveListView from './activeManage/WaterTicketActiveListView';
 
+// 水票回笼搜索 没用删除
+import WaterVoteUpView from './waterVoteUp/WaterVoteUpView';
+
 import './homeStyle.css';
 
 

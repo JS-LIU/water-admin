@@ -96,6 +96,10 @@ class ClientOrderListQueryView extends Component{
             return () => actions.dispatchOrder(orderNo);
         }
     }
+    selectLine(record){
+        console.log(record);
+
+    }
     getColumns(){
         if(data.queryType === 0){
             return this.allColumns;
@@ -107,6 +111,20 @@ class ClientOrderListQueryView extends Component{
 
     }
     render(){
+
+        let tableColumns = new BossTableColumns();
+        // tableColumns.add();
+
+        tableColumns.map((item)=>{
+            item.addEvent('onClick',()=>{
+                let
+                this.setState({
+                    style:item.
+                })
+            })
+        });
+
+
         const baseColumns = [{
             title:'付款时间',
             dataIndex:"payTime",
@@ -252,6 +270,7 @@ class ClientOrderListQueryView extends Component{
                 onRow={(record) => {
                     return {
                         onClick: () => {
+                            this.selectLine(record);
                             actions.selectOrder(record.orderId);
                         },
                     };
