@@ -9,7 +9,7 @@ import {observer,inject} from 'mobx-react';
 import orderStyle from './css/orderStyle.css';
 import huipayTableStyle from '../../Util/huipayAdminStyle/huipayTableStyle.css';
 import {data,actions} from '../../store/order/clientOrderListInterface';
-
+// const TransformContext = React.createContext();
 
 @observer class ClientOrderView extends Component{
     componentWillMount(){
@@ -77,6 +77,9 @@ class ClientOrderListQueryView extends Component{
 
 
 @observer class ClientOrderListView extends Component{
+    state={
+        activeLineIndex:-1
+    };
     changePage(pageNumber){
         actions.changePagination(pageNumber);
     }
@@ -96,10 +99,7 @@ class ClientOrderListQueryView extends Component{
             return () => actions.dispatchOrder(orderNo);
         }
     }
-    selectLine(record){
-        console.log(record);
 
-    }
     getColumns(){
         if(data.queryType === 0){
             return this.allColumns;
@@ -110,26 +110,21 @@ class ClientOrderListQueryView extends Component{
         }
 
     }
+    setClassName(record, index){
+        return index === this.state.activeLineIndex?"activeRowStyle":"";
+    }
+    setActiveLineIndex(index){
+        this.setState({
+            activeLineIndex:index
+        })
+    }
     render(){
-
-        let tableColumns = new BossTableColumns();
-        // tableColumns.add();
-
-        tableColumns.map((item)=>{
-            item.addEvent('onClick',()=>{
-                let
-                this.setState({
-                    style:item.
-                })
-            })
-        });
-
 
         const baseColumns = [{
             title:'付款时间',
             dataIndex:"payTime",
             key:"payTime",
-            width:200
+            width:200,
         },{
             title:'订单号',
             dataIndex:"orderNo",
@@ -227,7 +222,7 @@ class ClientOrderListQueryView extends Component{
                 shopName:item.shopName,
                 cashSettleDownMount:item.cashSettleDownMount/100,
                 deltaSettleDownValue:item.deltaSettleDownValue/100,
-                actualSettleDownMount:item.actualSettleDownMount/100
+                actualSettleDownMount:item.actualSettleDownMount/100,
             })
         }
         const expandedRowRender = record => {
@@ -267,16 +262,18 @@ class ClientOrderListQueryView extends Component{
                 expandedRowRender={expandedRowRender}
                 dataSource={dataSource}
                 scroll={{x: 2100,y:300}}
-                onRow={(record) => {
+                onRow={(record,index) => {
                     return {
                         onClick: () => {
-                            this.selectLine(record);
                             actions.selectOrder(record.orderId);
-                        },
+                            this.setActiveLineIndex(index);
+                        }
                     };
                 }}
+                rowClassName={this.setClassName.bind(this)}
                 pagination={{defaultCurrent:data.pagination.page+1,onChange:this.changePage.bind(this),total:data.pagination.total}}
             />
+
         )
     }
 }

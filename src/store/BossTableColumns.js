@@ -3,6 +3,8 @@
  */
 
 import TableColumns from './TableColumns';
+import BossTableColumnItem from './BossTableColumnItem';
+
 class BossTableColumns{
     constructor(columns){
         this.tableColumns = new TableColumns(columns);

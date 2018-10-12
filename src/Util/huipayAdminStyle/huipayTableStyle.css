@@ -38,3 +38,7 @@
     white-space:nowrap;
     text-overflow:ellipsis;
 }
+.activeRowStyle{
+    box-shadow: 12px 3px 5px 1px #8c8c8c;
+    background:#e6f7ff;
+}
