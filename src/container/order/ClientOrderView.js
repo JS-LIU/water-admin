@@ -78,7 +78,8 @@ class ClientOrderListQueryView extends Component{
 
 @observer class ClientOrderListView extends Component{
     state={
-        activeLineIndex:-1
+        activeLineIndex:-1,
+        tableHeight:300
     };
     changePage(pageNumber){
         actions.changePagination(pageNumber);
@@ -255,18 +256,21 @@ class ClientOrderListQueryView extends Component{
             );
         };
         let columns = this.getColumns();
+        let tableHeight = this.state.tableHeight;
         return (
             <Table
                 className="components-table-demo-nested"
                 columns={columns}
                 expandedRowRender={expandedRowRender}
                 dataSource={dataSource}
-                scroll={{x: 2100,y:300}}
+                scroll={{x: 2100,y:tableHeight}}
+                ref={body=>this.scrollDom = body}
                 onRow={(record,index) => {
                     return {
                         onClick: () => {
                             actions.selectOrder(record.orderId);
                             this.setActiveLineIndex(index);
+                            console.log(this.scrollDom)
                         }
                     };
                 }}
