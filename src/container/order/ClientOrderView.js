@@ -4,13 +4,11 @@
 
 import React, {Component} from 'react';
 import { Table, Tooltip , Button , Radio , Input , Cascader ,Icon  } from 'antd';
-import $ from 'jquery'
 const Search = Input.Search;
 import {observer,inject} from 'mobx-react';
 import orderStyle from './css/orderStyle.css';
 import huipayTableStyle from '../../Util/huipayAdminStyle/huipayTableStyle.css';
 import {data,actions} from '../../store/order/clientOrderListInterface';
-// const TransformContext = React.createContext();
 
 @observer class ClientOrderView extends Component{
     componentWillMount(){
@@ -76,6 +74,32 @@ class ClientOrderListQueryView extends Component{
     }
 }
 
+class LockLineView extends Component {
+    constructor(props){
+        super(props);
+    }
+    state={
+        lockState:"unlock"
+    };
+    lockLine(){
+        if(this.state.lockState === "lock"){
+            this.setState({
+                lockState:"unlock",
+            });
+        }else{
+            this.setState({
+                lockState:"lock",
+            });
+        }
+        this.props.clickHandle(this.state.lockState);
+    }
+    render(){
+        const { lockState } = this.state;
+        return(<Icon type={lockState} onClick={this.lockLine.bind(this)}/>)
+
+    }
+}
+
 
 @observer class ClientOrderListView extends Component{
     state={
@@ -95,7 +119,6 @@ class ClientOrderListQueryView extends Component{
         }
     }
     setDeltaSettleDownValue(e){
-        console.log(e.target.value);
         actions.setDeltaSettleDownValue(e.target.value)
     }
     getOperate(orderStatus,orderNo){
@@ -123,29 +146,26 @@ class ClientOrderListQueryView extends Component{
             tableHeight:100
         });
     }
-    lockLine(){
-        if(this.state.lockState === "lock"){
+    changeOtherRowClass(lockState){
+        if(lockState === "lock"){
             this.setState({
-                lockState:"unlock",
                 otherRowClass:"",
             })
         }else{
             this.setState({
-                lockState:"lock",
                 otherRowClass:"hiddenRowStyle",
             })
         }
 
     }
     render(){
-        const { lockState } = this.state;
         const baseColumns = [{
             title:'锁定',
             dataIndex:'lock',
             key:'lock',
             width:75,
             render:(text,record)=>{
-                return (<Icon type={lockState} onClick={this.lockLine.bind(this)}/>)
+                return (<LockLineView clickHandle={this.changeOtherRowClass.bind(this)}/>)
             }
         }, {
             title:'付款时间',

@@ -42,3 +42,9 @@
     box-shadow: 12px 3px 5px 1px #8c8c8c;
     background:#e6f7ff;
 }
+.hiddenRowStyle{
+    display:none;
+}
+.ant-table-row:hover{
+    /*background:#fff;*/
+}
