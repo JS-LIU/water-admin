@@ -3,7 +3,8 @@
  */
 
 import React, {Component} from 'react';
-import { Table, Tooltip , Button , Radio , Input , Cascader  } from 'antd';
+import { Table, Tooltip , Button , Radio , Input , Cascader ,Icon  } from 'antd';
+import $ from 'jquery'
 const Search = Input.Search;
 import {observer,inject} from 'mobx-react';
 import orderStyle from './css/orderStyle.css';
@@ -79,7 +80,9 @@ class ClientOrderListQueryView extends Component{
 @observer class ClientOrderListView extends Component{
     state={
         activeLineIndex:-1,
-        tableHeight:300
+        tableHeight:300,
+        otherRowClass:"",
+        lockState:"unlock"
     };
     changePage(pageNumber){
         actions.changePagination(pageNumber);
@@ -112,16 +115,39 @@ class ClientOrderListQueryView extends Component{
 
     }
     setClassName(record, index){
-        return index === this.state.activeLineIndex?"activeRowStyle":"";
+        return index === this.state.activeLineIndex?"activeRowStyle":this.state.otherRowClass;
     }
     setActiveLineIndex(index){
         this.setState({
-            activeLineIndex:index
-        })
+            activeLineIndex:index,
+            tableHeight:100
+        });
+    }
+    lockLine(){
+        if(this.state.lockState === "lock"){
+            this.setState({
+                lockState:"unlock",
+                otherRowClass:"",
+            })
+        }else{
+            this.setState({
+                lockState:"lock",
+                otherRowClass:"hiddenRowStyle",
+            })
+        }
+
     }
     render(){
-
+        const { lockState } = this.state;
         const baseColumns = [{
+            title:'锁定',
+            dataIndex:'lock',
+            key:'lock',
+            width:75,
+            render:(text,record)=>{
+                return (<Icon type={lockState} onClick={this.lockLine.bind(this)}/>)
+            }
+        }, {
             title:'付款时间',
             dataIndex:"payTime",
             key:"payTime",
@@ -135,13 +161,13 @@ class ClientOrderListQueryView extends Component{
             title:'结算价',
             dataIndex:"cashSettleDownMount",
             key:"cashSettleDownMount",
-            width:100
+            width:80
         },{
             title:'调整价',
             dataIndex:"deltaSettleDownValue",
             key:"deltaSettleDownValue",
-            width:200,
-            render:(text,record) =>{return (<input onChange={this.setDeltaSettleDownValue.bind(this)}/>)}
+            width:80,
+            render:(text,record) =>{return (<input style={{ width: '60px' }} onChange={this.setDeltaSettleDownValue.bind(this)}/>)}
         }, {
             title:'实际结算',
             dataIndex:"actualSettleDownMount",
@@ -263,14 +289,13 @@ class ClientOrderListQueryView extends Component{
                 columns={columns}
                 expandedRowRender={expandedRowRender}
                 dataSource={dataSource}
-                scroll={{x: 2100,y:tableHeight}}
+                scroll={{x: 2100,y:300}}
                 ref={body=>this.scrollDom = body}
                 onRow={(record,index) => {
                     return {
                         onClick: () => {
                             actions.selectOrder(record.orderId);
                             this.setActiveLineIndex(index);
-                            console.log(this.scrollDom)
                         }
                     };
                 }}
