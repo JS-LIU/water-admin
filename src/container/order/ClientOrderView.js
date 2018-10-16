@@ -104,9 +104,7 @@ class LockLineView extends Component {
 @observer class ClientOrderListView extends Component{
     state={
         activeLineIndex:-1,
-        tableHeight:300,
         otherRowClass:"",
-        lockState:"unlock"
     };
     changePage(pageNumber){
         actions.changePagination(pageNumber);
@@ -156,7 +154,6 @@ class LockLineView extends Component {
                 otherRowClass:"hiddenRowStyle",
             })
         }
-
     }
     render(){
         const baseColumns = [{
@@ -302,7 +299,6 @@ class LockLineView extends Component {
             );
         };
         let columns = this.getColumns();
-        let tableHeight = this.state.tableHeight;
         return (
             <Table
                 className="components-table-demo-nested"
@@ -310,7 +306,6 @@ class LockLineView extends Component {
                 expandedRowRender={expandedRowRender}
                 dataSource={dataSource}
                 scroll={{x: 2100,y:300}}
-                ref={body=>this.scrollDom = body}
                 onRow={(record,index) => {
                     return {
                         onClick: () => {
@@ -329,6 +324,7 @@ class LockLineView extends Component {
 
 //  订单详情
 @observer class ClientOrderDetailView extends Component{
+
     render() {
         let productItemNodes = data.detail.productItemModels.map((productItem,i)=>{
             return (
@@ -429,8 +425,43 @@ class LockLineView extends Component {
 }
 
 @observer class MerchantListView extends Component{
+    state={
+        activeLineIndex:-1,
+        tableHeight:300,
+        otherRowClass:"",
+        lockState:"unlock"
+    };
+    setClassName(record, index){
+        return index === this.state.activeLineIndex?"activeRowStyle":this.state.otherRowClass;
+    }
+    setActiveLineIndex(index){
+        this.setState({
+            activeLineIndex:index,
+            tableHeight:100
+        });
+    }
+    changeOtherRowClass(lockState){
+        if(lockState === "lock"){
+            this.setState({
+                otherRowClass:"",
+            })
+        }else{
+            this.setState({
+                otherRowClass:"hiddenRowStyle",
+            })
+        }
+    }
     render(){
         const columns = [
+            {
+                title:'锁定',
+                dataIndex:'lock',
+                key:'lock',
+                width:75,
+                render:(text,record)=>{
+                    return (<LockLineView clickHandle={this.changeOtherRowClass.bind(this)}/>)
+                }
+            },
             {
                 title:"配送商家",
                 dataIndex:"shopName",
@@ -484,7 +515,16 @@ class LockLineView extends Component {
                 columns={columns}
                 dataSource={dataSource}
                 pagination={false}
-                scroll={{ x: "130%",y:400 }}
+                scroll={{ x: "130%",y:300 }}
+                onRow={(record,index) => {
+                    return {
+                        onClick: () => {
+                            this.setActiveLineIndex(index);
+                        }
+                    };
+                }}
+                rowClassName={this.setClassName.bind(this)}
+                loading={data.hasLoadingNearStore}
             />
         )
     }

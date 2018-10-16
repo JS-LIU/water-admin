@@ -51,7 +51,7 @@ class NearShopListContainer{
             this._getNearMerchantList(locationInfoAndOrderId).then((merchantList)=>{
                 this.nearShopList = NearShopListContainer.createMerchantList(this.nearShopList,merchantList);
                 this.nearShopList.sort((shop,otherShop)=>{
-                    return shop.distance - otherShop.distance
+                    return parseFloat(shop.distance) - parseFloat(otherShop.distance);
                 });
                 resolve(this.nearShopList);
             }).catch((err)=>{

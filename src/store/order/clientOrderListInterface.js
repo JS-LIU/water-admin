@@ -14,7 +14,8 @@ let clientOrderListData = {
     @observable nearStore:[],
     @observable activeOrder:{},
     @observable pagination:{},
-    @observable queryType:0
+    @observable queryType:0,
+    @observable hasLoadingNearStore:true
 };
 function clientOrderListActions(){
     let _refresh = function(){
@@ -26,9 +27,13 @@ function clientOrderListActions(){
             return clientOrderList.activeItem.getDetail()
         }).then((detail)=>{
             clientOrderListData.detail = detail;
+            clientOrderListData.hasLoadingNearStore = true;
             return clientOrderListData.activeOrder.getNearMerchantList();
         }).then((storeList)=>{
             clientOrderListData.nearStore = storeList;
+            clientOrderListData.hasLoadingNearStore = false;
+        }).catch(()=>{
+            clientOrderListData.hasLoadingNearStore = false;
         });
     };
 
@@ -47,9 +52,13 @@ function clientOrderListActions(){
         clientOrderListData.activeOrder = clientOrderList.activeItem;
         clientOrderList.activeItem.getDetail().then((detail)=>{
             clientOrderListData.detail = detail;
+            clientOrderListData.hasLoadingNearStore = true;
             return clientOrderListData.activeOrder.getNearMerchantList();
         }).then((storeList)=>{
             clientOrderListData.nearStore = storeList;
+            clientOrderListData.hasLoadingNearStore = false;
+        }).catch(()=>{
+            clientOrderListData.hasLoadingNearStore = false;
         });
     };
     let redirectOrder = function(merchantId){

@@ -29,7 +29,7 @@
     padding: 20px 40px 20px 20px;
     overflow-x: auto;
     overflow-y: auto;
-    height: 450px;
+    height: 354px;
 }
 .order_detail>.order_detail_left>li{
     line-height: 1.5;
@@ -38,7 +38,6 @@
     padding-bottom:8px;
 }
 .order_detail>.order_detail_left>li>div{
-    height:30px;
 }
 
 .order_detail>.order_detail_left>li:last-child{

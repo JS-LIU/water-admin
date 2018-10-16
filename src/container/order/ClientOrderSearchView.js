@@ -3,13 +3,11 @@
  */
 import React, {Component} from 'react';
 import {observer,inject} from 'mobx-react';
-import { Table, Tooltip , Button , Radio , Input , Cascader ,Form , Row, Col , DatePicker } from 'antd';
+import { Table, Tooltip , Button , Radio , Input ,Icon, Cascader ,Form , Row, Col , DatePicker } from 'antd';
 const Search = Input.Search;
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 import {actions,data} from "../../store/order/clientOrderSearchInterface";
-
-
 import clientOrderSearchStyle from './css/clientOrderSearch.css'
 
 @observer class ClientOrderSearchView extends Component{
@@ -59,57 +57,61 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
     render(){
         let queryStrategy = this.props.queryStrategy;
         return (
-            <Form>
-                <Row gutter={16}>
-                    <Col span={8}>
-                        <FormItem label={"账户查询"}>
-                            <Search
-                                placeholder="请输入用户手机号"
-                                onSearch={value => {
-                                    actions.selectQueryMsg({phoneNum:value});
-                                    actions.searchOrderList(queryStrategy);
-                                }}
-                                enterButton
-                            />
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <FormItem label={"订单号"}>
-                            <Search
-                                placeholder="请输入订单号"
-                                onSearch={value => {
-                                    actions.selectQueryMsg({orderNo:value});
-                                    actions.searchOrderList(queryStrategy);
-                                }}
-                                enterButton
-                            />
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <FormItem label={"订单创建时间"}>
-                            <RangePicker onChange={this.searchByCreateTime.bind(this)} />
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <FormItem label={"付款时间"}>
-                            <RangePicker onChange={this.searchByPayTime.bind(this)} />
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <FormItem label={"处理时间"}>
-                            <RangePicker onChange={this.searchByDispatchTime.bind(this)} />
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <Button type="primary" onClick={actions.getExcel}>导出报表</Button>
-                    </Col>
-                </Row>
+            <Form layout="inline">
+                <FormItem label={"账户查询"}>
+                    <Input
+                        addonAfter={<Icon type="close" />}
+                        placeholder="请输入用户手机号"
+                        // onSearch={value => {
+                        //     actions.selectQueryMsg({phoneNum:value});
+                        //     actions.searchOrderList(queryStrategy);
+                        // }}
+                    />
+                </FormItem>
+                <FormItem label={"订单号"}>
+                    <Input
+                        placeholder="请输入订单号"
+                        addonAfter={<Icon type="close" />}
+                        // onSearch={value => {
+                        //     actions.selectQueryMsg({orderNo:value});
+                        //     actions.searchOrderList(queryStrategy);
+                        // }}
+                    />
+                </FormItem>
+                <FormItem label={"创建时间"}>
+                    <RangePicker onChange={this.searchByCreateTime.bind(this)} />
+                </FormItem>
+                <FormItem label={"付款时间"}>
+                    <RangePicker onChange={this.searchByPayTime.bind(this)} />
+                </FormItem>
+                <FormItem label={"处理时间"}>
+                    <RangePicker onChange={this.searchByDispatchTime.bind(this)} />
+                </FormItem>
+                <FormItem label={"订单状态"}>
+                    <Radio.Group onChange={this.onChange} >
+                        <Radio.Button value={"all"}>全部</Radio.Button>
+                        <Radio.Button value={"waitPay"}>待付款</Radio.Button>
+                        <Radio.Button value={"waitDispatch"}>待派单</Radio.Button>
+                        <Radio.Button value={"waitDelivery"}>待配送</Radio.Button>
+                        <Radio.Button value={"waitReceive"}>待收货</Radio.Button>
+                        <Radio.Button value={"finish"}>已完成</Radio.Button>
+                        <Radio.Button value={"alreadyPay"}>已付款</Radio.Button>
+                    </Radio.Group>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" onClick={actions.getExcel}>导出报表</Button>
+                </FormItem>
+
             </Form>
         )
     }
 }
 
 @observer class ClientOrderListView extends Component{
+    state={
+        activeLineIndex:-1,
+        otherRowClass:"",
+    };
     changePage(pageNum){
         actions.changePage(pageNum)
     }
@@ -117,7 +119,6 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
         if(orderStatus === "待收货"){
             return () => actions.confirmReceipt(orderId);
         }
-
     }
     operateText(orderStatus){
         if(orderStatus === "待收货"){
@@ -125,6 +126,15 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
         }else{
             return orderStatus
         }
+    }
+    setClassName(record, index){
+        return index === this.state.activeLineIndex?"activeRowStyle":this.state.otherRowClass;
+    }
+    setActiveLineIndex(index){
+        this.setState({
+            activeLineIndex:index,
+            tableHeight:100
+        });
     }
     render(){
         const columns = [
@@ -324,6 +334,14 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 dataSource={dataSource}
                 expandedRowRender={expandedRowRender}
                 scroll={{x:2600,y:600}}
+                onRow={(record,index) => {
+                    return {
+                        onClick: () => {
+                            this.setActiveLineIndex(index);
+                        }
+                    };
+                }}
+                rowClassName={this.setClassName.bind(this)}
                 pagination={{current:data.pagination.page+1,onChange:this.changePage.bind(this),total:data.pagination.total}}
             />
         )
