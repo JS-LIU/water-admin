@@ -4,6 +4,21 @@
 // import _h from "../../Util/HB";
 import {commonAjax} from '../../Util/huipayWaterBaseConfig';
 import ProductList from '../product/ProductList';
+
+class CurrencyUtil{
+    static fenToYuan(fen){
+        return fen / 100;
+    }
+
+    static yuanToFen(realRebateInYuan) {
+        return realRebateInYuan *　100;
+    }
+
+    static yuanToXtb(realRebateInYuan) {
+        return realRebateInYuan / 10;
+    }
+}
+
 class RebateItem{
     constructor(rebateInfo){
         this.month = rebateInfo.month;                              //  时间
@@ -25,12 +40,16 @@ class RebateItem{
         this.productName = rebateInfo.productName;                  //  商品名称
         this.productMount = rebateInfo.productMount;                //  数量
         this.rebatePriceExcel = rebateInfo.rebatePriceExcel ;       //  返利标准
-        this.rebatePrice = rebateInfo.rebatePrice;                  //  返利金额
+        this.rebatePrice = rebateInfo.rebatePrice;
+        //  返利金额
         this.rebateCurrencyType = rebateInfo.rebateCurrencyType || "rmb";    //  返利币种
-        this.rebateResult = this.convertToShowUnit(rebateInfo.rebateResult);                //  实际返利金额
-        this.realRebate = this.convertToShowUnit(rebateInfo.rebateResult);                  //  财务修改后的默认金额
-        this.repairResult = this.convertToShowUnit(rebateInfo.repairResult);                //  补充返利
-        this.realRebateResult = this.convertToShowUnit(rebateInfo.realRebateResult);
+        // this.rebateResult = this.convertToShowUnit(rebateInfo.rebateResult);                //  实际返利金额
+
+        this.realRebate = rebateInfo.rebateResult;//单位为分
+        this.realRebateResultInYuan = CurrencyUtil.fenToYuan(this.realRebate);
+
+        // this.realRebate = this.convertToShowUnit(rebateInfo.rebateResult);                  //  财务修改后的默认金额
+        // this.repairResult = this.convertToShowUnit(rebateInfo.repairResult);                //  补充返利
 
         let rebateAjax = commonAjax.resource('/admin/financial/:action');
         this._getDetail = function(postInfo){
@@ -43,30 +62,41 @@ class RebateItem{
             return rebateAjax.save({action:"repairRebate"},postInfo);
         }
     }
+
+
+    getRealRebate(type){
+        if (type === 'rmb'){
+            return CurrencyUtil.fenToYuan(this.realRebate);
+        }else{
+            throw new Error();
+        }
+    }
+
     getDetail(){
         return this._getDetail({});
     }
     toRebate(){
+        this.changeRebateCurrencyType("xtb");
         let postInfo = {
             rebateOrderId:this.rebateId,
             realTotalMount:this.totalMount,
-            calcRebateResult:this.rebateResult,
             rebatePrice:this.rebatePerPrice,
             remark:this.remark,
-            realRebateResult:this.convertToPostUnit(this.realRebate),
+            realRebateResult:this.getRealResultForPost(),
             currencyType:this.rebateCurrencyType
         };
         return this._toRebate(postInfo)
     }
     repairRebate(repairResult){
-
+        this.changeRebateCurrencyType("xtb");
         let postInfo = {
             currencyType: this.rebateCurrencyType,
             rebateOrderId: this.rebateId,
-            repairResult: this.convertToPostUnit(repairResult)
+            repairResult: CurrencyUtil.yuanToFen(repairResult)
         };
         return this._repairRebate(postInfo);
     }
+
     setRepairResult(repairResult){
         this.repairResult = repairResult;
     }
@@ -82,18 +112,29 @@ class RebateItem{
             RebateItem.rebateLv3(this.realTotalMount)
         );
     }
-    setRealResult(realRebate){
-        this.realRebate = this.convertToShowUnit(realRebate);
+
+    getRealResultForPost(){
+        if (this.rebateCurrencyType === 'rmb'){
+            return  CurrencyUtil.yuanToFen(this.realRebateResultInYuan);
+        }else{
+            return CurrencyUtil.yuanToXtb(this.realRebateResultInYuan);
+        }
     }
+
+    setRealResult(realResult, type, unit){
+        if (type === 'rmb' && unit === 'yuan'){
+            this.realRebateResultInYuan = realResult;
+        }else{
+            throw new Error();
+        }
+    }
+
+
     setRemark(remark){
         this.remark = remark;
     }
-    convertToShowUnit(money){
-        return this.rebateCurrencyType === "rmb" ? money / 100 : money;
-    }
-    convertToPostUnit(money){
-        return this.rebateCurrencyType === "rmb" ? money * 100 : money;
-    }
+
+
     static rebateLv0(realTotalMount){
         if(realTotalMount <=200){
             return 0;
@@ -118,6 +159,7 @@ class RebateItem{
         }
         return "nextSuccessor"
     }
+
     changeRebateCurrencyType(rebateCurrencyType){
         this.rebateCurrencyType = rebateCurrencyType;
     }

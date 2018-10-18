@@ -16,7 +16,9 @@ import { Provider } from 'mobx-react';
 import base from './Util/base.css';
 
 import HomeView from './container/HomeView';
-
+import { LocaleProvider } from 'antd';
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
+import 'moment/locale/zh-cn';
 const App = ()=>(
     <HashRouter>
         <div>
@@ -25,7 +27,6 @@ const App = ()=>(
             </Switch>
         </div>
     </HashRouter>
-
 );
 
 ReactDom.render(

@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import {observer,inject} from 'mobx-react';
 import {data,actions} from '../../store/finance/rebateListSearchInterface';
 
-import { Table, Tooltip , Button , Radio , Input , Cascader ,Form , Row, Col , DatePicker } from 'antd';
+import { Table, Tooltip , Button , Radio , Input ,Icon, Cascader ,Form , Row, Col , DatePicker } from 'antd';
 const Search = Input.Search;
+const FormItem = Form.Item;
+const { RangePicker } = DatePicker;
 
 @observer class RebateSearchView extends Component{
     componentWillMount(){
@@ -68,19 +70,19 @@ const Search = Input.Search;
                                 />
                             </FormItem>
                         </Col>
-                        <Col span={8}>
-                            <FormItem label={"付款时间"}>
-                                <RangePicker onChange={this.searchByPayTime.bind(this)} />
-                            </FormItem>
-                        </Col>
-                        <Col span={8}>
-                            <FormItem label={"处理时间"}>
-                                <RangePicker onChange={this.searchByDispatchTime.bind(this)} />
-                            </FormItem>
-                        </Col>
-                        <Col span={8}>
-                            <Button type="primary" onClick={actions.getExcel}>导出报表</Button>
-                        </Col>
+                        {/*<Col span={8}>*/}
+                            {/*<FormItem label={"付款时间"}>*/}
+                                {/*<RangePicker onChange={this.searchByPayTime.bind(this)} />*/}
+                            {/*</FormItem>*/}
+                        {/*</Col>*/}
+                        {/*<Col span={8}>*/}
+                            {/*<FormItem label={"处理时间"}>*/}
+                                {/*<RangePicker onChange={this.searchByDispatchTime.bind(this)} />*/}
+                            {/*</FormItem>*/}
+                        {/*</Col>*/}
+                        {/*<Col span={8}>*/}
+                            {/*<Button type="primary" onClick={actions.getExcel}>导出报表</Button>*/}
+                        {/*</Col>*/}
                     </Row>
                 </Form>
                 <Radio.Group value={rebateStatus} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
@@ -182,8 +184,8 @@ const Search = Input.Search;
             width:150
         }, {
             title: '第一次返利',
-            dataIndex: 'realRebateResult',
-            key: 'realRebateResult',
+            dataIndex: 'realRebateResultInYuan',
+            key: 'realRebateResultInYuan',
             width:120
         }, {
             title:"单位",
@@ -229,7 +231,7 @@ const Search = Input.Search;
                 status:item.status,
                 rebateId:item.rebateId,
                 productItemList:item.productItemList,
-                realRebateResult:item.realRebateResult
+                realRebateResultInYuan:item.realRebateResultInYuan
             })
         }
         const expandedRowRender = record => {

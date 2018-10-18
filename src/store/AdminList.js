@@ -20,6 +20,7 @@ class AdminList {
 
     getList(reqMsg,ajax,listItem){
         let postInfo = Object.assign(reqMsg,this.pagination.getInfo());
+        console.log("postInfo:",postInfo);
         return new Promise((resolve, reject)=>{
             ajax(postInfo).then((listContainer)=>{
                 let list = listContainer.content;

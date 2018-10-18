@@ -83,6 +83,10 @@ function rebateDealListActions(){
     let changeRebateCurrencyType = function(rebateCurrencyType){
         rebateList.activeItem.changeRebateCurrencyType(rebateCurrencyType);
     };
+
+    let getRealRebate = function (type) {
+        rebateList.activeItem.getRealRebate(type);
+    };
     return {
         onLoad:load.before(function(){
             changeStatus('create');
@@ -95,6 +99,7 @@ function rebateDealListActions(){
         queryByQueryInfo:queryByQueryInfo,
         setRealResult:setRealResult,
         changePage:changePage,
+        getRealRebate:getRealRebate,
     };
 }
 module.exports = {data:rebateDealListData,actions:rebateDealListActions()};

@@ -11,57 +11,68 @@ import {actions,data} from "../../store/order/clientOrderSearchInterface";
 import clientOrderSearchStyle from './css/clientOrderSearch.css'
 
 @observer class ClientOrderSearchView extends Component{
-    state = { queryStrategy: "all" };
+
     componentWillMount(){
         actions.selectQueryMsg({});
         actions.onLoad();
     }
-    onChange(e){
-        this.setState({ queryStrategy: e.target.value });
-        actions.selectQueryMsg({});
-        actions.searchOrderList(e.target.value);
-    }
     render(){
-        const { queryStrategy } = this.state;
         return (
             <div>
-                <OrderListSearchView queryStrategy={queryStrategy}/>
-                <Radio.Group value={queryStrategy} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
-                    <Radio.Button value={"all"}>全部</Radio.Button>
-                    <Radio.Button value={"waitPay"}>待付款</Radio.Button>
-                    <Radio.Button value={"waitDispatch"}>待派单</Radio.Button>
-                    <Radio.Button value={"waitDelivery"}>待配送</Radio.Button>
-                    <Radio.Button value={"waitReceive"}>待收货</Radio.Button>
-                    <Radio.Button value={"finish"}>已完成</Radio.Button>
-                    <Radio.Button value={"alreadyPay"}>已付款</Radio.Button>
-                </Radio.Group>
+                <OrderListSearchView/>
+                {/*<Radio.Group value={queryStrategy} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >*/}
+                    {/*<Radio.Button value={"all"}>全部</Radio.Button>*/}
+                    {/*<Radio.Button value={"waitPay"}>待付款</Radio.Button>*/}
+                    {/*<Radio.Button value={"waitDispatch"}>待派单</Radio.Button>*/}
+                    {/*<Radio.Button value={"waitDelivery"}>待配送</Radio.Button>*/}
+                    {/*<Radio.Button value={"waitReceive"}>待收货</Radio.Button>*/}
+                    {/*<Radio.Button value={"finish"}>已完成</Radio.Button>*/}
+                    {/*<Radio.Button value={"alreadyPay"}>已付款</Radio.Button>*/}
+                {/*</Radio.Group>*/}
                 <ClientOrderListView />
             </div>
-
         )
     }
 }
 @observer class OrderListSearchView extends Component{
-    searchByCreateTime(data,dataString){
-        actions.selectQueryMsg({createTimePeriod:dataString});
-        actions.searchOrderList(this.props.queryStrategy)
-    }
-    searchByPayTime(data,dataString){
-        actions.selectQueryMsg({payTimePeriod:dataString});
-        actions.searchOrderList(this.props.queryStrategy)
-    }
-    searchByDispatchTime(data,dataString){
-        actions.selectQueryMsg({dispatchTimePeriod:dataString});
-        actions.searchOrderList(this.props.queryStrategy)
-    }
+    // state = { queryStrategy: "all" };
+    // searchByCreateTime(data,dataString){
+    //     actions.selectQueryMsg({createTimePeriod:dataString});
+    //     // actions.searchOrderList(this.props.queryStrategy)
+    // }
+    // searchByPayTime(data,dataString){
+    //     actions.selectQueryMsg({payTimePeriod:dataString});
+    //     // actions.searchOrderList(this.props.queryStrategy)
+    // }
+    // searchByDispatchTime(data,dataString){
+    //     actions.selectQueryMsg({dispatchTimePeriod:dataString});
+    //     // actions.searchOrderList(this.props.queryStrategy)
+    // }
+    // onChange(e){
+    //     // this.setState({ queryStrategy: e.target.value });
+    //     // actions.selectQueryMsg({});
+    //     actions.setOrderType(e.target.value);
+    // }
+    state = {
+        loading: false,
+    };
+
+    enterLoading = () => {
+        this.setState({ loading: true });
+        actions.getOrderList(()=>{this.setState({
+            loading: false
+        })});
+    };
     render(){
-        let queryStrategy = this.props.queryStrategy;
+        // let queryStrategy = this.props.queryStrategy;
+        // const { queryStrategy } = this.state;
         return (
             <Form layout="inline">
                 <FormItem label={"账户查询"}>
                     <Input
                         addonAfter={<Icon type="close" />}
                         placeholder="请输入用户手机号"
+                        onChange={e => {actions.selectQueryMsg({phoneNum:e.target.value})}}
                         // onSearch={value => {
                         //     actions.selectQueryMsg({phoneNum:value});
                         //     actions.searchOrderList(queryStrategy);
@@ -72,6 +83,7 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                     <Input
                         placeholder="请输入订单号"
                         addonAfter={<Icon type="close" />}
+                        onChange={e => {actions.selectQueryMsg({orderNo:e.target.value})}}
                         // onSearch={value => {
                         //     actions.selectQueryMsg({orderNo:value});
                         //     actions.searchOrderList(queryStrategy);
@@ -79,16 +91,16 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                     />
                 </FormItem>
                 <FormItem label={"创建时间"}>
-                    <RangePicker onChange={this.searchByCreateTime.bind(this)} />
+                    <RangePicker onChange={(data,dataString) => actions.selectQueryMsg({createTimePeriod:dataString})} />
                 </FormItem>
                 <FormItem label={"付款时间"}>
-                    <RangePicker onChange={this.searchByPayTime.bind(this)} />
+                    <RangePicker onChange={(data,dataString) => actions.selectQueryMsg({payTimePeriod:dataString})} />
                 </FormItem>
                 <FormItem label={"处理时间"}>
-                    <RangePicker onChange={this.searchByDispatchTime.bind(this)} />
+                    <RangePicker onChange={(data,dataString) => actions.selectQueryMsg({dispatchTimePeriod:dataString})} />
                 </FormItem>
                 <FormItem label={"订单状态"}>
-                    <Radio.Group onChange={this.onChange} >
+                    <Radio.Group onChange={e => actions.setOrderType(e.target.value)} >
                         <Radio.Button value={"all"}>全部</Radio.Button>
                         <Radio.Button value={"waitPay"}>待付款</Radio.Button>
                         <Radio.Button value={"waitDispatch"}>待派单</Radio.Button>
@@ -99,9 +111,16 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                     </Radio.Group>
                 </FormItem>
                 <FormItem>
+                    <Button type="primary" loading={this.state.loading} onClick={this.enterLoading}>
+                        查询
+                    </Button>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" >重置</Button>
+                </FormItem>
+                <FormItem>
                     <Button type="primary" onClick={actions.getExcel}>导出报表</Button>
                 </FormItem>
-
             </Form>
         )
     }

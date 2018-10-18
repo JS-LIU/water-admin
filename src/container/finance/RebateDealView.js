@@ -131,7 +131,7 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
                 status:item.status,
                 rebateId:item.rebateId,
                 productItemList:item.productItemList,
-                rebateResult:item.rebateResult
+                rebateResult:item.realRebateResultInYuan
             })
         }
         const expandedRowRender = record => {
@@ -198,7 +198,11 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
                 saleMount:item.saleMount,
             })
         }
-
+        let getRealRebateWrapper = function(){
+            if (data.activeItem.getRealRebate){
+                return data.activeItem.getRealRebate("rmb")
+            }
+        };
         return(
             <div className="operation">
                 <div className='order_detail_header'>
@@ -214,27 +218,19 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
                     <li className="rebate_list">
 
                         <span>实际总进货数量（桶）: {data.activeItem.totalMount}</span>
-                        <span>应该返利金额（/元）: {data.activeItem.rebateResult}</span>
-                        <div style={{display:"flex"}}>
-                            <span>实际返利金额:</span>
-                            <Select
-                                showSearch
-                                style={{ width: 100 }}
-                                defaultValue="rmb"
-                                placeholder="人民币"
-                                onChange={this.handleChange}
-                            >
-                                <Option value="rmb">人民币</Option>
-                                <Option value="xtb">喜腾币</Option>
-                            </Select>
-                        </div>
 
-                        <InputNumber value={data.activeItem.realRebate} onChange={value => actions.setRealResult(value)}/>
+                        <span>应该返利金额（/元）: {getRealRebateWrapper()}</span>
+
+                        <div style={{display:"flex"}}>
+                            <span>实际返利喜币:</span>
+                            <InputNumber value={getRealRebateWrapper()} onChange={value => actions.setRealResult(value ,'rmb', 'yuan')}/>
+                            <span>元</span>
+                        </div>
                         <span>
                             备注：
                             <Input type="textarea" placeholder="填写备注" rows={4} style={{ width: 363, height:130}}/>
                         </span>
-                        <Button type="primary" onClick={() => actions.confirmRebate()} className="rebate_btn">确认返利</Button>
+                        <Button type="primary" onClick={() => actions.confirmRebate("xtb")} className="rebate_btn">确认返利</Button>
                     </li>
                 </ul>
             </div>
