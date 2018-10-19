@@ -100,7 +100,6 @@ class RebateItem{
             return CurrencyUtil.fenToYuan(this.realRebateInFen);
         } else{
             throw new Error();
-
         }
     }
 

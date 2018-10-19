@@ -20,39 +20,42 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
         return (
             <div>
                 <OrderListSearchView/>
-                {/*<Radio.Group value={queryStrategy} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >*/}
-                    {/*<Radio.Button value={"all"}>全部</Radio.Button>*/}
-                    {/*<Radio.Button value={"waitPay"}>待付款</Radio.Button>*/}
-                    {/*<Radio.Button value={"waitDispatch"}>待派单</Radio.Button>*/}
-                    {/*<Radio.Button value={"waitDelivery"}>待配送</Radio.Button>*/}
-                    {/*<Radio.Button value={"waitReceive"}>待收货</Radio.Button>*/}
-                    {/*<Radio.Button value={"finish"}>已完成</Radio.Button>*/}
-                    {/*<Radio.Button value={"alreadyPay"}>已付款</Radio.Button>*/}
-                {/*</Radio.Group>*/}
                 <ClientOrderListView />
             </div>
         )
     }
 }
+
+class ClearSuffixInput extends Component{
+    constructor(props){
+        super(props);
+    }
+    state = {
+        inputValue:""
+    };
+    clearHandle(actionCallBack = function(){}){
+        actionCallBack();
+        this.setState({
+            inputValue:""
+        })
+    }
+
+    render(){
+        const {inputValue} = this.state;
+        return (
+            <Input
+                suffix={<Icon type="close" onClick={this.clearHandle.bind(this)}/>}
+                placeholder={this.props.placeHolder}
+                value={inputValue}
+                onChange={e => {actions.selectQueryMsg({phoneNum:e.target.value})}}
+
+            />
+        )
+    }
+}
+
+
 @observer class OrderListSearchView extends Component{
-    // state = { queryStrategy: "all" };
-    // searchByCreateTime(data,dataString){
-    //     actions.selectQueryMsg({createTimePeriod:dataString});
-    //     // actions.searchOrderList(this.props.queryStrategy)
-    // }
-    // searchByPayTime(data,dataString){
-    //     actions.selectQueryMsg({payTimePeriod:dataString});
-    //     // actions.searchOrderList(this.props.queryStrategy)
-    // }
-    // searchByDispatchTime(data,dataString){
-    //     actions.selectQueryMsg({dispatchTimePeriod:dataString});
-    //     // actions.searchOrderList(this.props.queryStrategy)
-    // }
-    // onChange(e){
-    //     // this.setState({ queryStrategy: e.target.value });
-    //     // actions.selectQueryMsg({});
-    //     actions.setOrderType(e.target.value);
-    // }
     state = {
         loading: false,
     };
@@ -64,30 +67,20 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
         })});
     };
     render(){
-        // let queryStrategy = this.props.queryStrategy;
-        // const { queryStrategy } = this.state;
         return (
             <Form layout="inline">
                 <FormItem label={"账户查询"}>
                     <Input
-                        addonAfter={<Icon type="close" />}
+                        suffix={<Icon type="close" onClick={() =>{console.log('clear'); actions.selectQueryMsg({phoneNum:null})}}/>}
                         placeholder="请输入用户手机号"
                         onChange={e => {actions.selectQueryMsg({phoneNum:e.target.value})}}
-                        // onSearch={value => {
-                        //     actions.selectQueryMsg({phoneNum:value});
-                        //     actions.searchOrderList(queryStrategy);
-                        // }}
                     />
                 </FormItem>
                 <FormItem label={"订单号"}>
                     <Input
                         placeholder="请输入订单号"
-                        addonAfter={<Icon type="close" />}
+                        suffix={<Icon type="close" />}
                         onChange={e => {actions.selectQueryMsg({orderNo:e.target.value})}}
-                        // onSearch={value => {
-                        //     actions.selectQueryMsg({orderNo:value});
-                        //     actions.searchOrderList(queryStrategy);
-                        // }}
                     />
                 </FormItem>
                 <FormItem label={"创建时间"}>
