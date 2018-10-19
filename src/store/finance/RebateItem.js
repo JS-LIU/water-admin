@@ -15,7 +15,7 @@ class CurrencyUtil{
     }
 
     static yuanToXtb(realRebateInYuan) {
-        return realRebateInYuan / 10;
+        return realRebateInYuan * 10;
     }
 }
 
@@ -42,14 +42,16 @@ class RebateItem{
         this.rebatePriceExcel = rebateInfo.rebatePriceExcel ;       //  返利标准
         this.rebatePrice = rebateInfo.rebatePrice;
         //  返利金额
-        this.rebateCurrencyType = rebateInfo.rebateCurrencyType || "rmb";    //  返利币种
-        // this.rebateResult = this.convertToShowUnit(rebateInfo.rebateResult);                //  实际返利金额
 
-        this.realRebate = rebateInfo.rebateResult;//单位为分
-        this.realRebateResultInYuan = CurrencyUtil.fenToYuan(this.realRebate);
+        // this.realRebateInFen = this.convertToShowUnit(rebateInfo.rebateResult);                  //  财务修改后的默认金额
+        this.firstRebateResult = rebateInfo.realRebateResult;
+        this.repairResult = rebateInfo.repairResult;                //  补充返利
+        this.repairRebateCurrencyType = rebateInfo.rebateCurrencyType || "rmb"; //不可修改
 
-        // this.realRebate = this.convertToShowUnit(rebateInfo.rebateResult);                  //  财务修改后的默认金额
-        // this.repairResult = this.convertToShowUnit(rebateInfo.repairResult);                //  补充返利
+        this.rebateAimCurrencyType = this.repairRebateCurrencyType;    //  返利币种，可修改
+        this.realRebateInFen = rebateInfo.rebateResult;//单位为分
+        this.realRebateResultInYuan = CurrencyUtil.fenToYuan(this.realRebateInFen);
+
 
         let rebateAjax = commonAjax.resource('/admin/financial/:action');
         this._getDetail = function(postInfo){
@@ -64,14 +66,7 @@ class RebateItem{
     }
 
 
-    getRealRebate(type){
-        if (type === 'rmb'){
-            return CurrencyUtil.fenToYuan(this.realRebate);
-        }else{
-            throw new Error();
-        }
-    }
-
+    // getRepair
     getDetail(){
         return this._getDetail({});
     }
@@ -83,23 +78,55 @@ class RebateItem{
             rebatePrice:this.rebatePerPrice,
             remark:this.remark,
             realRebateResult:this.getRealResultForPost(),
-            currencyType:this.rebateCurrencyType
+            currencyType:this.rebateAimCurrencyType
         };
         return this._toRebate(postInfo)
     }
+
+    static convertToShow(type, value){
+        if (type === 'rmb'){
+            return CurrencyUtil.fenToYuan(value);
+        }else{
+            return value;
+        }
+    }
+
+    getFirstRebateResult(){
+        return RebateItem.convertToShow(this.repairRebateCurrencyType,this.firstRebateResult);
+
+    }
+    getRealRebate(type){
+        if (type === 'rmb'){
+            return CurrencyUtil.fenToYuan(this.realRebateInFen);
+        } else{
+            throw new Error();
+
+        }
+    }
+
+    getShowRepairResult(){
+        return RebateItem.convertToShow(this.repairRebateCurrencyType,this.repairResult);
+    }
+
+    getPostRepairResult(){
+        if (this.repairRebateCurrencyType === 'rmb'){
+            return CurrencyUtil.yuanToFen(this.repairResult);
+        }else{
+            return this.repairResult;
+        }
+    }
+
     repairRebate(repairResult){
-        this.changeRebateCurrencyType("xtb");
+        this.repairResult = repairResult;
         let postInfo = {
-            currencyType: this.rebateCurrencyType,
+            currencyType: this.repairRebateCurrencyType,
             rebateOrderId: this.rebateId,
-            repairResult: CurrencyUtil.yuanToFen(repairResult)
+            repairResult: this.getPostRepairResult()
         };
         return this._repairRebate(postInfo);
     }
 
-    setRepairResult(repairResult){
-        this.repairResult = repairResult;
-    }
+
     setRealTotalMount(mount){
         this.realTotalMount = mount;
     }
@@ -114,7 +141,7 @@ class RebateItem{
     }
 
     getRealResultForPost(){
-        if (this.rebateCurrencyType === 'rmb'){
+        if (this.rebateAimCurrencyType === 'rmb'){
             return  CurrencyUtil.yuanToFen(this.realRebateResultInYuan);
         }else{
             return CurrencyUtil.yuanToXtb(this.realRebateResultInYuan);
@@ -161,7 +188,7 @@ class RebateItem{
     }
 
     changeRebateCurrencyType(rebateCurrencyType){
-        this.rebateCurrencyType = rebateCurrencyType;
+        this.rebateAimCurrencyType = rebateCurrencyType;
     }
 }
 module.exports = RebateItem;

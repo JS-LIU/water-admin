@@ -77,8 +77,8 @@ function rebateDealListActions(){
             rebateDealListData.isCanRebate = false;
         })
     };
-    let setRealResult = function(realResult){
-        rebateList.activeItem.setRealResult(realResult);
+    let setRealResult = function(realResult,type, unit){
+        rebateList.activeItem.setRealResult(realResult,type, unit);
     };
     let changeRebateCurrencyType = function(rebateCurrencyType){
         rebateList.activeItem.changeRebateCurrencyType(rebateCurrencyType);

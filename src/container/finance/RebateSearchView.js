@@ -184,13 +184,13 @@ const { RangePicker } = DatePicker;
             width:150
         }, {
             title: '第一次返利',
-            dataIndex: 'realRebateResultInYuan',
-            key: 'realRebateResultInYuan',
+            dataIndex: 'firstRebateResult',
+            key: 'firstRebateResult',
             width:120
         }, {
             title:"单位",
-            dataIndex:"rebateCurrencyType",
-            key:"rebateCurrencyType",
+            dataIndex:"repairRebateCurrencyType",
+            key:"repairRebateCurrencyType",
             width:80,
         },{
             title: "补充返利",
@@ -220,18 +220,18 @@ const { RangePicker } = DatePicker;
             dataSource.push({
                 key:i,
                 month:item.month+"月",
-                repairResult:item.repairResult,
+                repairResult:item.getShowRepairResult(),
                 shopAlians:item.shopAlians,
                 shopName:item.shopName,
                 phoneNum:item.phoneNum,
                 totalMount :item.totalMount ,
                 rebatePrice:parseFloat(item.rebatePrice) / 100,
-                rebateCurrencyType:item.rebateCurrencyType,
+                repairRebateCurrencyType:item.repairRebateCurrencyType,
                 remark:item.remark,
                 status:item.status,
                 rebateId:item.rebateId,
                 productItemList:item.productItemList,
-                realRebateResultInYuan:item.realRebateResultInYuan
+                firstRebateResult:item.getFirstRebateResult()
             })
         }
         const expandedRowRender = record => {
