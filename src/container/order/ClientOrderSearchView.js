@@ -7,6 +7,8 @@ import { Table, Tooltip , Button , Radio , Input ,Icon, Cascader ,Form , Row, Co
 const Search = Input.Search;
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
+
+import ClearSuffixInput from '../../components/ClearSuffixInput';
 import {actions,data} from "../../store/order/clientOrderSearchInterface";
 import clientOrderSearchStyle from './css/clientOrderSearch.css'
 
@@ -26,35 +28,6 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
     }
 }
 
-class ClearSuffixInput extends Component{
-    constructor(props){
-        super(props);
-    }
-    state = {
-        inputValue:""
-    };
-    clearHandle(actionCallBack = function(){}){
-        actionCallBack();
-        this.setState({
-            inputValue:""
-        })
-    }
-
-    render(){
-        const {inputValue} = this.state;
-        return (
-            <Input
-                suffix={<Icon type="close" onClick={this.clearHandle.bind(this)}/>}
-                placeholder={this.props.placeHolder}
-                value={inputValue}
-                onChange={e => {actions.selectQueryMsg({phoneNum:e.target.value})}}
-
-            />
-        )
-    }
-}
-
-
 @observer class OrderListSearchView extends Component{
     state = {
         loading: false,
@@ -70,17 +43,17 @@ class ClearSuffixInput extends Component{
         return (
             <Form layout="inline">
                 <FormItem label={"账户查询"}>
-                    <Input
-                        suffix={<Icon type="close" onClick={() =>{console.log('clear'); actions.selectQueryMsg({phoneNum:null})}}/>}
+                    <ClearSuffixInput
+                        changeHandle={(phoneNum)=>actions.selectQueryMsg({phoneNum:phoneNum})}
+                        clearHandle={()=>actions.selectQueryMsg({phoneNum:null})}
                         placeholder="请输入用户手机号"
-                        onChange={e => {actions.selectQueryMsg({phoneNum:e.target.value})}}
                     />
                 </FormItem>
                 <FormItem label={"订单号"}>
-                    <Input
+                    <ClearSuffixInput
+                        changeHandle={(orderNo)=>actions.selectQueryMsg({orderNo:orderNo})}
+                        clearHandle={()=>actions.selectQueryMsg({orderNo:null})}
                         placeholder="请输入订单号"
-                        suffix={<Icon type="close" />}
-                        onChange={e => {actions.selectQueryMsg({orderNo:e.target.value})}}
                     />
                 </FormItem>
                 <FormItem label={"创建时间"}>
