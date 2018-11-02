@@ -27,10 +27,39 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
         )
     }
 }
+//  radio
+class RadioQueryTabList extends Component{
+    state={
+        type:this.props.defaultValue,
+    };
+    onChange(e){
+        this.setState({
+            type:e.target.value
+        });
+        this.props.changeHandle(e.target.value);
+    }
+
+    render(){
+        const {type} = this.state;
+        return (
+            <Radio.Group value={type} onChange={this.onChange.bind(this)} >
+                <Radio.Button value={"all"}>全部</Radio.Button>
+                <Radio.Button value={"waitPay"}>待付款</Radio.Button>
+                <Radio.Button value={"waitDispatch"}>待派单</Radio.Button>
+                <Radio.Button value={"waitDelivery"}>待配送</Radio.Button>
+                <Radio.Button value={"waitReceive"}>待收货</Radio.Button>
+                <Radio.Button value={"finish"}>已完成</Radio.Button>
+                <Radio.Button value={"alreadyPay"}>已付款</Radio.Button>
+            </Radio.Group>
+        )
+    }
+}
+
 
 @observer class OrderListSearchView extends Component{
     state = {
         loading: false,
+        // orderType:'all'
     };
 
     enterLoading = () => {
@@ -66,16 +95,12 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                     <RangePicker onChange={(data,dataString) => actions.selectQueryMsg({dispatchTimePeriod:dataString})} />
                 </FormItem>
                 <FormItem label={"订单状态"}>
-                    <Radio.Group onChange={e => actions.setOrderType(e.target.value)} >
-                        <Radio.Button value={"all"}>全部</Radio.Button>
-                        <Radio.Button value={"waitPay"}>待付款</Radio.Button>
-                        <Radio.Button value={"waitDispatch"}>待派单</Radio.Button>
-                        <Radio.Button value={"waitDelivery"}>待配送</Radio.Button>
-                        <Radio.Button value={"waitReceive"}>待收货</Radio.Button>
-                        <Radio.Button value={"finish"}>已完成</Radio.Button>
-                        <Radio.Button value={"alreadyPay"}>已付款</Radio.Button>
-                    </Radio.Group>
+                    <RadioQueryTabList
+                        defaultValue={'all'}
+                        changeHandle={type => actions.setOrderType(type)}
+                    />
                 </FormItem>
+
                 <FormItem>
                     <Button type="primary" loading={this.state.loading} onClick={this.enterLoading}>
                         查询

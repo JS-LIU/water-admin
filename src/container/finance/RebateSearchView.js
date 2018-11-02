@@ -6,6 +6,7 @@ import { Table, Tooltip , Button , Radio , Input ,Icon, Cascader ,Form , Row, Co
 const Search = Input.Search;
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
+import ClearSuffixInput from '../../components/ClearSuffixInput';
 
 @observer class RebateSearchView extends Component{
     componentWillMount(){
@@ -20,77 +21,71 @@ const { RangePicker } = DatePicker;
         )
     }
 }
-//搜索区域
-@observer class RebateInquireView extends Component{
+//  radio
+class RadioQueryTabList extends Component{
     state = { rebateStatus: "create" };
     onChange(e){
         this.setState({ rebateStatus: e.target.value });
-        actions.changeType(e.target.value);
+
     }
+
+    render(){
+        const {type} = this.state;
+        return (
+            <Radio.Group value={type} onChange={this.onChange} >
+                <Radio.Button value={"create"}>待返利</Radio.Button>
+                <Radio.Button value={"over"}>已返利</Radio.Button>
+            </Radio.Group>
+        )
+    }
+}
+
+
+//搜索区域
+@observer class RebateInquireView extends Component{
+
     render(){
         const { rebateStatus } = this.state;
         return(
-
-            <div>
-                <Form>
-                    <Row gutter={16}>
-                        <Col span={8}>
-                            <FormItem label={"编号查询"}>
-                                <Search
-                                    placeholder="输入店铺编号"
-                                    onSearch={value => {
-                                        actions.setQueryInfo({shopAlians:value});
-                                        actions.queryByQueryInfo();
-                                    }}
-                                    enterButton
-                                />
-                            </FormItem>
-                        </Col>
-                        <Col span={8}>
-                            <FormItem label={"店铺名称查询"}>
-                                <Search
-                                    placeholder="输入店铺名称"
-                                    onSearch={value => {
-                                        actions.setQueryInfo({shopName:value});
-                                        actions.queryByQueryInfo();
-                                    }}
-                                    enterButton
-                                />
-                            </FormItem>
-                        </Col>
-                        <Col span={8}>
-                            <FormItem label={"电话号码查询"}>
-                                <Search
-                                    placeholder="输入电话号码"
-                                    onSearch={value => {
-                                        actions.setQueryInfo({phoneNum:value});
-                                        actions.queryByQueryInfo();
-                                    }}
-                                    enterButton
-                                />
-                            </FormItem>
-                        </Col>
-                        {/*<Col span={8}>*/}
-                            {/*<FormItem label={"付款时间"}>*/}
-                                {/*<RangePicker onChange={this.searchByPayTime.bind(this)} />*/}
-                            {/*</FormItem>*/}
-                        {/*</Col>*/}
-                        {/*<Col span={8}>*/}
-                            {/*<FormItem label={"处理时间"}>*/}
-                                {/*<RangePicker onChange={this.searchByDispatchTime.bind(this)} />*/}
-                            {/*</FormItem>*/}
-                        {/*</Col>*/}
-                        {/*<Col span={8}>*/}
-                            {/*<Button type="primary" onClick={actions.getExcel}>导出报表</Button>*/}
-                        {/*</Col>*/}
-                    </Row>
-                </Form>
-                <Radio.Group value={rebateStatus} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
-                    <Radio.Button value={"create"}>待返利</Radio.Button>
-                    <Radio.Button value={"over"}>已返利</Radio.Button>
-                </Radio.Group>
-            </div>
-
+            <Form layout="inline">
+                <FormItem label={"编号查询"}>
+                    <ClearSuffixInput
+                        changeHandle={(shopAlians)=>actions.selectQueryMsg({shopAlians:shopAlians})}
+                        clearHandle={()=>actions.selectQueryMsg({shopAlians:null})}
+                        placeholder="输入店铺编号"
+                    />
+                </FormItem>
+                <FormItem label={"名称查询"}>
+                    <ClearSuffixInput
+                        changeHandle={(shopName)=>actions.selectQueryMsg({shopName:shopName})}
+                        clearHandle={()=>actions.selectQueryMsg({shopName:null})}
+                        placeholder="输入店铺名称"
+                    />
+                </FormItem>
+                <FormItem label={"电话查询"}>
+                    <ClearSuffixInput
+                        changeHandle={(phoneNum)=>actions.selectQueryMsg({phoneNum:phoneNum})}
+                        clearHandle={()=>actions.selectQueryMsg({phoneNum:null})}
+                        placeholder="输入电话号码"
+                    />
+                </FormItem>
+                <FormItem label={"订单状态"}>
+                    <RadioQueryTabList defaultValue={'create'}
+                                       changeHandle={type => actions.selectQueryMsg({rebateStatus:type})}
+                    />
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" loading={this.state.loading} onClick={this.enterLoading}>
+                        查询
+                    </Button>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" >重置</Button>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" onClick={actions.getExcel}>导出报表</Button>
+                </FormItem>
+            </Form>
         )
     }
 }

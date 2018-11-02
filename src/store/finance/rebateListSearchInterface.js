@@ -51,7 +51,7 @@ function rebateListSearchActions(){
         });
     };
     let getExcel = function(){
-
+        rebateList.getExcel();
     };
     return {
         onLoad:load.before(_setInitType),
