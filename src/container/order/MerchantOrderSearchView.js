@@ -4,42 +4,25 @@
 import React, {Component} from 'react';
 import {observer,inject} from 'mobx-react';
 import { Table, Tooltip , Button , Radio , Input , Cascader ,Form , Row, Col , DatePicker } from 'antd';
-const Search = Input.Search;
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 
 import {actions,data} from "../../store/order/merchantOrderSearchInterface";
 import clientOrderSearchStyle from './css/clientOrderSearch.css'
+import ClearSuffixInput from "../../components/ClearSuffixInput";
+import RadioQueryTabList from "../../components/RadioQueryTabList";
 
 @observer class MerchantOrderSearchView extends Component{
-    state = { queryStrategy: "all" };
     componentWillMount(){
         actions.onLoad();
-        actions.selectQueryMsg({});
-        actions.searchOrderList(this.state.queryStrategy)
-    }
-    onChange(e){
-        this.setState({ queryStrategy: e.target.value });
-        actions.selectQueryMsg({});
-        actions.searchOrderList(e.target.value);
     }
     render(){
-        const { queryStrategy } = this.state;
         return (
             <div>
-                <OrderListSearchView queryStrategy={queryStrategy}/>
-                <Radio.Group value={queryStrategy} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
-                    <Radio.Button value={"all"}>全部</Radio.Button>
-                    <Radio.Button value={"waitPay"}>待付款</Radio.Button>
-                    <Radio.Button value={"alreadyPay"}>已付款</Radio.Button>
-                    <Radio.Button value={"waitDispatch"}>待派单</Radio.Button>
-                    <Radio.Button value={"waitReceive"}>待收货</Radio.Button>
-                    <Radio.Button value={"finish"}>已完成</Radio.Button>
-                </Radio.Group>
+                <OrderListSearchView />
                 <PaymentMethodTotalAmountView />
                 <MerchantOrderListView />
             </div>
-
         )
     }
 }
@@ -67,72 +50,86 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
 }
 
 @observer class OrderListSearchView extends Component{
-    searchByCreateTime(data,dataString){
-        actions.selectQueryMsg({createTimePeriod:dataString});
-        actions.searchOrderList(this.props.queryStrategy)
-    }
-    searchByPayTime(data,dataString){
-        actions.selectQueryMsg({payTimePeriod:dataString});
-        actions.searchOrderList(this.props.queryStrategy)
-    }
-    searchByDispatchTime(data,dataString){
-        actions.selectQueryMsg({dispatchTimePeriod:dataString});
-        actions.searchOrderList(this.props.queryStrategy)
-    }
+    state = {
+        loading: false,
+        // orderType:'all'
+    };
+
+    enterLoading = () => {
+        this.setState({ loading: true });
+        actions.queryByQueryInfo(()=>{this.setState({
+            loading: false
+        })});
+    };
     render(){
-        let queryStrategy = this.props.queryStrategy;
         return (
-            <Form>
-                <Row gutter={16}>
-                    <Col span={8}>
-                        <FormItem label={"订单号"}>
-                            <Search
-                                placeholder="请输入订单号"
-                                onSearch={value => {
-                                    actions.selectQueryMsg({orderNo:value});
-                                    actions.searchOrderList(queryStrategy);
-                                }}
-                                enterButton
-                            />
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <FormItem label={"账户查询"}>
-                            <Search
-                                placeholder="请输入用户手机号"
-                                onSearch={value => {
-                                    actions.selectQueryMsg({phoneNum:value});
-                                    actions.searchOrderList(queryStrategy);
-                                }}
-                                enterButton
-                            />
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <FormItem label={"创建时间"}>
-                            <RangePicker onChange={this.searchByCreateTime.bind(this)} />
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <FormItem label={"付款时间"}>
-                            <RangePicker onChange={this.searchByPayTime.bind(this)} />
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <FormItem label={"处理时间"}>
-                            <RangePicker onChange={this.searchByDispatchTime.bind(this)} />
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <Button type="primary" onClick={actions.getExcel}>导出报表</Button>
-                    </Col>
-                </Row>
+            <Form layout="inline">
+                <FormItem label={"账户查询"}>
+                    <ClearSuffixInput
+                        changeHandle={(phoneNum)=>actions.selectQueryMsg({phoneNum:phoneNum})}
+                        clearHandle={()=>actions.selectQueryMsg({phoneNum:null})}
+                        placeholder="请输入用户手机号"
+                    />
+                </FormItem>
+                <FormItem label={"订单号"}>
+                    <ClearSuffixInput
+                        changeHandle={(orderNo)=>actions.selectQueryMsg({orderNo:orderNo})}
+                        clearHandle={()=>actions.selectQueryMsg({orderNo:null})}
+                        placeholder="请输入订单号"
+                    />
+                </FormItem>
+                <FormItem label={"创建时间"}>
+                    <RangePicker onChange={(data,dataString) => actions.selectQueryMsg({createTimePeriod:dataString})} />
+                </FormItem>
+                <FormItem label={"付款时间"}>
+                    <RangePicker onChange={(data,dataString) => actions.selectQueryMsg({payTimePeriod:dataString})} />
+                </FormItem>
+                <FormItem label={"处理时间"}>
+                    <RangePicker onChange={(data,dataString) => actions.selectQueryMsg({dispatchTimePeriod:dataString})} />
+                </FormItem>
+                <FormItem label={"订单状态"}>
+                    <RadioQueryTabList
+                        defaultValue={'all'}
+                        changeHandle={targetValue => actions.setOrderType(targetValue)}
+                        radioList={[
+                            {key:"all",name:"全部"},
+                            {key:"alreadyPay",name:"已付款"},
+                            {key:"waitPay",name:"待付款"},
+                            {key:"waitDispatch",name:"待派单"},
+                            {key:"waitDelivery",name:"待配送"},
+                            {key:"finish",name:"已完成"}]}
+                    />
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" loading={this.state.loading} onClick={this.enterLoading}>
+                        查询
+                    </Button>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" >重置</Button>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" onClick={actions.getExcel}>导出报表</Button>
+                </FormItem>
             </Form>
         )
     }
 }
 
 @observer class MerchantOrderListView extends Component{
+    state={
+        activeLineIndex:-1,
+        otherRowClass:"",
+    };
+    setClassName(record, index){
+        return index === this.state.activeLineIndex?"activeRowStyle":this.state.otherRowClass;
+    }
+    setActiveLineIndex(index){
+        this.setState({
+            activeLineIndex:index,
+            tableHeight:100
+        });
+    }
     changePage(pageNum){
         actions.changePage(pageNum);
     }
@@ -324,6 +321,14 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                 columns={columns}
                 dataSource={dataSource}
                 expandedRowRender={expandedRowRender}
+                onRow={(record,index) => {
+                    return {
+                        onClick: () => {
+                            this.setActiveLineIndex(index);
+                        }
+                    };
+                }}
+                rowClassName={this.setClassName.bind(this)}
                 scroll={{x:2550,y:600}}
                 pagination={{current:data.pagination.page+1,onChange:this.changePage.bind(this),total:data.pagination.total}}
             />

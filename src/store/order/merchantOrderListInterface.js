@@ -15,7 +15,7 @@ let merchantOrderListData = {
 };
 
 function merchantOrderListActions(){
-    let _refresh = function(){
+    let _refresh = function(cb=function(){}){
         merchantOrderList.getWaitingDispatchOrderList().then((list)=>{
             merchantOrderListData.list = list;
             merchantOrderListData.pagination = merchantOrderList.pagination;
@@ -33,6 +33,7 @@ function merchantOrderListActions(){
         }).catch(()=>{
             merchantOrderListData.detail = null;
             merchantOrderListData.nearStore = null;
+            cb();
         }).then((detail)=>{
             merchantOrderListData.detail = detail;
             return merchantOrderListData.activeOrder.getNearStore()
@@ -41,14 +42,16 @@ function merchantOrderListActions(){
             // }
         }).then((storeList)=>{
             merchantOrderListData.nearStore = storeList;
+            cb();
         }).catch(()=>{
             merchantOrderListData.nearStore = null;
+            cb();
         });
     };
 
-    let load = function(){
+    let load = function(cb){
         merchantOrderList.pagination.setPage(1);
-        _refresh();
+        _refresh(cb);
     };
     let selectMerchantOrder = function(orderId){
         let order = merchantOrderList.findItemByItemId(merchantOrderListData.list,orderId,"orderId");
@@ -66,8 +69,8 @@ function merchantOrderListActions(){
             return _dispatchOrder(merchantOrderList.activeItem.orderNo);
         })
     };
-    let queryByQueryInfo = function(){
-        load();
+    let queryByQueryInfo = function(cb){
+        load(cb);
     };
     let setQueryInfo = function(queryInfo){
         merchantOrderList.selectQueryMsg(queryInfo);

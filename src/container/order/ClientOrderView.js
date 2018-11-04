@@ -3,12 +3,17 @@
  */
 
 import React, {Component} from 'react';
-import { Table, Tooltip , Button , Radio , Input , Cascader ,Icon  } from 'antd';
-const Search = Input.Search;
+import {Table, Tooltip, Button, Radio, Input, Cascader, Icon, Form} from 'antd';
+import LockLineView from '../../components/LockLineView';
+const FormItem = Form.Item;
+
+
 import {observer,inject} from 'mobx-react';
 import orderStyle from './css/orderStyle.css';
 import huipayTableStyle from '../../Util/huipayAdminStyle/huipayTableStyle.css';
 import {data,actions} from '../../store/order/clientOrderListInterface';
+import ClearSuffixInput from "../../components/ClearSuffixInput";
+import RadioQueryTabList from "../../components/RadioQueryTabList";
 
 @observer class ClientOrderView extends Component{
     componentWillMount(){
@@ -42,64 +47,52 @@ import {data,actions} from '../../store/order/clientOrderListInterface';
 
 //  搜索
 class ClientOrderListQueryView extends Component{
-    state = { queryType: 0 };
-    onChange(e){
-        this.setState({ queryType: e.target.value });
-        actions.selectQueryType(e.target.value);
-    }
+    state = {
+        loading: false,
+        // orderType:'all'
+    };
+
+    enterLoading = () => {
+        this.setState({ loading: true });
+        actions.queryByQueryInfo(()=>{this.setState({
+            loading: false
+        })});
+    };
     render(){
-        const { queryType } = this.state;
         return (
-            <div>
-                <div className="search_box">
-                    <Search
-                        placeholder="输入订单号"
-                        onSearch={value => {
-                            actions.setQueryInfo({orderNo:value});
-                            actions.queryByQueryInfo();
-                        }}
-                        enterButton
-                        style={{ marginBottom: 16 }}
+            <Form layout="inline">
+                <FormItem label={"订单号"}>
+                    <ClearSuffixInput
+                        changeHandle={(orderNo)=>actions.setQueryInfo({orderNo:orderNo})}
+                        clearHandle={()=>actions.setQueryInfo({orderNo:null})}
+                        placeholder="请输入订单号"
                     />
-                    <Button type="primary" icon="reload" onClick={() => actions.queryByQueryInfo()}>点击刷新</Button>
-                </div>
-                <Radio.Group value={queryType} onChange={this.onChange.bind(this)} style={{ marginBottom: 16 }} >
-                    <Radio.Button value={0}>全部</Radio.Button>
-                    <Radio.Button value={1}>待派单</Radio.Button>
-                    <Radio.Button value={2}>待配送</Radio.Button>
-                </Radio.Group>
-            </div>
+                </FormItem>
+                <FormItem label={"订单状态"}>
+                    <RadioQueryTabList
+                        defaultValue={'0'}
+                        changeHandle={targetValue => actions.selectQueryType(targetValue)}
+                        radioList={[
+                            {key:"0",name:"全部"},
+                            {key:"1",name:"待派单"},
+                            {key:"2",name:"待配送"}]}
+                    />
+                </FormItem>
+
+                <FormItem>
+                    <Button type="primary" loading={this.state.loading} onClick={this.enterLoading}>
+                        查询
+                    </Button>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" >重置</Button>
+                </FormItem>
+                {/*<Button type="primary" icon="reload" onClick={() => actions.queryByQueryInfo()}>点击刷新</Button>*/}
+            </Form>
 
         )
     }
 }
-
-class LockLineView extends Component {
-    constructor(props){
-        super(props);
-    }
-    state={
-        lockState:"unlock"
-    };
-    lockLine(){
-        if(this.state.lockState === "lock"){
-            this.setState({
-                lockState:"unlock",
-            });
-        }else{
-            this.setState({
-                lockState:"lock",
-            });
-        }
-        this.props.clickHandle(this.state.lockState);
-    }
-    render(){
-        const { lockState } = this.state;
-        return(<Icon type={lockState} onClick={this.lockLine.bind(this)}/>)
-
-    }
-}
-
 
 @observer class ClientOrderListView extends Component{
     state={

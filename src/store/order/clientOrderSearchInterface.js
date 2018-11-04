@@ -11,24 +11,21 @@ let orderSearchData = {
 };
 
 function clientOrderSearchActions(){
-    let getOrderList = function(cb=function(){}){
-        clientOrderList.pagination.setPage(1);
+    let _getOrderList = function(cb){
         if(clientOrderList.queryType === "waitDispatch"||clientOrderList.queryType === "waitDelivery"){
             return clientOrderList.getWaitingDispatchOrderList().then((list)=>{
-                updateOrderSearchData(list);
-                cb();
+                updateOrderSearchData(list,cb);
             })
         }
-        return clientOrderList.getOrderList().then((list)=>{
-            updateOrderSearchData(list);
-            cb();
+        return clientOrderList.getOrderList().then((list,cb)=>{
+            updateOrderSearchData(list,cb);
         })
     };
-    let updateOrderSearchData = function(list){
+    let updateOrderSearchData = function(list,cb=function(){}){
         orderSearchData.pagination = clientOrderList.pagination;
         orderSearchData.list = list;
+        cb();
     };
-    let orderType = "all";
     let orderTypeStrategy = {
         "all":function(){
             clientOrderList.setOrderStatus(['create','delivery','waiting_dispatch','finish','finish_comment']);
@@ -53,18 +50,18 @@ function clientOrderSearchActions(){
         }
     };
     let setOrderType = function(orderStatus){
-        orderType = orderStatus;
         return orderTypeStrategy[orderStatus]();
     };
     let selectQueryMsg = function(queryMsg){
         clientOrderList.selectQueryMsg(queryMsg);
     };
     let load = function(){
-        getOrderList();
+        clientOrderList.pagination.setPage(1);
+        return _getOrderList();
     };
-    let changePage = function(pageNum){
+    let changePage = function(pageNum,cb){
         clientOrderList.pagination.setPage(pageNum);
-        getOrderList();
+        return _getOrderList(cb);
     };
     let getExcel = function(){
         clientOrderList.getExcel()
@@ -77,8 +74,11 @@ function clientOrderSearchActions(){
         selectClientOrder(orderId);
         clientOrderList.activeItem.confirmReceipt().then(()=>{
             clientOrderList.pagination.setPage(1);
-            getOrderList();
+            return _getOrderList();
         })
+    };
+    let queryByQueryInfo = function(cb){
+        return changePage(1,cb);
     };
     return {
         //  加载load
@@ -90,7 +90,7 @@ function clientOrderSearchActions(){
         changePage:changePage,
         getExcel:getExcel,
         confirmReceipt:confirmReceipt,
-        getOrderList:getOrderList,
+        queryByQueryInfo:queryByQueryInfo,
         selectClientOrder:selectClientOrder,
     }
 }

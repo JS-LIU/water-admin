@@ -18,7 +18,7 @@ let clientOrderListData = {
     @observable hasLoadingNearStore:true
 };
 function clientOrderListActions(){
-    let _refresh = function(){
+    let _refresh = function(cb=function(){}){
         clientOrderList.getWaitingDispatchOrderList().then((list)=>{
             clientOrderListData.list = list;
             clientOrderList.setActiveItem(list[0]);
@@ -32,8 +32,10 @@ function clientOrderListActions(){
         }).then((storeList)=>{
             clientOrderListData.nearStore = storeList;
             clientOrderListData.hasLoadingNearStore = false;
+            cb()
         }).catch(()=>{
             clientOrderListData.hasLoadingNearStore = false;
+            cb();
         });
     };
 
@@ -44,7 +46,7 @@ function clientOrderListActions(){
     let selectQueryType = function(queryType){
         clientOrderList.selectQueryType(queryType);
         clientOrderListData.queryType = queryType;
-        load();
+        // load();
     };
     let selectOrder = function(orderId){
         let order = clientOrderList.findItemByItemId(clientOrderListData.list,orderId,"orderId");
@@ -72,8 +74,8 @@ function clientOrderListActions(){
             _refresh();
         })
     };
-    let queryByQueryInfo = function(){
-        load();
+    let queryByQueryInfo = function(cb){
+        load(cb);
     };
     let setQueryInfo = function(queryInfo){
         clientOrderList.selectQueryMsg(queryInfo);

@@ -185,9 +185,5 @@ class RebateItem{
         }
         return "nextSuccessor"
     }
-
-    changeRebateCurrencyType(rebateCurrencyType){
-        this.rebateAimCurrencyType = rebateCurrencyType;
-    }
 }
 module.exports = RebateItem;

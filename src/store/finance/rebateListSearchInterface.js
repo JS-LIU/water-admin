@@ -14,32 +14,26 @@ let rebateListSearchData = {
 
 function rebateListSearchActions(){
     let _setInitType = function(){
-        rebateList.changeStatus("create");
+        setQueryInfo({rebateStatus:"create"});
     };
 
     let load = function(){
         rebateList.pagination.setPage(1);
-        rebateList.getRebateList().then((list)=>{
-            rebateListSearchData.list = list;
-            rebateListSearchData.pagination = rebateList.pagination;
-        });
+        queryByQueryInfo();
     };
     let changePage = function(pageNum){
         rebateList.pagination.setPage(pageNum);
-        rebateList.getRebateList().then((rebateList)=>{
-            rebateListSearchData.list = rebateList;
-        });
+        queryByQueryInfo();
     };
-    let changeType = function(type){
-        rebateList.changeStatus(type);
-        load();
-    };
-
     let setQueryInfo = function(queryInfo){
         rebateList.selectQueryMsg(queryInfo);
     };
-    let queryByQueryInfo = function(){
-        load();
+    let queryByQueryInfo = function(cb=function(){}){
+        rebateList.getRebateList().then((list)=>{
+            rebateListSearchData.list = list;
+            rebateListSearchData.pagination = rebateList.pagination;
+            cb();
+        });
     };
     let repairRebate = function(rebateId,money){
         let rebateItem = rebateList.findItemByItemId(rebateListSearchData.list,rebateId,"rebateId");
@@ -56,11 +50,10 @@ function rebateListSearchActions(){
     return {
         onLoad:load.before(_setInitType),
         changePage:changePage,
-        changeType:changeType,
         setQueryInfo:setQueryInfo,
         queryByQueryInfo:queryByQueryInfo,
         repairRebate:repairRebate,
-        // getExcel:getExcel
+        getExcel:getExcel
     }
 }
 module.exports = {data:rebateListSearchData,actions:rebateListSearchActions()};

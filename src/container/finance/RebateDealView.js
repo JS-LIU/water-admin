@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
-import { Input ,Button ,Table, Icon ,Col, Select, InputNumber, DatePicker } from 'antd';
-const Search = Input.Search;
+import {Input, Button, Table, Icon, Col, Select, InputNumber, DatePicker, Form} from 'antd';
+import LockLineView from '../../components/LockLineView';
+import ClearSuffixInput from "../../components/ClearSuffixInput";
+
+const FormItem = Form.Item;
 import rebateDealStyle from './css/rebateDealStyle.css';
 const InputGroup = Input.Group;
 const Option = Select.Option;
@@ -23,54 +26,93 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
 }
 //搜索区域
 @observer class RebateDisposeInquireView extends Component{
+    state = {
+        loading: false,
+        // orderType:'all'
+    };
+
+    enterLoading = () => {
+        this.setState({ loading: true });
+        actions.queryByQueryInfo(()=>{this.setState({
+            loading: false
+        })});
+    };
     render(){
         return(
-            <div className="inquire_view">
-                <span>
-                    <Search
+            <Form layout="inline">
+                <FormItem label={"编号查询"}>
+                    <ClearSuffixInput
+                        changeHandle={(shopAlians)=>actions.setQueryInfo({shopAlians:shopAlians})}
+                        clearHandle={()=>actions.setQueryInfo({shopAlians:null})}
                         placeholder="输入店铺编号"
-                        onSearch={value => {
-                            actions.setQueryInfo({shopAlians:value});
-                            actions.queryByQueryInfo();
-                        }}
-                        enterButton
-                        style={{ marginBottom: 16 }}
                     />
-                </span>
-                <span>
-                    <Search
+                </FormItem>
+                <FormItem label={"名称查询"}>
+                    <ClearSuffixInput
+                        changeHandle={(shopName)=>actions.setQueryInfo({shopName:shopName})}
+                        clearHandle={()=>actions.setQueryInfo({shopName:null})}
                         placeholder="输入店铺名称"
-                        onSearch={value => {
-                            actions.setQueryInfo({shopName:value});
-                            actions.queryByQueryInfo();
-                        }}
-                        enterButton
-                        style={{ marginBottom: 16 }}
                     />
-                </span>
-                <span>
-                    <Search
+                </FormItem>
+                <FormItem label={"电话查询"}>
+                    <ClearSuffixInput
+                        changeHandle={(phoneNum)=>actions.setQueryInfo({phoneNum:phoneNum})}
+                        clearHandle={()=>actions.setQueryInfo({phoneNum:null})}
                         placeholder="输入电话号码"
-                        onSearch={value => {
-                            actions.setQueryInfo({phoneNum:value});
-                            actions.queryByQueryInfo();
-                        }}
-                        enterButton
-                        style={{ marginBottom: 16 }}
                     />
-                </span>
-            </div>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" loading={this.state.loading} onClick={this.enterLoading}>
+                        查询
+                    </Button>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" >重置</Button>
+                </FormItem>
+                {/*<FormItem>*/}
+                    {/*<Button type="primary" onClick={actions.getExcel}>导出报表</Button>*/}
+                {/*</FormItem>*/}
+            </Form>
         )
     }
 }
 
 //各店铺返利详情
 @observer class RebateDisposeDetails extends Component{
-    changePage(pageNumber){
-        actions.changePage(pageNumber);
+    state={
+        activeLineIndex:-1,
+        otherRowClass:"",
+    };
+    setActiveLineIndex(index){
+        this.setState({
+            activeLineIndex:index,
+            tableHeight:100
+        });
+    }
+    setClassName(record, index){
+        return index === this.state.activeLineIndex?"activeRowStyle":this.state.otherRowClass;
+    }
+    changeOtherRowClass(lockState){
+        if(lockState === "lock"){
+            this.setState({
+                otherRowClass:"",
+            })
+        }else{
+            this.setState({
+                otherRowClass:"hiddenRowStyle",
+            })
+        }
     }
     render(){
         const columns = [{
+            title:'锁定',
+            dataIndex:'lock',
+            key:'lock',
+            width:75,
+            render:(text,record)=>{
+                return (<LockLineView clickHandle={this.changeOtherRowClass.bind(this)}/>)
+            }
+        }, {
             title: '月份',
             dataIndex: 'month',
             key: 'month',
@@ -163,14 +205,16 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
                 dataSource={dataSource}
                 scroll={{y:300,x:1130}}
                 expandedRowRender={expandedRowRender}
-                onRow={(record) => {
+                rowClassName={this.setClassName.bind(this)}
+                onRow={(record,index) => {
                     return {
                         onClick: () => {
                             actions.selectRebateItem(record.rebateId);
-                        },
+                            this.setActiveLineIndex(index);
+                        }
                     };
                 }}
-                pagination={{defaultCurrent:data.pagination.page+1,onChange:this.changePage.bind(this),total:data.pagination.total}}
+                pagination={{defaultCurrent:data.pagination.page+1,onChange:value => actions.changePage(value),total:data.pagination.total}}
             />
         )
     }
@@ -180,9 +224,6 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
 @observer class RebateOperation extends Component{
     confirmRebate(){
         actions.confirmRebate();
-    }
-    handleChange(value){
-        actions.changeRebateCurrencyType(value);
     }
     render(){
         const columns = [
@@ -216,11 +257,8 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
                 />
                 <ul>
                     <li className="rebate_list">
-
                         <span>实际总进货数量（桶）: {data.activeItem.totalMount}</span>
-
                         <span>应该返利金额（/元）: {getRealRebateWrapper()}</span>
-
                         <div style={{display:"flex"}}>
                             <span>实际返利喜币:</span>
                             <InputNumber value={getRealRebateWrapper()} onChange={value => actions.setRealResult(value ,'rmb', 'yuan')}/>

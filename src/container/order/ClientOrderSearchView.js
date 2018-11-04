@@ -9,6 +9,7 @@ const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 
 import ClearSuffixInput from '../../components/ClearSuffixInput';
+import RadioQueryTabList from '../../components/RadioQueryTabList';
 import {actions,data} from "../../store/order/clientOrderSearchInterface";
 import clientOrderSearchStyle from './css/clientOrderSearch.css'
 
@@ -21,40 +22,12 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
     render(){
         return (
             <div>
-                <OrderListSearchView/>
+                <OrderListSearchView />
                 <ClientOrderListView />
             </div>
         )
     }
 }
-//  radio
-class RadioQueryTabList extends Component{
-    state={
-        type:this.props.defaultValue,
-    };
-    onChange(e){
-        this.setState({
-            type:e.target.value
-        });
-        this.props.changeHandle(e.target.value);
-    }
-
-    render(){
-        const {type} = this.state;
-        return (
-            <Radio.Group value={type} onChange={this.onChange.bind(this)} >
-                <Radio.Button value={"all"}>全部</Radio.Button>
-                <Radio.Button value={"waitPay"}>待付款</Radio.Button>
-                <Radio.Button value={"waitDispatch"}>待派单</Radio.Button>
-                <Radio.Button value={"waitDelivery"}>待配送</Radio.Button>
-                <Radio.Button value={"waitReceive"}>待收货</Radio.Button>
-                <Radio.Button value={"finish"}>已完成</Radio.Button>
-                <Radio.Button value={"alreadyPay"}>已付款</Radio.Button>
-            </Radio.Group>
-        )
-    }
-}
-
 
 @observer class OrderListSearchView extends Component{
     state = {
@@ -64,7 +37,7 @@ class RadioQueryTabList extends Component{
 
     enterLoading = () => {
         this.setState({ loading: true });
-        actions.getOrderList(()=>{this.setState({
+        actions.queryByQueryInfo(()=>{this.setState({
             loading: false
         })});
     };
@@ -97,7 +70,15 @@ class RadioQueryTabList extends Component{
                 <FormItem label={"订单状态"}>
                     <RadioQueryTabList
                         defaultValue={'all'}
-                        changeHandle={type => actions.setOrderType(type)}
+                        changeHandle={targetValue => actions.setOrderType(targetValue)}
+                        radioList={[
+                            {key:"all",name:"全部"},
+                            {key:"waitPay",name:"待付款"},
+                            {key:"waitDispatch",name:"待派单"},
+                            {key:"waitDelivery",name:"待配送"},
+                            {key:"waitReceive",name:"待收货"},
+                            {key:"finish",name:"已完成"},
+                            {key:"alreadyPay",name:"已付款"}]}
                     />
                 </FormItem>
 

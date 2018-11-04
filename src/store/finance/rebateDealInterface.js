@@ -20,20 +20,20 @@ let rebateDealListData = {
 
 function rebateDealListActions(){
 
-    let _getList = function(){
-        rebateList.getRebateList().then((list)=>{
-            rebateDealListData.list = list;
-            rebateDealListData.pagination = rebateList.pagination;
-            rebateList.setActiveItem(list[0]);
-            rebateDealListData.activeItem = rebateList.activeItem;
-        })
-    };
+    // let _getList = function(){
+    //     rebateList.getRebateList().then((list)=>{
+    //         rebateDealListData.list = list;
+    //         rebateDealListData.pagination = rebateList.pagination;
+    //         rebateList.setActiveItem(list[0]);
+    //         rebateDealListData.activeItem = rebateList.activeItem;
+    //     })
+    // };
     let _getRebateDetail = function(){
         rebateList.activeItem.getDetail().then((detail)=>{
             rebateDealListData.detail = detail;
         });
     };
-    let _getListAndSetActiveItem = function(){
+    let _getListAndGetActiveItemDetail = function(cb=function(){}){
         rebateList.getRebateList().then((list)=>{
             rebateDealListData.list = list;
             rebateDealListData.pagination = rebateList.pagination;
@@ -42,14 +42,12 @@ function rebateDealListActions(){
             return rebateList.activeItem.getDetail();
         }).then((detail)=>{
             rebateDealListData.detail = detail;
+            cb();
         });
-    };
-    let changeStatus = function(status){
-        rebateList.changeStatus(status);
     };
     let load = function(){
         rebateList.pagination.setPage(1);
-        _getListAndSetActiveItem();
+        _getListAndGetActiveItemDetail();
     };
     let selectRebateItem = function(rebateId){
         let rebateItem = rebateList.findItemByItemId(rebateDealListData.list,rebateId,"rebateId");
@@ -59,29 +57,26 @@ function rebateDealListActions(){
     };
     let changePage = function(pageNum){
         rebateDealListData.pagination.setPage(pageNum);
-        _getListAndSetActiveItem()
+        _getListAndGetActiveItemDetail()
     };
 
     let setQueryInfo = function(queryMsg){
         rebateList.selectQueryMsg(queryMsg);
     };
-    let queryByQueryInfo = function(){
+    let queryByQueryInfo = function(cb){
         rebateList.pagination.setPage(1);
-        _getListAndSetActiveItem();
+        _getListAndGetActiveItemDetail(cb);
     };
     let confirmRebate = function(remark){
         rebateDealListData.isCanRebate = true;
         rebateList.activeItem.setRemark(remark);
         rebateList.activeItem.toRebate().then(()=>{
-            _getListAndSetActiveItem();
+            _getListAndGetActiveItemDetail();
             rebateDealListData.isCanRebate = false;
         })
     };
     let setRealResult = function(realResult,type, unit){
         rebateList.activeItem.setRealResult(realResult,type, unit);
-    };
-    let changeRebateCurrencyType = function(rebateCurrencyType){
-        rebateList.activeItem.changeRebateCurrencyType(rebateCurrencyType);
     };
 
     let getRealRebate = function (type) {
@@ -89,11 +84,9 @@ function rebateDealListActions(){
     };
     return {
         onLoad:load.before(function(){
-            changeStatus('create');
+            setQueryInfo({rebateStatus:'create'});
         }),
-        changeRebateCurrencyType:changeRebateCurrencyType,
         selectRebateItem:selectRebateItem,
-        setRealTotalMount:{},
         confirmRebate:confirmRebate,
         setQueryInfo:setQueryInfo,
         queryByQueryInfo:queryByQueryInfo,

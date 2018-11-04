@@ -3,11 +3,10 @@ import {observer,inject} from 'mobx-react';
 import {data,actions} from '../../store/finance/rebateListSearchInterface';
 
 import { Table, Tooltip , Button , Radio , Input ,Icon, Cascader ,Form , Row, Col , DatePicker } from 'antd';
-const Search = Input.Search;
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 import ClearSuffixInput from '../../components/ClearSuffixInput';
-
+import RadioQueryTabList from '../../components/RadioQueryTabList';
 @observer class RebateSearchView extends Component{
     componentWillMount(){
         actions.onLoad();
@@ -21,57 +20,52 @@ import ClearSuffixInput from '../../components/ClearSuffixInput';
         )
     }
 }
-//  radio
-class RadioQueryTabList extends Component{
-    state = { rebateStatus: "create" };
-    onChange(e){
-        this.setState({ rebateStatus: e.target.value });
-
-    }
-
-    render(){
-        const {type} = this.state;
-        return (
-            <Radio.Group value={type} onChange={this.onChange} >
-                <Radio.Button value={"create"}>待返利</Radio.Button>
-                <Radio.Button value={"over"}>已返利</Radio.Button>
-            </Radio.Group>
-        )
-    }
-}
 
 
 //搜索区域
 @observer class RebateInquireView extends Component{
+    state = {
+        loading: false,
+        // orderType:'all'
+    };
+
+    enterLoading = () => {
+        this.setState({ loading: true });
+        actions.queryByQueryInfo(()=>{this.setState({
+            loading: false
+        })});
+    };
 
     render(){
-        const { rebateStatus } = this.state;
         return(
             <Form layout="inline">
                 <FormItem label={"编号查询"}>
                     <ClearSuffixInput
-                        changeHandle={(shopAlians)=>actions.selectQueryMsg({shopAlians:shopAlians})}
-                        clearHandle={()=>actions.selectQueryMsg({shopAlians:null})}
+                        changeHandle={(shopAlians)=>actions.setQueryInfo({shopAlians:shopAlians})}
+                        clearHandle={()=>actions.setQueryInfo({shopAlians:null})}
                         placeholder="输入店铺编号"
                     />
                 </FormItem>
                 <FormItem label={"名称查询"}>
                     <ClearSuffixInput
-                        changeHandle={(shopName)=>actions.selectQueryMsg({shopName:shopName})}
-                        clearHandle={()=>actions.selectQueryMsg({shopName:null})}
+                        changeHandle={(shopName)=>actions.setQueryInfo({shopName:shopName})}
+                        clearHandle={()=>actions.setQueryInfo({shopName:null})}
                         placeholder="输入店铺名称"
                     />
                 </FormItem>
                 <FormItem label={"电话查询"}>
                     <ClearSuffixInput
-                        changeHandle={(phoneNum)=>actions.selectQueryMsg({phoneNum:phoneNum})}
-                        clearHandle={()=>actions.selectQueryMsg({phoneNum:null})}
+                        changeHandle={(phoneNum)=>actions.setQueryInfo({phoneNum:phoneNum})}
+                        clearHandle={()=>actions.setQueryInfo({phoneNum:null})}
                         placeholder="输入电话号码"
                     />
                 </FormItem>
                 <FormItem label={"订单状态"}>
                     <RadioQueryTabList defaultValue={'create'}
-                                       changeHandle={type => actions.selectQueryMsg({rebateStatus:type})}
+                                       changeHandle={(targetValue) => actions.setQueryInfo({rebateStatus:targetValue})}
+                                       radioList={[
+                                           {key:"create",name:"待返利"},
+                                           {key:"over",name:"已返利"}]}
                     />
                 </FormItem>
                 <FormItem>

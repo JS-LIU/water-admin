@@ -11,68 +11,58 @@ let orderSearchData = {
 };
 
 function merchantOrderSearchActions(){
-    let getOrderList = function(){
-        merchantOrderList.getOrderList().then((list)=>{
-            orderSearchData.pagination = merchantOrderList.pagination;
-            orderSearchData.list = list;
+    let _getOrderList = function(cb){
+
+        if(merchantOrderList.orderStatus === "waitDispatch"){
+            return merchantOrderList.getWaitingDispatchOrderList().then((list)=>{
+                updateOrderSearchData(list,cb);
+            })
+        }
+        return merchantOrderList.getOrderList().then((list)=>{
+            updateOrderSearchData(list,cb);
         })
     };
-    let getWaitingDispatchOrder = function(){
-        merchantOrderList.getWaitingDispatchOrderList().then((list)=>{
-            orderSearchData.pagination = merchantOrderList.pagination;
-            orderSearchData.list = list;
-        })
+    let updateOrderSearchData = function(list,cb=function(){}){
+        orderSearchData.pagination = merchantOrderList.pagination;
+        orderSearchData.list = list;
+        cb();
     };
     let searchOrderListStrategy = {
         "all":function(){
             merchantOrderList.setOrderStatus(['create',"waiting_dispatch",'delivery','finish','finish_comment']);
-            getOrderList();
-
         },
         "waitPay":function(){
             merchantOrderList.setOrderStatus(['create']);
-            getOrderList();
         },
         "waitDispatch":function(){
             merchantOrderList.selectQueryType(1);
-            getWaitingDispatchOrder();
         },
         "waitReceive":function(){
             merchantOrderList.setOrderStatus(['delivery']);
-            getOrderList();
         },
         "alreadyPay":function(){
             merchantOrderList.setOrderStatus(["waiting_dispatch",'delivery','finish','finish_comment']);
-            getOrderList();
         },
         "finish":function(){
             merchantOrderList.setOrderStatus(['finish','finish_comment']);
-            getOrderList();
         }
     };
     //  fuck
-    let searchOrderList = function(orderStatus){
-        clientOrderList.pagination.setPage(1);
+    let setOrderType = function(orderStatus){
         return searchOrderListStrategy[orderStatus]();
     };
     let selectQueryMsg = function(queryMsg){
         merchantOrderList.selectQueryMsg(queryMsg);
     };
     let load = function(){
-        // _getPayInfo();
+        clientOrderList.pagination.setPage(1);
+        return _getOrderList();
     };
-    let changePage = function(pageNum){
+    let changePage = function(pageNum,cb){
         merchantOrderList.pagination.setPage(pageNum);
-        getOrderList();
+        return _getOrderList(cb);
     };
     let getExcel = function(){
-        // let data = merchantOrderList.getExcel();
-        //
-        // $.ajax({
-        //     type: "POST",
-        //     url: '/huibeiwater/admin/exportShopOrder',
-        //     data: JSON.stringify(data),
-        // })
         merchantOrderList.getExcel()
     };
     let selectMerchantOrder = function(orderId){
@@ -81,20 +71,27 @@ function merchantOrderSearchActions(){
     };
     let confirmReceipt = function(orderId){
         selectMerchantOrder(orderId);
-        merchantOrderList.activeItem.confirmReceipt().then(()=>{
+        return merchantOrderList.activeItem.confirmReceipt().then(()=>{
             clientOrderList.pagination.setPage(1);
-            getOrderList();
+            return _getOrderList();
         })
+    };
+    let queryByQueryInfo = function(cb){
+        return changePage(1,cb);
     };
     let _getPayInfo = function(){
         merchantOrderList.getOrderPayInfo().then((payInfo)=>{
             orderSearchData.payInfo = payInfo;
         })
     };
+
     return {
-        onLoad:load,
+        onLoad:load.before(()=>{
+            setOrderType("all")
+        }),
+        queryByQueryInfo:queryByQueryInfo,
         //  加载load 搜索
-        searchOrderList:searchOrderList,
+        setOrderType:setOrderType,
         selectQueryMsg:selectQueryMsg,
         changePage:changePage,
         selectMerchantOrder:selectMerchantOrder,

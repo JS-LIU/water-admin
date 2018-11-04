@@ -4,8 +4,9 @@
 
 import React, {Component} from 'react';
 import { Table, Tooltip , Button , Radio , Input , Form , Row, Col , DatePicker} from 'antd';
-const Search = Input.Search;
 const FormItem = Form.Item;
+import LockLineView from "../../components/LockLineView";
+import ClearSuffixInput from "../../components/ClearSuffixInput";
 const { RangePicker } = DatePicker;
 
 import {observer,inject} from 'mobx-react';
@@ -61,68 +62,42 @@ class MerchantOrderListQueryView extends Component{
     constructor(props){
         super(props);
     }
-    addOrder(){
-        this.props.onChange({
-            isShow:!this.props.isShow
-        })
-    }
-    // searchByCreateTime(data,dataString){
-    //     actions.setQueryInfo({createTimePeriod:dataString});
-    //     actions.searchOrderList(this.props.queryStrategy)
-    // }
-    // searchByPayTime(data,dataString){
-    //     actions.setQueryInfo({payTimePeriod:dataString});
-    //     actions.searchOrderList(this.props.queryStrategy)
-    // }
-    // searchByDispatchTime(data,dataString){
-    //     actions.setQueryInfo({dispatchTimePeriod:dataString});
-    //     actions.searchOrderList(this.props.queryStrategy)
-    // }
+    state = {
+        loading: false,
+        // orderType:'all'
+    };
+
+    enterLoading = () => {
+        this.setState({ loading: true });
+        actions.queryByQueryInfo(()=>{this.setState({
+            loading: false
+        })});
+    };
     render(){
         return (
-            <Form className="search_box">
-                    <div className="search_region">
-                    <Col span={8}>
-                        <FormItem label={"账户查询"}>
-                            <Search
-                                placeholder="请输入用户手机号"
-                                onSearch={value => {
-                                    actions.setQueryInfo({orderNo:value});
-                                    actions.searchOrderList(queryStrategy);
-                                }}
-                                enterButton
-                            />
-                        </FormItem>
-                    </Col>
-                    {/*<Col span={8}>*/}
-                        {/*<FormItem label={"订单创建时间"}>*/}
-                            {/*<RangePicker onChange={this.searchByCreateTime} />*/}
-                        {/*</FormItem>*/}
-                    {/*</Col>*/}
-                    {/*<Col span={8}>*/}
-                        {/*<FormItem label={"付款时间"}>*/}
-                            {/*<RangePicker onChange={this.searchByPayTime} />*/}
-                        {/*</FormItem>*/}
-                    {/*</Col>*/}
-                    {/*<Col span={8}>*/}
-                        {/*<FormItem label={"处理时间"}>*/}
-                            {/*<RangePicker onChange={this.searchByDispatchTime} />*/}
-                        {/*</FormItem>*/}
-                    {/*</Col>*/}
-                    <Col span={8}>
-                        <FormItem label={"订单号"}>
-                            <Search
-                                placeholder="请输入订单号"
-                                onSearch={value => {
-                                    actions.setQueryInfo({orderNo:value});
-                                    actions.queryByQueryInfo();
-                                }}
-                                enterButton
-                            />
-                        </FormItem>
-                    </Col>
-                    </div>
-                    <Button type="primary" icon="reload" onClick={() => actions.queryByQueryInfo()}>点击刷新</Button>
+            <Form layout="inline">
+                <FormItem label={"账户查询"}>
+                    <ClearSuffixInput
+                        changeHandle={(phoneNum)=>actions.setQueryInfo({phoneNum:phoneNum})}
+                        clearHandle={()=>actions.setQueryInfo({phoneNum:null})}
+                        placeholder="请输入用户手机号"
+                    />
+                </FormItem>
+                <FormItem label={"订单号"}>
+                    <ClearSuffixInput
+                        changeHandle={(orderNo)=>actions.setQueryInfo({orderNo:orderNo})}
+                        clearHandle={()=>actions.setQueryInfo({orderNo:null})}
+                        placeholder="请输入订单号"
+                    />
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" loading={this.state.loading} onClick={this.enterLoading}>
+                        查询
+                    </Button>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" >重置</Button>
+                </FormItem>
             </Form>
         )
     }
@@ -130,8 +105,41 @@ class MerchantOrderListQueryView extends Component{
 
 //  list
 @observer class MerchantOrderListView extends Component{
+    state={
+        activeLineIndex:-1,
+        otherRowClass:"",
+    };
+    setClassName(record, index){
+        return index === this.state.activeLineIndex?"activeRowStyle":this.state.otherRowClass;
+    }
+    setActiveLineIndex(index){
+        this.setState({
+            activeLineIndex:index,
+            tableHeight:100
+        });
+    }
+    changeOtherRowClass(lockState){
+        if(lockState === "lock"){
+            this.setState({
+                otherRowClass:"",
+            })
+        }else{
+            this.setState({
+                otherRowClass:"hiddenRowStyle",
+            })
+        }
+    }
     render(){
         const columns = [
+            {
+                title:'锁定',
+                dataIndex:'lock',
+                key:'lock',
+                width:75,
+                render:(text,record)=>{
+                    return (<LockLineView clickHandle={this.changeOtherRowClass.bind(this)}/>)
+                }
+            },
             {
                 title:"订单时间",
                 dataIndex:"createTime",
@@ -240,16 +248,15 @@ class MerchantOrderListQueryView extends Component{
                 dataSource={dataSource}
                 expandedRowRender={expandedRowRender}
                 scroll={{x: 1600,y:300}}
-                onRow={(record) => {
+                onRow={(record,index) => {
                     return {
                         onClick: () => {
                             actions.selectMerchantOrder(record.orderId);
-                            this.props.onChange({
-                                isShow:!this.props.isShow
-                            })
-                        },
+                            this.setActiveLineIndex(index);
+                        }
                     };
                 }}
+                rowClassName={this.setClassName.bind(this)}
             />
         )
     }
@@ -355,11 +362,46 @@ class MerchantOrderListQueryView extends Component{
 }
 
 @observer class MerchantListView extends Component{
+    state={
+        activeLineIndex:-1,
+        tableHeight:300,
+        otherRowClass:"",
+        lockState:"unlock"
+    };
+    setClassName(record, index){
+        return index === this.state.activeLineIndex?"activeRowStyle":this.state.otherRowClass;
+    }
+    setActiveLineIndex(index){
+        this.setState({
+            activeLineIndex:index,
+            tableHeight:100
+        });
+    }
+    changeOtherRowClass(lockState){
+        if(lockState === "lock"){
+            this.setState({
+                otherRowClass:"",
+            })
+        }else{
+            this.setState({
+                otherRowClass:"hiddenRowStyle",
+            })
+        }
+    }
     render(){
         if (!data.nearStore){
             return null;
         }
         const columns = [
+            {
+                title:'锁定',
+                dataIndex:'lock',
+                key:'lock',
+                width:75,
+                render:(text,record)=>{
+                    return (<LockLineView clickHandle={this.changeOtherRowClass.bind(this)}/>)
+                }
+            },
             {
                 title:"配送仓库",
                 dataIndex:"shopName",
@@ -406,7 +448,15 @@ class MerchantOrderListQueryView extends Component{
             <Table
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{ x: 580, y: 400 }}
+                scroll={{ x: "130%",y:300 }}
+                onRow={(record,index) => {
+                    return {
+                        onClick: () => {
+                            this.setActiveLineIndex(index);
+                        }
+                    };
+                }}
+                rowClassName={this.setClassName.bind(this)}
             />
         )
     }
