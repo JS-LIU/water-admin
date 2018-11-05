@@ -2,9 +2,9 @@
  * Created by LDQ on 2018/6/7
  */
 // import _h from "../../Util/HB";
-import {commonAjax,exportExcelAjax} from '../../Util/huipayWaterBaseConfig';
 import AdminList from '../AdminList';
 import RebateItem from './RebateItem';
+import {commonAjax,exportExcelAjax} from '../../Util/huipayWaterBaseConfig';
 import createExcel from '../../Util/CreateExcel';
 
 

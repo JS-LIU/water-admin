@@ -4,6 +4,8 @@
 import React, {Component} from 'react';
 import {observer,inject} from 'mobx-react';
 import { Table, Tooltip , Button , Radio , Input , Cascader ,Form , Row, Col , DatePicker } from 'antd';
+import ClearSuffixInput from '../../components/ClearSuffixInput';
+const { RangePicker } = DatePicker;
 const Search = Input.Search;
 const FormItem = Form.Item;
 import {data,actions} from '../../store/finance/withdrawInterface';
@@ -35,35 +37,48 @@ import withdrawStyle from './css/withdrawStyle.css';
 }
 
 @observer class WithdrawQueryView extends Component{
+    state = {
+        loading: false,
+        // orderType:'all'
+    };
+
+    enterLoading = () => {
+        this.setState({ loading: true });
+        actions.queryByQueryInfo(()=>{this.setState({
+            loading: false
+        })});
+    };
     render(){
         return (
-            <Form>
-                <Row gutter={16}>
-                    <Col span={8}>
-                        <FormItem label={"账户查询"}>
-                            <Search
-                                placeholder="请输入用户手机号"
-                                onSearch={value => {
-                                    actions.selectQueryMsg({phoneNum:value});
-                                    actions.queryByQueryInfo();
-                                }}
-                                enterButton
-                            />
-                        </FormItem>
-                    </Col>
-                    <Col span={8}>
-                        <FormItem label={"店铺名称"}>
-                            <Search
-                                placeholder="请输入用店铺名称"
-                                onSearch={value => {
-                                    actions.selectQueryMsg({shopName:value});
-                                    actions.queryByQueryInfo();
-                                }}
-                                enterButton
-                            />
-                        </FormItem>
-                    </Col>
-                </Row>
+            <Form layout="inline">
+                <FormItem label={"账户查询"}>
+                    <ClearSuffixInput
+                        changeHandle={value => actions.selectQueryMsg({phoneNum:value})}
+                        clearHandle={()=>actions.selectQueryMsg({phoneNum:null})}
+                        placeholder="请输入用户手机号"
+                    />
+                </FormItem>
+                <FormItem label={"店铺名称"}>
+                    <ClearSuffixInput
+                        changeHandle={(shopName)=>actions.selectQueryMsg({shopName:shopName})}
+                        clearHandle={()=>actions.selectQueryMsg({shopName:null})}
+                        placeholder="请输入用店铺名称"
+                    />
+                </FormItem>
+                <FormItem label={"提现时间"}>
+                    <RangePicker onChange={(data,dataString) => actions.selectQueryMsg({createTimePeriod:dataString})} />
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" loading={this.state.loading} onClick={this.enterLoading}>
+                        查询
+                    </Button>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" >重置</Button>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" onClick={actions.getExcel}>导出报表</Button>
+                </FormItem>
             </Form>
         )
     }

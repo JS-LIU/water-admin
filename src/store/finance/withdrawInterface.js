@@ -11,16 +11,17 @@ let withdrawData = {
 };
 
 function withdrawActions(){
-    let load = function(){
+    let load = function(cb){
         withdrawList.pagination.setPage(1);
-        _getList();
+        _getList(cb);
     };
-    let _getList = function(){
+    let _getList = function(cb=function(){}){
         withdrawList.getWithdrawList().then((list)=>{
             withdrawData.list = list;
             withdrawData.pagination = withdrawList.pagination;
             withdrawList.setActiveItem(list[0]);
             withdrawData.activeItem = withdrawList.activeItem;
+            cb();
         })
     };
     let _initStatus = function(){
@@ -34,8 +35,8 @@ function withdrawActions(){
     let selectQueryMsg = function(queryMsg){
         withdrawList.selectQueryMsg(queryMsg);
     };
-    let queryByQueryInfo = function(){
-        load();
+    let queryByQueryInfo = function(cb){
+        load(cb);
     };
     let selectWithdrawItem = function(orderId){
         let withdrawItem = withdrawList.findItemByItemId(withdrawData.list,orderId,"orderId");
@@ -56,6 +57,9 @@ function withdrawActions(){
     let setRemark = function(remark){
         withdrawList.activeItem.setRemark(remark);
     };
+    let getExcel = function(){
+        withdrawList.getExcel();
+    };
     return {
         onLoad:load.before(_initStatus),
         changePage:changePage,
@@ -64,7 +68,8 @@ function withdrawActions(){
         selectWithdrawItem:selectWithdrawItem,
         allow:allow,
         reject:reject,
-        setRemark:setRemark
+        setRemark:setRemark,
+        getExcel:getExcel
     }
 }
 module.exports = {data:withdrawData,actions:withdrawActions()};
