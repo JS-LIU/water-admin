@@ -22,7 +22,7 @@ class CurrencyUtil{
 class RebateItem{
     constructor(rebateInfo){
         this.month = rebateInfo.month;                              //  时间
-        this.shopAlians = rebateInfo.shopAlians||"------";          //  店铺编号
+        this.shopArtificialNum = rebateInfo.shopArtificialNum||"------";          //  店铺编号
         this.shopName = rebateInfo.shopName;                        //  店铺名称
         this.phoneNum = rebateInfo.phoneNum;                        //  联系电话
         this.address = rebateInfo.appendingAddress;                 //  地址

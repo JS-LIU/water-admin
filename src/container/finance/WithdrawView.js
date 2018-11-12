@@ -89,6 +89,7 @@ import withdrawStyle from './css/withdrawStyle.css';
         actions.changePage(pageNum)
     }
     render(){
+
         const columns = [
             {
                 title:"创建时间",
@@ -170,7 +171,11 @@ import withdrawStyle from './css/withdrawStyle.css';
 
 @observer class WithdrawDetailView extends Component{
     render(){
+        if(!data.activeItem){
+            return null;
+        }
         return (
+
             <div>
                 <p className="withdraw_detail_title">提现详情</p>
                 <div className="withdraw_detail_info">

@@ -38,10 +38,10 @@ function clientOrderListActions(){
             cb();
         });
     };
-
-    let load = function(){
+    // let
+    let load = function(cb){
         clientOrderList.pagination.setPage(1);
-        _refresh()
+        _refresh(cb)
     };
     let selectQueryType = function(queryType){
         clientOrderList.selectQueryType(queryType);
@@ -60,6 +60,14 @@ function clientOrderListActions(){
             clientOrderListData.nearStore = storeList;
             clientOrderListData.hasLoadingNearStore = false;
         }).catch(()=>{
+            clientOrderListData.hasLoadingNearStore = false;
+        });
+    };
+    let resetNearMerchant = function(){
+        clientOrderListData.hasLoadingNearStore = true;
+        setNearShopQueryInfo({shopArtificialNum:null});
+        return clientOrderListData.activeOrder.getNearMerchantList().then((storeList)=>{
+            clientOrderListData.nearStore = storeList;
             clientOrderListData.hasLoadingNearStore = false;
         });
     };
@@ -83,11 +91,16 @@ function clientOrderListActions(){
     let setNearShopQueryInfo = function(queryInfo){
         nearShopListContainer.selectQueryMsg(queryInfo);
     };
-    let queryNearShop = function(queryInfo){
-        nearShopListContainer.selectQueryMsg(queryInfo);
+    let queryNearShop = function(cb=function(){}){
         nearShopListContainer.pagination.setPage(1);
+        clientOrderListData.hasLoadingNearStore = true;
         nearShopListContainer.getMerchantListByQueryInfo().then((list)=>{
             clientOrderListData.nearStore = list;
+            clientOrderListData.hasLoadingNearStore = false;
+            cb();
+        }).catch(()=>{
+            clientOrderListData.hasLoadingNearStore = false;
+            cb();
         })
     };
     let loadMoreNearShop = function(){
@@ -118,7 +131,8 @@ function clientOrderListActions(){
         loadMoreNearShop:loadMoreNearShop,
         selectQueryType:selectQueryType,
         changePagination:changePagination,
-        setDeltaSettleDownValue:setDeltaSettleDownValue
+        setDeltaSettleDownValue:setDeltaSettleDownValue,
+        resetNearMerchant:resetNearMerchant
     }
 }
 module.exports = {data:clientOrderListData,actions:clientOrderListActions()};

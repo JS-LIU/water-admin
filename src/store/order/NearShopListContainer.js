@@ -20,14 +20,17 @@ class NearShopListContainer{
         this.queryMsg = {};
         this.pagination = new Pagination(10);
         this.nearShopList = [];
+        // this._getMerchantListByShopNum = function(){
+            // return merchantListAjax.save({action:'assignShopList'}, postInfo)
+        // }
     }
 
     /**
      * 获取店铺列表数据(按条件查询数据)
      * @param queryInfoMsg
      */
-    getMerchantListByQueryInfo(queryInfoMsg) {
-        let postInfo = Object.assign({reqAdminShopQueryInfoMsg:queryInfoMsg},this.pagination.info);
+    getMerchantListByQueryInfo() {
+        let postInfo = Object.assign({reqAdminShopQueryInfoMsg:this.queryMsg},this.pagination.info);
         this.nearShopList = [];
         return new Promise((resolve,reject)=>{
             this._getMerchantListInfo(postInfo).then((merchantListContent)=>{
@@ -39,7 +42,6 @@ class NearShopListContainer{
                 reject(err);
             })
         })
-
     }
 
     /**
@@ -93,8 +95,11 @@ class NearShopListContainer{
      * 选择查询店铺的信息
      * @param queryMsg
      */
-    selectQueryMsg(queryMsg){
-        this.queryMsg = queryMsg;
+    selectQueryMsg(...queryMsg){
+        queryMsg.map((item)=>{
+            this.queryMsg = Object.assign({},this.queryMsg,item);
+        });
+        return this.queryMsg;
     }
 
     findMerchantById(list,merchantId){

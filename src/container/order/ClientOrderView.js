@@ -403,12 +403,32 @@ class ClientOrderListQueryView extends Component{
 }
 
 @observer class DeliveryMerchantListView extends Component{
+    enterLoading = () => {
+        this.setState({ loading: true });
+        actions.queryNearShop(()=>{this.setState({
+            loading: false
+        })});
+    };
     render(){
         return (
             <div className='order_detail_r ml30'>
-                <div className='order_detail_header send'>
-                    <span className="pai">派单</span>
-                </div>
+                <Form layout="inline">
+                    <FormItem label={"水站编号"}>
+                        <ClearSuffixInput
+                            changeHandle={(shopArtificialNum)=>actions.setNearShopQueryInfo({shopArtificialNum:shopArtificialNum})}
+                            clearHandle={()=>actions.setNearShopQueryInfo({shopArtificialNum:null})}
+                            placeholder="请输水站编号"
+                        />
+                    </FormItem>
+                    <FormItem>
+                        <Button type="primary" onClick={()=>actions.resetNearMerchant()}>重置</Button>
+                    </FormItem>
+                    <FormItem>
+                        <Button type="primary" onClick={this.enterLoading}>
+                            查询
+                        </Button>
+                    </FormItem>
+                </Form>
                 <div className="order_detail_right">
                     <MerchantListView/>
                 </div>
@@ -456,6 +476,12 @@ class ClientOrderListQueryView extends Component{
                 }
             },
             {
+                title:"商家编号",
+                dataIndex:"shopArtificialNum",
+                key:"shopArtificialNum",
+                width:100
+            },
+            {
                 title:"配送商家",
                 dataIndex:"shopName",
                 key:"shopName",
@@ -494,6 +520,7 @@ class ClientOrderListQueryView extends Component{
             let item = data.nearStore[i];
             dataSource.push({
                 key:i,
+                shopArtificialNum:item.shopArtificialNum,
                 shopName:item.shopName,
                 shopTelephone:item.shopTelephone,
                 shopAddress:item.shopAddress,

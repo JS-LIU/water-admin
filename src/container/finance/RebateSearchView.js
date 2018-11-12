@@ -148,8 +148,8 @@ import RadioQueryTabList from '../../components/RadioQueryTabList';
             width:80
         }, {
             title: '店铺编号',
-            dataIndex: 'shopAlians',
-            key: 'shopAlians',
+            dataIndex: 'shopArtificialNum',
+            key: 'shopArtificialNum',
             width:100
         }, {
             title: '店铺名称',
@@ -210,7 +210,7 @@ import RadioQueryTabList from '../../components/RadioQueryTabList';
                 key:i,
                 month:item.month+"月",
                 repairResult:item.getShowRepairResult(),
-                shopAlians:item.shopAlians,
+                shopArtificialNum:item.shopArtificialNum,
                 shopName:item.shopName,
                 phoneNum:item.phoneNum,
                 totalMount :item.totalMount ,

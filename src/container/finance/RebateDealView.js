@@ -119,8 +119,8 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
             width:80
         }, {
             title: '店铺编号',
-            dataIndex: 'shopAlians',
-            key: 'shopAlians',
+            dataIndex: 'shopArtificialNum',
+            key: 'shopArtificialNum',
             width:100
         }, {
             title: '店铺名称',
@@ -164,7 +164,7 @@ import {data,actions} from '../../store/finance/rebateDealInterface';
             dataSource.push({
                 key:i,
                 month:item.month+"月",
-                shopAlians:item.shopAlians,
+                shopArtificialNum:item.shopArtificialNum,
                 shopName:item.shopName,
                 phoneNum:item.phoneNum,
                 totalMount :item.totalMount ,
