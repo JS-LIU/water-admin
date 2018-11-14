@@ -7,9 +7,9 @@ import { Table, Tooltip , Button , Radio , Input ,Icon, Cascader ,Form , Row, Co
 const Search = Input.Search;
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
-
 import ClearSuffixInput from '../../components/ClearSuffixInput';
 import RadioQueryTabList from '../../components/RadioQueryTabList';
+
 import {actions,data} from "../../store/order/clientOrderSearchInterface";
 import clientOrderSearchStyle from './css/clientOrderSearch.css'
 
@@ -56,6 +56,20 @@ import clientOrderSearchStyle from './css/clientOrderSearch.css'
                         changeHandle={(orderNo)=>actions.selectQueryMsg({orderNo:orderNo})}
                         clearHandle={()=>actions.selectQueryMsg({orderNo:null})}
                         placeholder="请输入订单号"
+                    />
+                </FormItem>
+                <FormItem label={"商家编号"}>
+                    <ClearSuffixInput
+                        changeHandle={(shopArtificialNum)=>actions.selectQueryMsg({shopArtificialNum:shopArtificialNum})}
+                        clearHandle={()=>actions.selectQueryMsg({shopArtificialNum:null})}
+                        placeholder="请输入商家编号"
+                    />
+                </FormItem>
+                <FormItem label={"商家名称"}>
+                    <ClearSuffixInput
+                        changeHandle={(shopName)=>actions.selectQueryMsg({shopName:shopName})}
+                        clearHandle={()=>actions.selectQueryMsg({shopName:null})}
+                        placeholder="请输入商家名称"
                     />
                 </FormItem>
                 <FormItem label={"创建时间"}>

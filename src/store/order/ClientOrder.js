@@ -15,6 +15,7 @@ class ClientOrder {
         this.receiver = orderInfo.receiver;                                                         // 收货人
         this.userInfo = orderInfo.userInfo;                                                         // 用户账号
         this.deliveryAddress = orderInfo.deliveryAddress;                                           // 收获地址
+        this.deliveryAddressId = orderInfo.deliveryAddressId;
         this.totalPrice = orderInfo.totalPrice;                                                     // 实付金额
         this.payChannel = orderInfo.payChannel || "------";                                         // 支付方式
         this.promotionActivity = orderInfo.promotionActivity || "------";                           // 促销
@@ -50,6 +51,9 @@ class ClientOrder {
         };
         this._confirmReceipt = function(postInfo){
             return clientOrderAjax.save({action:'confirmOrder'},postInfo)
+        };
+        this._fixedPhoneNum = function(postInfo){
+            return clientOrderAjax.save({action:'updateDeliveryPhoneNum'},postInfo);
         }
     }
 
@@ -97,7 +101,16 @@ class ClientOrder {
         })
 
     }
-
+    fixedPhoneNum(phoneNumber){
+        return new Promise((resolve, reject) => {
+            let postInfo = {deliveryAddressId: this.deliveryAddressId, phoneNumber: phoneNumber};
+            this._fixedPhoneNum(postInfo).then((data) => {
+                resolve(data);
+            }).catch((err) => {
+                reject(err);
+            });
+        })
+    }
     getNearMerchantList() {
         let self = this;
         let locationInfo = this.getPositionInfo();

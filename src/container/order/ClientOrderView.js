@@ -5,15 +5,15 @@
 import React, {Component} from 'react';
 import {Table, Tooltip, Button, Radio, Input, Cascader, Icon, Form} from 'antd';
 import LockLineView from '../../components/LockLineView';
+import ClearSuffixInput from "../../components/ClearSuffixInput";
+import RadioQueryTabList from "../../components/RadioQueryTabList";
 const FormItem = Form.Item;
 
 
 import {observer,inject} from 'mobx-react';
+import {data,actions} from '../../store/order/clientOrderListInterface';
 import orderStyle from './css/orderStyle.css';
 import huipayTableStyle from '../../Util/huipayAdminStyle/huipayTableStyle.css';
-import {data,actions} from '../../store/order/clientOrderListInterface';
-import ClearSuffixInput from "../../components/ClearSuffixInput";
-import RadioQueryTabList from "../../components/RadioQueryTabList";
 
 @observer class ClientOrderView extends Component{
     componentWillMount(){
@@ -93,6 +93,40 @@ class ClientOrderListQueryView extends Component{
         )
     }
 }
+
+class CanFixedLine extends Component{
+    state={
+        isFixed:false,
+        // value:this.props.value
+    };
+    save(value){
+        this.setState({
+            // value:value,
+            isFixed:false
+        });
+        if(value !== ""&&value !== this.props.receiver){
+            this.props.onFixed(value);
+        }
+
+    }
+    toFixed(){
+        this.setState({
+            isFixed:true
+        })
+    }
+    render(){
+        const {isFixed} = this.state;
+        return (
+            <div>
+                {isFixed?
+                    <Input type="text"  onBlur={e => this.save(e.target.value)}/>:
+                    <div onClick={this.toFixed.bind(this)}>{this.props.receiver}</div>
+                }
+            </div>
+        )
+    }
+}
+
 
 @observer class ClientOrderListView extends Component{
     state={
@@ -194,7 +228,8 @@ class ClientOrderListQueryView extends Component{
             key:"receiver",
             width:200,
             render: (text,record) =>{return (<Tooltip placement="topLeft" title={record.receiver}>
-                <div className="overflow_to_ellipsis">{record.receiver}</div>
+                <CanFixedLine receiver={record.receiver} onFixed={actions.fixedPhoneNum}/>
+                {/*<div className="overflow_to_ellipsis">{record.receiver}</div>*/}
             </Tooltip>)}
         },{
             title:'收货地址',

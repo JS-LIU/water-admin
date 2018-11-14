@@ -119,6 +119,11 @@ function clientOrderListActions(){
     let setDeltaSettleDownValue = function(deltaSettleDownValue){
         clientOrderList.activeItem.setDeltaSettleDownValue(deltaSettleDownValue)
     };
+    let fixedPhoneNum = function(phoneNum){
+        clientOrderList.activeItem.fixedPhoneNum(phoneNum).then(()=>{
+            _refresh();
+        })
+    };
     return {
         onLoad:load.before(_setInitQueryInfo),
         selectOrder:selectOrder,
@@ -132,7 +137,8 @@ function clientOrderListActions(){
         selectQueryType:selectQueryType,
         changePagination:changePagination,
         setDeltaSettleDownValue:setDeltaSettleDownValue,
-        resetNearMerchant:resetNearMerchant
+        resetNearMerchant:resetNearMerchant,
+        fixedPhoneNum:fixedPhoneNum
     }
 }
 module.exports = {data:clientOrderListData,actions:clientOrderListActions()};

@@ -22,7 +22,7 @@ class ClientOrderList extends AdminList{
         };
 
 
-        this.queryType = 0;
+        this.queryType = null;
         this.orderStatus = ['create','delivery',"waiting_dispatch",'finish','finish_comment'];//    create,delivery,finish,finish_comment
         this._getOrderList = function(postInfo){
             return orderListAjax.save({action:"list"},postInfo);

@@ -12,44 +12,51 @@ let orderSearchData = {
 
 function clientOrderSearchActions(){
     let _getOrderList = function(cb){
-        if(clientOrderList.queryType === "waitDispatch"||clientOrderList.queryType === "waitDelivery"){
+        if(clientOrderList.queryType){
             return clientOrderList.getWaitingDispatchOrderList().then((list)=>{
                 updateOrderSearchData(list,cb);
             })
         }
-        return clientOrderList.getOrderList().then((list,cb)=>{
+        return clientOrderList.getOrderList().then((list)=>{
             updateOrderSearchData(list,cb);
         })
     };
     let updateOrderSearchData = function(list,cb=function(){}){
         orderSearchData.pagination = clientOrderList.pagination;
         orderSearchData.list = list;
+
         cb();
     };
     let orderTypeStrategy = {
         "all":function(){
+            clientOrderList.selectQueryType(null);
             clientOrderList.setOrderStatus(['create','delivery','waiting_dispatch','finish','finish_comment']);
         },
         "waitPay":function(){
+            clientOrderList.selectQueryType(null);
             clientOrderList.setOrderStatus(['create']);
         },
         "waitDispatch":function(){
             clientOrderList.selectQueryType(1);
         },
         "alreadyPay":function(){
+            clientOrderList.selectQueryType(null);
             clientOrderList.setOrderStatus(["waiting_dispatch",'delivery','finish','finish_comment']);
         },
         "waitDelivery":function(){
             clientOrderList.selectQueryType(2);
         },
         "waitReceive":function(){
+            clientOrderList.selectQueryType(null);
             clientOrderList.setOrderStatus(['delivery']);
         },
         "finish":function(){
+            clientOrderList.selectQueryType(null);
             clientOrderList.setOrderStatus(['finish','finish_comment']);
         }
     };
     let setOrderType = function(orderStatus){
+        console.log('orderStatus:',orderStatus);
         return orderTypeStrategy[orderStatus]();
     };
     let selectQueryMsg = function(queryMsg){
@@ -78,6 +85,7 @@ function clientOrderSearchActions(){
         })
     };
     let queryByQueryInfo = function(cb){
+
         return changePage(1,cb);
     };
     return {
