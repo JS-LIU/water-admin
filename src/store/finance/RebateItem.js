@@ -65,7 +65,9 @@ class RebateItem{
         }
     }
 
-
+    changeRebateCurrencyType(rebateCurrencyType){
+        this.rebateAimCurrencyType = rebateCurrencyType;
+    }
     // getRepair
     getDetail(){
         return this._getDetail({});
