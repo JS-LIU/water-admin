@@ -188,19 +188,19 @@ import merchantDetail from './css/merchantDetail.css';
                 title:"交易时间",
                 dataIndex:"tradeTime",
                 key:"tradeTime",
-                width:250
+                width:200
             },
             {
                 title:"交易前",
                 dataIndex:"preTradeRmb",
                 key:"preTradeRmb",
-                width:150
+                width:100
             },
             {
                 title:"交易数",
                 dataIndex:"tradeRmb",
                 key:"tradeRmb",
-                width:150
+                width:100
             },
 
             {
@@ -219,7 +219,12 @@ import merchantDetail from './css/merchantDetail.css';
                 title:"订单类型",
                 dataIndex:"tradeType",
                 key:"tradeType",
-                width:150
+                width:100
+            },{
+                title:"账户类型",
+                dataIndex:"currencyType",
+                key:"currencyType",
+                width:100
             }
 
         ];
@@ -233,14 +238,15 @@ import merchantDetail from './css/merchantDetail.css';
                 tradeRmb:item.tradeRmb,
                 afterTradeRmb:item.afterTradeRmb,
                 orderNo:item.orderNo,
-                tradeType:item.tradeType
+                tradeType:item.tradeType,
+                currencyType:item.currencyType
             })
         }
         return (
             <Table
                 columns={columns}
                 dataSource={dataSource}
-                scroll={{x:950,y:600}}
+                scroll={{x:1000,y:600}}
                 pagination={{current:data.pagination.page+1,onChange:this.changePage.bind(this),total:data.pagination.total}}
             />
         )

@@ -68,6 +68,13 @@ class ClientOrderListQueryView extends Component{
                         placeholder="请输入订单号"
                     />
                 </FormItem>
+                <FormItem label={"手机号"}>
+                    <ClearSuffixInput
+                        changeHandle={(phoneNum)=>actions.setQueryInfo({phoneNum:phoneNum})}
+                        clearHandle={()=>actions.setQueryInfo({phoneNum:null})}
+                        placeholder="请输入手机号"
+                    />
+                </FormItem>
                 <FormItem label={"订单状态"}>
                     <RadioQueryTabList
                         defaultValue={'0'}
